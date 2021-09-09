@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d4f61916-6762-4726-85ed-a7335b22572b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/.gitignore" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/PowerControlled.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/BackgroundMusic.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/963C3A17-07F0-469A-AC8B-8356A8D18B5D/f3/687319f6/Input.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/PlanetNameDisplay.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Meteor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/PlanetNameInstructionsDisplay.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F7F0A900-FDF9-4A2A-9316-BB3D4C5AA3E8/4b/53bb36fc/Transform.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F7F0A900-FDF9-4A2A-9316-BB3D4C5AA3E8/a8/54d73868/Quaternion.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Assets/AudioController.cs" />
+        <option value="$PROJECT_DIR$/Assets/PlanetNameDisplay.cs" />
+        <option value="$PROJECT_DIR$/Assets/PlanetNameInstructionsDisplay.cs" />
+        <option value="$PROJECT_DIR$/Assets/TinyPlanetGeneratorHelper.cs" />
+        <option value="$PROJECT_DIR$/Assets/BackgroundMusic.cs" />
+        <option value="$PROJECT_DIR$/Assets/TinyPlanetGenerator.cs" />
+        <option value="$PROJECT_DIR$/Assets/DisplayController.cs" />
+        <option value="$PROJECT_DIR$/Assets/CameraController.cs" />
+        <option value="$PROJECT_DIR$/Assets/TinyPlanet.cs" />
+        <option value="$PROJECT_DIR$/Assets/Clicker.cs" />
+        <option value="$PROJECT_DIR$/Assets/TinyPlanetCenterPointHelper.cs" />
+        <option value="$PROJECT_DIR$/Assets/ModuleController.cs" />
+        <option value="$PROJECT_DIR$/Assets/PowerControlled.cs" />
+        <option value="$PROJECT_DIR$/Assets/Block.cs" />
+        <option value="$PROJECT_DIR$/Assets/Meteor.cs" />
+        <option value="$PROJECT_DIR$/Assets/TinyPlanetNetworkHelper.cs" />
+        <option value="$PROJECT_DIR$/Assets/MeteorGenerator.cs" />
+        <option value="$PROJECT_DIR$/Assets/.gitignore" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1xiieHK2JWSlfsMWQxg7We4rnBG" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Discover.Launch.Via.Unity" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/../Documents/Builds/Rocks in space\Space City 2 3D.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\augus\Documents\Builds\Rocks in space" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="selectedOptions">
+        <set />
+      </option>
+      <method v="2" />
+    </configuration>
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="selectedOptions">
+        <set />
+      </option>
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d4f61916-6762-4726-85ed-a7335b22572b" name="Default Changelist" comment="" />
+      <created>1630844402982</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1630844402982</updated>
+      <workItem from="1630844404753" duration="30562000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="748" y="72" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1631126040461">
+      <screen x="0" y="0" width="2293" height="920" />
+    </state>
+    <state x="748" y="72" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.2293.920@0.0.2293.920" timestamp="1631126040461" />
+    <state x="988" y="195" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog" timestamp="1631207957196">
+      <screen x="0" y="0" width="2293" height="920" />
+    </state>
+    <state x="988" y="195" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog/0.0.2293.920@0.0.2293.920" timestamp="1631207957196" />
+    <state x="815" y="193" width="664" height="564" key="find.popup" timestamp="1631129894632">
+      <screen x="0" y="0" width="2293" height="920" />
+    </state>
+    <state x="815" y="193" width="664" height="564" key="find.popup/0.0.2293.920@0.0.2293.920" timestamp="1631129894632" />
+    <state x="804" y="211" key="run.anything.popup" timestamp="1630855595116">
+      <screen x="0" y="0" width="2293" height="920" />
+    </state>
+    <state x="804" y="211" key="run.anything.popup/0.0.2293.920@0.0.2293.920" timestamp="1630855595116" />
+    <state x="810" y="195" width="672" height="678" key="search.everywhere.popup" timestamp="1631207890894">
+      <screen x="0" y="0" width="2293" height="920" />
+    </state>
+    <state x="810" y="195" width="672" height="678" key="search.everywhere.popup/0.0.2293.920@0.0.2293.920" timestamp="1631207890894" />
+  </component>
+</project>
