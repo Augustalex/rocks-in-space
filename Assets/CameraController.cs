@@ -19,6 +19,8 @@ public class CameraController : MonoBehaviour
     private Vector3 _lastPosition;
     private bool _following;
 
+    public bool cinematicOpening = true;
+
     void Start()
     {
         _camera = GetComponent<Camera>();
@@ -122,7 +124,7 @@ public class CameraController : MonoBehaviour
     {
         FocusOnPlanet(block);
         _displayController.SetToCinematicMode();
-        _moveLength = 10;
+        _moveLength = cinematicOpening ? 10 : .1f; 
         _moveTime = _moveLength;
     }
 

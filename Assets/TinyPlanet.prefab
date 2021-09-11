@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f44ff42d8a84d13b79c776d5d61e317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  planetName: Unnamed
   network: []
 --- !u!54 &6203254793432954223
 Rigidbody:
@@ -59,5 +60,5 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0

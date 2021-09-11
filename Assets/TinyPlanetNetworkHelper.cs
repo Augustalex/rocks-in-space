@@ -4,8 +4,8 @@ using UnityEngine;
 
 public static class TinyPlanetNetworkHelper
 {
-    public static float NetworkJointDistance = 1f;
-    public static float NetworkDislodgeActivationDistance = 1.2f;
+    public static float NetworkJointDistance = .8f;
+    public static float NetworkDislodgeActivationDistance = .8f;
     
     public static List<GameObject> GetNetworkFromRock(GameObject rock)
     {

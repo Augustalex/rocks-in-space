@@ -16,7 +16,7 @@ public class Clicker : MonoBehaviour
         _audioController = AudioController.Get();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (_cooldown > 0)
         {
@@ -25,18 +25,25 @@ public class Clicker : MonoBehaviour
         else if (Input.GetMouseButton(0))
         {
             _cooldown = .12f;
-            
-            var ray = _camera.ScreenPointToRay(Input.mousePosition);
 
+            var ray = _camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 60f))
+            var start = _camera.transform.position;
+            var end = start + ray.direction.normalized * 100f;
+            if (Physics.Raycast(ray, out hit, 60))
             {
+                Debug.DrawLine(start, end, Color.green, 10f);
+
                 var block = hit.collider.GetComponent<Block>();
                 if (block != null)
                 {
                     _audioController.Play(_audioController.destroyBlock, _audioController.destroyBlockVolume, block.transform.position);
                     block.Dig();
                 }
+            }
+            else
+            {
+                Debug.DrawLine(start, end, Color.red, 10f);
             }
         }
     }

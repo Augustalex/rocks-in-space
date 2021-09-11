@@ -18,16 +18,16 @@ public class TinyPlanetGeneratorHelper
     public Vector3[] NewNetworkTemplate()
     {
         var generationOrigin = Vector3.zero;
-        GeneratePlanet(generationOrigin);
+        GeneratePlanet(generationOrigin, Random.Range(5, 25));
         return _rocks
             .Where(entry => entry.Value != RockType.Empty)
             .Select(entry => entry.Key)
             .ToArray();
     }
 
-    private void GeneratePlanet(Vector3 position, int depth = 0)
+    private void GeneratePlanet(Vector3 position, int maxDepth, int depth = 0)
     {
-        if (depth > 10) return;
+        if (depth > maxDepth) return;
         if (_rocks.ContainsKey(position)) return;
         CreateRock(position);
 
@@ -49,7 +49,7 @@ public class TinyPlanetGeneratorHelper
             
             if (Random.value < distanceProb + .4f)
             {
-                GeneratePlanet(newPosition, depth + 1);
+                GeneratePlanet(newPosition, maxDepth, depth + 1);
             }
             else
             {

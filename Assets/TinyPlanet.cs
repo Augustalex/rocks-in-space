@@ -26,11 +26,11 @@ public class TinyPlanet : MonoBehaviour
 
     public void CheckDislodgement(GameObject rock)
     {
-        var sampleNetwork = TinyPlanetNetworkHelper.GetNetworkFromRock(rock);
-        if (IsNetworkDislodged(sampleNetwork))
-        {
-            TinyPlanetGenerator.Get().TurnNetworkIntoPlanet(sampleNetwork);
-        }
+        // var sampleNetwork = TinyPlanetNetworkHelper.GetNetworkFromRock(rock);
+        // if (IsNetworkDislodged(sampleNetwork))
+        // {
+        //     TinyPlanetGenerator.Get().TurnNetworkIntoPlanet(sampleNetwork);
+        // }
     }
 
     public bool IsNetworkDislodged(List<GameObject> sampleNetwork)

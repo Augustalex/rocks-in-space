@@ -13,6 +13,7 @@
         <e p="CameraController.cs" t="Include" />
         <e p="Clicker.cs" t="Include" />
         <e p="DisplayController.cs" t="Include" />
+        <e p="Flashlight.cs" t="Include" />
         <e p="LightsOff.cs" t="Include" />
         <e p="LightsOn.cs" t="Include" />
         <e p="Meteor.cs" t="Include" />
@@ -41,6 +42,7 @@
           </e>
         </e>
         <e p="RockMesh.cs" t="Include" />
+        <e p="Test_ChangeParent.cs" t="Include" />
         <e p="TextMesh Pro" t="Include">
           <e p="Fonts" t="Include">
             <e p="LiberationSans - OFL.txt" t="Include" />
