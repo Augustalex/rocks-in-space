@@ -33,17 +33,22 @@ public class Clicker : MonoBehaviour
 
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-
+            
+            laserController.TurnOn(100);
+            var point = ray.origin + ray.direction.normalized * 40f;
+            _point = point;
+            laserController.transform.LookAt(point, laserController.transform.forward);
+            
             if (Physics.Raycast(ray, out hit, 60))
             {
-                if (ship)
-                {
-                    var distance = hit.point - laserController.transform.position;
-                    laserController.TurnOn(distance.magnitude * .75f);
-                    var point = hit.point;
-                    _point = point;
-                    laserController.transform.LookAt(point, laserController.transform.forward);
-                }
+                // if (ship)
+                // {
+                //     var distance = hit.point - laserController.transform.position;
+                //     laserController.TurnOn(distance.magnitude * .75f);
+                //     var point = hit.point;
+                //     _point = point;
+                //     laserController.transform.LookAt(point, laserController.transform.forward);
+                // }
                 
                 var block = hit.collider.GetComponent<Block>();
                 if (block != null)
