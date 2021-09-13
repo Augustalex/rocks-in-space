@@ -14,7 +14,11 @@
         <e p="CameraFollowShip.cs" t="Include" />
         <e p="Clicker.cs" t="Include" />
         <e p="DisplayController.cs" t="Include" />
+        <e p="FactoryController.cs" t="Include" />
         <e p="Flashlight.cs" t="Include" />
+        <e p="Interactors" t="Include">
+          <e p="PlaceBuildingInteractor.cs" t="Include" />
+        </e>
         <e p="LaserBeam.cs" t="Include" />
         <e p="LaserController.cs" t="Include" />
         <e p="LightsOff.cs" t="Include" />
@@ -40,11 +44,13 @@
         <e p="PlanetNameDisplay.cs" t="Include" />
         <e p="PlanetNameInstructionsDisplay.cs" t="Include" />
         <e p="PowerControlled.cs" t="Include" />
+        <e p="PowerPlantController.cs" t="Include" />
         <e p="Real Stars Skybox" t="Include">
           <e p="Demo Scene" t="Include">
             <e p="Documentation.txt" t="Include" />
           </e>
         </e>
+        <e p="RefineryController.cs" t="Include" />
         <e p="ResourceDisplay.cs" t="Include" />
         <e p="ResourceDisplayController.cs" t="Include" />
         <e p="RockMesh.cs" t="Include" />

@@ -39,10 +39,10 @@ public class Block : MonoBehaviour
 
     public void Seed(GameObject seedTemplate)
     {
-        var seed = Instantiate(seedTemplate, transform.parent, true);
-        seed.transform.position = transform.position;
-
         var mesh = transform.parent.GetComponentInChildren<RockMesh>();
         Destroy(mesh.gameObject);
+        
+        var seed = Instantiate(seedTemplate, transform.parent, true);
+        seed.transform.position = transform.position;
     }
 }
