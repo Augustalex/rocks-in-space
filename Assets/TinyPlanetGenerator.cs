@@ -84,18 +84,13 @@ public class TinyPlanetGenerator : MonoBehaviour
                 var newPlanet = NewPlanet();
                 
                 var dislodgedPlanet = dislodgedNetworkCount > nonNetworkRocksCount ? currentPlanet : newPlanet;
-                var nonNetworkPlanet = dislodgedNetworkCount > nonNetworkRocksCount ? newPlanet : currentPlanet;
+                var nonNetworkPlanet = dislodgedNetworkCount < nonNetworkRocksCount ? currentPlanet : newPlanet;
                 
                 nonNetworkPlanet.SetNetwork(nonNetworkRocks);
                 dislodgedPlanet.SetNetwork(dislodgedNetwork);
 
-                // var dislodgedPlanetCenter =
-                //     TinyPlanetCenterPointHelper.CalculateCenter(dislodgedPlanet.network);
-
                 var direction = (nonNetworkPlanet.transform.position - dislodgedPlanet.transform.position).normalized;
-                var direction2 = (dislodgedPlanet.transform.position - nonNetworkPlanet.transform.position).normalized;
                 nonNetworkPlanet.gameObject.GetComponent<Rigidbody>().AddForce(direction * .5f, ForceMode.Impulse);
-                dislodgedPlanet.gameObject.GetComponent<Rigidbody>().AddForce(direction2 * .5f, ForceMode.Impulse);
             }
         }
     }

@@ -11,6 +11,7 @@ public class DisplayController : MonoBehaviour
     private string _newName;
     private TinyPlanet _currentPlanet;
     private PlanetNameInstructionsDisplay _planetNameInstructionsDisplay;
+    private ResourceDisplay _resourcesDisplay;
 
     public enum InputMode
     {
@@ -20,6 +21,146 @@ public class DisplayController : MonoBehaviour
     }
 
     public InputMode inputMode = InputMode.Cinematic;
+
+    public static DisplayController Get()
+    {
+        return _instance;
+    }
+
+    private void Awake()
+    {
+        _instance = this;
+    }
+
+    private void Start()
+    {
+        _planetNameDisplay = FindObjectOfType<PlanetNameDisplay>();
+        _planetNameInstructionsDisplay = FindObjectOfType<PlanetNameInstructionsDisplay>();
+        _resourcesDisplay = FindObjectOfType<ResourceDisplay>();
+    }
+
+    private void Update()
+    {
+        if (inputMode == InputMode.Cinematic)
+        {
+            CinematicModeUpdate();
+        }
+        else
+        {
+            if (inputMode == InputMode.Static)
+            {
+                StaticModeUpdate();
+            }
+            else if (inputMode == InputMode.Renaming)
+            {
+                RenamingModeUpdate();
+            }
+
+            AuxiliaryDisplaysUpdate();
+        }
+    }
+
+    private void AuxiliaryDisplaysUpdate()
+    {
+        if (!_currentPlanet)
+        {
+            _resourcesDisplay.NoPlanetSelected();
+        }
+        else
+        {
+            var planetResources = _currentPlanet.GetComponent<TinyPlanetResources>();
+            _resourcesDisplay.ShowPlanetResources(planetResources);
+        }
+    }
+
+    private void RenamingModeUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            inputMode = InputMode.Static;
+
+            if (_newName == "")
+            {
+                _newName = _oldName;
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Backspace))
+            {
+                _newName = _newName.Substring(0, Math.Max(0, _newName.Length - 1));
+            }
+            else
+            {
+                foreach (var keycode in _allowedKeys)
+                {
+                    if (Input.GetKeyDown(keycode))
+                    {
+                        _newName += keycode == KeyCode.Space ? " " : keycode.ToString();
+                    }
+                }
+
+                foreach (var keycode in _numbers.Keys)
+                {
+                    if (Input.GetKeyDown(keycode))
+                    {
+                        var text = _numbers[keycode];
+                        _newName += text;
+                    }
+                }
+            }
+        }
+
+        _currentPlanet.planetName = _newName;
+        _planetNameDisplay.text = _newName;
+    }
+
+    private void StaticModeUpdate()
+    {
+        _planetNameDisplay.hidden = false;
+        _planetNameInstructionsDisplay.hidden = false;
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            inputMode = InputMode.Renaming;
+
+            _oldName = _planetNameDisplay.text;
+            _newName = "";
+            _planetNameInstructionsDisplay.text = "PRESS ENTER TO SAVE";
+        }
+        else if (_currentPlanet == null)
+        {
+            _planetNameDisplay.text = "";
+            _planetNameInstructionsDisplay.text = "";
+        }
+        else
+        {
+            _planetNameInstructionsDisplay.text = "PRESS ENTER TO RENAME";
+        }
+    }
+
+    private void CinematicModeUpdate()
+    {
+        _planetNameDisplay.hidden = true;
+        _planetNameInstructionsDisplay.hidden = true;
+        _resourcesDisplay.Hidden();
+    }
+
+    public void SetPlanetInFocus(TinyPlanet planet)
+    {
+        _currentPlanet = planet;
+        _planetNameDisplay.text = planet.planetName;
+    }
+
+    public void SetToCinematicMode()
+    {
+        inputMode = InputMode.Cinematic;
+    }
+
+    public void ExitCinematicMode()
+    {
+        inputMode = InputMode.Static;
+    }
 
     private readonly KeyCode[] _allowedKeys = new[]
     {
@@ -52,7 +193,7 @@ public class DisplayController : MonoBehaviour
         KeyCode.Space,
         KeyCode.Backspace
     };
-    
+
     private readonly Dictionary<KeyCode, string> _numbers = new Dictionary<KeyCode, string>
     {
         [KeyCode.Alpha0] = "0",
@@ -66,108 +207,4 @@ public class DisplayController : MonoBehaviour
         [KeyCode.Alpha8] = "8",
         [KeyCode.Alpha9] = "9"
     };
-    
-    public static DisplayController Get()
-    {
-        return _instance;
-    }
-
-    private void Awake()
-    {
-        _instance = this;
-    }
-
-    private void Start()
-    {
-        _planetNameDisplay = FindObjectOfType<PlanetNameDisplay>();
-        _planetNameInstructionsDisplay = FindObjectOfType<PlanetNameInstructionsDisplay>();
-    }
-
-    private void Update()
-    {
-        if (inputMode == InputMode.Cinematic)
-        {
-            _planetNameDisplay.hidden = true;
-            _planetNameInstructionsDisplay.hidden = true;
-        }
-        else if (inputMode == InputMode.Static)
-        {
-            _planetNameDisplay.hidden = false;
-            _planetNameInstructionsDisplay.hidden = false;
-            
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                inputMode = InputMode.Renaming;
-
-                _oldName = _planetNameDisplay.text;
-                _newName = "";
-                _planetNameInstructionsDisplay.text = "PRESS ENTER TO SAVE";
-            }
-            else if (_currentPlanet == null)
-            {
-                _planetNameDisplay.text = "";
-                _planetNameInstructionsDisplay.text = "";
-            }
-            else
-            {
-                _planetNameInstructionsDisplay.text = "PRESS ENTER TO RENAME";
-            }
-        }
-        else if (inputMode == InputMode.Renaming)
-        {
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                inputMode = InputMode.Static;
-
-                if (_newName == "")
-                {
-                    _newName = _oldName;
-                }
-            }
-            else
-            {
-                if (Input.GetKeyDown(KeyCode.Backspace))
-                {
-                    _newName = _newName.Substring(0, Math.Max(0, _newName.Length - 1));
-                }
-                else
-                {
-                    foreach (var keycode in _allowedKeys)
-                    {
-                        if (Input.GetKeyDown(keycode))
-                        {
-                            _newName += keycode == KeyCode.Space ? " " : keycode.ToString();
-                        }
-                    }
-                    foreach (var keycode in _numbers.Keys)
-                    {
-                        if (Input.GetKeyDown(keycode))
-                        {
-                            var text = _numbers[keycode];
-                            _newName += text;
-                        }
-                    }
-                }
-            }
-
-            _currentPlanet.planetName = _newName;
-            _planetNameDisplay.text = _newName;
-        }
-    }
-
-    public void SetPlanetInFocus(TinyPlanet planet)
-    {
-        _currentPlanet = planet;
-        _planetNameDisplay.text = planet.planetName;
-    }
-
-    public void SetToCinematicMode()
-    {
-        inputMode = InputMode.Cinematic;
-    }
-
-    public void ExitCinematicMode()
-    {
-        inputMode = InputMode.Static;
-    }
 }

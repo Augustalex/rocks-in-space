@@ -10,9 +10,6 @@ public class Clicker : MonoBehaviour
     private double _cooldown = -1f;
     private AudioController _audioController;
 
-    public GameObject ship;
-    public LaserController laserController;
-
     private Vector3 _point;
     
     void Start()
@@ -34,22 +31,8 @@ public class Clicker : MonoBehaviour
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             
-            laserController.TurnOn(100);
-            var point = ray.origin + ray.direction.normalized * 40f;
-            _point = point;
-            laserController.transform.LookAt(point, laserController.transform.forward);
-            
             if (Physics.Raycast(ray, out hit, 60))
             {
-                // if (ship)
-                // {
-                //     var distance = hit.point - laserController.transform.position;
-                //     laserController.TurnOn(distance.magnitude * .75f);
-                //     var point = hit.point;
-                //     _point = point;
-                //     laserController.transform.LookAt(point, laserController.transform.forward);
-                // }
-                
                 var block = hit.collider.GetComponent<Block>();
                 if (block != null)
                 {
@@ -57,27 +40,6 @@ public class Clicker : MonoBehaviour
                     block.Dig();
                 }
             }
-            else
-            {
-                if (ship)
-                {
-                    // laserController.TurnOn();
-                    // var point = _camera.transform.position + (ray.direction).normalized * 60f;
-                    // _point = point;
-                    // laserController.transform.LookAt(point, laserController.transform.forward);
-                }
-            }
         }
-        else
-        {
-            laserController.TurnOff();
-        }
-    }
-    
-    void OnDrawGizmosSelected()
-    {
-        Debug.Log(_point);
-        Gizmos.color = new Color(1, 0, 0, 1);
-        Gizmos.DrawCube(_point, Vector3.one * 10);
     }
 }

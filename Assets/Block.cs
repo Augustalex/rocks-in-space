@@ -7,6 +7,12 @@ public class Block : MonoBehaviour
     {
         var tinyPlanetGenerator = TinyPlanetGenerator.Get();
 
+        var oreController = GetComponent<OreController>();
+        if (oreController.HasOre())
+        {
+            oreController.Mine(GetConnectedPlanet());
+        }
+        
         tinyPlanetGenerator.DestroyBlock(this);
     }
 
