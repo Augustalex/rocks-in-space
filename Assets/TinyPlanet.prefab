@@ -56,7 +56,7 @@ Rigidbody:
   m_GameObject: {fileID: 5159183553568185527}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0.05
+  m_Drag: 0.01
   m_AngularDrag: 0.5
   m_UseGravity: 0
   m_IsKinematic: 0
@@ -75,7 +75,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4c15649b3991e145b001dfdc18c4ba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ore: 0
-  metals: 0
-  gadgets: 0
-  energy: 0

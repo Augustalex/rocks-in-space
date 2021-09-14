@@ -7,6 +7,9 @@ public class AudioController : MonoBehaviour
 {
     public AudioClip destroyBlock;
     public float destroyBlockVolume;
+    
+    public AudioClip cannotBuild;
+    public float cannotBuildVolume;
 
     private static AudioController _instance;
     private Camera _camera;

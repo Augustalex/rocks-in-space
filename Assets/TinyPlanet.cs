@@ -49,4 +49,9 @@ public class TinyPlanet : MonoBehaviour
     {
         network.Remove(block);
     }
+
+    public TinyPlanetResources GetResources()
+    {
+        return GetComponent<TinyPlanetResources>();
+    }
 }

@@ -9,6 +9,6 @@ public class PowerPlantController : MonoBehaviour
     void Start()
     {
         _planetResources = GetComponentInParent<TinyPlanetResources>();
-        _planetResources.energy += 100;
+        _planetResources.SetEnergy(_planetResources.GetEnergy() + 100);
     }
 }

@@ -1,12 +1,13 @@
 ﻿using System;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 namespace Interactors
 {
     public class PlaceBuildingInteractor : MonoBehaviour
     {
-        public GameObject[] templates;
-        private int _currentTemplate = -1;
+        public InteractorModule[] modules;
+        private int _currentModule = -1;
         private AudioController _audioController;
         private Camera _camera;
 
@@ -22,6 +23,18 @@ namespace Interactors
             KeyCode.Alpha8,
             KeyCode.Alpha9,
         };
+
+        private static PlaceBuildingInteractor _instance;
+
+        private void Awake()
+        {
+            _instance = this;
+        }
+
+        public static PlaceBuildingInteractor Get()
+        {
+            return _instance;
+        }
         
         private void Start()
         {
@@ -33,21 +46,29 @@ namespace Interactors
         {
             for (var i = 0; i < _selectKeys.Length; i++)
             {
-                if (Input.GetKeyDown(_selectKeys[i]) && templates.Length > i)
+                if (Input.GetKeyDown(_selectKeys[i]) && modules.Length > i)
                 {
-                    _currentTemplate = _currentTemplate == i ? -1 : i;
+                    _currentModule = _currentModule == i ? -1 : i;
                 }
             }
         }
 
         public bool Loaded()
         {
-            return _currentTemplate != -1;
+            return _currentModule != -1;
         }
 
         public void Interact()
         {
             if (Input.GetMouseButtonDown(0))
+            {
+                RayCastToBuild();
+            }
+        }
+
+        private void RayCastToBuild()
+        {
+            for (int i = 0; i < 100; i++)
             {
                 var ray = _camera.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -57,24 +78,32 @@ namespace Interactors
                     var block = hit.collider.GetComponent<Block>();
                     if (block != null)
                     {
-                        _audioController.Play(_audioController.destroyBlock, _audioController.destroyBlockVolume,
-                            block.transform.position);
-
-                        var seed = CurrentTemplate();
-                        if (seed)
+                        var planetResources = block.GetConnectedPlanet().GetResources();
+                        var interactorModule = CurrentModule();
+                        if (interactorModule && interactorModule.CanBuild(block, planetResources))
                         {
-                            block.Seed(seed);
+                            _audioController.Play(_audioController.destroyBlock, _audioController.destroyBlockVolume,
+                                block.transform.position);
+
+                            interactorModule.Build(block, planetResources);
+                        }
+                        else
+                        {
+                            _audioController.Play(_audioController.cannotBuild, _audioController.cannotBuildVolume,
+                                block.transform.position);
                         }
                     }
-                }
+                    
+                    return;
+                }   
             }
         }
 
-        private GameObject CurrentTemplate()
+        public InteractorModule CurrentModule()
         {
-            if (_currentTemplate < 0 || _currentTemplate >= templates.Length) return null;
+            if (_currentModule < 0 || _currentModule >= modules.Length) return null;
 
-            return templates[_currentTemplate];
+            return modules[_currentModule];
         }
     }
 }

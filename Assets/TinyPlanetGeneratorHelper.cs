@@ -18,7 +18,7 @@ public class TinyPlanetGeneratorHelper
     public Vector3[] NewNetworkTemplate()
     {
         var generationOrigin = Vector3.zero;
-        GeneratePlanet(generationOrigin, Random.Range(5, 25));
+        GeneratePlanet(generationOrigin, Random.Range(5, 15));
         return _rocks
             .Where(entry => entry.Value != RockType.Empty)
             .Select(entry => entry.Key)

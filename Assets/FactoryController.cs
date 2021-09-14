@@ -18,11 +18,12 @@ public class FactoryController : MonoBehaviour
         if (_cooldown >= 1f)
         {
             _cooldown = 0;
-            
-            if (_planetResources.metals >= 10)
+
+            var metals = _planetResources.GetMetals();
+            if (metals >= 5)
             {
-                _planetResources.metals -= 10;
-                _planetResources.gadgets += 10;
+                _planetResources.SetMetals(metals - 5);
+                _planetResources.SetGadgets(_planetResources.GetGadgets() + 100);
             }
         }
         else

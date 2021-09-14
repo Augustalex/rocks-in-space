@@ -20,7 +20,7 @@ public class Clicker : MonoBehaviour
         _interactor = GetComponent<PlaceBuildingInteractor>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (_interactor.Loaded())
         {
@@ -42,6 +42,14 @@ public class Clicker : MonoBehaviour
         {
             _cooldown = .12f;
 
+            RayCastForDigging();
+        }
+    }
+
+    private void RayCastForDigging()
+    {
+        for (int i = 0; i < 50; i++)
+        {
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -54,6 +62,8 @@ public class Clicker : MonoBehaviour
                         block.transform.position);
                     block.Dig();
                 }
+
+                return;
             }
         }
     }

@@ -37,8 +37,14 @@ public class ResourceDisplay : MonoBehaviour
     {
         _hidden = false;
 
+        var ore = currentPlanet.GetOre();
+        var metals = currentPlanet.GetMetals();
+        var gadgets = currentPlanet.GetGadgets();
+        var energy = currentPlanet.GetEnergy();
+        var food = currentPlanet.GetFood();
+        var inhabitants = currentPlanet.GetInhabitants();
         _text =
-            $"Ore: ${currentPlanet.ore} - Metals: ${currentPlanet.metals} - Gadgets: ${currentPlanet.gadgets} - Energy: ${currentPlanet.energy}";
+            $"Ore: {ore} - Metals: {metals} - Gadgets: {gadgets} - Energy: {energy} - Food: {food} - Inhabitants: {inhabitants}";
     }
 
     public void Hidden()

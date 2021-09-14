@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DisplayController : MonoBehaviour
@@ -12,6 +13,7 @@ public class DisplayController : MonoBehaviour
     private TinyPlanet _currentPlanet;
     private PlanetNameInstructionsDisplay _planetNameInstructionsDisplay;
     private ResourceDisplay _resourcesDisplay;
+    private IEnumerable<GameObject> _miscHidable;
 
     public enum InputMode
     {
@@ -37,6 +39,7 @@ public class DisplayController : MonoBehaviour
         _planetNameDisplay = FindObjectOfType<PlanetNameDisplay>();
         _planetNameInstructionsDisplay = FindObjectOfType<PlanetNameInstructionsDisplay>();
         _resourcesDisplay = FindObjectOfType<ResourceDisplay>();
+        _miscHidable = FindObjectsOfType<Hidable>().Select(h => h.gameObject);
     }
 
     private void Update()
@@ -65,11 +68,21 @@ public class DisplayController : MonoBehaviour
         if (!_currentPlanet)
         {
             _resourcesDisplay.NoPlanetSelected();
+            
+            foreach (var hidable in _miscHidable)
+            {
+                hidable.SetActive(false);
+            }
         }
         else
         {
             var planetResources = _currentPlanet.GetComponent<TinyPlanetResources>();
             _resourcesDisplay.ShowPlanetResources(planetResources);
+            
+            foreach (var hidable in _miscHidable)
+            {
+                hidable.SetActive(true);
+            }
         }
     }
 
@@ -144,6 +157,10 @@ public class DisplayController : MonoBehaviour
         _planetNameDisplay.hidden = true;
         _planetNameInstructionsDisplay.hidden = true;
         _resourcesDisplay.Hidden();
+        foreach (var hidable in _miscHidable)
+        {
+            hidable.SetActive(false);
+        }
     }
 
     public void SetPlanetInFocus(TinyPlanet planet)

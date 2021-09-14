@@ -2,15 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RefineryController : MonoBehaviour
+public class FarmController : MonoBehaviour
 {
     private TinyPlanetResources _planetResources;
-    private double _rate = .5f;
+    private double _rate = .1f;
     private double _cooldown = 0;
 
     void Start()
     {
         _planetResources = GetComponentInParent<TinyPlanetResources>();
+
+        _planetResources.SetEnergy(_planetResources.GetEnergy() - 50);
     }
 
     void Update()
@@ -19,11 +21,10 @@ public class RefineryController : MonoBehaviour
         {
             _cooldown = 0;
 
-            var ore = _planetResources.GetOre();
-            if (ore >= 10)
+            var energy = _planetResources.GetEnergy();
+            if (energy >= 0)
             {
-                _planetResources.SetOre(ore - 10);
-                _planetResources.SetMetals(_planetResources.GetMetals() + 1);
+                _planetResources.SetFood(_planetResources.GetFood() + 100);
             }
         }
         else
