@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEditorInternal.Profiling.Memory.Experimental;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Interactors
 {
@@ -35,7 +33,7 @@ namespace Interactors
         {
             return _instance;
         }
-        
+
         private void Start()
         {
             _camera = GetComponent<Camera>();
@@ -44,11 +42,18 @@ namespace Interactors
 
         private void Update()
         {
-            for (var i = 0; i < _selectKeys.Length; i++)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if (Input.GetKeyDown(_selectKeys[i]) && modules.Length > i)
+                _currentModule = -1;
+            }
+            else
+            {
+                for (var i = 0; i < _selectKeys.Length; i++)
                 {
-                    _currentModule = _currentModule == i ? -1 : i;
+                    if (Input.GetKeyDown(_selectKeys[i]) && modules.Length > i)
+                    {
+                        _currentModule = _currentModule == i ? -1 : i;
+                    }
                 }
             }
         }
@@ -93,9 +98,9 @@ namespace Interactors
                                 block.transform.position);
                         }
                     }
-                    
+
                     return;
-                }   
+                }
             }
         }
 

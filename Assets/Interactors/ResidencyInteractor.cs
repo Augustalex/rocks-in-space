@@ -14,12 +14,12 @@ namespace Interactors
 
         public override bool CanBuild(Block block, TinyPlanetResources resources)
         {
-            return resources.GetGadgets() >= 100;
+            return resources.GetGadgets() >= 10;
         }
 
         public override void Build(Block block, TinyPlanetResources resources)
         {
-            resources.SetGadgets(resources.GetGadgets() - 100);
+            resources.SetGadgets(resources.GetGadgets() - 10);
             
             block.Seed(template);
         }

@@ -41,6 +41,12 @@ public class Block : MonoBehaviour
     {
         var mesh = transform.parent.GetComponentInChildren<RockMesh>();
         Destroy(mesh.gameObject);
+
+        var ore = transform.parent.GetComponentInChildren<OreVein>();
+        if (ore)
+        {
+            Destroy(ore.gameObject);
+        }
         
         var seed = Instantiate(seedTemplate, transform.parent, true);
         seed.transform.position = transform.position;

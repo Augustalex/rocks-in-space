@@ -63,8 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seedTemplates:
-  - {fileID: 2957951342149841532, guid: 983f9059cac5da54b8bb19fa956a51f5, type: 3}
-  - {fileID: 4749449814968137031, guid: 516c66dbf5991b54a94a2eaa3dd827d2, type: 3}
+  - {fileID: 8791858644802920939, guid: 11346ec8e561697489b4fdcd918243ef, type: 3}
   target: {fileID: 0}
   targetObj: {fileID: 0}
 --- !u!96 &5511262301394164013

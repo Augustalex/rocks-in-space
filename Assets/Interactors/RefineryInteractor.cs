@@ -14,11 +14,13 @@ namespace Interactors
 
         public override bool CanBuild(Block block, TinyPlanetResources resources)
         {
-            return true;
+            return resources.GetOre() >= 500;
         }
 
         public override void Build(Block block, TinyPlanetResources resources)
         {
+            resources.SetOre(resources.GetOre() - 500);
+            
             block.Seed(template);
         }
     }

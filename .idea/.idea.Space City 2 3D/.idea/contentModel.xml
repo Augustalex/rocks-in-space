@@ -36,6 +36,7 @@
         <e p="MeteorGenerator.cs" t="Include" />
         <e p="ModuleController.cs" t="Include" />
         <e p="OreController.cs" t="Include" />
+        <e p="OreVein.cs" t="Include" />
         <e p="Pixel Stylizer Camera" t="Include">
           <e p="Editor" t="Include">
             <e p="PixelStylizerCamera_Editor.cs" t="Include" />

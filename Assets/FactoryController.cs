@@ -23,7 +23,7 @@ public class FactoryController : MonoBehaviour
             if (metals >= 5)
             {
                 _planetResources.SetMetals(metals - 5);
-                _planetResources.SetGadgets(_planetResources.GetGadgets() + 100);
+                _planetResources.SetGadgets(_planetResources.GetGadgets() + 1);
             }
         }
         else

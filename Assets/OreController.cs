@@ -11,6 +11,19 @@ public class OreController : MonoBehaviour
 
     void Start()
     {
+        var existingOreVein = transform.parent.gameObject.GetComponentInChildren<OreVein>();
+        if (existingOreVein)
+        {
+            _ore = existingOreVein.gameObject;
+        }
+        else
+        {
+            RandomizeOreVein();
+        }
+    }
+
+    private void RandomizeOreVein()
+    {
         var self = gameObject;
         var position = transform.position;
         var directions = new[]
