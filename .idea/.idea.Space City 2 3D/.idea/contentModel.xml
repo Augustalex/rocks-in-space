@@ -25,6 +25,7 @@
           <e p="FarmDomeInteractor.cs" t="Include" />
           <e p="InteractorModule.cs" t="Include" />
           <e p="PlaceBuildingInteractor.cs" t="Include" />
+          <e p="PortInteractor.cs" t="Include" />
           <e p="PowerPlantInteractor.cs" t="Include" />
           <e p="RefineryInteractor.cs" t="Include" />
           <e p="ResidencyInteractor.cs" t="Include" />
@@ -55,6 +56,7 @@
         </e>
         <e p="PlanetNameDisplay.cs" t="Include" />
         <e p="PlanetNameInstructionsDisplay.cs" t="Include" />
+        <e p="PortController.cs" t="Include" />
         <e p="PowerControlled.cs" t="Include" />
         <e p="PowerPlantController.cs" t="Include" />
         <e p="Real Stars Skybox" t="Include">
