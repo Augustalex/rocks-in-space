@@ -1557,9 +1557,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c03791d2ff24e3e9fbf4f075a7f79dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultModule: {fileID: 0}
+  defaultModule: {fileID: -6338020409910914437, guid: 2db1a97fc8125454a81edf26a773c327, type: 3}
   modules:
-  - {fileID: -6338020409910914437, guid: 2db1a97fc8125454a81edf26a773c327, type: 3}
   - {fileID: 4613441504152961012, guid: 6cce09fd159458c42ba5e56ebfdf1170, type: 3}
   - {fileID: 6417439968420967596, guid: 239c247f3899c804e825e563d368ed2c, type: 3}
   - {fileID: 8187403354263292828, guid: 9821c847aa0f68d4f8aab396cff7e193, type: 3}

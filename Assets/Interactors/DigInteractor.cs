@@ -6,7 +6,9 @@ namespace Interactors
     public class DigInteractor : InteractorModule
     {
         private const float Cooldown = .14f;
-        private float _lastBuilt;
+
+        [NonSerialized]
+        private float _lastDig = 1f;
 
         public override string GetInteractorName()
         {
@@ -15,13 +17,15 @@ namespace Interactors
 
         public override bool CanBuild(Block block, TinyPlanetResources resources)
         {
-            var timeSinceLastBuilt = Time.time - _lastBuilt;
+            var time = Time.time;
+            var timeSinceLastBuilt = time - _lastDig;
             return timeSinceLastBuilt > Cooldown && !block.IsSeeded();
         }
 
         public override void Build(Block block, TinyPlanetResources resources)
         {
-            _lastBuilt = Time.time;
+            var time = Time.time;
+            _lastDig = time;
             
             block.Dig();
         }

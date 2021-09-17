@@ -4,17 +4,15 @@ namespace Interactors
 {
     public class PlaceBuildingInteractor : MonoBehaviour
     {
-        private const int DefaultModule = 0;
+        private const int DefaultModule = -1;
 
         public InteractorModule defaultModule;
 
         public InteractorModule[] modules;
         private int _currentModule = DefaultModule;
-        private AudioController _audioController;
         private Camera _camera;
 
-        private KeyCode[] _selectKeys = new[]
-        {
+        private readonly KeyCode[] _selectKeys = {
             KeyCode.Alpha1,
             KeyCode.Alpha2,
             KeyCode.Alpha3,
@@ -41,7 +39,6 @@ namespace Interactors
         private void Start()
         {
             _camera = GetComponent<Camera>();
-            _audioController = AudioController.Get();
         }
 
         private void Update()
@@ -56,7 +53,7 @@ namespace Interactors
                 {
                     if (Input.GetKeyDown(_selectKeys[i]) && modules.Length > i)
                     {
-                        _currentModule = _currentModule == i ? DefaultModule : i;
+                        _currentModule = i;
                     }
                 }
             }
@@ -102,9 +99,18 @@ namespace Interactors
 
         public InteractorModule CurrentModule()
         {
-            if (_currentModule < 0 || _currentModule >= modules.Length) return null;
-
-            return modules[_currentModule];
+            if (_currentModule == DefaultModule)
+            {
+                return defaultModule;
+            }
+            else if (_currentModule >= 0 && _currentModule < modules.Length)
+            {
+                return modules[_currentModule];
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ namespace Interactors
 {
     public class SelectInteractor : InteractorModule
     {
+        [NonSerialized]
         private GameObject _lastCenteredPlanet;
         
         public override string GetInteractorName()
