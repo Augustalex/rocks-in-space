@@ -20,6 +20,7 @@
         <e p="Hidable.cs" t="Include" />
         <e p="InteractorDisplay.cs" t="Include" />
         <e p="Interactors" t="Include">
+          <e p="DigInteractor.cs" t="Include" />
           <e p="FactoryInteractor.cs" t="Include" />
           <e p="FarmDomeInteractor.cs" t="Include" />
           <e p="InteractorModule.cs" t="Include" />

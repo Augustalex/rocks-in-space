@@ -3,30 +3,32 @@ using UnityEngine;
 
 namespace Interactors
 {
-    public class FarmDomeInteractor : InteractorModule
+    public class DigInteractor : InteractorModule
     {
-        public GameObject template;
+        private const float Cooldown = .2f;
+        private float _lastBuilt;
 
         public override string GetInteractorName()
         {
-            return "Farm Dome";
+            return "Dig";
         }
 
         public override bool CanBuild(Block block, TinyPlanetResources resources)
         {
-            return resources.GetGadgets() >= 50;
+            var timeSinceLastBuilt = Time.time - _lastBuilt;
+            return timeSinceLastBuilt > Cooldown && !block.IsSeeded();
         }
 
         public override void Build(Block block, TinyPlanetResources resources)
         {
-            resources.SetGadgets(resources.GetGadgets() - 50);
+            _lastBuilt = Time.time;
             
-            block.Seed(template);
+            block.Dig();
         }
 
         public override bool Continuous()
         {
-            return false;
+            return true;
         }
     }
 }

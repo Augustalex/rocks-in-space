@@ -353,7 +353,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ESC to Dig - #1 Ore Refi - #2 Factory
+  m_text: ESC to Select - #1 Dig  - #2 Ore Refi - #3 Factory
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6d8a42941dfced540adb958f63493c8c, type: 2}
   m_sharedMaterial: {fileID: 4021295553837207253, guid: 6d8a42941dfced540adb958f63493c8c, type: 2}
@@ -1558,6 +1558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modules:
+  - {fileID: 4613441504152961012, guid: 6cce09fd159458c42ba5e56ebfdf1170, type: 3}
   - {fileID: 6417439968420967596, guid: 239c247f3899c804e825e563d368ed2c, type: 3}
   - {fileID: 8187403354263292828, guid: 9821c847aa0f68d4f8aab396cff7e193, type: 3}
   - {fileID: 8976570001371973720, guid: 065fff7ffa8819c4a889ca1ea68ba8aa, type: 3}

@@ -9,5 +9,7 @@ namespace Interactors
         public abstract bool CanBuild(Block block, TinyPlanetResources resources);
 
         public abstract void Build(Block block, TinyPlanetResources resources);
+
+        public abstract bool Continuous();
     }
 }

@@ -23,5 +23,10 @@ namespace Interactors
             
             block.Seed(template);
         }
+
+        public override bool Continuous()
+        {
+            return false;
+        }
     }
 }

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
+    private bool _seeded;
+
     public void Dig()
     {
         var tinyPlanetGenerator = TinyPlanetGenerator.Get();
@@ -47,8 +49,14 @@ public class Block : MonoBehaviour
         {
             Destroy(ore.gameObject);
         }
-        
+
+        _seeded = true;
         var seed = Instantiate(seedTemplate, transform.parent, true);
         seed.transform.position = transform.position;
+    }
+
+    public bool IsSeeded()
+    {
+        return _seeded;
     }
 }

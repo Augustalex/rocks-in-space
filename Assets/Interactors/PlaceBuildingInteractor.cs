@@ -4,8 +4,10 @@ namespace Interactors
 {
     public class PlaceBuildingInteractor : MonoBehaviour
     {
+        private const int DefaultModule = 0;
+
         public InteractorModule[] modules;
-        private int _currentModule = -1;
+        private int _currentModule = DefaultModule;
         private AudioController _audioController;
         private Camera _camera;
 
@@ -44,7 +46,7 @@ namespace Interactors
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                _currentModule = -1;
+                _currentModule = DefaultModule;
             }
             else
             {
@@ -52,20 +54,15 @@ namespace Interactors
                 {
                     if (Input.GetKeyDown(_selectKeys[i]) && modules.Length > i)
                     {
-                        _currentModule = _currentModule == i ? -1 : i;
+                        _currentModule = _currentModule == i ? DefaultModule : i;
                     }
                 }
             }
         }
 
-        public bool Loaded()
-        {
-            return _currentModule != -1;
-        }
-
         public void Interact()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (CurrentModule().Continuous() ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
             {
                 RayCastToBuild();
             }
@@ -94,8 +91,11 @@ namespace Interactors
                         }
                         else
                         {
-                            _audioController.Play(_audioController.cannotBuild, _audioController.cannotBuildVolume,
-                                block.transform.position);
+                            if (!interactorModule.Continuous())
+                            {
+                                _audioController.Play(_audioController.cannotBuild, _audioController.cannotBuildVolume,
+                                    block.transform.position);
+                            }
                         }
                     }
 
