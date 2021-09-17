@@ -23,10 +23,33 @@ namespace Interactors
             
             block.Seed(template);
         }
+        
+        public override void OnFailedToBuild(Vector3 hitPoint)
+        {
+            var audioController = AudioController.Get();
+
+            audioController.Play(audioController.cannotBuild, audioController.cannotBuildVolume,
+                hitPoint);
+        }
+
+        public override void OnBuilt(Vector3 hitPoint)
+        {
+            var audioController = AudioController.Get();
+            
+            audioController.Play(audioController.destroyBlock, audioController.destroyBlockVolume,
+                hitPoint);
+        }
+
+
 
         public override bool Continuous()
         {
             return false;
+        }
+        
+        public override float MaxActivationDistance()
+        {
+            return 60f;
         }
     }
 }

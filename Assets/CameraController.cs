@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,17 @@ public class CameraController : MonoBehaviour
     private bool _following;
 
     public bool cinematicOpening = true;
+    private static CameraController _instance;
+
+    void Awake()
+    {
+        _instance = this;
+    }
+
+    public static CameraController Get()
+    {
+        return _instance;
+    }
 
     void Start()
     {
@@ -38,24 +50,15 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    public bool AvailableToUpdate()
+    {
+        return _displayController.inputMode != DisplayController.InputMode.Renaming;
+    }
+    
     void Update()
     {
-        if (_displayController.inputMode == DisplayController.InputMode.Renaming) return;
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            var ray = _camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 1000f))
-            {
-                var block = hit.collider.GetComponent<Block>();
-                if (block != null)
-                {
-                    FocusOnPlanet(block);
-                }
-            }
-        }
-
+        if (!AvailableToUpdate()) return;
+        
         if (_moving)
         {
             if (_moveTime > 0)
@@ -128,7 +131,7 @@ public class CameraController : MonoBehaviour
         _moveTime = _moveLength;
     }
 
-    private void FocusOnPlanet(Block block)
+    public void FocusOnPlanet(Block block)
     {
         _moving = true;
         _following = false;

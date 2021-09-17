@@ -3,49 +3,48 @@ using UnityEngine;
 
 namespace Interactors
 {
-    public class DigInteractor : InteractorModule
+    public class SelectInteractor : InteractorModule
     {
-        private const float Cooldown = .14f;
-        private float _lastBuilt;
-
+        private GameObject _lastCenteredPlanet;
+        
         public override string GetInteractorName()
         {
-            return "Dig";
+            return "Select";
         }
 
         public override bool CanBuild(Block block, TinyPlanetResources resources)
         {
-            var timeSinceLastBuilt = Time.time - _lastBuilt;
-            return timeSinceLastBuilt > Cooldown && !block.IsSeeded();
+            var cameraController = CameraController.Get();
+            var blocksPlanet = block.GetConnectedPlanet().gameObject;
+            
+            return cameraController.AvailableToUpdate() 
+                   && _lastCenteredPlanet != blocksPlanet
+                   && !block.IsSeeded();
         }
 
         public override void Build(Block block, TinyPlanetResources resources)
         {
-            _lastBuilt = Time.time;
+            _lastCenteredPlanet = block.GetConnectedPlanet().gameObject;
             
-            block.Dig();
+            CameraController.Get().FocusOnPlanet(block);
         }
-        
+
         public override void OnFailedToBuild(Vector3 hitPoint)
         {
         }
 
         public override void OnBuilt(Vector3 hitPoint)
         {
-            var audioController = AudioController.Get();
-            
-            audioController.Play(audioController.destroyBlock, audioController.destroyBlockVolume,
-                hitPoint);
         }
 
         public override bool Continuous()
         {
-            return true;
+            return false;
         }
-        
+
         public override float MaxActivationDistance()
         {
-            return 60f;
+            return 1000f;
         }
     }
 }

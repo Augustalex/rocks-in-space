@@ -6,6 +6,8 @@ namespace Interactors
     {
         private const int DefaultModule = 0;
 
+        public InteractorModule defaultModule;
+
         public InteractorModule[] modules;
         private int _currentModule = DefaultModule;
         private AudioController _audioController;
@@ -75,27 +77,21 @@ namespace Interactors
                 var ray = _camera.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 
-                if (Physics.Raycast(ray, out hit, 60))
+                var interactorModule = CurrentModule();
+                if (Physics.Raycast(ray, out hit, interactorModule.MaxActivationDistance()))
                 {
                     var block = hit.collider.GetComponent<Block>();
                     if (block != null)
                     {
                         var planetResources = block.GetConnectedPlanet().GetResources();
-                        var interactorModule = CurrentModule();
                         if (interactorModule && interactorModule.CanBuild(block, planetResources))
                         {
-                            _audioController.Play(_audioController.destroyBlock, _audioController.destroyBlockVolume,
-                                block.transform.position);
-
                             interactorModule.Build(block, planetResources);
+                            interactorModule.OnBuilt(block.transform.position);
                         }
                         else
                         {
-                            if (!interactorModule.Continuous())
-                            {
-                                _audioController.Play(_audioController.cannotBuild, _audioController.cannotBuildVolume,
-                                    block.transform.position);
-                            }
+                            interactorModule.OnFailedToBuild(block.transform.position);
                         }
                     }
 
