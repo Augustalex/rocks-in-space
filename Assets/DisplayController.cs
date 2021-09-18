@@ -14,12 +14,14 @@ public class DisplayController : MonoBehaviour
     private PlanetNameInstructionsDisplay _planetNameInstructionsDisplay;
     private ResourceDisplay _resourcesDisplay;
     private IEnumerable<GameObject> _miscHidable;
-
+    private ModalController _modalController;
+    
     public enum InputMode
     {
         Renaming,
         Static,
-        Cinematic
+        Cinematic,
+        Modal
     }
 
     public InputMode inputMode = InputMode.Cinematic;
@@ -40,13 +42,21 @@ public class DisplayController : MonoBehaviour
         _planetNameInstructionsDisplay = FindObjectOfType<PlanetNameInstructionsDisplay>();
         _resourcesDisplay = FindObjectOfType<ResourceDisplay>();
         _miscHidable = FindObjectsOfType<Hidable>().Select(h => h.gameObject);
+        
+        _modalController = FindObjectOfType<ModalController>();
     }
 
     private void Update()
     {
+        // if (_modalController.On()) SetInputModeModal();
+        
         if (inputMode == InputMode.Cinematic)
         {
             CinematicModeUpdate();
+        }
+        else if (inputMode == InputMode.Modal)
+        {
+            ModalModeUpdate();
         }
         else
         {
@@ -61,6 +71,16 @@ public class DisplayController : MonoBehaviour
 
             AuxiliaryDisplaysUpdate();
         }
+    }
+
+    private void SetInputModeModal()
+    {
+        inputMode = InputMode.Modal;
+    }
+
+    private void ModalModeUpdate()
+    {
+        _modalController.ModalUpdate();
     }
 
     private void AuxiliaryDisplaysUpdate()

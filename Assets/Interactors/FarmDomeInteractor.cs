@@ -49,5 +49,15 @@ namespace Interactors
         {
             return 60f;
         }
+
+        public override bool Hoverable()
+        {
+            return false;
+        }
+
+        public override void Hover(RaycastHit hit)
+        {
+            
+        }
     }
 }

@@ -40,8 +40,6 @@ namespace Interactors
                 hitPoint);
         }
 
-
-
         public override bool Continuous()
         {
             return false;
@@ -50,6 +48,16 @@ namespace Interactors
         public override float MaxActivationDistance()
         {
             return 60f;
+        }
+
+        public override bool Hoverable()
+        {
+            return false;
+        }
+
+        public override void Hover(RaycastHit hit)
+        {
+            
         }
     }
 }

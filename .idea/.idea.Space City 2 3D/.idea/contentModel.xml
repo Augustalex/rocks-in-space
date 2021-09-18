@@ -18,6 +18,8 @@
         <e p="FarmController.cs" t="Include" />
         <e p="Flashlight.cs" t="Include" />
         <e p="Hidable.cs" t="Include" />
+        <e p="InfoPane.cs" t="Include" />
+        <e p="InfoPaneController.cs" t="Include" />
         <e p="InteractorDisplay.cs" t="Include" />
         <e p="Interactors" t="Include">
           <e p="DigInteractor.cs" t="Include" />
@@ -37,6 +39,9 @@
         <e p="LightsOn.cs" t="Include" />
         <e p="Meteor.cs" t="Include" />
         <e p="MeteorGenerator.cs" t="Include" />
+        <e p="ModalController.cs" t="Include" />
+        <e p="ModalFabricator.cs" t="Include" />
+        <e p="ModalSystem.cs" t="Include" />
         <e p="ModuleController.cs" t="Include" />
         <e p="OreController.cs" t="Include" />
         <e p="OreVein.cs" t="Include" />

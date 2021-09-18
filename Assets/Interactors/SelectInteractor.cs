@@ -7,6 +7,25 @@ namespace Interactors
     {
         [NonSerialized]
         private GameObject _lastCenteredPlanet;
+
+        private static SelectInteractor _instance;
+
+        public event Action<RaycastHit> OnHover;
+
+        public static SelectInteractor Get()
+        {
+            if (!_instance)
+            {
+                _instance = FindObjectOfType<SelectInteractor>();
+            }
+
+            return _instance;
+        }
+
+        public GameObject GetLastCenteredPlanet()
+        {
+            return _lastCenteredPlanet;
+        }
         
         public override string GetInteractorName()
         {
@@ -41,6 +60,16 @@ namespace Interactors
         public override bool Continuous()
         {
             return false;
+        }
+
+        public override bool Hoverable()
+        {
+            return true;
+        }
+
+        public override void Hover(RaycastHit hit)
+        {
+            OnHover?.Invoke(hit);
         }
 
         public override float MaxActivationDistance()

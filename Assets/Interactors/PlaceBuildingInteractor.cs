@@ -5,14 +5,17 @@ namespace Interactors
     public class PlaceBuildingInteractor : MonoBehaviour
     {
         private const int DefaultModule = -1;
-
-        public InteractorModule defaultModule;
-
-        public InteractorModule[] modules;
+        
+        public GameObject defaultModuleContainer;
+        public GameObject interactorsContainer;
+        
+        private InteractorModule _defaultModule;
+        private InteractorModule[] _modules;
         private int _currentModule = DefaultModule;
         private Camera _camera;
 
-        private readonly KeyCode[] _selectKeys = {
+        private readonly KeyCode[] _selectKeys =
+        {
             KeyCode.Alpha1,
             KeyCode.Alpha2,
             KeyCode.Alpha3,
@@ -29,6 +32,17 @@ namespace Interactors
         private void Awake()
         {
             _instance = this;
+
+            _defaultModule = defaultModuleContainer.GetComponent<InteractorModule>();
+            _modules = new InteractorModule[]
+            {
+                interactorsContainer.GetComponent<DigInteractor>(),
+                interactorsContainer.GetComponent<RefineryInteractor>(),
+                interactorsContainer.GetComponent<FactoryInteractor>(),
+                interactorsContainer.GetComponent<PowerPlantInteractor>(),
+                interactorsContainer.GetComponent<FarmDomeInteractor>(),
+                interactorsContainer.GetComponent<DigInteractor>()
+            };
         }
 
         public static PlaceBuildingInteractor Get()
@@ -51,11 +65,28 @@ namespace Interactors
             {
                 for (var i = 0; i < _selectKeys.Length; i++)
                 {
-                    if (Input.GetKeyDown(_selectKeys[i]) && modules.Length > i)
+                    if (Input.GetKeyDown(_selectKeys[i]) && _modules.Length > i)
                     {
                         _currentModule = i;
                     }
                 }
+            }
+
+            if (CurrentModule().Hoverable())
+            {
+                RayCastToHover();
+            }
+        }
+
+        private void RayCastToHover()
+        {
+            var ray = _camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            var interactorModule = CurrentModule();
+            if (Physics.Raycast(ray, out hit, interactorModule.MaxActivationDistance()))
+            {
+                interactorModule.Hover(hit);
             }
         }
 
@@ -101,11 +132,11 @@ namespace Interactors
         {
             if (_currentModule == DefaultModule)
             {
-                return defaultModule;
+                return _defaultModule;
             }
-            else if (_currentModule >= 0 && _currentModule < modules.Length)
+            else if (_currentModule >= 0 && _currentModule < _modules.Length)
             {
-                return modules[_currentModule];
+                return _modules[_currentModule];
             }
             else
             {

@@ -17,5 +17,9 @@ namespace Interactors
         public abstract void OnBuilt(Vector3 hitPoint);
 
         public abstract bool Continuous();
+
+        public abstract bool Hoverable();
+
+        public abstract void Hover(RaycastHit hit);
     }
 }
