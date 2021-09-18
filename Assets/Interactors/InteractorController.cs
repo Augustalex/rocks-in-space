@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 namespace Interactors
 {
@@ -41,7 +42,8 @@ namespace Interactors
                 interactorsContainer.GetComponent<FactoryInteractor>(),
                 interactorsContainer.GetComponent<PowerPlantInteractor>(),
                 interactorsContainer.GetComponent<FarmDomeInteractor>(),
-                interactorsContainer.GetComponent<DigInteractor>()
+                interactorsContainer.GetComponent<ResidencyInteractor>(),
+                interactorsContainer.GetComponent<PortInteractor>(),
             };
         }
 
