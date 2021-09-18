@@ -26,7 +26,6 @@ public class InfoPaneController : MonoBehaviour
     private void SelectHover(RaycastHit hit)
     {
         var block = hit.collider.GetComponent<Block>();
-        Debug.Log(block);
         if (block != null)
         {
             var planet = block.GetConnectedPlanet();

@@ -130,14 +130,8 @@ public class TinyPlanetGenerator : MonoBehaviour
             var clearDirections = directions.Count(directionals =>
                 Physics.RaycastAll(position, directionals[0], 5f).Length == 0 &&
                 Physics.RaycastAll(position, directionals[1], 5f).Length == 0) > 1;
-            if (!clearDirections)
+            if (clearDirections)
             {
-                Debug.Log("NO CLEAR DIRECTIONALS!");
-            }
-            else
-            {
-                Debug.Log("LOOKING FOR DISLODGED NETWORKS!");
-
                 var hits = Physics.OverlapSphere(position, TinyPlanetNetworkHelper.NetworkDislodgeActivationDistance);
                 if (hits.Length > 0)
                 {
@@ -165,7 +159,7 @@ public class TinyPlanetGenerator : MonoBehaviour
                             // planet.CheckDislodgement(block.GetRoot());
                         }
                     }
-                }   
+                }
             }
         }
     }

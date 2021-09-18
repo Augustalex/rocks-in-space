@@ -54,7 +54,6 @@ public class OreController : MonoBehaviour
             if (Random.value < .2)
             {
                 SetupOre();
-                Debug.Log("SETUP ORE");
             }
         }
         else if (Random.value < .0001)
