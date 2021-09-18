@@ -2,7 +2,7 @@
 
 namespace Interactors
 {
-    public class PlaceBuildingInteractor : MonoBehaviour
+    public class InteractorController : MonoBehaviour
     {
         private const int DefaultModule = -1;
         
@@ -27,7 +27,7 @@ namespace Interactors
             KeyCode.Alpha9,
         };
 
-        private static PlaceBuildingInteractor _instance;
+        private static InteractorController _instance;
 
         private void Awake()
         {
@@ -45,7 +45,7 @@ namespace Interactors
             };
         }
 
-        public static PlaceBuildingInteractor Get()
+        public static InteractorController Get()
         {
             return _instance;
         }

@@ -25,8 +25,8 @@
           <e p="DigInteractor.cs" t="Include" />
           <e p="FactoryInteractor.cs" t="Include" />
           <e p="FarmDomeInteractor.cs" t="Include" />
+          <e p="InteractorController.cs" t="Include" />
           <e p="InteractorModule.cs" t="Include" />
-          <e p="PlaceBuildingInteractor.cs" t="Include" />
           <e p="PortInteractor.cs" t="Include" />
           <e p="PowerPlantInteractor.cs" t="Include" />
           <e p="RefineryInteractor.cs" t="Include" />

@@ -8,15 +8,15 @@ using UnityEngine;
 public class Clicker : MonoBehaviour
 {
     private Vector3 _point;
-    private PlaceBuildingInteractor _interactor;
+    private InteractorController _interactorController;
 
     void Start()
     {
-        _interactor = GetComponent<PlaceBuildingInteractor>();
+        _interactorController = GetComponent<InteractorController>();
     }
 
     void Update()
     {
-        _interactor.Interact();
+        _interactorController.Interact();
     }
 }
