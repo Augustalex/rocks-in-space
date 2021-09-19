@@ -10,6 +10,15 @@
         <e p="AudioController.cs" t="Include" />
         <e p="BackgroundMusic.cs" t="Include" />
         <e p="Block.cs" t="Include" />
+        <e p="Buildings" t="Include">
+          <e p="Port" t="Include">
+            <e p="Menu" t="Include">
+              <e p="ExistingTradePrograms.cs" t="Include" />
+              <e p="PortMainMenu.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="ButtonMenuContainer.cs" t="Include" />
         <e p="CameraController.cs" t="Include" />
         <e p="CameraFollowShip.cs" t="Include" />
         <e p="Clicker.cs" t="Include" />
@@ -31,12 +40,19 @@
           <e p="PowerPlantInteractor.cs" t="Include" />
           <e p="RefineryInteractor.cs" t="Include" />
           <e p="ResidencyInteractor.cs" t="Include" />
+          <e p="Selectable" t="Include">
+            <e p="PortSelectable.cs" t="Include" />
+            <e p="Selectable.cs" t="Include" />
+          </e>
           <e p="SelectInteractor.cs" t="Include" />
         </e>
         <e p="LaserBeam.cs" t="Include" />
         <e p="LaserController.cs" t="Include" />
         <e p="LightsOff.cs" t="Include" />
         <e p="LightsOn.cs" t="Include" />
+        <e p="Menus" t="Include">
+          <e p="MenuScene.cs" t="Include" />
+        </e>
         <e p="Meteor.cs" t="Include" />
         <e p="MeteorGenerator.cs" t="Include" />
         <e p="ModalController.cs" t="Include" />
@@ -113,6 +129,7 @@
         <e p="TinyPlanetGeneratorHelper.cs" t="Include" />
         <e p="TinyPlanetNetworkHelper.cs" t="Include" />
         <e p="TinyPlanetResources.cs" t="Include" />
+        <e p="TinyPlanetTrade.cs" t="Include" />
         <e p="Trees" t="Include">
           <e p="README.txt" t="Include" />
         </e>

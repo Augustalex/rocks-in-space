@@ -14,7 +14,6 @@ public class DisplayController : MonoBehaviour
     private PlanetNameInstructionsDisplay _planetNameInstructionsDisplay;
     private ResourceDisplay _resourcesDisplay;
     private IEnumerable<GameObject> _miscHidable;
-    private ModalController _modalController;
     
     public enum InputMode
     {
@@ -42,14 +41,10 @@ public class DisplayController : MonoBehaviour
         _planetNameInstructionsDisplay = FindObjectOfType<PlanetNameInstructionsDisplay>();
         _resourcesDisplay = FindObjectOfType<ResourceDisplay>();
         _miscHidable = FindObjectsOfType<Hidable>().Select(h => h.gameObject);
-        
-        _modalController = FindObjectOfType<ModalController>();
     }
 
     private void Update()
     {
-        // if (_modalController.On()) SetInputModeModal();
-        
         if (inputMode == InputMode.Cinematic)
         {
             CinematicModeUpdate();
@@ -71,16 +66,6 @@ public class DisplayController : MonoBehaviour
 
             AuxiliaryDisplaysUpdate();
         }
-    }
-
-    private void SetInputModeModal()
-    {
-        inputMode = InputMode.Modal;
-    }
-
-    private void ModalModeUpdate()
-    {
-        _modalController.ModalUpdate();
     }
 
     private void AuxiliaryDisplaysUpdate()
@@ -183,10 +168,31 @@ public class DisplayController : MonoBehaviour
         }
     }
 
+    private void ModalModeUpdate()
+    {
+        _planetNameDisplay.hidden = true;
+        _planetNameInstructionsDisplay.hidden = true;
+        _resourcesDisplay.Hidden();
+        foreach (var hidable in _miscHidable)
+        {
+            hidable.SetActive(false);
+        }
+    }
+
     public void SetPlanetInFocus(TinyPlanet planet)
     {
         _currentPlanet = planet;
         _planetNameDisplay.text = planet.planetName;
+    }
+
+    public void SetToModalMode()
+    {
+        inputMode = InputMode.Modal;
+    }
+
+    public void ExistModalMode()
+    {
+        inputMode = InputMode.Static;
     }
 
     public void SetToCinematicMode()

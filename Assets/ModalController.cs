@@ -1,27 +1,28 @@
 ﻿using System;
+using Interactors.Selectable;
+using Menus;
 using TMPro;
 using UnityEngine;
 
 public class ModalController : MonoBehaviour
 {
+    public TMP_Text header;
 
-    private bool _on;
+    public MenuScene startingMenuScene;
 
-    public bool On()
+    public void Close()
     {
-        return _on;
+        DisplayController.Get().ExistModalMode();
+        Clicker.Get().Enable();
+     
+        Destroy(gameObject);
     }
 
-    private void Update()
+    public void Show(Block blockWithPort)
     {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            _on = true;
-        }
-    }
-
-    public void ModalUpdate()
-    {
+        DisplayController.Get().SetToModalMode();
+        Clicker.Get().Disable();
         
+        startingMenuScene.OnShow(blockWithPort);
     }
 }

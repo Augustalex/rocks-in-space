@@ -4,6 +4,31 @@ using UnityEngine;
 
 public class TinyPlanetResources : MonoBehaviour
 {
+    public enum PlanetResourceType
+    {
+        Ore,
+        Metals,
+        Gadgets,
+        Energy,
+        Food,
+        Inhabitants
+    }
+
+    public static string ResourceName(PlanetResourceType resourceType)
+    {
+        switch (resourceType)
+        {
+            case PlanetResourceType.Ore: return "Ore";
+            case PlanetResourceType.Metals: return "Metals";
+            case PlanetResourceType.Gadgets: return "Gadgets";
+            case PlanetResourceType.Energy: return "Energy";
+            case PlanetResourceType.Food: return "Food";
+            case PlanetResourceType.Inhabitants: return "Inhabitants";
+        }
+
+        return "Unknown resource";
+    }
+    
     private static int _ore = 0;
     private static int _metals = 0;
     private static int _gadgets = 0;

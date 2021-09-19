@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Interactors
@@ -36,17 +37,32 @@ namespace Interactors
         {
             var cameraController = CameraController.Get();
             var blocksPlanet = block.GetConnectedPlanet().gameObject;
-            
-            return cameraController.AvailableToUpdate() 
-                   && _lastCenteredPlanet != blocksPlanet
-                   && !block.IsSeeded();
+
+            if (_lastCenteredPlanet != blocksPlanet)
+            {
+                return cameraController.AvailableToUpdate() 
+                    && !block.IsSeeded();
+            }
+            else
+            {
+                return block.GetRoot().GetComponentInChildren<Selectable.Selectable>();
+            } 
         }
 
         public override void Build(Block block, TinyPlanetResources resources)
         {
-            _lastCenteredPlanet = block.GetConnectedPlanet().gameObject;
-            
-            CameraController.Get().FocusOnPlanet(block);
+            var cameraController = CameraController.Get();
+            var blocksPlanet = block.GetConnectedPlanet().gameObject;
+
+            if (_lastCenteredPlanet != blocksPlanet)
+            {
+                _lastCenteredPlanet = block.GetConnectedPlanet().gameObject;
+                cameraController.FocusOnPlanet(block);
+            }
+            else
+            {
+                block.GetRoot().GetComponentInChildren<Selectable.Selectable>().Select();
+            }
         }
 
         public override void OnFailedToBuild(Vector3 hitPoint)
