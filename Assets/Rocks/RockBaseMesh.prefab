@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4248416158679033716}
   - component: {fileID: 2599705859523144457}
   - component: {fileID: 4400065625658592447}
+  - component: {fileID: 4393262045535175586}
   m_Layer: 6
   m_Name: RockBaseMesh
   m_TagString: Untagged
@@ -93,5 +94,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 061f996046131f447a343234f6a3acea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4393262045535175586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2251497726763565268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23a78c611a2b42bc86b38c581cd288d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

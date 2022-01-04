@@ -1,4 +1,5 @@
-﻿using Unity.VisualScripting;
+﻿using Interactors.Digging;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Interactors
@@ -123,7 +124,7 @@ namespace Interactors
                         if (block != null)
                         {
                             var planetResources = block.GetConnectedPlanet().GetResources();
-                            if (interactorModule && interactorModule.CanBuild(block, planetResources))
+                            if (interactorModule && interactorModule.CanBuild(block))
                             {
                                 interactorModule.Build(block, planetResources);
                                 interactorModule.OnBuilt(block.transform.position);
@@ -142,16 +143,17 @@ namespace Interactors
 
         private void HandleDigInteractions(DigInteractor interactorModule, RaycastHit hit)
         {
-            var block = hit.collider.GetComponent<Block>();
-            if (block != null)
+            var laserableEntity = hit.collider.GetComponent<ILaserInteractable>();
+            if (laserableEntity != null)
             {
-                var planetResources = block.GetConnectedPlanet().GetResources();
-                
-                if (interactorModule && interactorModule.CanBuild(block, planetResources))
+                if (interactorModule)
                 {
-                    if (!interactorModule.Started())
+                    if (interactorModule.CanPerformInteraction(laserableEntity))
                     {
-                        interactorModule.StartInteraction(block);
+                        if (!interactorModule.Started())
+                        {
+                            interactorModule.StartInteraction(laserableEntity);
+                        }
                     }
                 }
                 else

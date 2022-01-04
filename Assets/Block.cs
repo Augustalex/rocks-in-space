@@ -1,7 +1,8 @@
-﻿using Unity.VisualScripting;
+﻿using Interactors.Digging;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Block : MonoBehaviour
+public class Block : MonoBehaviour, ILaserInteractable
 {
     private bool _seeded;
 
@@ -60,8 +61,23 @@ public class Block : MonoBehaviour
         return _seeded;
     }
 
-    public RockMesh GetMesh()
+    public void LaserInteract()
     {
-        return transform.parent.GetComponentInChildren<RockMesh>();
+        Dig();
+    }
+
+    public bool CanInteract()
+    {
+        return gameObject != null && !IsSeeded();
+    }
+
+    public float DisintegrationTime()
+    {
+        return 2.2f;
+    }
+
+    public EntityOven GetOven()
+    {
+        return transform.parent.GetComponentInChildren<EntityOven>();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Interactors.Digging;
 using UnityEngine;
 
 namespace Interactors
@@ -14,8 +15,8 @@ namespace Interactors
 
         private bool _started;
         private float _startedAt;
-        private float _actionLength = 3f;
-        private Block _activeTargetBlock;
+        private float _miningSpeedFactor = 1f;
+        private ILaserInteractable _activeTargetEntity;
         private Camera _camera;
         private Vector3 _targetPosition;
 
@@ -31,39 +32,53 @@ namespace Interactors
 
         public bool Started()
         {
-            return _started;
+            return _started && _activeTargetEntity != null;
         }
 
-        public void StartInteraction(Block block)
+        public void StartInteraction(ILaserInteractable targetEntity)
         {
+            Debug.Log("START: " + targetEntity + ".");
             _started = true;
             _startedAt = Time.time;
 
-            _activeTargetBlock = block;
+            _activeTargetEntity = targetEntity;
         }
 
         public void StopInteraction()
         {
             _started = false;
+            _lastDig = Time.time;
 
-            if (_activeTargetBlock)
+            try
             {
-                _activeTargetBlock.GetMesh().ResetHeat();
-                _activeTargetBlock = null;
+                if (_activeTargetEntity != null && _activeTargetEntity.CanInteract())
+                {
+                    _activeTargetEntity.GetOven().ResetHeat();
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+            finally
+            {
+                _activeTargetEntity = null;
             }
         }
 
         public bool FinishedInteraction()
         {
-            if (!_started) return false;
+            return !_started || (_started && Time.time - _startedAt > ActionLength());
+        }
 
-            return Time.time - _startedAt > _actionLength;
+        private float ActionLength()
+        {
+            return _activeTargetEntity.DisintegrationTime() * _miningSpeedFactor;
         }
 
         public void FinishInteraction()
         {
-            _activeTargetBlock.Dig();
-
+            _activeTargetEntity.LaserInteract();
             StopInteraction();
         }
 
@@ -75,18 +90,23 @@ namespace Interactors
                 {
                     FinishInteraction();
                 }
-
-                if (!laserEffect.IsActivated())
+                else
                 {
-                    laserEffect.Activate();
-                }
+                    if (!laserEffect.IsActivated())
+                    {
+                        laserEffect.Activate();
+                    }
 
-                laserEffect.SetTarget(_targetPosition);
-                if (_activeTargetBlock)
-                {
-                    var interactionDuration = Time.time - _startedAt;
-                    var completionFactor = interactionDuration / _actionLength;
-                    _activeTargetBlock.GetMesh().SetHeat(completionFactor);
+                    laserEffect.SetTarget(_targetPosition);
+                    if (_activeTargetEntity != null)
+                    {
+                        if (_activeTargetEntity.CanInteract())
+                        {
+                            var interactionDuration = Time.time - _startedAt;
+                            var completionFactor = interactionDuration / ActionLength();
+                            _activeTargetEntity.GetOven().SetHeat(completionFactor);
+                        }
+                    }
                 }
             }
             else
@@ -108,8 +128,8 @@ namespace Interactors
 
             if (Physics.Raycast(ray, out hit, MaxActivationDistance()))
             {
-                var block = hit.collider.GetComponent<Block>();
-                if (block != _activeTargetBlock)
+                var laserableEntity = hit.collider.GetComponent<ILaserInteractable>();
+                if (_started && laserableEntity != _activeTargetEntity)
                 {
                     StopInteraction();
                 }
@@ -118,11 +138,16 @@ namespace Interactors
             }
         }
 
-        public override bool CanBuild(Block block, TinyPlanetResources resources)
+        public override bool CanBuild(Block block) // NOT USED, TODO: REMOVE
+        {
+            return false;
+        }
+
+        public bool CanPerformInteraction(ILaserInteractable laserableEntity)
         {
             var time = Time.time;
             var timeSinceLastBuilt = time - _lastDig;
-            return timeSinceLastBuilt > Cooldown && !block.IsSeeded();
+            return timeSinceLastBuilt > Cooldown && laserableEntity.CanInteract();
         }
 
         public override void Build(Block block, TinyPlanetResources resources)

@@ -33,7 +33,7 @@ namespace Interactors
             return "Select";
         }
 
-        public override bool CanBuild(Block block, TinyPlanetResources resources)
+        public override bool CanBuild(Block block)
         {
             var cameraController = CameraController.Get();
             var blocksPlanet = block.GetConnectedPlanet().gameObject;

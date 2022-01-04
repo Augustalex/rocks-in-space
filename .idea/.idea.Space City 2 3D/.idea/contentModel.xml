@@ -32,6 +32,11 @@
         <e p="InfoPaneController.cs" t="Include" />
         <e p="InteractorDisplay.cs" t="Include" />
         <e p="Interactors" t="Include">
+          <e p="Digging" t="Include">
+            <e p="EntityOven.cs" t="Include" />
+            <e p="HeatableEntity.cs" t="Include" />
+            <e p="LaserInteractable.cs" t="Include" />
+          </e>
           <e p="DigInteractor.cs" t="Include" />
           <e p="InteractorController.cs" t="Include" />
           <e p="InteractorModule.cs" t="Include" />
@@ -90,6 +95,7 @@
         <e p="ShipController.cs" t="Include" />
         <e p="Spacer.cs" t="Include" />
         <e p="SpacerExpressionAnimator.cs" t="Include" />
+        <e p="SpacerOven.cs" t="Include" />
         <e p="SpacerSpawner.cs" t="Include" />
         <e p="Test_ChangeParent.cs" t="Include" />
         <e p="TextMesh Pro" t="Include">

@@ -1,7 +1,8 @@
+using Interactors.Digging;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Spacer : MonoBehaviour
+public class Spacer : MonoBehaviour, ILaserInteractable
 {
     private Camera _camera;
     private Animator _animator;
@@ -35,5 +36,25 @@ public class Spacer : MonoBehaviour
     {
         _spinning = true;
         GetComponent<Rigidbody>().AddForce(Random.insideUnitSphere * .9f, ForceMode.Impulse);
+    }
+
+    public void LaserInteract()
+    {
+        Destroy(gameObject);
+    }
+
+    public bool CanInteract()
+    {
+        return gameObject != null;
+    }
+
+    public float DisintegrationTime()
+    {
+        return .5f;
+    }
+
+    public EntityOven GetOven()
+    {
+        return GetComponentInChildren<EntityOven>();
     }
 }
