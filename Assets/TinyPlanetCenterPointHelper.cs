@@ -8,7 +8,7 @@ public static class TinyPlanetCenterPointHelper
     public static Vector3 CalculateCenter(List<GameObject> network)
     {
         var centroid = Vector3.zero;
-        var points = network.Select(item => item.transform.position).ToArray();
+        var points = network.Where(item => item != null).Select(item => item.transform.position).ToArray();
         foreach (var vector in points)
         {
             centroid = centroid + vector;

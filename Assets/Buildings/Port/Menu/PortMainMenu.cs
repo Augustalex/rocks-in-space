@@ -15,9 +15,9 @@ namespace Buildings.Port.Menu
 
             var buttonContainer = GetComponentInChildren<ButtonMenuContainer>();
             
-            buttonContainer.SetChildren();
-
-            tradeList.GetComponent<MenuScene>()
+            // buttonContainer.SetChildren();
+            //
+            // tradeList.GetComponent<MenuScene>()
             
             header.text = "Port of " + planet.planetName;
         }

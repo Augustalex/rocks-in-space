@@ -54,4 +54,9 @@ public class TinyPlanet : MonoBehaviour
     {
         return GetComponent<TinyPlanetResources>();
     }
+
+    public Vector3 GetCenter()
+    {
+        return TinyPlanetCenterPointHelper.CalculateCenter(network);
+    }
 }
