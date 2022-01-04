@@ -6,10 +6,10 @@ namespace Interactors
     public class InteractorController : MonoBehaviour
     {
         private const int DefaultModule = -1;
-        
+
         public GameObject defaultModuleContainer;
         public GameObject interactorsContainer;
-        
+
         private InteractorModule _defaultModule;
         private InteractorModule[] _modules;
         private int _currentModule = DefaultModule;
@@ -18,14 +18,14 @@ namespace Interactors
         private readonly KeyCode[] _selectKeys =
         {
             KeyCode.Alpha1,
-            KeyCode.Alpha2,
-            KeyCode.Alpha3,
-            KeyCode.Alpha4,
-            KeyCode.Alpha5,
-            KeyCode.Alpha6,
-            KeyCode.Alpha7,
-            KeyCode.Alpha8,
-            KeyCode.Alpha9,
+            // KeyCode.Alpha2,
+            // KeyCode.Alpha3,
+            // KeyCode.Alpha4,
+            // KeyCode.Alpha5,
+            // KeyCode.Alpha6,
+            // KeyCode.Alpha7,
+            // KeyCode.Alpha8,
+            // KeyCode.Alpha9,
         };
 
         private static InteractorController _instance;
@@ -37,13 +37,7 @@ namespace Interactors
             _defaultModule = defaultModuleContainer.GetComponent<InteractorModule>();
             _modules = new InteractorModule[]
             {
-                interactorsContainer.GetComponent<DigInteractor>(),
-                interactorsContainer.GetComponent<RefineryInteractor>(),
-                interactorsContainer.GetComponent<FactoryInteractor>(),
-                interactorsContainer.GetComponent<PowerPlantInteractor>(),
-                interactorsContainer.GetComponent<FarmDomeInteractor>(),
-                interactorsContainer.GetComponent<ResidencyInteractor>(),
-                interactorsContainer.GetComponent<PortInteractor>(),
+                interactorsContainer.GetComponent<DigInteractor>()
             };
         }
 
@@ -98,6 +92,15 @@ namespace Interactors
             {
                 RayCastToBuild();
             }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                var interactorModule = CurrentModule();
+                if (interactorModule is DigInteractor digInteractor)
+                {
+                    digInteractor.StopInteraction();
+                }
+            }
         }
 
         private void RayCastToBuild()
@@ -110,22 +113,50 @@ namespace Interactors
                 var interactorModule = CurrentModule();
                 if (Physics.Raycast(ray, out hit, interactorModule.MaxActivationDistance()))
                 {
-                    var block = hit.collider.GetComponent<Block>();
-                    if (block != null)
+                    if (interactorModule is DigInteractor digInteractor)
                     {
-                        var planetResources = block.GetConnectedPlanet().GetResources();
-                        if (interactorModule && interactorModule.CanBuild(block, planetResources))
+                        HandleDigInteractions(digInteractor, hit);
+                    }
+                    else
+                    {
+                        var block = hit.collider.GetComponent<Block>();
+                        if (block != null)
                         {
-                            interactorModule.Build(block, planetResources);
-                            interactorModule.OnBuilt(block.transform.position);
-                        }
-                        else
-                        {
-                            interactorModule.OnFailedToBuild(block.transform.position);
+                            var planetResources = block.GetConnectedPlanet().GetResources();
+                            if (interactorModule && interactorModule.CanBuild(block, planetResources))
+                            {
+                                interactorModule.Build(block, planetResources);
+                                interactorModule.OnBuilt(block.transform.position);
+                            }
+                            else
+                            {
+                                interactorModule.OnFailedToBuild(block.transform.position);
+                            }
                         }
                     }
 
                     return;
+                }
+            }
+        }
+
+        private void HandleDigInteractions(DigInteractor interactorModule, RaycastHit hit)
+        {
+            var block = hit.collider.GetComponent<Block>();
+            if (block != null)
+            {
+                var planetResources = block.GetConnectedPlanet().GetResources();
+                
+                if (interactorModule && interactorModule.CanBuild(block, planetResources))
+                {
+                    if (!interactorModule.Started())
+                    {
+                        interactorModule.StartInteraction(block);
+                    }
+                }
+                else
+                {
+                    // interactorModule.OnFailedToBuild(block.transform.position);
                 }
             }
         }

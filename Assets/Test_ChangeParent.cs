@@ -17,7 +17,6 @@ public class Test_ChangeParent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("UPDATE");
         if (Input.GetKeyDown(KeyCode.Return))
         {
                 Debug.Log("CURRENT STEP: " + _step);

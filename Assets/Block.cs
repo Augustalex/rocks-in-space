@@ -59,4 +59,9 @@ public class Block : MonoBehaviour
     {
         return _seeded;
     }
+
+    public RockMesh GetMesh()
+    {
+        return transform.parent.GetComponentInChildren<RockMesh>();
+    }
 }

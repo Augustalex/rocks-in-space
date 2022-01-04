@@ -21,6 +21,7 @@
         <e p="ButtonMenuContainer.cs" t="Include" />
         <e p="CameraController.cs" t="Include" />
         <e p="CameraFollowShip.cs" t="Include" />
+        <e p="CameraShake.cs" t="Include" />
         <e p="Clicker.cs" t="Include" />
         <e p="DisplayController.cs" t="Include" />
         <e p="FactoryController.cs" t="Include" />
@@ -32,14 +33,8 @@
         <e p="InteractorDisplay.cs" t="Include" />
         <e p="Interactors" t="Include">
           <e p="DigInteractor.cs" t="Include" />
-          <e p="FactoryInteractor.cs" t="Include" />
-          <e p="FarmDomeInteractor.cs" t="Include" />
           <e p="InteractorController.cs" t="Include" />
           <e p="InteractorModule.cs" t="Include" />
-          <e p="PortInteractor.cs" t="Include" />
-          <e p="PowerPlantInteractor.cs" t="Include" />
-          <e p="RefineryInteractor.cs" t="Include" />
-          <e p="ResidencyInteractor.cs" t="Include" />
           <e p="Selectable" t="Include">
             <e p="PortSelectable.cs" t="Include" />
             <e p="Selectable.cs" t="Include" />
@@ -50,6 +45,7 @@
         <e p="LargePlanetGeneratorHelper.cs" t="Include" />
         <e p="LaserBeam.cs" t="Include" />
         <e p="LaserController.cs" t="Include" />
+        <e p="LaserEffect.cs" t="Include" />
         <e p="LightsOff.cs" t="Include" />
         <e p="LightsOn.cs" t="Include" />
         <e p="Menus" t="Include">

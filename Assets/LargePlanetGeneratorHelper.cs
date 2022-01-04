@@ -46,7 +46,6 @@ public class LargePlanetGeneratorHelper
             // if (_rocks.ContainsKey(newPosition)) continue;
 
             var distanceProb = Mathf.Clamp(Vector3.Distance(originPosition, newPosition) / 20f, 0.1f, 1f);
-            Debug.Log(distanceProb);
             if (distanceProb > .5f)
             {
                 OccupySpace(newPosition);

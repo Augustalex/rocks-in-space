@@ -165,7 +165,6 @@ public class SpacerExpressionAnimator : MonoBehaviour
     private void SetMaterial()
     {
         var state = _blinking ? SpacerExpressionAnimationState.Blink : _currentState;
-        Debug.Log("SET MATERIAL: " + state);
         var material = _renderer.materials[0];
         if (state == SpacerExpressionAnimationState.Blink)
         {
