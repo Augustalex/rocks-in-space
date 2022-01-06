@@ -37,7 +37,6 @@ namespace Interactors
 
         public void StartInteraction(ILaserInteractable targetEntity)
         {
-            Debug.Log("START: " + targetEntity + ".");
             _started = true;
             _startedAt = Time.time;
 

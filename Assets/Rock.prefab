@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   oreTemplate: {fileID: 1157895631769246542, guid: f1a31a3fed7b3ac469eb9e61e46dd2e1, type: 3}
+  floatingMineralsTemplate: {fileID: 7481693628340666195, guid: 886599e3481f6134d98adb0b6c83ebe1, type: 3}
 --- !u!1001 &3937169395215538907
 PrefabInstance:
   m_ObjectHideFlags: 0

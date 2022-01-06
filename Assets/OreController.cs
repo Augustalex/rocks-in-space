@@ -7,6 +7,7 @@ using UnityEngine;
 public class OreController : MonoBehaviour
 {
     public GameObject oreTemplate;
+    public GameObject floatingMineralsTemplate;
     private GameObject _ore;
 
     void Start()
@@ -72,10 +73,20 @@ public class OreController : MonoBehaviour
 
     public void Mine(TinyPlanet planet)
     {
-        var planetResources = planet.GetComponent<TinyPlanetResources>();
-        planetResources.SetOre(planetResources.GetOre() + 1000);
+        // var planetResources = planet.GetComponent<TinyPlanetResources>();
+        // planetResources.SetOre(planetResources.GetOre() + 1000);
         
         Destroy(_ore);
+
+        var floatingMinerals = Instantiate(floatingMineralsTemplate);
+        floatingMinerals.GetComponent<PlanetRelative>().tinyPlanet = planet;
+            
+        floatingMinerals.transform.position = transform.parent.position;
+        
+        var floatingMineralsRigidbody = floatingMinerals.GetComponent<Rigidbody>();
+        floatingMineralsRigidbody.AddForce(Random.insideUnitSphere.normalized * .0001f, ForceMode.Impulse);
+
+        planet.GetComponent<SpacersWorkRepository>().RegisterMineralToMine(floatingMinerals);
     }
 
     public bool HasOre()
