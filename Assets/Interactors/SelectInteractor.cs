@@ -13,6 +13,9 @@ namespace Interactors
         private CurrentPlanetController _currentPlanetController;
 
         public event Action<RaycastHit> OnHover;
+        public event Action<RaycastHit> OnClick;
+
+        public event Action<RaycastHit> OnContext;
 
         void Start()
         {
@@ -76,6 +79,12 @@ namespace Interactors
 
         public override void OnBuilt(Vector3 hitPoint)
         {
+            
+        }
+
+        public override void OnSecondaryInteract(Block block, RaycastHit hit)
+        {
+            
         }
 
         public override bool Continuous()

@@ -78,14 +78,14 @@ public class TinyPlanetGenerator : MonoBehaviour
             {
                 Debug.Log("Dislodging empty network??!");
             }
-            
+
             if (nonNetworkRocksCount > 0)
             {
                 var newPlanet = NewPlanet();
-                
+
                 var dislodgedPlanet = dislodgedNetworkCount > nonNetworkRocksCount ? currentPlanet : newPlanet;
                 var nonNetworkPlanet = dislodgedNetworkCount < nonNetworkRocksCount ? currentPlanet : newPlanet;
-                
+
                 nonNetworkPlanet.SetNetwork(nonNetworkRocks);
                 dislodgedPlanet.SetNetwork(dislodgedNetwork);
 
@@ -117,7 +117,7 @@ public class TinyPlanetGenerator : MonoBehaviour
             },
         };
         var distance = 5f;
-        
+
         destroyBlock.DestroySelf(); // WARNING: Note the circular dependency!
 
         StartCoroutine(
@@ -170,5 +170,15 @@ public class TinyPlanetGenerator : MonoBehaviour
         rock.transform.position = position;
 
         return rock;
+    }
+
+    public void CreateRockAndAttachToNearPlanet(Vector3 position)
+    {
+        var nearbyRock = Physics.OverlapSphere(position, 4).FirstOrDefault(collider => collider.GetComponent<Block>());
+        if (nearbyRock != null)
+        {
+            var rock = CreateRock(position);
+            nearbyRock.GetComponent<Block>().GetConnectedPlanet().AddToPlanet(rock);
+        }
     }
 }

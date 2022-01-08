@@ -16,6 +16,8 @@ namespace Interactors
 
         public abstract void OnBuilt(Vector3 hitPoint);
 
+        public abstract void OnSecondaryInteract(Block block, RaycastHit hit);
+
         public abstract bool Continuous();
 
         public abstract bool Hoverable();

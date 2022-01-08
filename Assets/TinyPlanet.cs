@@ -24,6 +24,12 @@ public class TinyPlanet : MonoBehaviour
         }
     }
 
+    public void AddToPlanet(GameObject block)
+    {
+        block.transform.SetParent(transform);
+        network.Add(block);
+    }
+
     public void CheckDislodgement(GameObject rock)
     {
         // var sampleNetwork = TinyPlanetNetworkHelper.GetNetworkFromRock(rock);

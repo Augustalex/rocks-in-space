@@ -84,7 +84,6 @@ public class SpacersWorkRepository : MonoBehaviour
 
     protected virtual void OnSpacersChanged()
     {
-        Debug.Log("SPACER COUNT CHANGE:"+ _registeredSpacers.Count);
         SpacersChanged?.Invoke(new SpacersInfo
         {
             count = _registeredSpacers.Count

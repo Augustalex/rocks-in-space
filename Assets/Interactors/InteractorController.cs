@@ -93,6 +93,10 @@ namespace Interactors
             {
                 RayCastToBuild();
             }
+            else if (Input.GetMouseButtonDown(1))
+            {
+                RayCastSecondaryAction();
+            }
 
             if (Input.GetMouseButtonUp(0))
             {
@@ -100,6 +104,26 @@ namespace Interactors
                 if (interactorModule is DigInteractor digInteractor)
                 {
                     digInteractor.StopInteraction();
+                }
+            }
+        }
+
+        private void RayCastSecondaryAction()
+        {
+            var ray = _camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            var interactorModule = CurrentModule();
+            if (Physics.Raycast(ray, out hit, interactorModule.MaxActivationDistance()))
+            {
+                if (!interactorModule) return;
+                var block = hit.collider.GetComponent<Block>();
+                if (block != null)
+                {
+                    if (interactorModule)
+                    {
+                        interactorModule.OnSecondaryInteract(block, hit);
+                    }
                 }
             }
         }

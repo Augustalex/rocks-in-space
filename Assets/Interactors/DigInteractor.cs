@@ -169,6 +169,12 @@ namespace Interactors
                 hitPoint);
         }
 
+        public override void OnSecondaryInteract(Block block, RaycastHit hit)
+        {
+            var newPosition = hit.normal * block.transform.localScale.x + block.transform.position;
+            TinyPlanetGenerator.Get().CreateRockAndAttachToNearPlanet(newPosition);
+        }
+
         public override bool Continuous()
         {
             return true;
