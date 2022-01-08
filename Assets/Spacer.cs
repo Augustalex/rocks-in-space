@@ -1,3 +1,4 @@
+using System;
 using Interactors.Digging;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -6,7 +7,8 @@ public class Spacer : MonoBehaviour, ILaserInteractable
 {
     private Camera _camera;
     private Animator _animator;
-
+    public event Action BeforeDeath;
+    
     void Start()
     {
         _camera = Camera.main;
@@ -28,6 +30,7 @@ public class Spacer : MonoBehaviour, ILaserInteractable
     
     public void LaserInteract()
     {
+        OnBeforeDeath();
         Destroy(gameObject);
     }
 
@@ -44,5 +47,10 @@ public class Spacer : MonoBehaviour, ILaserInteractable
     public EntityOven GetOven()
     {
         return GetComponentInChildren<EntityOven>();
+    }
+
+    protected virtual void OnBeforeDeath()
+    {
+        BeforeDeath?.Invoke();
     }
 }

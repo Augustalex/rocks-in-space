@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class SpacersWorkRepository : MonoBehaviour
     private List<SpacerMineralRelation> _mineralsBeingGatheredByWhatSpacer = new List<SpacerMineralRelation>();
     private readonly List<GameObject> _mineralsToGather = new List<GameObject>();
     private List<GameObject> _registeredSpacers = new List<GameObject>();
+
+    public event Action<SpacersInfo> SpacersChanged;
 
     void Update()
     {
@@ -53,8 +56,9 @@ public class SpacersWorkRepository : MonoBehaviour
                     mineralsToReassign.Add(spacerMineralRelation.mineral);
                 }
             }
-            
-            _mineralsBeingGatheredByWhatSpacer.RemoveAll(spacerMineralRelation => mineralsToReassign.Contains(spacerMineralRelation.mineral));
+
+            _mineralsBeingGatheredByWhatSpacer.RemoveAll(spacerMineralRelation =>
+                mineralsToReassign.Contains(spacerMineralRelation.mineral));
             _mineralsToGather.AddRange(mineralsToReassign);
         }
     }
@@ -62,11 +66,34 @@ public class SpacersWorkRepository : MonoBehaviour
     public void RegisterSpacer(GameObject spacer)
     {
         _registeredSpacers.Add(spacer);
+        OnSpacersChanged();
+    }
+
+    public void DeregisterSpacer(GameObject spacer)
+    {
+        _registeredSpacers.Remove(spacer);
+        _registeredSpacers = _registeredSpacers.Where(spacer => spacer != null).ToList();
+        
+        OnSpacersChanged();
     }
 
     public void RegisterMineralToMine(GameObject floatingMinerals)
     {
         _mineralsToGather.Add(floatingMinerals);
+    }
+
+    protected virtual void OnSpacersChanged()
+    {
+        Debug.Log("SPACER COUNT CHANGE:"+ _registeredSpacers.Count);
+        SpacersChanged?.Invoke(new SpacersInfo
+        {
+            count = _registeredSpacers.Count
+        });
+    }
+
+    public int GetSpacerCount()
+    {
+        return _registeredSpacers.Count;
     }
 }
 
@@ -84,4 +111,9 @@ public class SpacerMineralRelation
     {
         return mineral == null;
     }
+}
+
+public struct SpacersInfo
+{
+    public int count;
 }

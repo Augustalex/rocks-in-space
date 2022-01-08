@@ -75,6 +75,8 @@ public class SpacerSpawner : MonoBehaviour
         spacer.transform.position = spacerPosition;
 
         _workRepository.RegisterSpacer(spacer);
+        spacer.GetComponent<Spacer>().BeforeDeath += () => _workRepository.DeregisterSpacer(spacer);
+        
         // spacer.transform.position = center + new Vector3(
         //     Random.value < .5f ?  Random.Range(10, 15) : Random.Range(-10, -15),
         //     Random.value < .5f ?  Random.Range(10, 15) : Random.Range(-10, -15),

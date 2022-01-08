@@ -10,8 +10,14 @@ namespace Interactors
         private GameObject _lastCenteredPlanet;
 
         private static SelectInteractor _instance;
+        private CurrentPlanetController _currentPlanetController;
 
         public event Action<RaycastHit> OnHover;
+
+        void Start()
+        {
+            _currentPlanetController = CurrentPlanetController.Get();
+        }
 
         public static SelectInteractor Get()
         {
@@ -21,11 +27,6 @@ namespace Interactors
             }
 
             return _instance;
-        }
-
-        public GameObject GetLastCenteredPlanet()
-        {
-            return _lastCenteredPlanet;
         }
         
         public override string GetInteractorName()
@@ -56,8 +57,12 @@ namespace Interactors
 
             if (_lastCenteredPlanet != blocksPlanet)
             {
-                _lastCenteredPlanet = block.GetConnectedPlanet().gameObject;
-                cameraController.FocusOnPlanet(block);
+                var planetBlock = block.GetConnectedPlanet().gameObject;
+                var planet = planetBlock.GetComponent<TinyPlanet>();
+                _currentPlanetController.ChangePlanet(planet);
+                _lastCenteredPlanet = planet.gameObject;
+                
+                cameraController.FocusOnPlanet(planet);
             }
             else
             {
@@ -91,6 +96,11 @@ namespace Interactors
         public override float MaxActivationDistance()
         {
             return 1000f;
+        }
+
+        public void ForceSetLastConnectedPlanet(TinyPlanet startingPlanet)
+        {
+            _lastCenteredPlanet = startingPlanet.gameObject;
         }
     }
 }

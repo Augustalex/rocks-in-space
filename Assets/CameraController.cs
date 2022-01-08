@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Interactors;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -45,8 +46,12 @@ public class CameraController : MonoBehaviour
         {
             yield return new WaitForSeconds(.5f);
 
-            var block = FindObjectOfType<Block>();
-            FocusOnPlanetSlowly(block);
+            var startingPlanet = FindObjectOfType<Block>().GetConnectedPlanet();
+            
+            //Game start
+            CurrentPlanetController.Get().ChangePlanet(startingPlanet);
+            SelectInteractor.Get().ForceSetLastConnectedPlanet(startingPlanet); // TODO: Fix circular dependency on SelectInteractor
+            FocusOnPlanetSlowly(startingPlanet);
         }
     }
 
@@ -123,20 +128,19 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    private void FocusOnPlanetSlowly(Block block)
+    private void FocusOnPlanetSlowly(TinyPlanet planet)
     {
-        FocusOnPlanet(block);
+        FocusOnPlanet(planet);
         _displayController.SetToCinematicMode();
         _moveLength = cinematicOpening ? 10 : .1f; 
         _moveTime = _moveLength;
     }
 
-    public void FocusOnPlanet(Block block)
+    public void FocusOnPlanet(TinyPlanet planet)
     {
         _moving = true;
         _following = false;
 
-        var planet = block.GetConnectedPlanet();
         _displayController.SetPlanetInFocus(planet);
 
         var center = TinyPlanetCenterPointHelper.GetMostCentralBlock(planet.network);

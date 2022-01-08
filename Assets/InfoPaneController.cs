@@ -8,16 +8,15 @@ public class InfoPaneController : MonoBehaviour
     private GameObject _infoPaneRoot;
     private TinyPlanet _hovering;
     private float _cooldown;
-    private SelectInteractor _selectInteractor;
+    private CurrentPlanetController _currentPlanetController;
 
     void Start()
     {
-        _selectInteractor = SelectInteractor.Get();
-
         _infoPane = FindObjectOfType<InfoPane>();
         _infoPaneRoot = _infoPane.gameObject;
-
-        _selectInteractor.OnHover += SelectHover;
+        _currentPlanetController = CurrentPlanetController.Get();
+        
+        SelectInteractor.Get().OnHover += SelectHover;
 
         _infoPane.Hide();
         _infoPaneRoot.SetActive(false);
@@ -29,7 +28,7 @@ public class InfoPaneController : MonoBehaviour
         if (block != null)
         {
             var planet = block.GetConnectedPlanet();
-            if (_selectInteractor.GetLastCenteredPlanet() != planet.gameObject)
+            if (_currentPlanetController.CurrentPlanet() != planet)
             {
                 _infoPaneRoot.SetActive(true);
                 _infoPane.Show(planet.planetName);
