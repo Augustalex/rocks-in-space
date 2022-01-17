@@ -14,6 +14,8 @@ public class DisplayController : MonoBehaviour
     private PlanetNameInstructionsDisplay _planetNameInstructionsDisplay;
     private ResourceDisplay _resourcesDisplay;
     private IEnumerable<GameObject> _miscHidable;
+
+    public event Action<InputMode> ModeChange;
     
     public enum InputMode
     {
@@ -95,7 +97,7 @@ public class DisplayController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            inputMode = InputMode.Static;
+            OnModeChange(InputMode.Static);
 
             if (_newName == "")
             {
@@ -140,7 +142,7 @@ public class DisplayController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            inputMode = InputMode.Renaming;
+            OnModeChange(InputMode.Renaming);
 
             _oldName = _planetNameDisplay.text;
             _newName = "";
@@ -187,22 +189,22 @@ public class DisplayController : MonoBehaviour
 
     public void SetToModalMode()
     {
-        inputMode = InputMode.Modal;
+        OnModeChange(InputMode.Modal);
     }
 
     public void ExistModalMode()
     {
-        inputMode = InputMode.Static;
+        OnModeChange(InputMode.Static);
     }
 
     public void SetToCinematicMode()
     {
-        inputMode = InputMode.Cinematic;
+        OnModeChange(InputMode.Cinematic);
     }
 
     public void ExitCinematicMode()
     {
-        inputMode = InputMode.Static;
+        OnModeChange(InputMode.Static);
     }
 
     private readonly KeyCode[] _allowedKeys = new[]
@@ -250,4 +252,10 @@ public class DisplayController : MonoBehaviour
         [KeyCode.Alpha8] = "8",
         [KeyCode.Alpha9] = "9"
     };
+
+    protected virtual void OnModeChange(InputMode mode)
+    {
+        inputMode = mode;
+        ModeChange?.Invoke(mode);
+    }
 }

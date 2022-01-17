@@ -5,8 +5,9 @@ public class SpacerCountDisplay : MonoBehaviour
 {
     public GameObject spacerToken;
 
-    private List<GameObject> _spaceTokens = new();
-    
+    private List<GameObject> _spaceTokens = new List<GameObject>();
+    private bool _hidden;
+
     void Start()
     {
         DisplayCount(0);        
@@ -23,20 +24,30 @@ public class SpacerCountDisplay : MonoBehaviour
 
         var middle = Vector3.zero;
         var increment = 25f;
-        var start = middle - Vector3.right * ((spacerInfoCount / 2) * increment);
 
         for (int i = 0; i < spacerInfoCount; i++)
         {
+            
             var token = Instantiate(spacerToken);
             token.transform.SetParent(transform);
             
             var rectTransform = token.GetComponent<RectTransform>();
 
-            var offset = -Vector3.right * (increment) * spacerInfoCount / 2;
-
-            rectTransform.anchoredPosition = middle + Vector3.right * (i * increment) + offset;
+            var offset = -Vector3.right * ((increment) * (spacerInfoCount));
+            
+            rectTransform.anchoredPosition = middle + Vector3.right * (i * increment) + (offset * .5f);
             
             _spaceTokens.Add(token);
         }
+    }
+
+    public void Hide()
+    {
+        _hidden = true;
+    }
+
+    public void Show()
+    {
+        _hidden = false;
     }
 }

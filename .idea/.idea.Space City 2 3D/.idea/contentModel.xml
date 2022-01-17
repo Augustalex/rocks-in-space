@@ -23,11 +23,13 @@
         <e p="CameraFollowShip.cs" t="Include" />
         <e p="CameraShake.cs" t="Include" />
         <e p="Clicker.cs" t="Include" />
+        <e p="CurrentPlanetController.cs" t="Include" />
         <e p="DisplayController.cs" t="Include" />
         <e p="FactoryController.cs" t="Include" />
         <e p="FarmController.cs" t="Include" />
         <e p="Flashlight.cs" t="Include" />
         <e p="FloatingMineral.cs" t="Include" />
+        <e p="GameUIController.cs" t="Include" />
         <e p="Hidable.cs" t="Include" />
         <e p="InfoPane.cs" t="Include" />
         <e p="InfoPaneController.cs" t="Include" />
@@ -96,6 +98,7 @@
         <e p="RockMesh.cs" t="Include" />
         <e p="ShipController.cs" t="Include" />
         <e p="Spacer.cs" t="Include" />
+        <e p="SpacerCountDisplay.cs" t="Include" />
         <e p="SpacerExpressionAnimator.cs" t="Include" />
         <e p="SpacerNavigator.cs" t="Include" />
         <e p="SpacerOven.cs" t="Include" />
