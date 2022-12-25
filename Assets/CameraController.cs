@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour
     private Quaternion _startRotation;
     private float _moveTime;
     private DisplayController _displayController;
-    private float _moveLength = 0f;
+    private float _moveLength;
     private bool _moving;
     private Vector3 _lastPosition;
     private bool _following;
@@ -96,11 +96,10 @@ public class CameraController : MonoBehaviour
             }
             else if (_following && _focus)
             {
-                _camera.transform.position += _focus.position - _lastPosition;
-                _lastPosition = _focus.position;
+                var focusPosition = _focus.position;
+                _camera.transform.position += focusPosition - _lastPosition;
+                _lastPosition = focusPosition;
             }
-
-            // _camera.transform.LookAt(FocusPoint(), Vector3.up);
 
             if (Input.GetKey(KeyCode.A))
             {
@@ -124,11 +123,13 @@ public class CameraController : MonoBehaviour
             {
                 if (Input.GetKey(KeyCode.S))
                 {
-                    _camera.transform.position += _camera.transform.forward * -10f * Time.deltaTime;
+                    var cameraTransform = _camera.transform;
+                    cameraTransform.position += cameraTransform.forward * (-10f * Time.deltaTime);
                 }
                 else if (Input.GetKey(KeyCode.W))
                 {
-                    _camera.transform.position += _camera.transform.forward * 10f * Time.deltaTime;
+                    var cameraTransform = _camera.transform;
+                    cameraTransform.position += cameraTransform.forward * (10f * Time.deltaTime);
                 }
             }
 
@@ -145,14 +146,16 @@ public class CameraController : MonoBehaviour
         if (_zoomedOut)
         {
             var (targetPosition, targetRotation) = CameraPlanetZoomedOutPosition();
-            _camera.transform.position = targetPosition;
-            _camera.transform.rotation = targetRotation;
+            var cameraTransform = _camera.transform;
+            cameraTransform.position = targetPosition;
+            cameraTransform.rotation = targetRotation;
         }
         else
         {
             var (targetPosition, targetRotation) = CameraPlanetZoomedInPosition();
-            _camera.transform.position = targetPosition;
-            _camera.transform.rotation = targetRotation;
+            var cameraTransform = _camera.transform;
+            cameraTransform.position = targetPosition;
+            cameraTransform.rotation = targetRotation;
         }
     }
 
@@ -175,6 +178,9 @@ public class CameraController : MonoBehaviour
         var previousFocusPoint = _focus ? _focus.position : Vector3.zero;
         _focus = center.transform;
 
+        var cameraTransform = _camera.transform;
+        _startPosition = cameraTransform.position;
+        _startRotation = cameraTransform.rotation;
         (_targetPosition, _targetRotation) = CameraPlanetFocusPosition(previousFocusPoint, _focus.position);
 
         var distance = (_targetPosition - _startPosition).magnitude;
