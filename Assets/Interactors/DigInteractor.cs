@@ -29,6 +29,11 @@ namespace Interactors
         {
             return "Dig";
         }
+        
+        public override string GetInteractorShortDescription()
+        {
+            return "Shoot at rocks to dig";
+        }
 
         public bool Started()
         {
@@ -137,7 +142,7 @@ namespace Interactors
             }
         }
 
-        public override bool CanBuild(Block block) // NOT USED, TODO: REMOVE
+        public override bool CanBuild(Block block)
         {
             return false;
         }
@@ -149,22 +154,19 @@ namespace Interactors
             return timeSinceLastBuilt > Cooldown && laserableEntity.CanInteract();
         }
 
-        public override void Build(Block block, TinyPlanetResources resources)
+        public override void Build(Block block)
         {
-            // var time = Time.time;
-            // _lastDig = time;
-
-            // block.Dig();
+            // Do nothing
         }
 
         public override void OnFailedToBuild(Vector3 hitPoint)
         {
+            // Do nothing
         }
 
         public override void OnBuilt(Vector3 hitPoint)
         {
             var audioController = AudioController.Get();
-
             audioController.Play(audioController.destroyBlock, audioController.destroyBlockVolume,
                 hitPoint);
         }
@@ -192,6 +194,11 @@ namespace Interactors
 
         public override void Hover(RaycastHit hit)
         {
+        }
+
+        public override string GetCannotBuildHereMessage(Block block)
+        {
+            return "Cannot dig here";
         }
     }
 }

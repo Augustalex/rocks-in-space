@@ -7,6 +7,7 @@ public class TinyPlanet : MonoBehaviour
 {
     public string planetName = "Unnamed";
     public List<GameObject> network;
+    private PortController _port;
 
     public List<GameObject> FindDislocatedRocks(List<GameObject> dislodgedNetwork)
     {
@@ -21,6 +22,15 @@ public class TinyPlanet : MonoBehaviour
         foreach (var networkItem in workingNetwork)
         {
             networkItem.transform.SetParent(transform);
+        }
+        
+        foreach (var networkObject in network)
+        {
+            var port = networkObject.GetComponentInChildren<PortController>();
+            if (port)
+            {
+                _port = port;
+            }
         }
     }
 
@@ -54,6 +64,11 @@ public class TinyPlanet : MonoBehaviour
     public void RemoveFromNetwork(GameObject block)
     {
         network.Remove(block);
+        
+        if (block.GetComponentInChildren<PortController>())
+        {
+            _port = null;
+        }
     }
 
     public TinyPlanetResources GetResources()
@@ -64,5 +79,15 @@ public class TinyPlanet : MonoBehaviour
     public Vector3 GetCenter()
     {
         return TinyPlanetCenterPointHelper.CalculateCenter(network);
+    }
+
+    public void AttachPort(PortController port)
+    {
+        _port = port;
+    }
+
+    public bool HasPort()
+    {
+        return _port != null;
     }
 }

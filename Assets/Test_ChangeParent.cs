@@ -19,7 +19,7 @@ public class Test_ChangeParent : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-                Debug.Log("CURRENT STEP: " + _step);
+            Debug.Log("CURRENT STEP: " + _step);
             if (_step == 0)
             {
                 Debug.Log("STEP 0");

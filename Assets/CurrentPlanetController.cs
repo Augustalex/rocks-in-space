@@ -1,15 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Interactors;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public class CurrentPlanetController : MonoBehaviour
 {
     private TinyPlanet _currentPlanet;
     private static CurrentPlanetController _instance;
-    private SpacersWorkRepository _spacersWorkRepository;
 
     public event Action<PlanetChangedInfo> CurrentPlanetChanged;
 
@@ -30,8 +25,8 @@ public class CurrentPlanetController : MonoBehaviour
         _currentPlanet = tinyPlanet;
         CurrentPlanetChanged?.Invoke(new PlanetChangedInfo
         {
-            previousPlanet =  previousPlanet,
-            newPlanet =  tinyPlanet
+            PreviousPlanet =  previousPlanet,
+            NewPlanet =  tinyPlanet
         });
     }
 
@@ -43,6 +38,6 @@ public class CurrentPlanetController : MonoBehaviour
 
 public struct PlanetChangedInfo
 {
-    public TinyPlanet previousPlanet;
-    public TinyPlanet newPlanet;
+    public TinyPlanet PreviousPlanet;
+    public TinyPlanet NewPlanet;
 }

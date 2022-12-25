@@ -1,5 +1,4 @@
 ﻿using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Interactors
@@ -13,9 +12,6 @@ namespace Interactors
         private CurrentPlanetController _currentPlanetController;
 
         public event Action<RaycastHit> OnHover;
-        public event Action<RaycastHit> OnClick;
-
-        public event Action<RaycastHit> OnContext;
 
         void Start()
         {
@@ -37,6 +33,11 @@ namespace Interactors
             return "Select";
         }
 
+        public override string GetInteractorShortDescription()
+        {
+            return $"Click on another asteroid to go there";
+        }
+
         public override bool CanBuild(Block block)
         {
             var cameraController = CameraController.Get();
@@ -53,7 +54,7 @@ namespace Interactors
             } 
         }
 
-        public override void Build(Block block, TinyPlanetResources resources)
+        public override void Build(Block block)
         {
             var cameraController = CameraController.Get();
             var blocksPlanet = block.GetConnectedPlanet().gameObject;
@@ -81,7 +82,7 @@ namespace Interactors
         {
             
         }
-
+        
         public override void OnSecondaryInteract(Block block, RaycastHit hit)
         {
             
@@ -100,6 +101,12 @@ namespace Interactors
         public override void Hover(RaycastHit hit)
         {
             OnHover?.Invoke(hit);
+        }
+
+        public override string GetCannotBuildHereMessage(Block block)
+        {
+            // Not called
+            return "";
         }
 
         public override float MaxActivationDistance()

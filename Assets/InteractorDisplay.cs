@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Interactors;
 using TMPro;
 using UnityEngine;
@@ -8,16 +6,39 @@ public class InteractorDisplay : MonoBehaviour
 {
     private InteractorController _interactorController;
     private TMP_Text _text;
+    private string _temporaryMessage;
+    private float _showTemporaryMessageUntil;
 
+    void Awake()
+    {
+        _text = GetComponent<TMP_Text>();
+    }
+    
     void Start()
     {
         _interactorController = InteractorController.Get();
-        _text = GetComponent<TMP_Text>();
+        _interactorController.FailedToBuild += FailedToBuild;
     }
 
     void Update()
     {
+        _text.text = Time.time < _showTemporaryMessageUntil ? _temporaryMessage : GetText();
+    }
+
+    private void FailedToBuild(InteractorModule interactorModule, Block block)
+    {
+        ShowTemporaryMessage(Time.time + 4f, interactorModule.GetCannotBuildHereMessage(block));
+    }
+
+    private void ShowTemporaryMessage(float timeUntil, string message)
+    {
+        _temporaryMessage = message;
+        _showTemporaryMessageUntil = timeUntil;
+    }
+
+    private string GetText()
+    {
         var currentInteractorModule = _interactorController.CurrentModule();
-        _text.text = currentInteractorModule.GetInteractorName() == "Dig" ? "[digging] " : "[select a planet to go there]";
+        return currentInteractorModule.GetInteractorShortDescription();
     }
 }

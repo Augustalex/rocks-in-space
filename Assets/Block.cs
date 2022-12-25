@@ -1,5 +1,4 @@
 ﻿using Interactors.Digging;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Block : MonoBehaviour, ILaserInteractable
@@ -40,7 +39,7 @@ public class Block : MonoBehaviour, ILaserInteractable
         return transform.parent.gameObject;
     }
 
-    public void Seed(GameObject seedTemplate)
+    public GameObject Seed(GameObject seedTemplate)
     {
         var mesh = transform.parent.GetComponentInChildren<RockMesh>();
         Destroy(mesh.gameObject);
@@ -54,6 +53,8 @@ public class Block : MonoBehaviour, ILaserInteractable
         _seeded = true;
         var seed = Instantiate(seedTemplate, transform.parent, true);
         seed.transform.position = transform.position;
+
+        return seed;
     }
 
     public bool IsSeeded()

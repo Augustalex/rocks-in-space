@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class OreController : MonoBehaviour
@@ -27,28 +24,32 @@ public class OreController : MonoBehaviour
     {
         var self = gameObject;
         var position = transform.position;
+        var up = self.transform.up;
+        var right = self.transform.right;
+        var forward = self.transform.forward;
         var directions = new[]
         {
             new[]
             {
-                self.transform.up,
-                -self.transform.up,
+                up,
+                -up,
             },
             new[]
             {
-                self.transform.right,
-                -self.transform.right,
+                right,
+                -right,
             },
             new[]
             {
-                self.transform.forward,
-                -self.transform.forward,
+                forward,
+                -forward,
             },
         };
-        var distance = 5f;
 
         var clearDirections = directions.Count(directionals =>
+            // ReSharper disable once Unity.PreferNonAllocApi
             Physics.RaycastAll(position, directionals[0], 5f).Length == 0 &&
+            // ReSharper disable once Unity.PreferNonAllocApi
             Physics.RaycastAll(position, directionals[1], 5f).Length == 0) >= 1;
         if (!clearDirections)
         {
@@ -73,20 +74,10 @@ public class OreController : MonoBehaviour
 
     public void Mine(TinyPlanet planet)
     {
-        // var planetResources = planet.GetComponent<TinyPlanetResources>();
-        // planetResources.SetOre(planetResources.GetOre() + 1000);
+        var planetResources = planet.GetComponent<TinyPlanetResources>();
+        planetResources.SetOre(planetResources.GetOre() + 1000);
         
         Destroy(_ore);
-
-        var floatingMinerals = Instantiate(floatingMineralsTemplate);
-        floatingMinerals.GetComponent<PlanetRelative>().tinyPlanet = planet;
-            
-        floatingMinerals.transform.position = transform.parent.position;
-        
-        var floatingMineralsRigidbody = floatingMinerals.GetComponent<Rigidbody>();
-        floatingMineralsRigidbody.AddForce(Random.insideUnitSphere.normalized * .0001f, ForceMode.Impulse);
-
-        planet.GetComponent<SpacersWorkRepository>().RegisterMineralToMine(floatingMinerals);
     }
 
     public bool HasOre()

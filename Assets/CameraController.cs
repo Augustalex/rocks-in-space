@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Interactors;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    private const float MaxMoveLength = 2f;
+    private const float ZoomedOutDistance = 250f;
+    
     private Transform _focus;
     private Vector3 _backupFocus = Vector3.zero;
     private Camera _camera;
@@ -15,7 +17,6 @@ public class CameraController : MonoBehaviour
     private Quaternion _startRotation;
     private float _moveTime;
     private DisplayController _displayController;
-    private const float MaxMoveLength = 2f;
     private float _moveLength = 0f;
     private bool _moving;
     private Vector3 _lastPosition;
@@ -23,6 +24,7 @@ public class CameraController : MonoBehaviour
 
     public bool cinematicOpening = true;
     private static CameraController _instance;
+    private bool _zoomedOut;
 
     void Awake()
     {
@@ -117,14 +119,39 @@ public class CameraController : MonoBehaviour
                 _camera.transform.RotateAround(FocusPoint(), -transform.right, -45f * Time.deltaTime);
             }
 
-            if (Input.GetKey(KeyCode.S))
+            if (!_zoomedOut)
             {
-                _camera.transform.position += _camera.transform.forward * -10f * Time.deltaTime;
+                if (Input.GetKey(KeyCode.S))
+                {
+                    _camera.transform.position += _camera.transform.forward * -10f * Time.deltaTime;
+                }
+                else if (Input.GetKey(KeyCode.W))
+                {
+                    _camera.transform.position += _camera.transform.forward * 10f * Time.deltaTime;
+                }
             }
-            else if (Input.GetKey(KeyCode.W))
+
+            if (_displayController.inputMode == DisplayController.InputMode.Static && Input.GetKeyDown(KeyCode.Space))
             {
-                _camera.transform.position += _camera.transform.forward * 10f * Time.deltaTime;
+                ToggleZoomMode();
             }
+        }
+    }
+
+    private void ToggleZoomMode()
+    {
+        _zoomedOut = !_zoomedOut;
+        if (_zoomedOut)
+        {
+            var (targetPosition, targetRotation) = CameraPlanetZoomedOutPosition();
+            _camera.transform.position = targetPosition;
+            _camera.transform.rotation = targetRotation;
+        }
+        else
+        {
+            var (targetPosition, targetRotation) = CameraPlanetZoomedInPosition();
+            _camera.transform.position = targetPosition;
+            _camera.transform.rotation = targetRotation;
         }
     }
 
@@ -144,19 +171,13 @@ public class CameraController : MonoBehaviour
         _displayController.SetPlanetInFocus(planet);
 
         var center = TinyPlanetCenterPointHelper.GetMostCentralBlock(planet.network);
+        var previousFocusPoint = _focus ? _focus.position : Vector3.zero;
         _focus = center.transform;
         
         _startPosition = _camera.transform.position;
         _startRotation = _camera.transform.rotation;
 
-        _camera.transform.position = Vector3.zero;
-        _camera.transform.rotation = Quaternion.identity;
-        _camera.transform.LookAt(FocusPoint(), Vector3.up);
-        _camera.transform.position = FocusPoint();
-        _camera.transform.position += _camera.transform.forward * -20f;
-
-        _targetPosition = _camera.transform.position;
-        _targetRotation = _camera.transform.rotation;
+        (_targetPosition, _targetRotation) = CameraPlanetFocusPosition(previousFocusPoint, _focus.position);
 
         var distance = (_targetPosition - _startPosition).magnitude;
         _moveLength = distance < 10f ? .5f : distance < 10f ? .75f : distance < 20f ? 1f : MaxMoveLength;
@@ -169,5 +190,77 @@ public class CameraController : MonoBehaviour
     private Vector3 FocusPoint()
     {
         return _focus ? _focus.position : _backupFocus;
+    }
+
+    private Tuple<Vector3, Quaternion> CameraPlanetFocusPosition(Vector3 previousFocusPoint, Vector3 newFocusPoint)
+    {
+        if (_zoomedOut)
+        {
+            var startPosition = _camera.transform.position;
+            var startRotation = _camera.transform.rotation;
+
+            var toMove = newFocusPoint - previousFocusPoint;
+            _camera.transform.position += toMove;
+            var targetPosition = _camera.transform.position;
+            var targetRotation = _camera.transform.rotation;
+
+            _camera.transform.position = startPosition;
+            _camera.transform.rotation = startRotation;
+
+            return new Tuple<Vector3, Quaternion>(targetPosition, targetRotation);
+        }
+        else
+        {
+            var startPosition = _camera.transform.position;
+            var startRotation = _camera.transform.rotation;
+
+            var focusPoint = newFocusPoint;
+
+            _camera.transform.position = Vector3.zero;
+            _camera.transform.rotation = Quaternion.identity;
+            _camera.transform.LookAt(focusPoint, Vector3.up);
+            _camera.transform.position = focusPoint;
+            _camera.transform.position += _camera.transform.forward * -20f;
+
+            var targetPosition = _camera.transform.position;
+            var targetRotation = _camera.transform.rotation;
+
+            _camera.transform.position = startPosition;
+            _camera.transform.rotation = startRotation;
+
+            return new Tuple<Vector3, Quaternion>(targetPosition, targetRotation);
+        }
+    }
+
+    private Tuple<Vector3, Quaternion> CameraPlanetZoomedOutPosition()
+    {
+        var startPosition = _camera.transform.position;
+        var startRotation = _camera.transform.rotation;
+
+        var distanceFromCenter = Vector3.Distance(FocusPoint(), startPosition);
+        var distanceToMove = ZoomedOutDistance - distanceFromCenter;
+        _camera.transform.position += _camera.transform.forward * -distanceToMove;
+        var targetPosition = _camera.transform.position;
+
+        _camera.transform.position = startPosition;
+        _camera.transform.rotation = startRotation;
+
+        return new Tuple<Vector3, Quaternion>(targetPosition, startRotation);
+    }
+
+    private Tuple<Vector3, Quaternion> CameraPlanetZoomedInPosition()
+    {
+        var startPosition = _camera.transform.position;
+        var startRotation = _camera.transform.rotation;
+
+        var distanceFromCenter = Vector3.Distance(FocusPoint(), startPosition);
+        var distanceToMove = distanceFromCenter - 20f;
+        _camera.transform.position += _camera.transform.forward * distanceToMove;
+        var targetPosition = _camera.transform.position;
+
+        _camera.transform.position = startPosition;
+        _camera.transform.rotation = startRotation;
+
+        return new Tuple<Vector3, Quaternion>(targetPosition, startRotation);
     }
 }

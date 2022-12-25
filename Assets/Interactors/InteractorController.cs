@@ -1,5 +1,5 @@
-﻿using Interactors.Digging;
-using Unity.VisualScripting;
+﻿using System;
+using Interactors.Digging;
 using UnityEngine;
 
 namespace Interactors
@@ -10,6 +10,8 @@ namespace Interactors
 
         public GameObject defaultModuleContainer;
         public GameObject interactorsContainer;
+        
+        public event Action<InteractorModule, Block> FailedToBuild;
 
         private InteractorModule _defaultModule;
         private InteractorModule[] _modules;
@@ -19,14 +21,14 @@ namespace Interactors
         private readonly KeyCode[] _selectKeys =
         {
             KeyCode.Alpha1,
-            // KeyCode.Alpha2,
-            // KeyCode.Alpha3,
-            // KeyCode.Alpha4,
-            // KeyCode.Alpha5,
-            // KeyCode.Alpha6,
-            // KeyCode.Alpha7,
-            // KeyCode.Alpha8,
-            // KeyCode.Alpha9,
+            KeyCode.Alpha2,
+            KeyCode.Alpha3,
+            KeyCode.Alpha4,
+            KeyCode.Alpha5,
+            KeyCode.Alpha6,
+            KeyCode.Alpha7,
+            KeyCode.Alpha8,
+            KeyCode.Alpha9,
         };
 
         private static InteractorController _instance;
@@ -38,7 +40,13 @@ namespace Interactors
             _defaultModule = defaultModuleContainer.GetComponent<InteractorModule>();
             _modules = new InteractorModule[]
             {
-                interactorsContainer.GetComponent<DigInteractor>()
+                interactorsContainer.GetComponent<PortInteractor>(),
+                interactorsContainer.GetComponent<DigInteractor>(),
+                interactorsContainer.GetComponent<RefineryInteractor>(),
+                interactorsContainer.GetComponent<FactoryInteractor>(),
+                interactorsContainer.GetComponent<PowerPlantInteractor>(),
+                interactorsContainer.GetComponent<FarmDomeInteractor>(),
+                interactorsContainer.GetComponent<ResidencyInteractor>(),
             };
         }
 
@@ -147,15 +155,15 @@ namespace Interactors
                         var block = hit.collider.GetComponent<Block>();
                         if (block != null)
                         {
-                            var planetResources = block.GetConnectedPlanet().GetResources();
                             if (interactorModule && interactorModule.CanBuild(block))
                             {
-                                interactorModule.Build(block, planetResources);
+                                interactorModule.Build(block);
                                 interactorModule.OnBuilt(block.transform.position);
                             }
                             else
                             {
                                 interactorModule.OnFailedToBuild(block.transform.position);
+                                FailedToBuild?.Invoke(interactorModule, block);
                             }
                         }
                     }

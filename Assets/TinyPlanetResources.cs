@@ -14,6 +14,11 @@ public class TinyPlanetResources : MonoBehaviour
         Inhabitants
     }
 
+    public static int GetGlobalInhabitants()
+    {
+        return _inhabitants;
+    }
+
     public static string ResourceName(PlanetResourceType resourceType)
     {
         switch (resourceType)

@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using System.Collections;
 using Random = UnityEngine.Random;
 
 public class CameraShake : MonoBehaviour
@@ -12,9 +10,8 @@ public class CameraShake : MonoBehaviour
     private bool _shaking = false;
 	
     // Amplitude of the shake. A larger value shakes the camera harder.
-    private float _shakeAmount = 0.015f;
-    private float _decreaseFactor = 1.0f;
-	
+    private const float ShakeAmount = 0.015f;
+
     private Vector3 _originalPos;
     private static CameraShake _instance;
 
@@ -29,7 +26,7 @@ public class CameraShake : MonoBehaviour
         var camTransform1 = transform;
         if (_shaking)
         {
-            camTransform1.localPosition = _originalPos + Random.insideUnitSphere * _shakeAmount;
+            camTransform1.localPosition = _originalPos + Random.insideUnitSphere * ShakeAmount;
         }
         else
         {

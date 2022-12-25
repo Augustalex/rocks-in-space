@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class LargePlanetGenerator : MonoBehaviour
 {
@@ -11,6 +9,8 @@ public class LargePlanetGenerator : MonoBehaviour
     public GameObject planetTemplate;
 
     private static LargePlanetGenerator _instance;
+    
+    private readonly Collider[] _networkNearbyBlocksHits = new Collider[64]; // Should reach between 1-2 layers from a block and outwards. So 64 should be fine.
 
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class LargePlanetGenerator : MonoBehaviour
         GenerateNewPlanetAtPosition(Vector3.zero);
     }
 
-    public void GenerateNewPlanetAtPosition(Vector3 position)
+    private void GenerateNewPlanetAtPosition(Vector3 position)
     {
         var networkTemplate = new LargePlanetGeneratorHelper()
             .NewNetworkTemplate();
@@ -39,14 +39,12 @@ public class LargePlanetGenerator : MonoBehaviour
         NewPlanetWithNetwork(network);
     }
 
-    private GameObject NewPlanetWithNetwork(List<GameObject> network)
+    private void NewPlanetWithNetwork(List<GameObject> network)
     {
         var planet = Instantiate(planetTemplate);
 
         var tinyPlanet = planet.GetComponent<TinyPlanet>();
         tinyPlanet.SetNetwork(network);
-
-        return planet;
     }
 
     private TinyPlanet NewPlanet()
@@ -55,7 +53,7 @@ public class LargePlanetGenerator : MonoBehaviour
         return planet.GetComponent<TinyPlanet>();
     }
 
-    public void TurnNetworkIntoPlanet(List<GameObject> dislodgedNetwork, Vector3 breakPoint)
+    private void TurnNetworkIntoPlanet(List<GameObject> dislodgedNetwork)
     {
         var currentPlanet = dislodgedNetwork[0].GetComponentInParent<TinyPlanet>();
 
@@ -89,26 +87,29 @@ public class LargePlanetGenerator : MonoBehaviour
     public void DestroyBlock(Block destroyBlock)
     {
         var position = destroyBlock.GetPosition();
+        var blockTransform = destroyBlock.transform;
+        var up = blockTransform.up;
+        var right = blockTransform.right;
+        var forward = blockTransform.forward;
         var directions = new[]
         {
             new[]
             {
-                destroyBlock.transform.up,
-                -destroyBlock.transform.up,
+                up,
+                -up,
             },
             new[]
             {
-                destroyBlock.transform.right,
-                -destroyBlock.transform.right,
+                right,
+                -right,
             },
             new[]
             {
-                destroyBlock.transform.forward,
-                -destroyBlock.transform.forward,
+                forward,
+                -forward,
             },
         };
-        var distance = 5f;
-        
+
         destroyBlock.DestroySelf(); // WARNING: Note the circular dependency!
 
         StartCoroutine(
@@ -119,14 +120,16 @@ public class LargePlanetGenerator : MonoBehaviour
             yield return new WaitForEndOfFrame();
 
             var clearDirections = directions.Count(directionals =>
+                // ReSharper disable once Unity.PreferNonAllocApi
                 Physics.RaycastAll(position, directionals[0], 5f).Length == 0 &&
+                // ReSharper disable once Unity.PreferNonAllocApi
                 Physics.RaycastAll(position, directionals[1], 5f).Length == 0) > 1;
             if (clearDirections)
             {
-                var hits = Physics.OverlapSphere(position, TinyPlanetNetworkHelper.NetworkDislodgeActivationDistance);
-                if (hits.Length > 0)
+                Physics.OverlapSphereNonAlloc(position, TinyPlanetNetworkHelper.NetworkDislodgeActivationDistance, _networkNearbyBlocksHits);
+                if (_networkNearbyBlocksHits.Length > 0)
                 {
-                    var blocks = hits.Select(hit => hit.GetComponent<Block>()).Where(block => block != null);
+                    var blocks = _networkNearbyBlocksHits.Select(hit => hit.GetComponent<Block>()).Where(block => block != null);
                     List<GameObject> previousNetwork = null;
                     var first = true;
                     foreach (var block in blocks)
@@ -145,7 +148,7 @@ public class LargePlanetGenerator : MonoBehaviour
                         previousNetwork = sampleNetwork;
                         if (planet.IsNetworkDislodged(sampleNetwork))
                         {
-                            TurnNetworkIntoPlanet(sampleNetwork, block.GetRoot().transform.position);
+                            TurnNetworkIntoPlanet(sampleNetwork);
                             yield break;
                             // planet.CheckDislodgement(block.GetRoot());
                         }

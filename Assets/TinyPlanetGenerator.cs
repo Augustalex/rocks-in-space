@@ -98,25 +98,28 @@ public class TinyPlanetGenerator : MonoBehaviour
     public void DestroyBlock(Block destroyBlock)
     {
         var position = destroyBlock.GetPosition();
+        var blockTransform = destroyBlock.transform;
+        var forward = blockTransform.forward;
+        var right = blockTransform.right;
+        var up = blockTransform.up;
         var directions = new[]
         {
             new[]
             {
-                destroyBlock.transform.up,
-                -destroyBlock.transform.up,
+                up,
+                -up,
             },
             new[]
             {
-                destroyBlock.transform.right,
-                -destroyBlock.transform.right,
+                right,
+                -right,
             },
             new[]
             {
-                destroyBlock.transform.forward,
-                -destroyBlock.transform.forward,
+                forward,
+                -forward,
             },
         };
-        var distance = 5f;
 
         destroyBlock.DestroySelf(); // WARNING: Note the circular dependency!
 

@@ -8,9 +8,11 @@ namespace Interactors
         
         public abstract string GetInteractorName();
         
+        public abstract string GetInteractorShortDescription();
+        
         public abstract bool CanBuild(Block block);
 
-        public abstract void Build(Block block, TinyPlanetResources resources);
+        public abstract void Build(Block block);
 
         public abstract void OnFailedToBuild(Vector3 hitPoint);
 
@@ -23,5 +25,7 @@ namespace Interactors
         public abstract bool Hoverable();
 
         public abstract void Hover(RaycastHit hit);
+
+        public abstract string GetCannotBuildHereMessage(Block block);
     }
 }
