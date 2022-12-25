@@ -76,12 +76,17 @@ public class OreController : MonoBehaviour
     {
         var planetResources = planet.GetComponent<TinyPlanetResources>();
         planetResources.SetOre(planetResources.GetOre() + 1000);
-        
-        Destroy(_ore);
+
+        DestroyOre();
     }
 
     public bool HasOre()
     {
         return _ore != null;
+    }
+
+    public void DestroyOre()
+    {
+        Destroy(_ore);
     }
 }

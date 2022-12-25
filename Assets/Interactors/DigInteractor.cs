@@ -6,6 +6,8 @@ namespace Interactors
 {
     public class DigInteractor : InteractorModule
     {
+        public static string DigInteractorName = "Dig";
+        
         public GameObject laserLight;
         public LaserEffect laserEffect;
 
@@ -27,7 +29,7 @@ namespace Interactors
 
         public override string GetInteractorName()
         {
-            return "Dig";
+            return DigInteractorName;
         }
         
         public override string GetInteractorShortDescription()
@@ -194,6 +196,7 @@ namespace Interactors
 
         public override void Hover(RaycastHit hit)
         {
+            // Do nothing
         }
 
         public override string GetCannotBuildHereMessage(Block block)

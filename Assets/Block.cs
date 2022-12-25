@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Block : MonoBehaviour, ILaserInteractable
 {
-    private bool _seeded;
+    private GameObject _seed;
 
     public void Dig()
     {
@@ -13,6 +13,19 @@ public class Block : MonoBehaviour, ILaserInteractable
         if (oreController.HasOre())
         {
             oreController.Mine(GetConnectedPlanet());
+        }
+
+        if (_seed)
+        {
+            var resourceSpent = _seed.GetComponentInChildren<ResourceSpent>();
+            if (resourceSpent)
+            {
+                var costs = resourceSpent.costs;
+                var resources = GetConnectedPlanet().GetResources();
+                resources.SetOre(resources.GetOre() + costs.ore);
+                resources.SetMetals(resources.GetMetals() + costs.metals);
+                resources.SetGadgets(resources.GetGadgets() + costs.gadgets);
+            }
         }
         
         tinyPlanetGenerator.DestroyBlock(this);
@@ -44,22 +57,21 @@ public class Block : MonoBehaviour, ILaserInteractable
         var mesh = transform.parent.GetComponentInChildren<RockMesh>();
         Destroy(mesh.gameObject);
 
-        var ore = transform.parent.GetComponentInChildren<OreVein>();
-        if (ore)
+        var oreController = GetComponent<OreController>();
+        if (oreController.HasOre())
         {
-            Destroy(ore.gameObject);
+            oreController.DestroyOre();
         }
 
-        _seeded = true;
-        var seed = Instantiate(seedTemplate, transform.parent, true);
-        seed.transform.position = transform.position;
+        _seed = Instantiate(seedTemplate, transform.parent, true);
+        _seed.transform.position = transform.position;
 
-        return seed;
+        return _seed;
     }
 
     public bool IsSeeded()
     {
-        return _seeded;
+        return _seed != null;
     }
 
     public void LaserInteract()
@@ -69,7 +81,7 @@ public class Block : MonoBehaviour, ILaserInteractable
 
     public bool CanInteract()
     {
-        return gameObject != null && !IsSeeded();
+        return gameObject != null;
     }
 
     public float DisintegrationTime()

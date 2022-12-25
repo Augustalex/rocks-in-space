@@ -8,6 +8,7 @@ public class InteractorDisplay : MonoBehaviour
     private TMP_Text _text;
     private string _temporaryMessage;
     private float _showTemporaryMessageUntil;
+    private string _currentText;
 
     void Awake()
     {
@@ -22,7 +23,11 @@ public class InteractorDisplay : MonoBehaviour
 
     void Update()
     {
-        _text.text = Time.time < _showTemporaryMessageUntil ? _temporaryMessage : GetText();
+        var newText = GetText();
+        if (newText != _currentText) RemoveTemporaryMessage();
+        
+        _currentText = newText;
+        _text.text = Time.time < _showTemporaryMessageUntil ? _temporaryMessage : _currentText;
     }
 
     private void FailedToBuild(InteractorModule interactorModule, Block block)
@@ -34,6 +39,12 @@ public class InteractorDisplay : MonoBehaviour
     {
         _temporaryMessage = message;
         _showTemporaryMessageUntil = timeUntil;
+    }
+
+    private void RemoveTemporaryMessage()
+    {
+        _temporaryMessage = "";
+        _showTemporaryMessageUntil = 0f;
     }
 
     private string GetText()

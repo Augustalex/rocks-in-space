@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
 
-public class PlanetNameInstructionsDisplay : MonoBehaviour
+public class PlanetNameInstructionsDisplay : Hidable
 {
-    public bool hidden = false;
     public string text;
     private TMP_Text _text;
 
@@ -16,13 +12,6 @@ public class PlanetNameInstructionsDisplay : MonoBehaviour
 
     void Update()
     {
-        if (hidden)
-        {
-            _text.text = "";
-        }
-        else
-        {
-            _text.text = text;
-        }
+        _text.text = text;
     }
 }

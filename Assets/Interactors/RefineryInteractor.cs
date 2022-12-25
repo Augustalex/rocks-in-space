@@ -1,11 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Interactors
 {
     public class RefineryInteractor : InteractorModule
     {
-        private const int OreCost = 500;
         public GameObject template;
 
         public override string GetInteractorName()
@@ -18,23 +16,12 @@ namespace Interactors
             return $"Place {GetInteractorName()}";
         }
 
-        public override bool CanBuild(Block block)
-        {
-            return HasEnoughOre(block);
-        }
-
-        private static bool HasEnoughOre(Block block)
-        {
-            var resources = block.GetConnectedPlanet().GetResources();
-            return resources.GetOre() >= OreCost;
-        }
-
         public override void Build(Block block)
         {
-            var resources = block.GetConnectedPlanet().GetResources();
-            resources.SetOre(resources.GetOre() - OreCost);
-            
-            block.Seed(template);
+            ConsumeRequiredResources(block);
+
+            var seed = block.Seed(template);
+            SetSeedRefund(seed);
         }
         
         public override void OnFailedToBuild(Vector3 hitPoint)
@@ -75,18 +62,7 @@ namespace Interactors
 
         public override void Hover(RaycastHit hit)
         {
-            
-        }
-        
-        public override string GetCannotBuildHereMessage(Block block)
-        {
-            if (!HasEnoughOre(block))
-            {
-                return
-                    $"Not enough {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Ore)} need {OreCost}";
-            }
-
-            return "Can't build here";
+            // Do nothing
         }
     }
 }

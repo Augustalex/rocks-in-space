@@ -55,7 +55,14 @@ namespace Interactors
         {
             var port = block.Seed(template);
             var portController = port.GetComponentInChildren<PortController>();
-            block.GetConnectedPlanet().AttachPort(portController);
+            var connectedPlanet = block.GetConnectedPlanet();
+            connectedPlanet.AttachPort(portController);
+
+            var displayController = DisplayController.Get();
+            if (displayController.PlanetInFocus(connectedPlanet))
+            {
+                displayController.StartRenamingPlanet();
+            }
         }
 
         public override void OnFailedToBuild(Vector3 hitPoint)
@@ -69,9 +76,10 @@ namespace Interactors
         public override void OnBuilt(Vector3 hitPoint)
         {
             var audioController = AudioController.Get();
-
             audioController.Play(audioController.destroyBlock, audioController.destroyBlockVolume,
                 hitPoint);
+            
+            InteractorController.Get().SetInteractorByName(DigInteractor.DigInteractorName); // It's unlikely the player want's to Port, digging is the most likely used next tool.
         }
 
         public override void OnSecondaryInteract(Block block, RaycastHit hit)
@@ -96,6 +104,7 @@ namespace Interactors
 
         public override void Hover(RaycastHit hit)
         {
+            // Do nothing
         }
         
         public override string GetCannotBuildHereMessage(Block block)

@@ -5,8 +5,6 @@ namespace Interactors
 {
     public class PowerPlantInteractor : InteractorModule
     {
-        private const int GadgetsCost = 100;
-        
         public GameObject template;
 
         public override string GetInteractorName()
@@ -18,24 +16,13 @@ namespace Interactors
         {
             return $"Place {GetInteractorName()}";
         }
-
-        public override bool CanBuild(Block block)
-        {
-            return HasEnoughGadgets(block); 
-        }
-
-        private bool HasEnoughGadgets(Block block)
-        {
-            var resources = block.GetConnectedPlanet().GetResources();
-            return resources.GetGadgets() >= GadgetsCost;
-        }
-
+        
         public override void Build(Block block)
         {
-            var resources = block.GetConnectedPlanet().GetResources();
-            resources.SetGadgets(resources.GetGadgets() - GadgetsCost);
-            
-            block.Seed(template);
+            ConsumeRequiredResources(block);
+
+            var seed = block.Seed(template);
+            SetSeedRefund(seed);
         }
         
         public override void OnFailedToBuild(Vector3 hitPoint)
@@ -76,18 +63,7 @@ namespace Interactors
 
         public override void Hover(RaycastHit hit)
         {
-            
-        }
-
-        public override string GetCannotBuildHereMessage(Block block)
-        {
-            if (!HasEnoughGadgets(block))
-            {
-                return
-                    $"Not enough {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets)} need {GadgetsCost}";
-            }
-
-            return "Can't build here";
+            // Do nothing
         }
     }
 }

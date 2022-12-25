@@ -67,7 +67,7 @@ public class CameraController : MonoBehaviour
     {
         if (!AvailableToUpdate()) return;
 
-        if (_moving)
+        if (_displayController.inputMode == DisplayController.InputMode.Cinematic)
         {
             if (_moveTime > 0)
             {
@@ -85,7 +85,7 @@ public class CameraController : MonoBehaviour
                 _displayController.ExitCinematicMode();
             }
         }
-        else
+        else if(_displayController.inputMode == DisplayController.InputMode.Static)
         {
             if (_focus) _backupFocus = _focus.position;
 
@@ -133,7 +133,7 @@ public class CameraController : MonoBehaviour
                 }
             }
 
-            if (_displayController.inputMode == DisplayController.InputMode.Static && Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 ToggleZoomMode();
             }

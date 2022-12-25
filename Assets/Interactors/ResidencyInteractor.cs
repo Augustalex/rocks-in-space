@@ -1,11 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Interactors
 {
     public class ResidencyInteractor : InteractorModule
     {
-        private const int GadgetsCost = 10;
         public GameObject template;
 
         public override string GetInteractorName()
@@ -17,24 +15,13 @@ namespace Interactors
         {
             return $"Place {GetInteractorName()}";
         }
-
-        public override bool CanBuild(Block block)
-        {
-            return HasEnoughGadgets(block);
-        }
-
-        private static bool HasEnoughGadgets(Block block)
-        {
-            var resources = block.GetConnectedPlanet().GetResources();
-            return resources.GetGadgets() >= GadgetsCost;
-        }
-
+        
         public override void Build(Block block)
         {
-            var resources = block.GetConnectedPlanet().GetResources();
-            resources.SetGadgets(resources.GetGadgets() - GadgetsCost);
-            
-            block.Seed(template);
+            ConsumeRequiredResources(block);
+
+            var seed = block.Seed(template);
+            SetSeedRefund(seed);
         }
 
         public override void OnSecondaryInteract(Block block, RaycastHit hit)
@@ -76,17 +63,6 @@ namespace Interactors
         public override void Hover(RaycastHit hit)
         {
             // Do nothing
-        }
-
-        public override string GetCannotBuildHereMessage(Block block)
-        {
-            if (!HasEnoughGadgets(block))
-            {
-                return
-                    $"Not enough {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets)} need {GadgetsCost}";
-            }
-
-            return "Can't build here";
         }
     }
 }

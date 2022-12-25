@@ -8,14 +8,18 @@ namespace Interactors
     {
         private const int DefaultModule = -1;
 
+        private const int
+            PortInteractorIndex =
+                6; // You want the player to as easily as possible to the correct first action, which is to place a port.
+
         public GameObject defaultModuleContainer;
         public GameObject interactorsContainer;
-        
+
         public event Action<InteractorModule, Block> FailedToBuild;
 
         private InteractorModule _defaultModule;
         private InteractorModule[] _modules;
-        private int _currentModule = DefaultModule;
+        private int _currentModule = PortInteractorIndex;
         private Camera _camera;
 
         private readonly KeyCode[] _selectKeys =
@@ -40,13 +44,13 @@ namespace Interactors
             _defaultModule = defaultModuleContainer.GetComponent<InteractorModule>();
             _modules = new InteractorModule[]
             {
-                interactorsContainer.GetComponent<PortInteractor>(),
                 interactorsContainer.GetComponent<DigInteractor>(),
                 interactorsContainer.GetComponent<RefineryInteractor>(),
                 interactorsContainer.GetComponent<FactoryInteractor>(),
                 interactorsContainer.GetComponent<PowerPlantInteractor>(),
                 interactorsContainer.GetComponent<FarmDomeInteractor>(),
                 interactorsContainer.GetComponent<ResidencyInteractor>(),
+                interactorsContainer.GetComponent<PortInteractor>(),
             };
         }
 
@@ -81,6 +85,21 @@ namespace Interactors
             {
                 RayCastToHover();
             }
+        }
+
+        public void SetInteractorByName(string interactorName)
+        {
+            for (var index = 0; index < _modules.Length; index++)
+            {
+                var interactorModule = _modules[index];
+                if (interactorModule.GetInteractorName() == interactorName)
+                {
+                    _currentModule = index;
+                    return;
+                }
+            }
+            
+            Debug.Log($"Tried to set interactor with name '{interactorName}' but there is no such interactor.");
         }
 
         private void RayCastToHover()
@@ -178,19 +197,12 @@ namespace Interactors
             var laserableEntity = hit.collider.GetComponent<ILaserInteractable>();
             if (laserableEntity != null)
             {
-                if (interactorModule)
+                if (interactorModule.CanPerformInteraction(laserableEntity))
                 {
-                    if (interactorModule.CanPerformInteraction(laserableEntity))
+                    if (!interactorModule.Started())
                     {
-                        if (!interactorModule.Started())
-                        {
-                            interactorModule.StartInteraction(laserableEntity);
-                        }
+                        interactorModule.StartInteraction(laserableEntity);
                     }
-                }
-                else
-                {
-                    // interactorModule.OnFailedToBuild(block.transform.position);
                 }
             }
         }

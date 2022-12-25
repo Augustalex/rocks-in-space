@@ -4,7 +4,6 @@ namespace Interactors
 {
     public class FactoryInteractor : InteractorModule
     {
-        private const int MetalsCost = 50;
         public GameObject template;
 
         public override string GetInteractorName()
@@ -19,21 +18,15 @@ namespace Interactors
         
         public override bool CanBuild(Block block)
         {
-            return HasEnoughMetals(block);
-        }
-
-        private static bool HasEnoughMetals(Block block)
-        {
-            var resources = block.GetConnectedPlanet().GetResources();
-            return resources.GetMetals() >= MetalsCost;
+            return HasEnoughResourceToBuild(block);
         }
 
         public override void Build(Block block)
         {
-            var resources = block.GetConnectedPlanet().GetResources();
-            resources.SetMetals(resources.GetMetals() - MetalsCost);
+            ConsumeRequiredResources(block);
             
-            block.Seed(template);
+            var seed = block.Seed(template);
+            SetSeedRefund(seed);
         }
         
         public override void OnFailedToBuild(Vector3 hitPoint)
@@ -75,18 +68,7 @@ namespace Interactors
 
         public override void Hover(RaycastHit hit)
         {
-            
-        }
-
-        public override string GetCannotBuildHereMessage(Block block)
-        {
-            if (!HasEnoughMetals(block))
-            {
-                return
-                    $"Not enough {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Metals)} need {MetalsCost}";
-            }
-
-            return "Can't build here";
+            // Do nothing
         }
     }
 }
