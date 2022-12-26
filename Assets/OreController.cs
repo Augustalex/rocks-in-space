@@ -20,6 +20,12 @@ public class OreController : MonoBehaviour
         }
     }
 
+    public void MakeIntoOreVein()
+    {
+        if (_ore) return;
+        RandomizeOreVein();
+    }
+
     private void RandomizeOreVein()
     {
         var self = gameObject;

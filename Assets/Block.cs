@@ -31,6 +31,12 @@ public class Block : MonoBehaviour, ILaserInteractable
         tinyPlanetGenerator.DestroyBlock(this);
     }
 
+    public void DestroyedByNonPlayer()
+    {
+        var tinyPlanetGenerator = TinyPlanetGenerator.Get();
+        tinyPlanetGenerator.DestroyBlock(this);
+    }
+
     public void DestroySelf()
     {
         GetConnectedPlanet().RemoveFromNetwork(GetRoot());

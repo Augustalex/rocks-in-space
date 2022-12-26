@@ -6,18 +6,17 @@ using Random = UnityEngine.Random;
 
 public class Meteor : MonoBehaviour
 {
-    public GameObject[] seedTemplates;
     public Block target;
     public GameObject targetObj;
 
     public event Action BeforeDestroy;
-    
+
     private float _createdAt;
 
     void Start()
     {
         _createdAt = Time.time;
-        
+
         var body = GetComponentInParent<Rigidbody>();
 
         StartCoroutine(DoSoon());
@@ -48,10 +47,21 @@ public class Meteor : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         var block = other.GetComponent<Block>();
+
         if (block)
         {
-            var randomSeed = seedTemplates[Random.Range(0, seedTemplates.Length)];
-            block.Seed(randomSeed);
+            if (block.IsSeeded())
+            {
+                block.DestroyedByNonPlayer();
+            }
+            else
+            {
+                var oreController = block.GetRoot().GetComponentInChildren<OreController>();
+                if (oreController)
+                {
+                    oreController.MakeIntoOreVein();
+                }
+            }
         }
 
         OnBeforeDestroy();
