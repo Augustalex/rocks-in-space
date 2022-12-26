@@ -198,10 +198,5 @@ namespace Interactors
         {
             // Do nothing
         }
-
-        public override string GetCannotBuildHereMessage(Block block)
-        {
-            return "Cannot dig here";
-        }
     }
 }

@@ -67,7 +67,7 @@ public class CameraController : MonoBehaviour
     {
         if (!AvailableToUpdate()) return;
 
-        if (_displayController.inputMode == DisplayController.InputMode.Cinematic)
+        if (_moving)
         {
             if (_moveTime > 0)
             {
@@ -82,7 +82,7 @@ public class CameraController : MonoBehaviour
             else
             {
                 _moving = false;
-                _displayController.ExitCinematicMode();
+                if(_displayController.inputMode == DisplayController.InputMode.Cinematic) _displayController.ExitCinematicMode();
             }
         }
         else if(_displayController.inputMode == DisplayController.InputMode.Static)

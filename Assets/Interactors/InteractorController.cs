@@ -165,13 +165,14 @@ namespace Interactors
                 var interactorModule = CurrentModule();
                 if (Physics.Raycast(ray, out hit, interactorModule.MaxActivationDistance()))
                 {
+                    var block = hit.collider.GetComponent<Block>();
+
                     if (interactorModule is DigInteractor digInteractor)
                     {
                         HandleDigInteractions(digInteractor, hit);
                     }
                     else
                     {
-                        var block = hit.collider.GetComponent<Block>();
                         if (block != null)
                         {
                             if (interactorModule && interactorModule.CanBuild(block))
@@ -197,7 +198,12 @@ namespace Interactors
             var laserableEntity = hit.collider.GetComponent<ILaserInteractable>();
             if (laserableEntity != null)
             {
-                if (interactorModule.CanPerformInteraction(laserableEntity))
+                var block = hit.collider.GetComponent<Block>();
+                if (block && !block.GetConnectedPlanet().HasPort())
+                {
+                    FailedToBuild?.Invoke(interactorModule, block);
+                }
+                else if (interactorModule.CanPerformInteraction(laserableEntity))
                 {
                     if (!interactorModule.Started())
                     {

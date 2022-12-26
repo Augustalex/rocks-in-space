@@ -17,6 +17,10 @@ namespace Interactors
         
         public virtual string GetCannotBuildHereMessage(Block block)
         {
+            if (!block.GetConnectedPlanet().HasPort())
+            {
+                return "Asteroid needs a port before anything can be done here";
+            }
             if (!HasEnoughResourceToBuild(block))
             {
                 var (neededResource, costAmount) = CheckMostUrgentResourceRequirement(block);
@@ -29,7 +33,7 @@ namespace Interactors
 
         public virtual bool CanBuild(Block block)
         {
-            return HasEnoughResourceToBuild(block);
+            return block.GetConnectedPlanet().HasPort() && HasEnoughResourceToBuild(block);
         }
 
         protected bool HasEnoughResourceToBuild(Block block)
