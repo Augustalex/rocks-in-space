@@ -5,6 +5,8 @@ namespace Interactors
 {
     public class SelectInteractor : InteractorModule
     {
+        public static string SelectInteractorName = "Select";
+        
         [NonSerialized]
         private GameObject _lastCenteredPlanet;
 
@@ -30,7 +32,7 @@ namespace Interactors
         
         public override string GetInteractorName()
         {
-            return "Select";
+            return SelectInteractorName;
         }
 
         public override string GetInteractorShortDescription()

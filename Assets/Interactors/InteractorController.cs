@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Interactors.Digging;
 using UnityEngine;
 
@@ -36,6 +37,8 @@ namespace Interactors
         };
 
         private static InteractorController _instance;
+        private bool _lockedToDefaultInteractor;
+        private int _selectedInteractorBeforeWasLocked;
 
         private void Awake()
         {
@@ -66,24 +69,36 @@ namespace Interactors
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            UpdateInteractorSelection();
+
+            if (CurrentModule().Hoverable())
+            {
+                RayCastToHover();
+            }
+        }
+
+        private void UpdateInteractorSelection()
+        {
+            if (_lockedToDefaultInteractor)
             {
                 _currentModule = DefaultModule;
             }
             else
             {
-                for (var i = 0; i < _selectKeys.Length; i++)
+                if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    if (Input.GetKeyDown(_selectKeys[i]) && _modules.Length > i)
-                    {
-                        _currentModule = i;
-                    }
+                    _currentModule = DefaultModule;
                 }
-            }
-
-            if (CurrentModule().Hoverable())
-            {
-                RayCastToHover();
+                else
+                {
+                    for (var i = 0; i < _selectKeys.Length; i++)
+                    {
+                        if (Input.GetKeyDown(_selectKeys[i]) && _modules.Length > i)
+                        {
+                            _currentModule = i;
+                        }
+                    }
+                }   
             }
         }
 
@@ -227,6 +242,18 @@ namespace Interactors
             {
                 return null;
             }
+        }
+
+        public void LockToDefaultInteractor()
+        {
+            _selectedInteractorBeforeWasLocked = _currentModule;
+            _lockedToDefaultInteractor = true;
+        }
+
+        public void UnlockFromDefaultInteractor()
+        {
+            _currentModule = _selectedInteractorBeforeWasLocked;
+            _lockedToDefaultInteractor = false;
         }
     }
 }

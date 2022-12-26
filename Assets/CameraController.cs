@@ -145,6 +145,7 @@ public class CameraController : MonoBehaviour
         _zoomedOut = !_zoomedOut;
         if (_zoomedOut)
         {
+            InteractorController.Get().LockToDefaultInteractor();
             var (targetPosition, targetRotation) = CameraPlanetZoomedOutPosition();
             var cameraTransform = _camera.transform;
             cameraTransform.position = targetPosition;
@@ -152,6 +153,7 @@ public class CameraController : MonoBehaviour
         }
         else
         {
+            InteractorController.Get().UnlockFromDefaultInteractor();
             var (targetPosition, targetRotation) = CameraPlanetZoomedInPosition();
             var cameraTransform = _camera.transform;
             cameraTransform.position = targetPosition;
