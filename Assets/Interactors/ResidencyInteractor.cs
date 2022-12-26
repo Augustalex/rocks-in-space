@@ -28,20 +28,20 @@ namespace Interactors
         {
             // Do nothing
         }
-        
-        public override void OnFailedToBuild(Vector3 hitPoint)
-        {
-            var audioController = AudioController.Get();
-
-            audioController.Play(audioController.cannotBuild, audioController.cannotBuildVolume,
-                hitPoint);
-        }
 
         public override void OnBuilt(Vector3 hitPoint)
         {
             var audioController = AudioController.Get();
             
             audioController.Play(audioController.destroyBlock, audioController.destroyBlockVolume,
+                hitPoint);
+        }
+
+        public override void OnFailedToBuild(Vector3 hitPoint)
+        {
+            var audioController = AudioController.Get();
+
+            audioController.Play(audioController.cannotBuild, audioController.cannotBuildVolume,
                 hitPoint);
         }
 

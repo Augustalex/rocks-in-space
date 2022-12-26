@@ -19,6 +19,7 @@ public class ErrorDisplay : MonoBehaviour
         _instance = this;
 
         _text = GetComponent<TMP_Text>();
+        _text.text = "";
     }
 
     void Start()

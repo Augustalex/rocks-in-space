@@ -1,61 +1,61 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ModuleController : MonoBehaviour
 {
     private TinyPlanetResources _planetResources;
-    private double _rate = .5f;
-    private double _cooldown = 0;
-    private int _life = 100;
     private PowerControlled _powerControlled;
-    private bool _dead;
+
+    private bool _occupied;
+    private float _life = 100f;
 
     void Start()
     {
         _powerControlled = GetComponentInChildren<PowerControlled>();
         _planetResources = GetComponentInParent<TinyPlanetResources>();
 
-        _planetResources.SetInhabitants(_planetResources.GetInhabitants() + 100);
+        _planetResources.AddResidency();
     }
 
     void Update()
     {
-        if (_dead) return;
-        
-        if (_life <= 0)
+        if (_occupied)
         {
-            _dead = true;
-            _powerControlled.PowerOff();
-            _planetResources.SetInhabitants(_planetResources.GetInhabitants() - 100);
-        }
-
-        if (_cooldown >= 1f)
-        {
-            _cooldown = 0;
-
+            var foodNeed = 5f * Time.deltaTime;
             var food = _planetResources.GetFood();
-            if (food >= 10)
+            if (food >= foodNeed)
             {
-                _planetResources.SetFood(food - 10);
+                _planetResources.SetFood(food - foodNeed);
             }
             else
             {
-                _life -= 10;
+                _life -= 10f * Time.deltaTime;
+
+                if (_life <= 0f)
+                {
+                    _powerControlled.PowerOff();
+                    _planetResources.KillResidencyInhabitants();
+                    _occupied = false;
+                }
             }
         }
-        else
+        else if(_planetResources.HasVacancy())
         {
-            _cooldown += _rate * Time.deltaTime;
+            _life = 100f;
+            _powerControlled.PowerOn();
+            _planetResources.OccupyResidency();
+            _occupied = true;
         }
     }
 
     private void OnDestroy()
     {
-        if (!_dead)
+        if (_occupied)
         {
-            _planetResources.SetInhabitants(_planetResources.GetInhabitants() - 100);
+            _planetResources.DestroyOccupiedResidency();
+        }
+        else
+        {
+            _planetResources.DestroyVacantResidency();
         }
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TinyPlanetResources : MonoBehaviour
@@ -33,13 +31,17 @@ public class TinyPlanetResources : MonoBehaviour
 
         return "Unknown resource";
     }
+
+    private const int InhabitantsPerResidency = 100;
     
     private static int _ore = 0;
     private static int _metals = 0;
     private static int _gadgets = 0;
-    private static int _energy = 0;
+    private static float _energy = 0;
     private static int _inhabitants = 0;
-    private static int _food = 0;
+    private static int _residencies = 0;
+    private static int _occupiedResidencies = 0;
+    private static float _food = 0;
 
     public void SetOre(int newOre)
     {
@@ -71,24 +73,29 @@ public class TinyPlanetResources : MonoBehaviour
         return _gadgets;
     }
     
-    public void SetEnergy(int newOre)
+    public void SetEnergy(float newOre)
     {
         _energy = newOre;
     }
 
-    public int GetEnergy()
+    public float GetEnergy()
     {
         return _energy;
     }
     
-    public void SetFood(int newOre)
+    public void SetFood(float newOre)
     {
         _food = newOre;
     }
 
-    public int GetFood()
+    public float GetFood()
     {
         return _food;
+    }
+    
+    public static void AddColonists(int colonistCount)
+    {
+        _inhabitants += colonistCount;
     }
     
     public void SetInhabitants(int newOre)
@@ -99,5 +106,50 @@ public class TinyPlanetResources : MonoBehaviour
     public int GetInhabitants()
     {
         return _inhabitants;
+    }
+
+    public void AddResidency()
+    {
+        _residencies += 1;
+    }
+
+    public void DestroyVacantResidency()
+    {
+        _residencies -= 1;
+    }
+    
+    public bool HasVacancy()
+    {
+        var occupiedInhabitants = _occupiedResidencies * InhabitantsPerResidency;
+        return occupiedInhabitants < _inhabitants;
+    }
+
+    public static bool HasSpaceForInhabitants(int additionalInhabitants)
+    {
+        var vacancies = _residencies - _occupiedResidencies;
+        var additionalCapacity = vacancies * InhabitantsPerResidency;
+        return additionalCapacity >= additionalInhabitants;
+    }
+
+    public void OccupyResidency()
+    {
+        _occupiedResidencies += 1;
+    }
+
+    public void VacantResidency()
+    {
+        _occupiedResidencies -= 1;
+    }
+
+    public void KillResidencyInhabitants()
+    {
+        _inhabitants -= InhabitantsPerResidency;
+        _occupiedResidencies -= 1;
+    }
+
+    public void DestroyOccupiedResidency()
+    {
+        KillResidencyInhabitants();
+        DestroyVacantResidency();
     }
 }
