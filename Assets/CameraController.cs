@@ -110,25 +110,31 @@ public class CameraController : MonoBehaviour
                 _camera.transform.RotateAround(FocusPoint(), Vector3.up, -45f * Time.deltaTime);
             }
 
-            if (Input.GetKey(KeyCode.Q))
+            var maxTilt = 75f;
+            var eulerAnglesX = _camera.transform.rotation.eulerAngles.x;
+            var adjustedAngles = eulerAnglesX > 180f ? (eulerAnglesX - 360f) : eulerAnglesX;
+            if (Input.GetKey(KeyCode.Q) && adjustedAngles > -maxTilt)
             {
                 _camera.transform.RotateAround(FocusPoint(), transform.right, -45f * Time.deltaTime);
             }
-            else if (Input.GetKey(KeyCode.E))
+            else if (Input.GetKey(KeyCode.E) && adjustedAngles < maxTilt)
             {
-                _camera.transform.RotateAround(FocusPoint(), -transform.right, -45f * Time.deltaTime);
+                _camera.transform.RotateAround(FocusPoint(), transform.right, 45f * Time.deltaTime);
             }
 
             if (!_zoomedOut)
             {
-                if (Input.GetKey(KeyCode.S))
+                var maxInnerZoom = 12f;
+                var maxOuterZoom = 42f;
+                var cameraTransform = _camera.transform;
+                var distance = Vector3.Distance(FocusPoint(), cameraTransform.position);
+                
+                if (Input.GetKey(KeyCode.S) && distance < maxOuterZoom)
                 {
-                    var cameraTransform = _camera.transform;
                     cameraTransform.position += cameraTransform.forward * (-10f * Time.deltaTime);
                 }
-                else if (Input.GetKey(KeyCode.W))
+                else if (Input.GetKey(KeyCode.W) && distance > maxInnerZoom)
                 {
-                    var cameraTransform = _camera.transform;
                     cameraTransform.position += cameraTransform.forward * (10f * Time.deltaTime);
                 }
             }
