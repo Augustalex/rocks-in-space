@@ -28,18 +28,29 @@ public class Block : MonoBehaviour, ILaserInteractable
             }
         }
         
-        tinyPlanetGenerator.DestroyBlock(this);
+        tinyPlanetGenerator.DestroyBlock(this); // Will call "DestroySelf"
     }
 
     public void DestroyedByNonPlayer()
     {
         var tinyPlanetGenerator = TinyPlanetGenerator.Get();
-        tinyPlanetGenerator.DestroyBlock(this);
+        tinyPlanetGenerator.DestroyBlock(this); // Will call "DestroySelf"
     }
 
     public void DestroySelf()
     {
-        GetConnectedPlanet().RemoveFromNetwork(GetRoot());
+        var connectedPlanet = GetConnectedPlanet();
+
+        if (_seed)
+        {
+            var powerDraw = _seed.GetComponentInChildren<PowerDraw>();
+            if (powerDraw)
+            {
+                connectedPlanet.GetResources().AddEnergy(powerDraw.powerDraw);
+            }   
+        }
+        
+        connectedPlanet.RemoveFromNetwork(GetRoot());
         Destroy(GetRoot());
     }
 
@@ -71,6 +82,12 @@ public class Block : MonoBehaviour, ILaserInteractable
 
         _seed = Instantiate(seedTemplate, transform.parent, true);
         _seed.transform.position = transform.position;
+        
+        var powerDraw = _seed.GetComponentInChildren<PowerDraw>();
+        if (powerDraw)
+        {
+            GetConnectedPlanet().GetResources().RemoveEnergy(powerDraw.powerDraw);
+        }   
 
         return _seed;
     }

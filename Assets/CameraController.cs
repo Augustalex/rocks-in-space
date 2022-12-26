@@ -25,6 +25,7 @@ public class CameraController : MonoBehaviour
     public bool cinematicOpening = true;
     private static CameraController _instance;
     private bool _zoomedOut;
+    public event Action<bool> OnToggleZoom;
 
     void Awake()
     {
@@ -165,6 +166,8 @@ public class CameraController : MonoBehaviour
             cameraTransform.position = targetPosition;
             cameraTransform.rotation = targetRotation;
         }
+        
+        OnToggleZoom?.Invoke(_zoomedOut);
     }
 
     private void FocusOnPlanetSlowly(TinyPlanet planet)

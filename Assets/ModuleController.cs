@@ -7,6 +7,8 @@ public class ModuleController : MonoBehaviour
 
     private bool _occupied;
     private float _life = 100f;
+    private const float FoodUsedPerSecond = 2f;
+    private const float LifeLossPerSecond = 10f;
 
     void Start()
     {
@@ -14,36 +16,53 @@ public class ModuleController : MonoBehaviour
         _planetResources = GetComponentInParent<TinyPlanetResources>();
 
         _planetResources.AddResidency();
+        _powerControlled.PowerOff();
     }
 
     void Update()
     {
         if (_occupied)
         {
-            var foodNeed = 5f * Time.deltaTime;
+            var foodNeed = FoodUsedPerSecond * Time.deltaTime;
             var food = _planetResources.GetFood();
-            if (food >= foodNeed)
+            var hasEnoughFood = food >= foodNeed;
+
+            if (hasEnoughFood)
             {
-                _planetResources.SetFood(food - foodNeed);
+                _planetResources.UseFood(foodNeed);
             }
-            else
+
+            var hasEnoughEnergy = _planetResources.GetEnergy() > 0f;
+            if (!hasEnoughEnergy)
             {
-                _life -= 10f * Time.deltaTime;
+                _powerControlled.PowerOff();
+            }
+            else if(!_powerControlled.PowerIsOn())
+            {
+                _powerControlled.PowerOn();
+            }
+
+            if (!hasEnoughFood || !hasEnoughEnergy)
+            {
+                _life -= LifeLossPerSecond * Time.deltaTime;
 
                 if (_life <= 0f)
                 {
-                    _powerControlled.PowerOff();
                     _planetResources.KillResidencyInhabitants();
                     _occupied = false;
                 }
             }
         }
-        else if(_planetResources.HasVacancy())
+        else if (_planetResources.HasVacancy())
         {
             _life = 100f;
             _powerControlled.PowerOn();
             _planetResources.OccupyResidency();
             _occupied = true;
+        }
+        else if (_powerControlled.PowerIsOn())
+        {
+            _powerControlled.PowerOff();
         }
     }
 

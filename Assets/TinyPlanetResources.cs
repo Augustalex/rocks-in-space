@@ -72,22 +72,32 @@ public class TinyPlanetResources : MonoBehaviour
     {
         return _gadgets;
     }
-    
-    public void SetEnergy(float newOre)
+
+    public void RemoveEnergy(float energyToRemove)
     {
-        _energy = newOre;
+        _energy -= energyToRemove;
+    }
+
+    public void AddEnergy(float energyToAdd)
+    {
+        _energy += energyToAdd;
     }
 
     public float GetEnergy()
     {
         return _energy;
     }
-    
-    public void SetFood(float newOre)
+
+    public void AddFood(float food)
     {
-        _food = newOre;
+        _food += food;
     }
 
+    public void UseFood(float food)
+    {
+        _food -= food;
+    }
+    
     public float GetFood()
     {
         return _food;
@@ -96,16 +106,6 @@ public class TinyPlanetResources : MonoBehaviour
     public static void AddColonists(int colonistCount)
     {
         _inhabitants += colonistCount;
-    }
-    
-    public void SetInhabitants(int newOre)
-    {
-        _inhabitants = newOre;
-    }
-
-    public int GetInhabitants()
-    {
-        return _inhabitants;
     }
 
     public void AddResidency()
@@ -126,19 +126,12 @@ public class TinyPlanetResources : MonoBehaviour
 
     public static bool HasSpaceForInhabitants(int additionalInhabitants)
     {
-        var vacancies = _residencies - _occupiedResidencies;
-        var additionalCapacity = vacancies * InhabitantsPerResidency;
-        return additionalCapacity >= additionalInhabitants;
+        return GetVacantHousing() >= additionalInhabitants;
     }
 
     public void OccupyResidency()
     {
         _occupiedResidencies += 1;
-    }
-
-    public void VacantResidency()
-    {
-        _occupiedResidencies -= 1;
     }
 
     public void KillResidencyInhabitants()
@@ -151,5 +144,13 @@ public class TinyPlanetResources : MonoBehaviour
     {
         KillResidencyInhabitants();
         DestroyVacantResidency();
+    }
+
+    public static int GetVacantHousing()
+    {
+        var vacancies = _residencies - _occupiedResidencies;
+        var additionalCapacity = vacancies * InhabitantsPerResidency;
+
+        return additionalCapacity;
     }
 }

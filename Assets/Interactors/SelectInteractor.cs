@@ -113,7 +113,7 @@ namespace Interactors
 
         public override float MaxActivationDistance()
         {
-            return 1000f;
+            return 2500f;
         }
 
         public void ForceSetLastConnectedPlanet(TinyPlanet startingPlanet)

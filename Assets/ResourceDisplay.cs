@@ -40,13 +40,11 @@ public class ResourceDisplay : MonoBehaviour
         var ore = currentPlanet.GetOre();
         var metals = currentPlanet.GetMetals();
         var gadgets = currentPlanet.GetGadgets();
-        var energy = currentPlanet.GetEnergy();
-        var food = currentPlanet.GetFood();
-        var inhabitants = currentPlanet.GetInhabitants();
+        var energy = Mathf.RoundToInt(currentPlanet.GetEnergy());
+        var food = Mathf.RoundToInt(currentPlanet.GetFood());
+        var vacantHousing = TinyPlanetResources.GetVacantHousing();
         _text =
-            $"Inhabitants: {inhabitants}\nOre: {ore}\nMetals: {metals}\nGadgets: {gadgets}\nEnergy: {energy}\nFood: {food}\n";
-            // $"Ore: {ore} -> Metals: {metals} -> Gadgets: {gadgets} -> Energy: {energy} -> Food: {food} -> Inhabitants: {inhabitants}";
-            // _text = $"ORE: {ore}";
+            $"Ore: {ore}\nMetals: {metals}\nGadgets: {gadgets}\nEnergy: {energy}\nFood: {food}\nHousing: {vacantHousing}";
     }
 
     public void Hidden()

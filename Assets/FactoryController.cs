@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FactoryController : MonoBehaviour
 {
     private TinyPlanetResources _planetResources;
-    private double _rate = .5f;
+    private const double Rate = 1f;
+    private const int MetalThreshold = 2;
+    private const int GadgetGain = 1;
     private double _cooldown = 0;
 
     void Start()
@@ -20,15 +20,15 @@ public class FactoryController : MonoBehaviour
             _cooldown = 0;
 
             var metals = _planetResources.GetMetals();
-            if (metals >= 5)
+            if (metals >= MetalThreshold)
             {
-                _planetResources.SetMetals(metals - 5);
-                _planetResources.SetGadgets(_planetResources.GetGadgets() + 1);
+                _planetResources.SetMetals(metals - MetalThreshold);
+                _planetResources.SetGadgets(_planetResources.GetGadgets() + GadgetGain);
             }
         }
         else
         {
-            _cooldown += _rate * Time.deltaTime;
+            _cooldown += Rate * Time.deltaTime;
         }
     }
 }

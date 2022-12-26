@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RefineryController : MonoBehaviour
 {
     private TinyPlanetResources _planetResources;
-    private double _rate = .5f;
+    private const double Rate = 2f;
+    private const int OrePerMetal = 5;
     private double _cooldown = 0;
 
     void Start()
@@ -20,15 +19,15 @@ public class RefineryController : MonoBehaviour
             _cooldown = 0;
 
             var ore = _planetResources.GetOre();
-            if (ore >= 10)
+            if (ore >= OrePerMetal)
             {
-                _planetResources.SetOre(ore - 10);
+                _planetResources.SetOre(ore - OrePerMetal);
                 _planetResources.SetMetals(_planetResources.GetMetals() + 1);
             }
         }
         else
         {
-            _cooldown += _rate * Time.deltaTime;
+            _cooldown += Rate * Time.deltaTime;
         }
     }
 }

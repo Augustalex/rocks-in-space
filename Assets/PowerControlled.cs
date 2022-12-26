@@ -7,12 +7,17 @@ public class PowerControlled : MonoBehaviour
     private GameObject _lightsOn;
     private GameObject _lightsOff;
 
-    void Start()
+    void Awake()
     {
         _lightsOn = GetComponentInChildren<LightsOn>().gameObject;
         _lightsOff = GetComponentInChildren<LightsOff>().gameObject;
-        
-        PowerOn();
+
+        PowerOff();
+    }
+
+    public bool PowerIsOn()
+    {
+        return _lightsOn.activeSelf;
     }
     
     public void PowerOn()

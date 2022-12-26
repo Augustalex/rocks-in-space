@@ -3,7 +3,7 @@ using UnityEngine;
 public class ColonistManager : MonoBehaviour
 {
     private const int InitialColonistCount = 1000;
-    private const float InitialEta = 60f * 10f;
+    private const float InitialEta = 60f * 6f;
 
     private int _level = 1;
     private float _colonistEta;
@@ -39,8 +39,9 @@ public class ColonistManager : MonoBehaviour
             if (TinyPlanetResources.HasSpaceForInhabitants(_colonistCount))
             {
                 TinyPlanetResources.AddColonists(_colonistCount);
-                _colonistCount = InitialColonistCount * _level * _level;
-                _colonistEta = InitialEta;   
+                _level += 1;
+                _colonistCount = InitialColonistCount * _level;
+                _colonistEta = Time.time + InitialEta;
             }
             else
             {
