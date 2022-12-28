@@ -114,7 +114,7 @@ public class TinyPlanet : MonoBehaviour
             var port = networkItem.GetComponentInChildren<PortController>();
             if (port)
             {
-                _port = port;
+                AttachPort(port);
             }
         }
     }
@@ -155,7 +155,7 @@ public class TinyPlanet : MonoBehaviour
         var blockHasPlanetsPort = block.GetComponentInChildren<PortController>();
         if (blockHasPlanetsPort)
         {
-            _port = null;
+            DetachPort();
         }
     }
 
@@ -179,6 +179,12 @@ public class TinyPlanet : MonoBehaviour
     public void AttachPort(PortController port)
     {
         _port = port;
+        _port.AttachPlanetResources(GetResources());
+    }
+
+    private void DetachPort()
+    {
+        _port = null;
     }
 
     public bool HasPort()

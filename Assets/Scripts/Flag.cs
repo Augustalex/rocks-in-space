@@ -16,9 +16,4 @@ public class Flag : MonoBehaviour
     {
         gameObject.SetActive(zoomedOut);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
 }

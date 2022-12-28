@@ -25,6 +25,6 @@ public class GameOverScreen : MonoBehaviour
         _contents.SetActive(true);
 
         _contents.GetComponentInChildren<TMP_Text>().text =
-            $"The colony ship arrived without somewhere to house them. {colonistsLost} lives where lost. The Board has decided to terminate your assignment.\n\nYou lead the mission for {cyclesServed} {(cyclesServed == 1 ? "cycle" : "cycles")}.";
+            $"The colony ship arrived without somewhere to house them. {colonistsLost} lives were lost. The Board has decided to terminate your assignment.\n\nYou lead the mission for {cyclesServed} {(cyclesServed == 1 ? "cycle" : "cycles")}.";
     }
 }

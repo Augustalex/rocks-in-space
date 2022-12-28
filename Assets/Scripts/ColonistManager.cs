@@ -36,9 +36,11 @@ public class ColonistManager : MonoBehaviour
     {
         if (Time.time > Eta())
         {
-            if (TinyPlanetResources.HasSpaceForInhabitants(_colonistCount))
+            if (CanAcceptShipment())
             {
-                TinyPlanetResources.AddColonists(_colonistCount);
+                // TODO this should be done to a targeted port
+                var targetPlanet = PortController.GetMainPort();
+                targetPlanet.GetResources().AddColonists(_colonistCount);
                 _level += 1;
                 _colonistCount = InitialColonistCount * _level;
                 _colonistEta = Time.time + InitialEta;
@@ -48,5 +50,11 @@ public class ColonistManager : MonoBehaviour
                 GameOverScreen.Get().GameOver(_colonistCount);
             }
         }
+    }
+
+    private bool CanAcceptShipment()
+    {
+        return PortController.PortExists()
+               && PortController.GetMainPort().GetResources().HasSpaceForInhabitants(_colonistCount);
     }
 }

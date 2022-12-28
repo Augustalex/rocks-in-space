@@ -4,6 +4,7 @@ namespace Interactors
 {
     public class PortInteractor : InteractorModule
     {
+        private static double PortCost = 800;
         public GameObject template;
 
         public override string GetInteractorName()
@@ -28,27 +29,8 @@ namespace Interactors
 
         private bool AllowedMorePorts()
         {
-            var inhabitants = TinyPlanetResources.GetGlobalInhabitants();
-            var allowedPorts = AllowedPortCount(inhabitants);
-
-            var portCount = FindObjectsOfType<PortController>().Length;
-            return portCount < allowedPorts;
-        }
-
-        private int AllowedPortCount(int inhabitants)
-        {
-            int count = 3;
-            if (inhabitants > 1000) count += 1;
-            if (inhabitants > 2000) count += 1;
-            if (inhabitants > 5000) count += 1;
-            if (inhabitants > 10000) count += 1;
-            if (inhabitants > 25000) count += 1;
-            if (inhabitants > 50000) count += 1;
-            if (inhabitants > 100000) count += 1;
-            if (inhabitants > 1000000) count += 10;
-            if (inhabitants > 10000000) count += 999;
-
-            return count;
+            var cash = TinyPlanetResources.GetGlobalCash();
+            return cash > PortCost;
         }
 
         public override void Build(Block block)

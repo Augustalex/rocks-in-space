@@ -42,7 +42,7 @@ public class ResourceDisplay : MonoBehaviour
         var gadgets = currentPlanet.GetGadgets();
         var energy = Mathf.RoundToInt(currentPlanet.GetEnergy());
         var food = Mathf.RoundToInt(currentPlanet.GetFood());
-        var vacantHousing = TinyPlanetResources.GetVacantHousing();
+        var vacantHousing = currentPlanet.GetVacantHousing();
         _text =
             $"Ore: {ore}\nMetals: {metals}\nGadgets: {gadgets}\nEnergy: {energy}\nFood: {food}\nHousing: {vacantHousing}";
     }
