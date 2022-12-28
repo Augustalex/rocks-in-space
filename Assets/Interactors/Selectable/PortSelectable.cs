@@ -8,11 +8,11 @@ namespace Interactors.Selectable
         
         public override void Select()
         {
-            var canvas = FindObjectOfType<Canvas>();
-            var block = transform.parent.GetComponentInChildren<Block>();
-            
-            var menu = Instantiate(menuTemplate, canvas.transform, false);
-            menu.GetComponent<ModalController>().Show(block);
+            // var canvas = FindObjectOfType<Canvas>();
+            // var block = transform.parent.GetComponentInChildren<Block>();
+            //
+            // var menu = Instantiate(menuTemplate, canvas.transform, false);
+            // menu.GetComponent<ModalController>().Show(block);
         }
     }
 }

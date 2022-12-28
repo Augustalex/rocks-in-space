@@ -6,6 +6,7 @@ namespace Interactors
     [Serializable]
     public struct InteractorCostsData
     {
+        public int cash;
         public int ore;
         public int metals;
         public int gadgets;

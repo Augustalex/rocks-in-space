@@ -10,7 +10,6 @@ public class DisplayController : MonoBehaviour
     private string _oldName;
     private string _newName;
     private TinyPlanet _currentPlanet;
-    private PlanetNameInstructionsDisplay _planetNameInstructionsDisplay;
     private ResourceDisplay _resourcesDisplay;
     private IEnumerable<GameObject> _miscHidable;
     private PlanetNamingModal _planetNamingModal;
@@ -41,7 +40,6 @@ public class DisplayController : MonoBehaviour
     private void Start()
     {
         _planetNameDisplay = FindObjectOfType<PlanetNameDisplay>();
-        _planetNameInstructionsDisplay = FindObjectOfType<PlanetNameInstructionsDisplay>();
         _resourcesDisplay = FindObjectOfType<ResourceDisplay>();
         _miscHidable = FindObjectsOfType<Hidable>().Select(h => h.gameObject);
 
@@ -109,11 +107,6 @@ public class DisplayController : MonoBehaviour
         else if (_currentPlanet == null || _currentPlanet.planetName is "Unnamed" or "Unknown")
         {
             _planetNameDisplay.text = "";
-            _planetNameInstructionsDisplay.text = "";
-        }
-        else
-        {
-            _planetNameInstructionsDisplay.text = "PRESS ENTER TO RENAME";
         }
     }
 

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -40,11 +38,8 @@ public class ResourceDisplay : MonoBehaviour
         var ore = currentPlanet.GetOre();
         var metals = currentPlanet.GetMetals();
         var gadgets = currentPlanet.GetGadgets();
-        var energy = Mathf.RoundToInt(currentPlanet.GetEnergy());
-        var food = Mathf.RoundToInt(currentPlanet.GetFood());
-        var vacantHousing = currentPlanet.GetVacantHousing();
         _text =
-            $"Ore: {ore}\nMetals: {metals}\nGadgets: {gadgets}\nEnergy: {energy}\nFood: {food}\nHousing: {vacantHousing}";
+            $"Credits: {currentPlanet.GetCash()}c\nOre: {ore}\nMetals: {metals}\nGadgets: {gadgets}";
     }
 
     public void Hidden()

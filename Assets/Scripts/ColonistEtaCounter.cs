@@ -4,24 +4,23 @@ using UnityEngine;
 
 public class ColonistEtaCounter : MonoBehaviour
 {
-    private ColonistManager _colonistManager;
     private TMP_Text _text;
+    private Convoy _convoy;
 
     void Awake()
     {
         _text = GetComponent<TMP_Text>();
     }
     
-    void Start()
-    {
-        _colonistManager = ColonistManager.Get();
-    }
-    
     void Update()
     {
-        var eta = _colonistManager.Eta();
-        var timeLeft = Mathf.Max(0, eta - Time.time);
+        var timeLeft = _convoy.TimeLeft(Time.time);
         var ts = TimeSpan.FromSeconds(timeLeft);
         _text.text = ts.ToString(@"mm\:ss");
+    }
+
+    public void Set(Convoy convoy)
+    {
+        _convoy = convoy;
     }
 }

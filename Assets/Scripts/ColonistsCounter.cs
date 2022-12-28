@@ -4,22 +4,15 @@ using UnityEngine;
 public class ColonistsCounter : MonoBehaviour
 {
     private TMP_Text _text;
-    private CurrentPlanetController _currentPlanetController;
 
     void Awake()
     {
         _text = GetComponent<TMP_Text>();
     }
-
-    void Start()
+    
+    public void Set(Convoy convoy)
     {
-        _currentPlanetController = CurrentPlanetController.Get();
-    }
-
-    void Update()
-    {
-        var resources = _currentPlanetController.CurrentPlanet().GetResources();
-        var inhabitants = resources.GetInhabitants();
-        _text.text = inhabitants > 0 ? $"COLONISTS: {inhabitants}" : "";
+        var inhabitants = convoy.Colonists;
+        _text.text = inhabitants > 0 ? $"REQUIRED HOUSING: {inhabitants}\nCREDIT REWARD: {convoy.CashReward}c" : "";
     }
 }

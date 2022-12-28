@@ -171,7 +171,7 @@ public class TinyPlanetResources : MonoBehaviour
         _inhabitants -= InhabitantsPerResidency;
         _occupiedResidencies -= 1;
     }
-
+    
     public int GetVacantHousing()
     {
         var vacancies = _residencies - _occupiedResidencies;

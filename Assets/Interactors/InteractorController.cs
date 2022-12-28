@@ -98,7 +98,7 @@ namespace Interactors
                             _currentModule = i;
                         }
                     }
-                }   
+                }
             }
         }
 
@@ -113,7 +113,7 @@ namespace Interactors
                     return;
                 }
             }
-            
+
             Debug.Log($"Tried to set interactor with name '{interactorName}' but there is no such interactor.");
         }
 
@@ -131,6 +131,8 @@ namespace Interactors
 
         public void Interact()
         {
+            CheckForActionTarget();
+            
             if (CurrentModule().Continuous() ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
             {
                 RayCastToBuild();
@@ -139,7 +141,7 @@ namespace Interactors
             {
                 RayCastSecondaryAction();
             }
-
+            
             if (Input.GetMouseButtonUp(0))
             {
                 var interactorModule = CurrentModule();
@@ -167,6 +169,27 @@ namespace Interactors
                         interactorModule.OnSecondaryInteract(block, hit);
                     }
                 }
+            }
+        }
+
+        private void CheckForActionTarget()
+        {
+            if (!Input.GetMouseButtonDown(0)) return;
+            
+            var ray = _camera.ScreenPointToRay(Input.mousePosition);
+
+            var interactorModule = CurrentModule();
+            if (Physics.Raycast(ray, out var hit, interactorModule.MaxActivationDistance()))
+            {
+                var parent = hit.collider.GetComponentInParent<BlockRoot>();
+                if (!parent) return;
+
+                var actionTarget = parent.GetComponentInChildren<ActionTarget>();
+                if (actionTarget)
+                {
+                    actionTarget.MouseDown();
+                }
+
             }
         }
 

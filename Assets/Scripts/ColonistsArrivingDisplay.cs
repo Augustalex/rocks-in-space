@@ -12,9 +12,8 @@ public class ColonistsArrivingDisplay : MonoBehaviour
         _text = GetComponent<TMP_Text>();
     }
     
-    void Update()
+    public void Set(Convoy convoy)
     {
-        var colonists = ColonistManager.Get().ColonistCount();
-        _text.text = $"{colonists} colonists arriving in";
+        _text.text = $"{convoy.Colonists} colonists arriving in";
     }
 }

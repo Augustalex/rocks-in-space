@@ -1,10 +1,32 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[Serializable]
+public class PlanetId
+{
+    private static int _nextPlanetId = 1;
+    private readonly int _id;
+
+    public PlanetId()
+    {
+        _id = _nextPlanetId++;
+    }
+
+    public bool Is(PlanetId id)
+    {
+        return id._id == _id;
+    }
+}
+
 public class TinyPlanet : MonoBehaviour
 {
+    private static Dictionary<PlanetId, TinyPlanet> _planetRegistry = new();
+    
+    public PlanetId planetId = new();
+    
     [HideInInspector]
     public string planetName = "Unnamed";
     
@@ -73,6 +95,8 @@ public class TinyPlanet : MonoBehaviour
         {
             networkItem.GetComponentInChildren<Block>().SetMaterial(_purpleRockMaterial);
         }
+        
+        _planetRegistry.Add(planetId, this);
     }
 
     private void Update()
@@ -205,5 +229,10 @@ public class TinyPlanet : MonoBehaviour
     public bool HasPort()
     {
         return _port != null;
+    }
+
+    public static TinyPlanet FindPlanetById(PlanetId convoyPlanetId)
+    {
+        return !_planetRegistry.ContainsKey(convoyPlanetId) ? null : _planetRegistry[convoyPlanetId];
     }
 }
