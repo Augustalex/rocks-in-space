@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioController : MonoBehaviour
@@ -22,7 +19,7 @@ public class AudioController : MonoBehaviour
 
     private void Start()
     {
-        _camera = Camera.main;
+        _camera = GetComponentInParent<Camera>();
         _audioSource = _camera.GetComponent<AudioSource>();
     }
 

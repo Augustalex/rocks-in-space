@@ -27,7 +27,7 @@ public class Block : MonoBehaviour, ILaserInteractable
                 resources.SetGadgets(resources.GetGadgets() + costs.gadgets);
             }
         }
-        
+
         tinyPlanetGenerator.DestroyBlock(this); // Will call "DestroySelf"
     }
 
@@ -47,9 +47,9 @@ public class Block : MonoBehaviour, ILaserInteractable
             if (powerDraw)
             {
                 connectedPlanet.GetResources().AddEnergy(powerDraw.powerDraw);
-            }   
+            }
         }
-        
+
         connectedPlanet.RemoveFromNetwork(GetRoot());
         Destroy(GetRoot());
     }
@@ -69,11 +69,13 @@ public class Block : MonoBehaviour, ILaserInteractable
         return transform.parent.gameObject;
     }
 
+    private RockMesh GetMesh()
+    {
+        return transform.parent.GetComponentInChildren<RockMesh>();
+    }
+
     public GameObject Seed(GameObject seedTemplate)
     {
-        var mesh = transform.parent.GetComponentInChildren<RockMesh>();
-        Destroy(mesh.gameObject);
-
         var oreController = GetComponent<OreController>();
         if (oreController.HasOre())
         {
@@ -82,12 +84,19 @@ public class Block : MonoBehaviour, ILaserInteractable
 
         _seed = Instantiate(seedTemplate, transform.parent, true);
         _seed.transform.position = transform.position;
-        
+
         var powerDraw = _seed.GetComponentInChildren<PowerDraw>();
         if (powerDraw)
         {
             GetConnectedPlanet().GetResources().RemoveEnergy(powerDraw.powerDraw);
-        }   
+        }
+
+        var killMesh = _seed.GetComponent<KillRockMesh>();
+        if (killMesh)
+        {
+            var mesh = GetMesh();
+            Destroy(mesh.gameObject);
+        }
 
         return _seed;
     }
@@ -115,5 +124,17 @@ public class Block : MonoBehaviour, ILaserInteractable
     public EntityOven GetOven()
     {
         return transform.parent.GetComponentInChildren<EntityOven>();
+    }
+
+    public void SetMaterial(Material purpleRockMaterial)
+    {
+        var mesh = GetMesh();
+        if (mesh)
+        {
+            var meshRenderer = mesh.GetComponent<MeshRenderer>();
+            var materials = meshRenderer.materials;
+            materials[0] = purpleRockMaterial;
+            meshRenderer.materials = materials;
+        }
     }
 }

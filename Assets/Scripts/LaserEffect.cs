@@ -19,8 +19,8 @@ public class LaserEffect : MonoBehaviour
 
     void Start()
     {
-        _camera = Camera.main;
-        
+        _camera = GetComponentInParent<Camera>();
+
         Stop();
     }
 

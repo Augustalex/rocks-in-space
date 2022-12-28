@@ -808,9 +808,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7794664835311179239}
-  - component: {fileID: 5918203968817054606}
   - component: {fileID: 6584636720791171353}
   - component: {fileID: 9026848947537524092}
+  - component: {fileID: 3104102893874871934}
   m_Layer: 0
   m_Name: FarmDome
   m_TagString: Untagged
@@ -834,18 +834,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5918203968817054606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2957951342149841532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 061f996046131f447a343234f6a3acea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6584636720791171353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,6 +856,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e700cc34834078d45957647e4e8a65c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerDraw: 10
+--- !u!114 &3104102893874871934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2957951342149841532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efef4f37b4836fa42b226acf7621fa6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3959108442111318734

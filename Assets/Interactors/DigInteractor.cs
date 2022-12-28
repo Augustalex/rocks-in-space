@@ -24,7 +24,7 @@ namespace Interactors
 
         private void Start()
         {
-            _camera = Camera.main;
+            _camera = GetComponentInParent<Camera>();
         }
 
         public override string GetInteractorName()

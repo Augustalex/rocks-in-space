@@ -8,15 +8,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Rock
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 34e5d9b907579034397c83c1a97d3495, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -61,6 +60,22 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_2822ff5bfd1b44688a087195095a1123_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 59d1d761897827e429b0a3b60e59a091, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_664a6c70fa184285a447a0b6b494c001_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 59d1d761897827e429b0a3b60e59a091, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_94f725fe2bdd475ab42928dff5d2ced5_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 38057bac391269e4c929476a7b92d33e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_eaa8f116377f48ee835ec07193774adc_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 38057bac391269e4c929476a7b92d33e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -97,8 +112,10 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _RockType: 0
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -109,8 +126,11 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.30959794, g: 0.17610055, b: 1, a: 1}
+    - _Center: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 0.30959794, g: 0.17610055, b: 1, a: 1}
+    - _DarkColor: {r: 0.5471698, g: 0.4721207, b: 0.1316305, a: 0}
     - _EmissionColor: {r: 0.6597539, g: 0, b: 0.0120546585, a: 1}
+    - _LightColor: {r: 0.9056604, g: 0.8616985, b: 0.4827341, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &1898446997099577788

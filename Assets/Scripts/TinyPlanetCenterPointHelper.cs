@@ -5,17 +5,17 @@ using UnityEngine;
 
 public static class TinyPlanetCenterPointHelper
 {
-    public static Vector3 CalculateCenter(List<GameObject> network)
+    public static GameObject CalculateCenter(List<GameObject> network)
     {
         var centroid = Vector3.zero;
-        var points = network.Where(item => item != null).Select(item => item.transform.position).ToArray();
-        foreach (var vector in points)
+        
+        foreach (var networkItem in network)
         {
-            centroid = centroid + vector;
+            centroid = centroid + networkItem.transform.position;
         }
-        centroid /= points.Length;
+        centroid /= network.Count;
 
-        var closestPoint = GetClosestPoint(centroid, points);
+        var closestPoint = GetClosestPoint(centroid, network);
 
         return closestPoint;
     }
@@ -35,16 +35,17 @@ public static class TinyPlanetCenterPointHelper
         return closestBlock;
     }
     
-    private static Vector3 GetClosestPoint(Vector3 target, Vector3[] points)
+    private static GameObject GetClosestPoint(Vector3 target, List<GameObject> network)
     {
-        Vector3 tMin = Vector3.zero;
+        GameObject tMin = network[0];
         float minDist = Mathf.Infinity;
-        foreach (var position in points)
+        foreach (var networkItem in network)
         {
+            var position = networkItem.transform.position;
             float dist = Vector3.Distance(position, target);
             if (dist < minDist)
             {
-                tMin = position;
+                tMin = networkItem;
                 minDist = dist;
             }
         }

@@ -48,6 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetName: Unnamed
   network: []
+  purpleRockMaterialTemplate: {fileID: 2100000, guid: b7e0734bbd9a27b4fb037627acd04b08, type: 2}
+  rockType: 0
 --- !u!54 &6203254793432954223
 Rigidbody:
   m_ObjectHideFlags: 0
