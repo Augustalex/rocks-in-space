@@ -43,10 +43,10 @@ public class Block : MonoBehaviour, ILaserInteractable
 
         if (_seed)
         {
-            var powerDraw = _seed.GetComponentInChildren<PowerDraw>();
-            if (powerDraw)
+            var resourceEffect = _seed.GetComponentInChildren<ResourceEffect>();
+            if (resourceEffect)
             {
-                connectedPlanet.GetResources().AddEnergy(powerDraw.powerDraw);
+                resourceEffect.DetachFrom(GetConnectedPlanet().GetResources());
             }
         }
 
@@ -85,10 +85,10 @@ public class Block : MonoBehaviour, ILaserInteractable
         _seed = Instantiate(seedTemplate, transform.parent, true);
         _seed.transform.position = transform.position;
 
-        var powerDraw = _seed.GetComponentInChildren<PowerDraw>();
-        if (powerDraw)
+        var resourceEffect = _seed.GetComponentInChildren<ResourceEffect>();
+        if (resourceEffect)
         {
-            GetConnectedPlanet().GetResources().RemoveEnergy(powerDraw.powerDraw);
+            resourceEffect.AttachTo(GetConnectedPlanet().GetResources());
         }
 
         var killMesh = _seed.GetComponent<KillRockMesh>();

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(ResourceEffect))]
 public class ModuleController : MonoBehaviour
 {
     private TinyPlanetResources _planetResources;
@@ -7,16 +8,18 @@ public class ModuleController : MonoBehaviour
 
     private bool _occupied;
     private float _life = 100f;
+    private ResourceEffect _resourceEffect;
     private const float FoodUsedPerSecond = 2f;
     private const float LifeLossPerSecond = 10f;
 
     void Start()
     {
         _powerControlled = GetComponentInChildren<PowerControlled>();
-        _planetResources = GetComponentInParent<TinyPlanetResources>();
-
-        _planetResources.AddResidency();
         _powerControlled.PowerOff();
+
+        _resourceEffect = GetComponent<ResourceEffect>();
+        _planetResources = _resourceEffect.GetAttachedPlanet();
+        _resourceEffect.DetachedFrom += OnResourceEffectDetached;
     }
 
     void Update()
@@ -66,15 +69,11 @@ public class ModuleController : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private void OnResourceEffectDetached(TinyPlanetResources resources)
     {
         if (_occupied)
         {
-            _planetResources.DestroyOccupiedResidency();
-        }
-        else
-        {
-            _planetResources.DestroyVacantResidency();
+            _planetResources.KillResidencyInhabitants();
         }
     }
 }

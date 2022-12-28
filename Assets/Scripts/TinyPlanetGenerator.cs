@@ -140,14 +140,9 @@ public class TinyPlanetGenerator : MonoBehaviour
                 {
                     var blocks = hits.Select(hit => hit.GetComponent<Block>()).Where(block => block != null);
                     List<GameObject> previousNetwork = null;
-                    var first = true;
                     foreach (var block in blocks)
                     {
-                        if (first)
-                        {
-                            first = false;
-                        }
-                        else if (previousNetwork.Contains(block.GetRoot()))
+                        if (previousNetwork != null && previousNetwork.Contains(block.GetRoot()))
                         {
                             continue;
                         }

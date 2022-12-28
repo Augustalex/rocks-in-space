@@ -104,6 +104,15 @@ public class TinyPlanet : MonoBehaviour
 
     public void SetNetwork(List<GameObject> newNetwork)
     {
+        foreach (var oldNetworkItemm in network)
+        {
+            var resourceEffect = oldNetworkItemm.GetComponentInChildren<ResourceEffect>();
+            if (resourceEffect)
+            {
+                resourceEffect.DetachFrom(GetResources());
+            }
+        }
+        
         var workingNetwork = newNetwork.Where(n => n != null).ToList();
         
         network = workingNetwork;
@@ -115,6 +124,12 @@ public class TinyPlanet : MonoBehaviour
             if (port)
             {
                 AttachPort(port);
+            }
+            
+            var resourceEffect = networkItem.GetComponentInChildren<ResourceEffect>();
+            if (resourceEffect)
+            {
+                resourceEffect.AttachTo(GetResources());
             }
         }
     }

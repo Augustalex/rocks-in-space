@@ -1802,8 +1802,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8953608602977728233}
   - component: {fileID: 6388297826728247922}
-  - component: {fileID: 1492361964403071656}
   - component: {fileID: 3805649913758207126}
+  - component: {fileID: 1613257581873915493}
   m_Layer: 0
   m_Name: ResidencyModule
   m_TagString: Untagged
@@ -1840,19 +1840,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a968767183111204592e77e5e74f1c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1492361964403071656
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4749449814968137031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e700cc34834078d45957647e4e8a65c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  powerDraw: 10
 --- !u!114 &3805649913758207126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1865,6 +1852,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efef4f37b4836fa42b226acf7621fa6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1613257581873915493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749449814968137031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b32daf228e43b9441b10764af06a11cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energy: -10
+  residencyType: 1
 --- !u!1 &4913068576420846930
 GameObject:
   m_ObjectHideFlags: 0

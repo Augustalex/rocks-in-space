@@ -33,12 +33,12 @@ public class TinyPlanetResources : MonoBehaviour
     }
 
     private const int InhabitantsPerResidency = 100;
-    
+
     private static double _cash = 1000;
     private static int _ore = 0;
     private static int _metals = 0;
     private static int _gadgets = 0;
-    
+
     private int _residencies = 0;
     private int _occupiedResidencies = 0;
     private float _energy = 0;
@@ -59,12 +59,12 @@ public class TinyPlanetResources : MonoBehaviour
     {
         return _cash;
     }
-    
+
     public double GetCash()
     {
         return _cash;
     }
-    
+
     public void SetOre(int newOre)
     {
         _ore = newOre;
@@ -74,7 +74,7 @@ public class TinyPlanetResources : MonoBehaviour
     {
         return _ore;
     }
-    
+
     public void SetMetals(int newOre)
     {
         _metals = newOre;
@@ -84,7 +84,7 @@ public class TinyPlanetResources : MonoBehaviour
     {
         return _metals;
     }
-    
+
     public void SetGadgets(int newOre)
     {
         _gadgets = newOre;
@@ -119,17 +119,22 @@ public class TinyPlanetResources : MonoBehaviour
     {
         _food -= food;
     }
-    
+
     public float GetFood()
     {
         return _food;
+    }
+
+    public void RemoveFood(float food)
+    {
+        _food -= food;
     }
 
     public int GetInhabitants()
     {
         return _inhabitants;
     }
-    
+
     public void AddColonists(int colonistCount)
     {
         _inhabitants += colonistCount;
@@ -140,11 +145,11 @@ public class TinyPlanetResources : MonoBehaviour
         _residencies += 1;
     }
 
-    public void DestroyVacantResidency()
+    public void RemoveResidency()
     {
         _residencies -= 1;
     }
-    
+
     public bool HasVacancy()
     {
         var occupiedInhabitants = _occupiedResidencies * InhabitantsPerResidency;
@@ -165,12 +170,6 @@ public class TinyPlanetResources : MonoBehaviour
     {
         _inhabitants -= InhabitantsPerResidency;
         _occupiedResidencies -= 1;
-    }
-
-    public void DestroyOccupiedResidency()
-    {
-        KillResidencyInhabitants();
-        DestroyVacantResidency();
     }
 
     public int GetVacantHousing()
