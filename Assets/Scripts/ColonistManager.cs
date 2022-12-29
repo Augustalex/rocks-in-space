@@ -49,6 +49,7 @@ public class ColonistManager : MonoBehaviour
                     if (resources.HasSpaceForInhabitants(convoy.Colonists))
                     {
                         planet.GetResources().AddColonists(convoy.Colonists);
+                        GlobalResources.Get().AddCash(convoy.CashReward);
                     }
                     else
                     {

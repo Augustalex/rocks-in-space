@@ -39,7 +39,7 @@ namespace Interactors
             var portController = port.GetComponentInChildren<PortController>();
             var connectedPlanet = block.GetConnectedPlanet();
             connectedPlanet.AttachPort(portController);
-            GlobalResources.Get().UseCash(800);
+            GlobalResources.Get().UseCash(PortCost);
 
             var displayController = DisplayController.Get();
             if (displayController.PlanetInFocus(connectedPlanet))
