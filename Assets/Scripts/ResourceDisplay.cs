@@ -38,8 +38,9 @@ public class ResourceDisplay : MonoBehaviour
         var ore = currentPlanet.GetOre();
         var metals = currentPlanet.GetMetals();
         var gadgets = currentPlanet.GetGadgets();
+        var cash = GlobalResources.Get().GetCash();
         _text =
-            $"Credits: {currentPlanet.GetCash()}c\nOre: {ore}\nMetals: {metals}\nGadgets: {gadgets}";
+            $"Credits: {cash}c\nOre: {ore}\nMetals: {metals}\nGadgets: {gadgets}";
     }
 
     public void Hidden()

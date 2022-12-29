@@ -15,6 +15,8 @@ public class PortConvoyManager : MonoBehaviour
     private bool _waitingForMessage;
     private float _waitUntil;
     private ConvoyChoiceScreen _convoyChoiceScreen;
+    private DisplayController _displayController;
+    private bool _hasSettled;
 
     private void Awake()
     {
@@ -26,10 +28,21 @@ public class PortConvoyManager : MonoBehaviour
     {
         _colonistManager = ColonistManager.Get();
         _convoyChoiceScreen = ConvoyChoiceScreen.Get();
+        _displayController = DisplayController.Get();
     }
 
     private void Update()
     {
+        if (_hasSettled)
+        {
+            if (_displayController.inputMode == DisplayController.InputMode.Static)
+            {
+                TriggerMessageSoon();
+            }
+
+            return;
+        }
+        
         if (!_hasSentFirstMessage) return;
         if (_message) return;
         if (_convoyChoiceScreen.Visible()) return;
@@ -73,8 +86,7 @@ public class PortConvoyManager : MonoBehaviour
     public void Settled()
     {
         if (_hasSentFirstMessage) return;
-        
-        TriggerMessageSoon();
+        _hasSettled = true;
     }
 
     private void TriggerMessageSoon()

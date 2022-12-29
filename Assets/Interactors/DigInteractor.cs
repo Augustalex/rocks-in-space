@@ -6,8 +6,9 @@ namespace Interactors
 {
     public class DigInteractor : InteractorModule
     {
-        public static string DigInteractorName = "Dig";
-        
+        public const string DigInteractorName = "Dig";
+        private const float MiningSpeedFactor = 1f;
+
         public GameObject laserLight;
         public LaserEffect laserEffect;
 
@@ -17,7 +18,6 @@ namespace Interactors
 
         private bool _started;
         private float _startedAt;
-        private float _miningSpeedFactor = 1f;
         private ILaserInteractable _activeTargetEntity;
         private Camera _camera;
         private Vector3 _targetPosition;
@@ -79,7 +79,7 @@ namespace Interactors
 
         private float ActionLength()
         {
-            return _activeTargetEntity.DisintegrationTime() * _miningSpeedFactor;
+            return _activeTargetEntity.DisintegrationTime() * MiningSpeedFactor;
         }
 
         public void FinishInteraction()

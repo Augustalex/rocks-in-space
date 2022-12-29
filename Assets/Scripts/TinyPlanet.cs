@@ -23,8 +23,6 @@ public class PlanetId
 
 public class TinyPlanet : MonoBehaviour
 {
-    private static Dictionary<PlanetId, TinyPlanet> _planetRegistry = new();
-    
     public PlanetId planetId = new();
     
     [HideInInspector]
@@ -95,8 +93,8 @@ public class TinyPlanet : MonoBehaviour
         {
             networkItem.GetComponentInChildren<Block>().SetMaterial(_purpleRockMaterial);
         }
-        
-        _planetRegistry.Add(planetId, this);
+
+        PlanetsRegistry.Get().Add(planetId, this);
     }
 
     private void Update()
@@ -218,7 +216,6 @@ public class TinyPlanet : MonoBehaviour
     public void AttachPort(PortController port)
     {
         _port = port;
-        _port.AttachPlanetResources(GetResources());
     }
 
     private void DetachPort()
@@ -229,10 +226,5 @@ public class TinyPlanet : MonoBehaviour
     public bool HasPort()
     {
         return _port != null;
-    }
-
-    public static TinyPlanet FindPlanetById(PlanetId convoyPlanetId)
-    {
-        return !_planetRegistry.ContainsKey(convoyPlanetId) ? null : _planetRegistry[convoyPlanetId];
     }
 }

@@ -4,7 +4,7 @@ namespace Interactors
 {
     public class PortInteractor : InteractorModule
     {
-        private static double PortCost = 800;
+        private const double PortCost = 800;
         public GameObject template;
 
         public override string GetInteractorName()
@@ -29,7 +29,7 @@ namespace Interactors
 
         private bool AllowedMorePorts()
         {
-            var cash = TinyPlanetResources.GetGlobalCash();
+            var cash = GlobalResources.Get().GetCash();
             return cash > PortCost;
         }
 
@@ -39,7 +39,7 @@ namespace Interactors
             var portController = port.GetComponentInChildren<PortController>();
             var connectedPlanet = block.GetConnectedPlanet();
             connectedPlanet.AttachPort(portController);
-            connectedPlanet.GetResources().UseCash(800);
+            GlobalResources.Get().UseCash(800);
 
             var displayController = DisplayController.Get();
             if (displayController.PlanetInFocus(connectedPlanet))

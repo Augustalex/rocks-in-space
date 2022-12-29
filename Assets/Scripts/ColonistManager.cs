@@ -31,7 +31,7 @@ public class ColonistManager : MonoBehaviour
             var timeLeft = convoy.TimeLeft(Time.time);
             if (timeLeft <= 0f)
             {
-                var planet = TinyPlanet.FindPlanetById(convoy.PlanetId);
+                var planet = PlanetsRegistry.Get().FindPlanetById(convoy.PlanetId);
                 if (!planet || !planet.HasPort())
                 {
                     Debug.LogError("Convoy arrived, but planet no longer exists, or planet has no port.");
@@ -48,9 +48,7 @@ public class ColonistManager : MonoBehaviour
                     var resources = planet.GetResources();
                     if (resources.HasSpaceForInhabitants(convoy.Colonists))
                     {
-                        // TODO this should be done to a targeted port
-                        var targetPlanet = PortController.GetMainPort();
-                        targetPlanet.GetResources().AddColonists(convoy.Colonists);
+                        planet.GetResources().AddColonists(convoy.Colonists);
                     }
                     else
                     {

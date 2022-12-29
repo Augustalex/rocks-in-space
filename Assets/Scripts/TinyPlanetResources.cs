@@ -12,11 +12,6 @@ public class TinyPlanetResources : MonoBehaviour
         Inhabitants
     }
 
-    // public static int GetGlobalInhabitants()
-    // {
-    //     return _inhabitants;
-    // }
-
     public static string ResourceName(PlanetResourceType resourceType)
     {
         switch (resourceType)
@@ -34,65 +29,40 @@ public class TinyPlanetResources : MonoBehaviour
 
     private const int InhabitantsPerResidency = 100;
 
-    private static double _cash = 1000;
-    private static int _ore = 0;
-    private static int _metals = 0;
-    private static int _gadgets = 0;
-
     private int _residencies = 0;
     private int _occupiedResidencies = 0;
     private float _energy = 0;
     private float _food = 0;
     private int _inhabitants = 0;
 
-    public void AddCash(double cash)
-    {
-        _cash += cash;
-    }
-
-    public void UseCash(double cash)
-    {
-        _cash -= cash;
-    }
-
-    public static double GetGlobalCash()
-    {
-        return _cash;
-    }
-
-    public double GetCash()
-    {
-        return _cash;
-    }
-
     public void SetOre(int newOre)
     {
-        _ore = newOre;
+        GlobalResources.Get().SetOre(newOre);
     }
 
     public int GetOre()
     {
-        return _ore;
+        return GlobalResources.Get().GetOre();
     }
 
-    public void SetMetals(int newOre)
+    public void SetMetals(int metal)
     {
-        _metals = newOre;
+        GlobalResources.Get().SetMetals(metal);
     }
 
     public int GetMetals()
     {
-        return _metals;
+        return GlobalResources.Get().GetMetals();
     }
 
-    public void SetGadgets(int newOre)
+    public void SetGadgets(int newGadgets)
     {
-        _gadgets = newOre;
+        GlobalResources.Get().SetGadgets(newGadgets);
     }
 
     public int GetGadgets()
     {
-        return _gadgets;
+        return GlobalResources.Get().GetGadgets();
     }
 
     public void RemoveEnergy(float energyToRemove)
