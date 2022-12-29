@@ -208,7 +208,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &49546516
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2343,7 +2343,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c305cd0b43ca56a4ea36042b8ddeef70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextPlanetId: 1
 --- !u!1 &1264131041
 GameObject:
   m_ObjectHideFlags: 0
@@ -2707,7 +2706,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1524899066
 Transform:
   m_ObjectHideFlags: 0
@@ -2956,7 +2955,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 2147483647
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: d6f3195c2c0fd6b429bb8b49c586a0b0, type: 2}
+  m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -3930,6 +3929,10 @@ PrefabInstance:
     - target: {fileID: 55608723812431141, guid: 6be7614b7eead2e4ab9f6ce027afc048, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5992869767423615639, guid: 6be7614b7eead2e4ab9f6ce027afc048, type: 3}
+      propertyPath: m_text
+      value: Restart
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6be7614b7eead2e4ab9f6ce027afc048, type: 3}
