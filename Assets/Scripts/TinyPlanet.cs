@@ -60,7 +60,8 @@ public class TinyPlanet : MonoBehaviour
     private static readonly Color[][] ColorPairs = new Color[][]
     {
         new [] {Hsl(26, 80, 100), Hsl(305, 100, 80)},
-        new [] {Hsl(185, 80, 100), Hsl(305, 100, 80)},
+        // new [] {Hsl(185, 80, 100), Hsl(305, 100, 80)}, Blue
+        new [] {Hsl(270, 80, 100), Hsl(305, 100, 80)},
         new [] {Hsl(76, 80, 100), Hsl(305, 100, 80)},
     };
 

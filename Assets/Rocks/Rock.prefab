@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockBaseMesh
       objectReference: {fileID: 0}
+    - target: {fileID: 2251497726763565268, guid: 5ae0a9327f29d2b4ca06bc9ec7e56a50, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7819359677714221926, guid: 5ae0a9327f29d2b4ca06bc9ec7e56a50, type: 3}
       propertyPath: m_RootOrder
       value: 1

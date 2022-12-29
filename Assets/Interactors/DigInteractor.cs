@@ -11,7 +11,7 @@ namespace Interactors
 
         public GameObject laserLight;
         public LaserEffect laserEffect;
-
+        
         private const float Cooldown = .14f;
 
         [NonSerialized] private float _lastDig = 1f;

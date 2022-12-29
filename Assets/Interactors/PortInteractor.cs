@@ -4,7 +4,7 @@ namespace Interactors
 {
     public class PortInteractor : InteractorModule
     {
-        private const double PortCost = 800;
+        private const double PortCost = 200;
         public GameObject template;
 
         public override string GetInteractorName()
