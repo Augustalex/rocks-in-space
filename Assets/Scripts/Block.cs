@@ -1,18 +1,24 @@
-﻿using Interactors.Digging;
+﻿using System;
+using Interactors.Digging;
 using UnityEngine;
 
 public class Block : MonoBehaviour, ILaserInteractable
 {
     private GameObject _seed;
+    private OreController _oreController;
+
+    private void Awake()
+    {
+        _oreController = GetComponent<OreController>();
+    }
 
     public void Dig()
     {
         var tinyPlanetGenerator = TinyPlanetGenerator.Get();
-
-        var oreController = GetComponent<OreController>();
-        if (oreController.HasOre())
+        
+        if (_oreController.HasOre())
         {
-            oreController.Mine(GetConnectedPlanet());
+            _oreController.Mine(GetConnectedPlanet());
         }
 
         if (_seed)
@@ -50,8 +56,14 @@ public class Block : MonoBehaviour, ILaserInteractable
             }
         }
 
-        connectedPlanet.RemoveFromNetwork(GetRoot());
-        Destroy(GetRoot());
+        var block = GetRoot();
+        var position = block.transform.position;
+        var rotation = block.transform.rotation;
+        
+        connectedPlanet.RemoveFromNetwork(block);
+        Destroy(block);
+
+        Instantiate(PrefabTemplateLibrary.Get().rockDebrisTemplate, position, rotation);
     }
 
     public Vector3 GetPosition()
@@ -76,10 +88,9 @@ public class Block : MonoBehaviour, ILaserInteractable
 
     public GameObject Seed(GameObject seedTemplate)
     {
-        var oreController = GetComponent<OreController>();
-        if (oreController.HasOre())
+        if (_oreController.HasOre())
         {
-            oreController.DestroyOre();
+            _oreController.DestroyOre();
         }
 
         _seed = Instantiate(seedTemplate, transform.parent, true);
@@ -118,7 +129,7 @@ public class Block : MonoBehaviour, ILaserInteractable
 
     public float DisintegrationTime()
     {
-        return 2.2f;
+        return _oreController.HasOre() ? 2.2f : 1f;
     }
 
     public EntityOven GetOven()

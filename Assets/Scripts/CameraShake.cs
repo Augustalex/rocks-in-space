@@ -8,12 +8,13 @@ public class CameraShake : MonoBehaviour
 
     // How long the object should shake for.
     private bool _shaking = false;
-	
+
     // Amplitude of the shake. A larger value shakes the camera harder.
-    private const float ShakeAmount = 0.015f;
+    private const float ShakeAmount = 0.035f;
 
     private Vector3 _originalPos;
     private static CameraShake _instance;
+    private float _waitUntil;
 
     private void Awake()
     {
@@ -23,10 +24,17 @@ public class CameraShake : MonoBehaviour
 
     void Update()
     {
+        var offset = Vector3.zero;
+
         var camTransform1 = transform;
         if (_shaking)
         {
-            camTransform1.localPosition = _originalPos + Random.insideUnitSphere * ShakeAmount;
+            if (Time.time >= _waitUntil)
+            {
+                offset += Random.insideUnitSphere * ShakeAmount;
+                _waitUntil = Time.time + .125f;
+                camTransform1.localPosition = _originalPos + offset;
+            }
         }
         else
         {
