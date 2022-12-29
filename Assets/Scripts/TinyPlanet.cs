@@ -228,4 +228,9 @@ public class TinyPlanet : MonoBehaviour
     {
         return _port != null;
     }
+
+    public bool Anonymous()
+    {
+        return planetName is "Unknown" or "Unnamed";
+    }
 }

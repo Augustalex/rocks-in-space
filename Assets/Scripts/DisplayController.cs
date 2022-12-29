@@ -104,7 +104,7 @@ public class DisplayController : MonoBehaviour
         {
             StartRenamingPlanet();
         }
-        else if (_currentPlanet == null || _currentPlanet.planetName is "Unnamed" or "Unknown")
+        else if (_currentPlanet == null || _currentPlanet.Anonymous())
         {
             _planetNameDisplay.text = "";
         }

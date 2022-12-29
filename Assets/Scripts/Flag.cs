@@ -16,4 +16,9 @@ public class Flag : MonoBehaviour
     {
         gameObject.SetActive(zoomedOut);
     }
+    
+    private void OnDestroy()
+    {
+        _cameraController.OnToggleZoom -= OnToggleZoom;
+    }
 }

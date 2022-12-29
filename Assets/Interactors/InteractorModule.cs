@@ -34,7 +34,7 @@ namespace Interactors
 
         public virtual bool CanBuild(Block block)
         {
-            return block.GetConnectedPlanet().HasPort() && HasEnoughResourceToBuild(block);
+            return block.GetConnectedPlanet().HasPort() && HasEnoughResourceToBuild(block) && !block.IsSeeded();
         }
 
         protected bool HasEnoughResourceToBuild(Block block)
@@ -45,6 +45,7 @@ namespace Interactors
             if (resources.GetGadgets() < costs.gadgets) return false;
             return true;
         }
+        
         protected Tuple<TinyPlanetResources.PlanetResourceType, int> CheckMostUrgentResourceRequirement(Block block)
         {
             var resources = block.GetConnectedPlanet().GetResources();

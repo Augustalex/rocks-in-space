@@ -10,7 +10,7 @@ public class CameraShake : MonoBehaviour
     private bool _shaking = false;
 
     // Amplitude of the shake. A larger value shakes the camera harder.
-    private const float ShakeAmount = 0.035f;
+    private const float ShakeAmount = 0.03f;
 
     private Vector3 _originalPos;
     private static CameraShake _instance;

@@ -15,11 +15,6 @@ namespace Interactors
         {
             return $"Place {GetInteractorName()}";
         }
-        
-        public override bool CanBuild(Block block)
-        {
-            return HasEnoughResourceToBuild(block);
-        }
 
         public override void Build(Block block)
         {
@@ -49,7 +44,6 @@ namespace Interactors
         {
             // Do nothing
         }
-
 
         public override bool Continuous()
         {
