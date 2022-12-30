@@ -4,7 +4,6 @@ using UnityEngine;
 public class PopupTarget : MonoBehaviour
 {
     private float _showUntil = 0f;
-    private PlanetPopup _planetPopup;
     private Block _block;
     private bool _showcased;
 
@@ -15,24 +14,48 @@ public class PopupTarget : MonoBehaviour
 
     void Update()
     {
-        if (Time.time > _showUntil)
+        var planetPopup = PlanetPopup.Get();
+
+        var popupVisible = planetPopup.IsVisible();
+        if (popupVisible && PlanetNotSelectedAnymore())
         {
-            var planetPopup = PlanetPopup.Get();
-            if (planetPopup.HiddenAlready()) return;
-            if (planetPopup.StartedHiding())
-            {
-                planetPopup.UpdatePosition(GetPortScreenPosition());
-            }
-            else
-            {
-                planetPopup.StartHide();
-            }
+            planetPopup.Hide();
+            _showUntil = 0f;
         }
         else
         {
-            var popup = PlanetPopup.Get();
-            popup.Show(GetPortScreenPosition(), _block.GetConnectedPlanet());
+            var shouldHide = Time.time > _showUntil;
+            if (shouldHide)
+            {
+                UpdateHideState(planetPopup);
+            }
+            else
+            {
+                var popup = PlanetPopup.Get();
+                popup.Show(GetPortScreenPosition(), _block.GetConnectedPlanet());
+            }
         }
+    }
+
+    private void UpdateHideState(PlanetPopup planetPopup)
+    {
+        if (planetPopup.HiddenAlready()) return;
+
+        if (planetPopup.StartedHiding())
+        {
+            planetPopup.UpdatePosition(GetPortScreenPosition());
+        }
+        else
+        {
+            planetPopup.StartHide();
+        }
+    }
+
+    private bool PlanetNotSelectedAnymore()
+    {
+        var connectedPlanet = _block.GetConnectedPlanet();
+        var currentPlanet = CurrentPlanetController.Get().CurrentPlanet();
+        return connectedPlanet != currentPlanet;
     }
 
     public void Show()

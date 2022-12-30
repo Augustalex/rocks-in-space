@@ -64,6 +64,11 @@ public class PlanetPopup : MonoBehaviour
         return !gameObject.activeSelf;
     }
 
+    public bool IsVisible()
+    {
+        return gameObject.activeSelf;
+    }
+
     public bool StartedHiding()
     {
         return !_animator.GetBool(Visible) && !HiddenAlready();
