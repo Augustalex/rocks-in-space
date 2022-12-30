@@ -26,7 +26,8 @@ public class PortController : MonoBehaviour
     {
         var connectedPlanet = GetComponentInParent<BlockRoot>().GetComponentInChildren<Block>().GetConnectedPlanet();
         var displayController = DisplayController.Get();
-        if (displayController.PlanetInFocus(connectedPlanet))
+        var planetInFocus = displayController.PlanetInFocus(connectedPlanet);
+        if (planetInFocus)
         {
             ShowPopupSoon();
         }
@@ -35,6 +36,6 @@ public class PortController : MonoBehaviour
     private void ShowPopupSoon()
     {
         var popupTarget = gameObject.GetComponent<PopupTarget>();
-        popupTarget.ShowcaseSoon(1f);
+        popupTarget.ShowcaseSoon(.25f);
     }
 }

@@ -15,42 +15,29 @@ public class PopupTarget : MonoBehaviour
     void Update()
     {
         var planetPopup = PlanetPopup.Get();
+        var connectedPlanet = _block.GetConnectedPlanet();
 
-        var popupVisible = planetPopup.IsVisible();
-        if (popupVisible && PlanetNotSelectedAnymore())
+        if (planetPopup.HiddenAlready()) return;
+        
+        if (planetPopup.ShownFor(connectedPlanet))
         {
-            planetPopup.Hide();
-            _showUntil = 0f;
-        }
-        else
-        {
-            var shouldHide = Time.time > _showUntil;
-            if (shouldHide)
+            if (PlanetNotSelectedAnymore())
             {
-                UpdateHideState(planetPopup);
+                planetPopup.Hide();
             }
             else
             {
-                var popup = PlanetPopup.Get();
-                popup.Show(GetPortScreenPosition(), _block.GetConnectedPlanet());
+                planetPopup.UpdatePosition(GetPortScreenPosition());
+            
+                var shouldHide = Time.time > _showUntil;
+                if (shouldHide && !planetPopup.HiddenAlready() && !planetPopup.StartedHiding())
+                {
+                    planetPopup.StartHide();
+                }   
             }
         }
     }
-
-    private void UpdateHideState(PlanetPopup planetPopup)
-    {
-        if (planetPopup.HiddenAlready()) return;
-
-        if (planetPopup.StartedHiding())
-        {
-            planetPopup.UpdatePosition(GetPortScreenPosition());
-        }
-        else
-        {
-            planetPopup.StartHide();
-        }
-    }
-
+    
     private bool PlanetNotSelectedAnymore()
     {
         var connectedPlanet = _block.GetConnectedPlanet();
@@ -61,7 +48,8 @@ public class PopupTarget : MonoBehaviour
     public void Show()
     {
         if (!_showcased) return;
-        _showUntil = Time.time + 4f;
+        _showUntil = Time.time + 1f;
+        PlanetPopup.Get().Show(GetPortScreenPosition(), _block.GetConnectedPlanet());
     }
 
     public void ShowcaseSoon(float delay)
@@ -78,7 +66,8 @@ public class PopupTarget : MonoBehaviour
     private void Showcase()
     {
         _showcased = true;
-        _showUntil = Time.time + 6f;
+        _showUntil = Time.time + 3f;
+        PlanetPopup.Get().Show(GetPortScreenPosition(), _block.GetConnectedPlanet());
     }
 
     private Vector2 GetPortScreenPosition()

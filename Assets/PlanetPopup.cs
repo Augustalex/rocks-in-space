@@ -12,6 +12,7 @@ public class PlanetPopup : MonoBehaviour
     private static PlanetPopup _instance;
     private Animator _animator;
     private static readonly int Visible = Animator.StringToHash("Visible");
+    private TinyPlanet _selectedPlanet;
 
     public static PlanetPopup Get()
     {
@@ -28,6 +29,8 @@ public class PlanetPopup : MonoBehaviour
 
     public void Show(Vector2 position, TinyPlanet planet)
     {
+        _selectedPlanet = planet;
+        
         if (!gameObject.activeSelf)
         {
             gameObject.SetActive(true);
@@ -51,6 +54,7 @@ public class PlanetPopup : MonoBehaviour
 
     public void Hide()
     {
+        _selectedPlanet = null;
         gameObject.SetActive(false);
     }
 
@@ -64,9 +68,9 @@ public class PlanetPopup : MonoBehaviour
         return !gameObject.activeSelf;
     }
 
-    public bool IsVisible()
+    public bool ShownFor(TinyPlanet planet)
     {
-        return gameObject.activeSelf;
+        return _selectedPlanet == planet;
     }
 
     public bool StartedHiding()
