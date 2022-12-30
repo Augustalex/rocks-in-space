@@ -5,16 +5,17 @@ using UnityEngine;
 
 public class DisplayController : MonoBehaviour
 {
-    private PlanetNameDisplay _planetNameDisplay;
     private static DisplayController _instance;
     private string _oldName;
     private string _newName;
     private TinyPlanet _currentPlanet;
-    private ResourceDisplay _resourcesDisplay;
     private IEnumerable<GameObject> _miscHidable;
     private PlanetNamingModal _planetNamingModal;
 
     public event Action<InputMode> ModeChange;
+    public event Action OnRenameDone;
+
+    public InputMode inputMode = InputMode.Cinematic;
     
     public enum InputMode
     {
@@ -24,7 +25,6 @@ public class DisplayController : MonoBehaviour
         Modal
     }
 
-    public InputMode inputMode = InputMode.Cinematic;
     private bool _hiding;
 
     public static DisplayController Get()
@@ -39,8 +39,6 @@ public class DisplayController : MonoBehaviour
 
     private void Start()
     {
-        _planetNameDisplay = FindObjectOfType<PlanetNameDisplay>();
-        _resourcesDisplay = FindObjectOfType<ResourceDisplay>();
         _miscHidable = FindObjectsOfType<Hidable>().Select(h => h.gameObject);
 
         _planetNamingModal = PlanetNamingModal.Get();
@@ -79,7 +77,6 @@ public class DisplayController : MonoBehaviour
     {
         if (!_currentPlanet)
         {
-            _resourcesDisplay.NoPlanetSelected();
             HideAll();
         }
         else if (inputMode == InputMode.Renaming)
@@ -92,9 +89,6 @@ public class DisplayController : MonoBehaviour
             {
                 ShowAll();
             }
-            
-            var planetResources = _currentPlanet.GetResources();
-            _resourcesDisplay.ShowPlanetResources(planetResources);
         }
     }
 
@@ -104,15 +98,10 @@ public class DisplayController : MonoBehaviour
         {
             StartRenamingPlanet();
         }
-        else if (_currentPlanet == null || _currentPlanet.Anonymous())
-        {
-            _planetNameDisplay.text = "";
-        }
     }
 
     private void CinematicModeUpdate()
     {
-        _resourcesDisplay.Hidden();
         foreach (var hidable in _miscHidable)
         {
             hidable.SetActive(false);
@@ -121,7 +110,6 @@ public class DisplayController : MonoBehaviour
 
     private void ModalModeUpdate()
     {
-        _resourcesDisplay.Hidden();
         foreach (var hidable in _miscHidable)
         {
             hidable.SetActive(false);
@@ -136,10 +124,10 @@ public class DisplayController : MonoBehaviour
         if (newName != "")
         {
             _currentPlanet.planetName = newName;
-            _planetNameDisplay.text = newName;
         }
 
         OnModeChange(InputMode.Static);
+        OnRenameDone?.Invoke();
     }
     
     public void StartRenamingPlanet()
@@ -151,7 +139,6 @@ public class DisplayController : MonoBehaviour
     public void SetPlanetInFocus(TinyPlanet planet)
     {
         _currentPlanet = planet;
-        _planetNameDisplay.text = planet.planetName;
     }
 
     public void SetToModalMode()

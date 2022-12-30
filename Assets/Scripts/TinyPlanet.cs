@@ -120,7 +120,7 @@ public class TinyPlanet : MonoBehaviour
         _purpleRockMaterial.SetVector(CenterPropertyId, newPosition);
     }
 
-    public List<GameObject> FindDislocatedRocks(List<GameObject> dislodgedNetwork)
+    public List<GameObject> FindConnectedRocksNotInList(List<GameObject> dislodgedNetwork)
     {
         return network.Where(item => item != null && !dislodgedNetwork.Contains(item)).ToList();
     }

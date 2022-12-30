@@ -71,10 +71,10 @@ namespace Interactors
         {
             UpdateInteractorSelection();
 
-            if (CurrentModule().Hoverable())
-            {
+            // if (CurrentModule().Hoverable())
+            // {
                 RayCastToHover();
-            }
+            // }
         }
 
         private void UpdateInteractorSelection()
@@ -125,7 +125,20 @@ namespace Interactors
             var interactorModule = CurrentModule();
             if (Physics.Raycast(ray, out hit, interactorModule.MaxActivationDistance()))
             {
-                interactorModule.Hover(hit);
+                var block = hit.collider.GetComponent<Block>();
+                if (block)
+                {
+                    var popupTarget = block.GetRoot().GetComponentInChildren<PopupTarget>();
+                    if (popupTarget)
+                    {
+                        popupTarget.Show();
+                    }
+                }
+                
+                if (CurrentModule().Hoverable())
+                {
+                    interactorModule.Hover(hit);
+                }
             }
         }
 

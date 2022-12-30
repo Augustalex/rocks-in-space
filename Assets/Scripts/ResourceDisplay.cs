@@ -1,11 +1,9 @@
 using TMPro;
-using UnityEngine;
 
-public class ResourceDisplay : MonoBehaviour
+public class ResourceDisplay : Hidable
 {
     private string _text;
     private TMP_Text _textComponent;
-    private bool _hidden;
 
     void Start()
     {
@@ -14,37 +12,18 @@ public class ResourceDisplay : MonoBehaviour
 
     void Update()
     {
-        if (_hidden)
-        {
-            _textComponent.text = "";
-        }
-        else
-        {
-            _textComponent.text = _text;
-        }
+        ShowGlobalResources();
+        _textComponent.text = _text;
     }
 
-    public void NoPlanetSelected()
+    public void ShowGlobalResources()
     {
-        _hidden = false;
-
-        _text = "No planet selected";
-    }
-
-    public void ShowPlanetResources(TinyPlanetResources currentPlanet)
-    {
-        _hidden = false;
-
-        var ore = currentPlanet.GetOre();
-        var metals = currentPlanet.GetMetals();
-        var gadgets = currentPlanet.GetGadgets();
-        var cash = GlobalResources.Get().GetCash();
+        var globalResources = GlobalResources.Get();
+        var ore = globalResources.GetOre();
+        var metals = globalResources.GetMetals();
+        var gadgets = globalResources.GetGadgets();
+        var cash = globalResources.GetCash();
         _text =
             $"Credits: {cash}c\nOre: {ore}\nMetals: {metals}\nGadgets: {gadgets}";
-    }
-
-    public void Hidden()
-    {
-        _hidden = true;
     }
 }

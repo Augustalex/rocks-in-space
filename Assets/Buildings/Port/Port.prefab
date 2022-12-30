@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1980593881648494200}
   - component: {fileID: 8991290266438453613}
   - component: {fileID: 8906544912049058305}
+  - component: {fileID: 8433487641402806169}
   m_Layer: 0
   m_Name: Port
   m_TagString: Untagged
@@ -100,6 +101,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   portGlobeAnimator: {fileID: 9082458437363257417}
   portGlobeAnimationEventHandler: {fileID: 6533022656263939478}
+--- !u!114 &8433487641402806169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023215026128566752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2947c8f21af514409b72aa008513684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1670923640651328574
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +206,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 1670923640651328574}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
@@ -291,7 +304,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 2818256386523467993}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
@@ -391,7 +404,7 @@ SphereCollider:
   m_GameObject: {fileID: 3380700078766510503}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -558,7 +571,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 5429517901153902970}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
@@ -656,7 +669,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 5565613420728246479}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1

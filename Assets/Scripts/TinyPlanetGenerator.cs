@@ -71,26 +71,29 @@ public class TinyPlanetGenerator : MonoBehaviour
         var dislodgedNetworkCount = dislodgedNetwork.Count;
         if (dislodgedNetworkCount != currentPlanet.network.Count)
         {
-            var nonNetworkRocks = currentPlanet.FindDislocatedRocks(dislodgedNetwork);
-            var nonNetworkRocksCount = nonNetworkRocks.Count;
+            var connectedRocks = currentPlanet.FindConnectedRocksNotInList(dislodgedNetwork);
+            var connectedRocksCount = connectedRocks.Count;
 
             if (dislodgedNetworkCount == 0)
             {
                 Debug.Log("Dislodging empty network??!");
             }
 
-            if (nonNetworkRocksCount > 0)
+            if (connectedRocksCount > 0)
             {
                 var newPlanet = NewPlanet();
 
-                var dislodgedPlanet = dislodgedNetworkCount > nonNetworkRocksCount ? currentPlanet : newPlanet;
-                var nonNetworkPlanet = dislodgedNetworkCount < nonNetworkRocksCount ? currentPlanet : newPlanet;
+                var dislodgedNetworkHasPort = dislodgedNetwork.Any(b => b.GetComponentInChildren<PortController>());
+                var networkThatHasThePort = dislodgedNetworkHasPort
+                    ? dislodgedNetwork
+                    : connectedRocks;
+                var networkWithoutPort = dislodgedNetworkHasPort ? connectedRocks : dislodgedNetwork;
 
-                nonNetworkPlanet.SetNetwork(nonNetworkRocks);
-                dislodgedPlanet.SetNetwork(dislodgedNetwork);
+                currentPlanet.SetNetwork(networkThatHasThePort);
+                newPlanet.SetNetwork(networkWithoutPort);
 
-                var direction = (nonNetworkPlanet.transform.position - dislodgedPlanet.transform.position).normalized;
-                nonNetworkPlanet.gameObject.GetComponent<Rigidbody>().AddForce(direction * .5f, ForceMode.Impulse);
+                var direction = (currentPlanet.transform.position - newPlanet.transform.position).normalized;
+                currentPlanet.gameObject.GetComponent<Rigidbody>().AddForce(direction * .5f, ForceMode.Impulse);
             }
         }
     }

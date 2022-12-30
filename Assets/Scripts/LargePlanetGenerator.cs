@@ -60,7 +60,7 @@ public class LargePlanetGenerator : MonoBehaviour
         var dislodgedNetworkCount = dislodgedNetwork.Count;
         if (dislodgedNetworkCount != currentPlanet.network.Count)
         {
-            var nonNetworkRocks = currentPlanet.FindDislocatedRocks(dislodgedNetwork);
+            var nonNetworkRocks = currentPlanet.FindConnectedRocksNotInList(dislodgedNetwork);
             var nonNetworkRocksCount = nonNetworkRocks.Count;
 
             if (dislodgedNetworkCount == 0)

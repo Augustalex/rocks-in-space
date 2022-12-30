@@ -37,6 +37,11 @@ public class CameraController : MonoBehaviour
         return _instance;
     }
 
+    public static Camera GetCamera()
+    {
+        return _instance._camera;
+    }
+
     void Start()
     {
         _camera = GetComponent<Camera>();
