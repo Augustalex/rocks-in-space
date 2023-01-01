@@ -17,6 +17,7 @@ namespace Interactors
         public GameObject interactorsContainer;
 
         public event Action<InteractorModule, Block> FailedToBuild;
+        public event Action UnhandledMouseUp;
 
         private InteractorModule _defaultModule;
         private InteractorModule[] _modules;
@@ -73,7 +74,7 @@ namespace Interactors
 
             // if (CurrentModule().Hoverable())
             // {
-                RayCastToHover();
+            RayCastToHover();
             // }
         }
 
@@ -134,7 +135,7 @@ namespace Interactors
                         popupTarget.Show();
                     }
                 }
-                
+
                 if (CurrentModule().Hoverable())
                 {
                     interactorModule.Hover(hit);
@@ -145,7 +146,7 @@ namespace Interactors
         public void Interact()
         {
             CheckForActionTarget();
-            
+
             if (CurrentModule().Continuous() ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
             {
                 RayCastToBuild();
@@ -154,7 +155,7 @@ namespace Interactors
             {
                 RayCastSecondaryAction();
             }
-            
+
             if (Input.GetMouseButtonUp(0))
             {
                 var interactorModule = CurrentModule();
@@ -187,23 +188,57 @@ namespace Interactors
 
         private void CheckForActionTarget()
         {
-            if (!Input.GetMouseButtonDown(0)) return;
-            
+            if (Input.GetMouseButtonDown(0))
+            {
+                HandleMouseDown();
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                HandleMouseUp();
+            }
+        }
+
+        private void HandleMouseDown()
+        {
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
 
             var interactorModule = CurrentModule();
             if (Physics.Raycast(ray, out var hit, interactorModule.MaxActivationDistance()))
             {
-                var parent = hit.collider.GetComponentInParent<BlockRoot>();
-                if (!parent) return;
-
-                var actionTarget = parent.GetComponentInChildren<ActionTarget>();
-                if (actionTarget)
+                if (hit.collider.CompareTag("PlanetLandmark"))
                 {
-                    actionTarget.MouseDown();
+                    hit.collider.GetComponent<PlanetLandmark>().MouseDown();
+                    return;
                 }
 
+                var parent = hit.collider.GetComponentInParent<BlockRoot>();
+                if (parent)
+                {
+                    var actionTarget = parent.GetComponentInChildren<ActionTarget>();
+                    if (actionTarget)
+                    {
+                        actionTarget.MouseDown();
+                        return;
+                    }
+                }
             }
+        }
+
+        private void HandleMouseUp()
+        {
+            var ray = _camera.ScreenPointToRay(Input.mousePosition);
+
+            var interactorModule = CurrentModule();
+            if (Physics.Raycast(ray, out var hit, interactorModule.MaxActivationDistance()))
+            {
+                if (hit.collider.CompareTag("PlanetLandmark"))
+                {
+                    hit.collider.GetComponent<PlanetLandmark>().MouseUp();
+                    return;
+                }
+            }
+
+            UnhandledMouseUp?.Invoke();
         }
 
         private void RayCastToBuild()

@@ -18,12 +18,17 @@ public class ResourceDisplay : Hidable
 
     public void ShowGlobalResources()
     {
-        var globalResources = GlobalResources.Get();
-        var ore = globalResources.GetOre();
-        var metals = globalResources.GetMetals();
-        var gadgets = globalResources.GetGadgets();
-        var cash = globalResources.GetCash();
-        _text =
-            $"Credits: {cash}c\nOre: {ore}\nMetals: {metals}\nGadgets: {gadgets}";
+        var currentPlanet = CurrentPlanetController.Get().CurrentPlanet();
+        if (!currentPlanet) _text = "";
+        else
+        {
+            var globalResources = currentPlanet.GetResources();
+            var ore = globalResources.GetOre();
+            var metals = globalResources.GetMetals();
+            var gadgets = globalResources.GetGadgets();
+            var cash = GlobalResources.Get().GetCash();
+            _text =
+                $"Credits: {cash}c\nOre: {ore}\nMetals: {metals}\nGadgets: {gadgets}";   
+        }
     }
 }

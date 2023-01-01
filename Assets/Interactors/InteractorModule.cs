@@ -58,9 +58,9 @@ namespace Interactors
         protected void ConsumeRequiredResources(Block block)
         {
             var resources = block.GetConnectedPlanet().GetResources();
-            resources.SetOre(resources.GetOre() - costs.ore);
-            resources.SetMetals(resources.GetMetals() - costs.metals);
-            resources.SetGadgets(resources.GetGadgets() - costs.gadgets);
+            resources.RemoveOre(costs.ore);
+            resources.RemoveMetals(costs.metals);
+            resources.RemoveGadgets(costs.gadgets);
         }
         
         protected void SetSeedRefund(GameObject seed)

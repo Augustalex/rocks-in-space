@@ -2,10 +2,21 @@ using UnityEngine;
 
 public class PortController : MonoBehaviour
 {
+    private PopupTarget _popupTarget;
+    private MapPopupTarget _mapPopupTarget;
+
+    private void Awake()
+    {
+        _popupTarget = gameObject.GetComponent<PopupTarget>();
+        _mapPopupTarget = gameObject.GetComponent<MapPopupTarget>();
+
+        _mapPopupTarget.Shown += () => _popupTarget.HideNow();
+    }
+
     private void Start()
     {
         RegisterPort();
-        
+
         DisplayController.Get().OnRenameDone += MaybeShowPopup;
     }
 
@@ -17,14 +28,14 @@ public class PortController : MonoBehaviour
     private void OnDestroy()
     {
         PlanetsRegistry.Get().Remove(this);
-        
+
         var displayController = DisplayController.Get();
         displayController.OnRenameDone -= ShowPopupSoon;
     }
 
     private void MaybeShowPopup()
     {
-        var connectedPlanet = GetComponentInParent<BlockRoot>().GetComponentInChildren<Block>().GetConnectedPlanet();
+        var connectedPlanet = GetPlanet();
         var displayController = DisplayController.Get();
         var planetInFocus = displayController.PlanetInFocus(connectedPlanet);
         if (planetInFocus)
@@ -35,7 +46,22 @@ public class PortController : MonoBehaviour
 
     private void ShowPopupSoon()
     {
-        var popupTarget = gameObject.GetComponent<PopupTarget>();
-        popupTarget.ShowcaseSoon(.25f);
+        _popupTarget.ShowcaseSoon(.25f);
+    }
+
+    public PopupTarget GetPopupTarget()
+    {
+        return _popupTarget;
+    }
+
+    public MapPopupTarget GetMapPopupTarget()
+    {
+        return _mapPopupTarget;
+    }
+
+    public TinyPlanet GetPlanet()
+    {
+        var connectedPlanet = GetComponentInParent<TinyPlanet>();
+        return connectedPlanet;
     }
 }

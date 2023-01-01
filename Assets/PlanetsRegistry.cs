@@ -37,4 +37,9 @@ public class PlanetsRegistry : MonoBehaviour
     {
         _ports.Remove(port);
     }
+
+    public IEnumerable<TinyPlanet> All()
+    {
+        return _planetRegistry.Values;
+    }
 }

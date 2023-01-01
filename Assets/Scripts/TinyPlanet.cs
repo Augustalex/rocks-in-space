@@ -40,6 +40,7 @@ public class TinyPlanet : MonoBehaviour
 
     public Material purpleRockMaterialTemplate;
     public RockType rockType;
+    public GameObject landmark;
     
     private Vector3 _lastCenterPosition;
     private GameObject _lastCenter;
@@ -76,6 +77,8 @@ public class TinyPlanet : MonoBehaviour
     {
         rockType = RockTypes[Random.Range(0, RockTypes.Length)];
         _purpleRockMaterial = new Material(purpleRockMaterialTemplate);
+        
+        HideLandmark();
     }
 
     private void Start()
@@ -232,5 +235,21 @@ public class TinyPlanet : MonoBehaviour
     public bool Anonymous()
     {
         return planetName is "Unknown" or "Unnamed";
+    }
+
+    public void ShowLandmark()
+    {
+        landmark.transform.position = GetCenter();
+        landmark.SetActive(true);
+    }
+    
+    public void HideLandmark()
+    {
+        landmark.SetActive(false);
+    }
+
+    public PortController GetPort()
+    {
+        return _port;
     }
 }

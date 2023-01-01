@@ -28,9 +28,9 @@ public class Block : MonoBehaviour, ILaserInteractable
             {
                 var costs = resourceSpent.costs;
                 var resources = GetConnectedPlanet().GetResources();
-                resources.SetOre(resources.GetOre() + costs.ore);
-                resources.SetMetals(resources.GetMetals() + costs.metals);
-                resources.SetGadgets(resources.GetGadgets() + costs.gadgets);
+                resources.AddOre(costs.ore);
+                resources.AddMetals(costs.metals);
+                resources.AddGadgets(costs.gadgets);
             }
         }
 

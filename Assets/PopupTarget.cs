@@ -29,7 +29,8 @@ public class PopupTarget : MonoBehaviour
             {
                 planetPopup.UpdatePosition(GetPortScreenPosition());
             
-                var shouldHide = Time.time > _showUntil;
+                var timeIsOut = Time.time > _showUntil;
+                var shouldHide = timeIsOut;
                 if (shouldHide && !planetPopup.HiddenAlready() && !planetPopup.StartedHiding())
                 {
                     planetPopup.StartHide();
@@ -70,9 +71,15 @@ public class PopupTarget : MonoBehaviour
         PlanetPopup.Get().Show(GetPortScreenPosition(), _block.GetConnectedPlanet());
     }
 
-    private Vector2 GetPortScreenPosition()
+    public Vector2 GetPortScreenPosition()
     {
         return RectTransformUtility.WorldToScreenPoint(CameraController.GetCamera(),
             transform.position + Vector3.up * .5f);
+    }
+
+    public void HideNow()
+    {
+        _showUntil = 0f;
+        PlanetPopup.Get().Hide();
     }
 }

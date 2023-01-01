@@ -21,8 +21,8 @@ public class RefineryController : MonoBehaviour
             var ore = _planetResources.GetOre();
             if (ore >= OrePerMetal)
             {
-                _planetResources.SetOre(ore - OrePerMetal);
-                _planetResources.SetMetals(_planetResources.GetMetals() + 1);
+                _planetResources.RemoveOre(OrePerMetal);
+                _planetResources.AddMetals(1);
             }
         }
         else

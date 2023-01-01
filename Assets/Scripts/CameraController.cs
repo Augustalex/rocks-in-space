@@ -6,7 +6,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     private const float MaxMoveLength = 2f;
-    private const float ZoomedOutDistance = 250f;
+    private const float ZoomedOutDistance = 600f;
 
     private Transform _focus;
     private Vector3 _backupFocus = Vector3.zero;
@@ -22,10 +22,13 @@ public class CameraController : MonoBehaviour
     private Vector3 _lastPosition;
     private bool _following;
 
-    public bool cinematicOpening = true;
+    public bool cinematicOpening = false;
     private static CameraController _instance;
     private bool _zoomedOut;
+    private MapPopupTarget _currentTarget;
+
     public event Action<bool> OnToggleZoom;
+    public event Action OnNavigationStarted;
 
     void Awake()
     {
@@ -78,7 +81,6 @@ public class CameraController : MonoBehaviour
             if (_moveTime > 0)
             {
                 var progress = (_moveLength - _moveTime) / _moveLength;
-
                 transform.rotation = Quaternion.Slerp(_startRotation, _targetRotation, progress);
                 // transform.rotation = Quaternion.Lerp(_startRotation, _targetRotation, progress);
                 transform.position = Vector3.Lerp(_startPosition, _targetPosition, progress);
@@ -87,11 +89,15 @@ public class CameraController : MonoBehaviour
             }
             else
             {
+                var cameraTransform = transform;
+                cameraTransform.rotation = _targetRotation;
+                cameraTransform.position = _targetPosition;
                 _moving = false;
-                if(_displayController.inputMode == DisplayController.InputMode.Cinematic) _displayController.ExitCinematicMode();
+                if (_displayController.inputMode == DisplayController.InputMode.Cinematic)
+                    _displayController.ExitCinematicMode();
             }
         }
-        else if(_displayController.inputMode == DisplayController.InputMode.Static)
+        else if (_displayController.inputMode == DisplayController.InputMode.Static)
         {
             if (_focus) _backupFocus = _focus.position;
 
@@ -134,7 +140,7 @@ public class CameraController : MonoBehaviour
                 var maxOuterZoom = 42f;
                 var cameraTransform = _camera.transform;
                 var distance = Vector3.Distance(FocusPoint(), cameraTransform.position);
-                
+
                 if (Input.GetKey(KeyCode.S) && distance < maxOuterZoom)
                 {
                     cameraTransform.position += cameraTransform.forward * (-10f * Time.deltaTime);
@@ -162,6 +168,17 @@ public class CameraController : MonoBehaviour
             var cameraTransform = _camera.transform;
             cameraTransform.position = targetPosition;
             cameraTransform.rotation = targetRotation;
+
+            foreach (var planet in PlanetsRegistry.Get().All())
+            {
+                planet.ShowLandmark();
+                if (planet.HasPort())
+                {
+                    var mapPopupTarget = planet.GetPort().GetMapPopupTarget();
+                    Debug.Log("SHOW for: " + planet.planetName);
+                    mapPopupTarget.Show();
+                }
+            }
         }
         else
         {
@@ -170,8 +187,19 @@ public class CameraController : MonoBehaviour
             var cameraTransform = _camera.transform;
             cameraTransform.position = targetPosition;
             cameraTransform.rotation = targetRotation;
+
+            foreach (var planet in PlanetsRegistry.Get().All())
+            {
+                planet.HideLandmark();
+                if (planet.HasPort())
+                {
+                    var mapPopupTarget = planet.GetPort().GetMapPopupTarget();
+                    Debug.Log("HIDE.");
+                    mapPopupTarget.HidePopup();
+                }
+            }
         }
-        
+
         OnToggleZoom?.Invoke(_zoomedOut);
     }
 
@@ -179,8 +207,8 @@ public class CameraController : MonoBehaviour
     {
         FocusOnPlanet(planet);
         _displayController.SetToCinematicMode();
-        _moveLength = cinematicOpening ? 10 : .1f;
-        _moveTime = _moveLength;
+        _moveLength = .1f; //cinematicOpening ? 10 : .1f;
+        _moveTime = .1f;
     }
 
     public void FocusOnPlanet(TinyPlanet planet)
@@ -200,8 +228,18 @@ public class CameraController : MonoBehaviour
         (_targetPosition, _targetRotation) = CameraPlanetFocusPosition(previousFocusPoint, _focus.position);
 
         var distance = (_targetPosition - _startPosition).magnitude;
-        _moveLength = distance < 10f ? .5f : distance < 10f ? .75f : distance < 20f ? 1f : MaxMoveLength;
+        if (distance < 10f)
+            _moveLength = .5f;
+        else if (distance < 15f)
+            _moveLength = .75f;
+        else if (distance < 20f)
+            _moveLength = 1f;
+        else
+            _moveLength = MaxMoveLength;
+
         _moveTime = _moveLength;
+
+        OnNavigationStarted?.Invoke();
     }
 
     private Vector3 FocusPoint()
@@ -230,7 +268,7 @@ public class CameraController : MonoBehaviour
     {
         var cameraTransform = _camera.transform;
         var cameraPosition = cameraTransform.position;
-        
+
         var distanceFromCenter = Vector3.Distance(FocusPoint(), cameraPosition);
         var distanceToMove = ZoomedOutDistance - distanceFromCenter;
         var targetPosition = cameraPosition + cameraTransform.forward * -distanceToMove;

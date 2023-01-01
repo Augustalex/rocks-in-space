@@ -1,13 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PrefabTemplateLibrary : MonoBehaviour
 {
     private static PrefabTemplateLibrary _instance;
     
+    public GameObject mapPopup;
     public GameObject rockDebrisTemplate;
+    public GameObject routeLineTemplate;
 
     public static PrefabTemplateLibrary Get()
     {

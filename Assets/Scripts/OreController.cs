@@ -81,7 +81,7 @@ public class OreController : MonoBehaviour
     public void Mine(TinyPlanet planet)
     {
         var planetResources = planet.GetComponent<TinyPlanetResources>();
-        planetResources.SetOre(planetResources.GetOre() + 1000);
+        planetResources.AddOre(1000);
 
         DestroyOre();
     }

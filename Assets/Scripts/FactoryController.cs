@@ -22,8 +22,8 @@ public class FactoryController : MonoBehaviour
             var metals = _planetResources.GetMetals();
             if (metals >= MetalThreshold)
             {
-                _planetResources.SetMetals(metals - MetalThreshold);
-                _planetResources.SetGadgets(_planetResources.GetGadgets() + GadgetGain);
+                _planetResources.RemoveMetals(MetalThreshold);
+                _planetResources.AddGadgets(GadgetGain);
             }
         }
         else

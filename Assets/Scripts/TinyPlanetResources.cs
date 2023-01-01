@@ -35,34 +35,23 @@ public class TinyPlanetResources : MonoBehaviour
     private float _food = 0;
     private int _inhabitants = 0;
 
-    public void SetOre(int newOre)
+    private float _ore = 0;
+    private float _metals = 0;
+    private float _gadgets = 0;
+
+    public float GetOre()
     {
-        GlobalResources.Get().SetOre(newOre);
+        return _ore;
     }
 
-    public int GetOre()
+    public float GetMetals()
     {
-        return GlobalResources.Get().GetOre();
+        return _metals;
     }
 
-    public void SetMetals(int metal)
+    public float GetGadgets()
     {
-        GlobalResources.Get().SetMetals(metal);
-    }
-
-    public int GetMetals()
-    {
-        return GlobalResources.Get().GetMetals();
-    }
-
-    public void SetGadgets(int newGadgets)
-    {
-        GlobalResources.Get().SetGadgets(newGadgets);
-    }
-
-    public int GetGadgets()
-    {
-        return GlobalResources.Get().GetGadgets();
+        return _gadgets;
     }
 
     public void RemoveEnergy(float energyToRemove)
@@ -93,11 +82,6 @@ public class TinyPlanetResources : MonoBehaviour
     public float GetFood()
     {
         return _food;
-    }
-
-    public void RemoveFood(float food)
-    {
-        _food -= food;
     }
 
     public int GetInhabitants()
@@ -141,12 +125,42 @@ public class TinyPlanetResources : MonoBehaviour
         _inhabitants -= InhabitantsPerResidency;
         _occupiedResidencies -= 1;
     }
-    
+
     public int GetVacantHousing()
     {
         var vacancies = _residencies - _occupiedResidencies;
         var additionalCapacity = vacancies * InhabitantsPerResidency;
 
         return additionalCapacity;
+    }
+
+    public void RemoveOre(float toTake)
+    {
+        _ore -= toTake;
+    }
+
+    public void AddOre(float toAdd)
+    {
+        _ore += toAdd;
+    }
+
+    public void RemoveMetals(float toTake)
+    {
+        _metals -= toTake;
+    }
+
+    public void AddMetals(float toAdd)
+    {
+        _metals += toAdd;
+    }
+
+    public void RemoveGadgets(float toTake)
+    {
+        _gadgets -= toTake;
+    }
+
+    public void AddGadgets(float toAdd)
+    {
+        _gadgets += toAdd;
     }
 }
