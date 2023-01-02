@@ -18,27 +18,20 @@ public class PopupTarget : MonoBehaviour
         var connectedPlanet = _block.GetConnectedPlanet();
 
         if (planetPopup.HiddenAlready()) return;
-        
+
         if (planetPopup.ShownFor(connectedPlanet))
         {
-            if (PlanetNotSelectedAnymore())
+            planetPopup.UpdateInformation(GetPortScreenPosition(), connectedPlanet);
+
+            var timeIsOut = Time.time > _showUntil;
+            var shouldHide = timeIsOut;
+            if (shouldHide && !planetPopup.HiddenAlready() && !planetPopup.StartedHiding())
             {
-                planetPopup.Hide();
-            }
-            else
-            {
-                planetPopup.UpdatePosition(GetPortScreenPosition());
-            
-                var timeIsOut = Time.time > _showUntil;
-                var shouldHide = timeIsOut;
-                if (shouldHide && !planetPopup.HiddenAlready() && !planetPopup.StartedHiding())
-                {
-                    planetPopup.StartHide();
-                }   
+                planetPopup.StartHide();
             }
         }
     }
-    
+
     private bool PlanetNotSelectedAnymore()
     {
         var connectedPlanet = _block.GetConnectedPlanet();
@@ -46,9 +39,10 @@ public class PopupTarget : MonoBehaviour
         return connectedPlanet != currentPlanet;
     }
 
-    public void Show()
+    public void Show(bool forceShow = false)
     {
-        if (!_showcased) return;
+        if (!_showcased && !forceShow) return;
+
         _showUntil = Time.time + 1f;
         PlanetPopup.Get().Show(GetPortScreenPosition(), _block.GetConnectedPlanet());
     }

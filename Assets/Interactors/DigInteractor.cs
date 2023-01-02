@@ -156,7 +156,7 @@ namespace Interactors
             return timeSinceLastBuilt > Cooldown && laserableEntity.CanInteract();
         }
 
-        public override void Build(Block block)
+        public override void Build(Block block, RaycastHit raycastHit)
         {
             // Do nothing
         }

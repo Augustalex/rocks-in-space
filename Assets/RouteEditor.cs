@@ -6,7 +6,7 @@ public class RouteEditor : MonoBehaviour
 {
     private static RouteEditor _instance;
     private TinyPlanet _start;
-    private TinyPlanetResources.PlanetResourceType _resourceType;
+    private TinyPlanetResources.PlanetResourceType _resourceType = TinyPlanetResources.PlanetResourceType.Ore;
     private float _started;
 
     public event Action<TinyPlanet> RouteStarted;
@@ -26,6 +26,7 @@ public class RouteEditor : MonoBehaviour
     private void Start()
     {
         CameraController.Get().OnNavigationStarted += CancelEditing;
+        CameraController.Get().OnToggleZoom += (bool zoomedOut) => CancelEditing();
         InteractorController.Get().UnhandledMouseUp += OnUnhandledMouseUp;
     }
 
@@ -61,9 +62,9 @@ public class RouteEditor : MonoBehaviour
         return _start;
     }
 
-    public TinyPlanetResources.PlanetResourceType GetRouteResourceType()
+    public void SetResourceType(TinyPlanetResources.PlanetResourceType resourceType)
     {
-        return _resourceType;
+        _resourceType = resourceType;
     }
 
     public bool IsRouting()
@@ -80,8 +81,12 @@ public class RouteEditor : MonoBehaviour
         else
         {
             var routeManager = RouteManager.Get();
-            routeManager.AddRoute(_start, end);
-            routeManager.SetTrade(_start, end, TinyPlanetResources.PlanetResourceType.Ore, 1);
+            if (!routeManager.RouteExists(_start, end))
+            {
+                routeManager.AddRoute(_start, end);
+            }
+
+            routeManager.SetTrade(_start, end, _resourceType, 25);
 
             RouteFinished?.Invoke(_start, end);
             Reset();

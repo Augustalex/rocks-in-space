@@ -6,6 +6,7 @@ public class Block : MonoBehaviour, ILaserInteractable
 {
     private GameObject _seed;
     private OreController _oreController;
+    private bool _seedOverridable;
 
     private void Awake()
     {
@@ -15,7 +16,7 @@ public class Block : MonoBehaviour, ILaserInteractable
     public void Dig()
     {
         var tinyPlanetGenerator = TinyPlanetGenerator.Get();
-        
+
         if (_oreController.HasOre())
         {
             _oreController.Mine(GetConnectedPlanet());
@@ -59,7 +60,7 @@ public class Block : MonoBehaviour, ILaserInteractable
         var block = GetRoot();
         var position = block.transform.position;
         var rotation = block.transform.rotation;
-        
+
         connectedPlanet.RemoveFromNetwork(block);
         Destroy(block);
 
@@ -86,12 +87,23 @@ public class Block : MonoBehaviour, ILaserInteractable
         return transform.parent.GetComponentInChildren<RockMesh>();
     }
 
-    public GameObject Seed(GameObject seedTemplate)
+    public void KillOre()
     {
         if (_oreController.HasOre())
         {
             _oreController.DestroyOre();
         }
+    }
+
+    public GameObject Seed(GameObject seedTemplate)
+    {
+        if (_seed)
+        {
+            if (!_seedOverridable) return null;
+            Destroy(_seed);
+        }
+
+        KillOre();
 
         _seed = Instantiate(seedTemplate, transform.parent, true);
         _seed.transform.position = transform.position;
@@ -106,10 +118,15 @@ public class Block : MonoBehaviour, ILaserInteractable
         if (killMesh)
         {
             var mesh = GetMesh();
-            Destroy(mesh.gameObject);
+            if (mesh) Destroy(mesh.gameObject);
         }
 
         return _seed;
+    }
+
+    public bool CanSeed()
+    {
+        return _seed == null || _seedOverridable;
     }
 
     public bool IsSeeded()
@@ -147,5 +164,10 @@ public class Block : MonoBehaviour, ILaserInteractable
             materials[0] = purpleRockMaterial;
             meshRenderer.materials = materials;
         }
+    }
+
+    public void SetSeedOverridable()
+    {
+        _seedOverridable = true;
     }
 }

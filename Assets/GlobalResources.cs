@@ -3,8 +3,8 @@ using UnityEngine;
 public class GlobalResources : MonoBehaviour
 {
     private static GlobalResources _instance;
-    
-    private double _cash = 1000;
+
+    private double _cash = 10000;
 
     private void Awake()
     {

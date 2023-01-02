@@ -173,13 +173,17 @@ public class TinyPlanetGenerator : MonoBehaviour
         return rock;
     }
 
-    public void CreateRockAndAttachToNearPlanet(Vector3 position)
+    public Block CreateRockAndAttachToNearPlanet(Vector3 position)
     {
         var nearbyRock = Physics.OverlapSphere(position, 4).FirstOrDefault(collider => collider.GetComponent<Block>());
         if (nearbyRock != null)
         {
             var rock = CreateRock(position);
             nearbyRock.GetComponent<Block>().GetConnectedPlanet().AddToPlanet(rock);
+
+            return rock.GetComponentInChildren<Block>();
         }
+
+        return null;
     }
 }

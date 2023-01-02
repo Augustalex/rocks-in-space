@@ -48,7 +48,7 @@ namespace Interactors
             if (_lastCenteredPlanet != blocksPlanet)
             {
                 return cameraController.AvailableToUpdate() 
-                    && !block.IsSeeded();
+                    && !block.IsSeeded(); // TODO: Why do we need to check if it is seeded or not? What does that have to do with being able to go there or not?
             }
             else
             {
@@ -56,7 +56,7 @@ namespace Interactors
             } 
         }
 
-        public override void Build(Block block)
+        public override void Build(Block block, RaycastHit raycastHit)
         {
             var cameraController = CameraController.Get();
             var blocksPlanet = block.GetConnectedPlanet().gameObject;

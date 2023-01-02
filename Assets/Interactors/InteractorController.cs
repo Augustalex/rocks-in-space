@@ -55,6 +55,7 @@ namespace Interactors
                 interactorsContainer.GetComponent<FarmDomeInteractor>(),
                 interactorsContainer.GetComponent<ResidencyInteractor>(),
                 interactorsContainer.GetComponent<PortInteractor>(),
+                interactorsContainer.GetComponent<ScaffoldingInteractor>(),
             };
         }
 
@@ -126,6 +127,11 @@ namespace Interactors
             var interactorModule = CurrentModule();
             if (Physics.Raycast(ray, out hit, interactorModule.MaxActivationDistance()))
             {
+                if (hit.collider.CompareTag("PlanetLandmark"))
+                {
+                    hit.collider.GetComponent<PlanetLandmark>().Hover();
+                }
+
                 var block = hit.collider.GetComponent<Block>();
                 if (block)
                 {
@@ -263,7 +269,7 @@ namespace Interactors
                         {
                             if (interactorModule && interactorModule.CanBuild(block))
                             {
-                                interactorModule.Build(block);
+                                interactorModule.Build(block, hit);
                                 interactorModule.OnBuilt(block.transform.position);
                             }
                             else

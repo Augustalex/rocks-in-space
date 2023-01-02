@@ -16,7 +16,7 @@ namespace Interactors
             return $"Place {GetInteractorName()}";
         }
 
-        public override void Build(Block block)
+        public override void Build(Block block, RaycastHit raycastHit)
         {
             ConsumeRequiredResources(block);
 

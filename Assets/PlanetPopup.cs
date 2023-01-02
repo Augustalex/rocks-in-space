@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -18,13 +18,13 @@ public class PlanetPopup : MonoBehaviour
     private readonly List<TinyPlanetResources.PlanetResourceType> _resources =
         new()
         {
-            TinyPlanetResources.PlanetResourceType.Inhabitants,
-            TinyPlanetResources.PlanetResourceType.Energy,
-            TinyPlanetResources.PlanetResourceType.Food,
             TinyPlanetResources.PlanetResourceType.Ore,
             TinyPlanetResources.PlanetResourceType.Metals,
             TinyPlanetResources.PlanetResourceType.Gadgets,
+            TinyPlanetResources.PlanetResourceType.Energy,
+            TinyPlanetResources.PlanetResourceType.Food,
             TinyPlanetResources.PlanetResourceType.Housing,
+            TinyPlanetResources.PlanetResourceType.Inhabitants,
         };
 
     // When there are a lack of resources - show these as 0, in this order, to guide the player on what to do.
@@ -32,21 +32,9 @@ public class PlanetPopup : MonoBehaviour
         new()
         {
             TinyPlanetResources.PlanetResourceType.Ore,
-            TinyPlanetResources.PlanetResourceType.Housing,
-            TinyPlanetResources.PlanetResourceType.Inhabitants,
-        };
-
-    // When there are less resources of more than 0, then the amount of tutorial items, show items in this order to ensure tutorial items remain on top:
-    private readonly List<TinyPlanetResources.PlanetResourceType> _tutorialOrder =
-        new()
-        {
-            TinyPlanetResources.PlanetResourceType.Ore,
-            TinyPlanetResources.PlanetResourceType.Housing,
-            TinyPlanetResources.PlanetResourceType.Inhabitants,
-            TinyPlanetResources.PlanetResourceType.Energy,
-            TinyPlanetResources.PlanetResourceType.Food,
             TinyPlanetResources.PlanetResourceType.Metals,
             TinyPlanetResources.PlanetResourceType.Gadgets,
+            TinyPlanetResources.PlanetResourceType.Inhabitants,
         };
 
     private TMP_Text[] _texts;
@@ -70,18 +58,33 @@ public class PlanetPopup : MonoBehaviour
         Hide();
     }
 
+    private void Start()
+    {
+        CameraController.Get().OnToggleZoom += ZoomToggled;
+    }
+
+    private void ZoomToggled(bool zoomedOut)
+    {
+        Hide();
+    }
+
     public void Show(Vector2 position, TinyPlanet planet)
     {
         _selectedPlanet = planet;
 
-        UpdateTexts(_selectedPlanet);
-        UpdatePosition(position);
+        UpdateInformation(position, planet);
 
         if (!gameObject.activeSelf)
         {
             gameObject.SetActive(true);
             _animator.SetBool(Visible, true);
         }
+    }
+
+    public void UpdateInformation(Vector2 position, TinyPlanet connectedPlanet)
+    {
+        UpdateTexts(connectedPlanet);
+        UpdatePosition(position);
     }
 
     private void UpdateTexts(TinyPlanet planet)
@@ -99,40 +102,25 @@ public class PlanetPopup : MonoBehaviour
         header.text = planet.planetName;
 
         var resourceToShow = new List<TinyPlanetResources.PlanetResourceType>();
-
         foreach (var resource in _resources)
         {
-            var amount = resources.GetResource(resource);
-            if (amount > 0)
+            var amount = Mathf.RoundToInt(resources.GetResource(resource));
+            if (amount > 0 || _tutorialItems.Contains(resource))
             {
                 resourceToShow.Add(resource);
             }
         }
 
-        if (resourceToShow.Count < _tutorialItems.Count)
-        {
-            foreach (var tutorialItem in _tutorialItems)
-            {
-                if (!resourceToShow.Contains(tutorialItem)) resourceToShow.Add(tutorialItem);
-            }
-        }
-
-        if (resourceToShow.Count <= 3)
-        {
-            ShowResources(resources, resourceToShow.OrderBy(r => _tutorialOrder.IndexOf(r)).ToArray());
-        }
-        else
-        {
-            ShowResources(resources, resourceToShow.OrderBy(r => _resources.IndexOf(r)).ToArray());
-        }
+        ShowResources(resources, resourceToShow);
     }
 
-    private void ShowResources(TinyPlanetResources resources, TinyPlanetResources.PlanetResourceType[] resourcesToShow)
+    private void ShowResources(TinyPlanetResources resources,
+        IReadOnlyList<TinyPlanetResources.PlanetResourceType> resourcesToShow)
     {
-        for (var i = 0; i < resourcesToShow.Length; i++)
+        for (var i = 0; i < resourcesToShow.Count; i++)
         {
             var resource = resourcesToShow[i];
-            var amount = resources.GetResource(resource);
+            var amount = Mathf.RoundToInt(resources.GetResource(resource));
 
             _texts[ResourceTextsStartingIndex + i].gameObject.SetActive(true);
             _texts[ResourceTextsStartingIndex + i].text = $"{TinyPlanetResources.ResourceName(resource)}: {amount}";

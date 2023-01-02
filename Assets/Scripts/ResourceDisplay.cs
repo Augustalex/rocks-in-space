@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 
 public class ResourceDisplay : Hidable
@@ -22,13 +23,9 @@ public class ResourceDisplay : Hidable
         if (!currentPlanet) _text = "";
         else
         {
-            var globalResources = currentPlanet.GetResources();
-            var ore = globalResources.GetOre();
-            var metals = globalResources.GetMetals();
-            var gadgets = globalResources.GetGadgets();
-            var cash = GlobalResources.Get().GetCash();
+            var cash = Math.Round(GlobalResources.Get().GetCash());
             _text =
-                $"Credits: {cash}c\nOre: {ore}\nMetals: {metals}\nGadgets: {gadgets}";   
+                $"Credits: {(int)cash}c";
         }
     }
 }

@@ -3,6 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(ResourceEffect))]
 public class ModuleController : MonoBehaviour
 {
+    public float incomePerSecond;
+
     private TinyPlanetResources _planetResources;
     private PowerControlled _powerControlled;
 
@@ -40,7 +42,7 @@ public class ModuleController : MonoBehaviour
             {
                 _powerControlled.PowerOff();
             }
-            else if(!_powerControlled.PowerIsOn())
+            else if (!_powerControlled.PowerIsOn())
             {
                 _powerControlled.PowerOn();
             }
@@ -54,6 +56,11 @@ public class ModuleController : MonoBehaviour
                     _planetResources.KillResidencyInhabitants();
                     _occupied = false;
                 }
+            }
+
+            if (hasEnoughFood && hasEnoughEnergy)
+            {
+                GlobalResources.Get().AddCash(incomePerSecond);
             }
         }
         else if (_planetResources.HasVacancy())

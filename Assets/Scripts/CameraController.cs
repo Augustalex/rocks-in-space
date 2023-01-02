@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private const float MaxMoveLength = 2f;
+    private const float MaxMoveLength = 1f;
     private const float ZoomedOutDistance = 600f;
 
     private Transform _focus;
@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
     private Vector3 _lastPosition;
     private bool _following;
 
-    public bool cinematicOpening = false;
+    public bool cinematicOpening = true;
     private static CameraController _instance;
     private static bool _hasInstance;
     private bool _zoomedOut;
@@ -85,14 +85,17 @@ public class CameraController : MonoBehaviour
 
         if (_moving)
         {
-            if (_moveTime > 0)
+            if (_moveTime < _moveLength)
             {
-                var progress = (_moveLength - _moveTime) / _moveLength;
+                var linearProgress = Mathf.Clamp(_moveTime / _moveLength, 0f, 1f);
+                var progress = _displayController.inputMode == DisplayController.InputMode.Cinematic
+                    ? EaseInOutCubic(linearProgress)
+                    : EaseOutCubic(linearProgress);
                 transform.rotation = Quaternion.Slerp(_startRotation, _targetRotation, progress);
                 // transform.rotation = Quaternion.Lerp(_startRotation, _targetRotation, progress);
                 transform.position = Vector3.Lerp(_startPosition, _targetPosition, progress);
 
-                _moveTime -= Time.deltaTime;
+                _moveTime = Mathf.Min(_moveLength, _moveTime + Time.deltaTime);
             }
             else
             {
@@ -165,7 +168,7 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    private void ToggleZoomMode()
+    public void ToggleZoomMode()
     {
         _zoomedOut = !_zoomedOut;
         if (_zoomedOut)
@@ -175,16 +178,6 @@ public class CameraController : MonoBehaviour
             var cameraTransform = _camera.transform;
             cameraTransform.position = targetPosition;
             cameraTransform.rotation = targetRotation;
-
-            foreach (var planet in PlanetsRegistry.Get().All())
-            {
-                planet.ShowLandmark();
-                if (planet.HasPort())
-                {
-                    var mapPopupTarget = planet.GetPort().GetMapPopupTarget();
-                    mapPopupTarget.Show();
-                }
-            }
         }
         else
         {
@@ -193,16 +186,6 @@ public class CameraController : MonoBehaviour
             var cameraTransform = _camera.transform;
             cameraTransform.position = targetPosition;
             cameraTransform.rotation = targetRotation;
-
-            foreach (var planet in PlanetsRegistry.Get().All())
-            {
-                planet.HideLandmark();
-                if (planet.HasPort())
-                {
-                    var mapPopupTarget = planet.GetPort().GetMapPopupTarget();
-                    mapPopupTarget.HidePopup();
-                }
-            }
         }
 
         OnToggleZoom?.Invoke(_zoomedOut);
@@ -212,8 +195,8 @@ public class CameraController : MonoBehaviour
     {
         FocusOnPlanet(planet);
         _displayController.SetToCinematicMode();
-        _moveLength = .1f; //cinematicOpening ? 10 : .1f;
-        _moveTime = .1f;
+        _moveLength = cinematicOpening ? 8f : .1f;
+        _moveTime = 0f;
     }
 
     public void FocusOnPlanet(TinyPlanet planet)
@@ -233,16 +216,9 @@ public class CameraController : MonoBehaviour
         (_targetPosition, _targetRotation) = CameraPlanetFocusPosition(previousFocusPoint, _focus.position);
 
         var distance = (_targetPosition - _startPosition).magnitude;
-        if (distance < 10f)
-            _moveLength = .5f;
-        else if (distance < 15f)
-            _moveLength = .75f;
-        else if (distance < 20f)
-            _moveLength = 1f;
-        else
-            _moveLength = MaxMoveLength;
 
-        _moveTime = _moveLength;
+        _moveLength = Mathf.Max(.25f, distance / 500f);
+        _moveTime = 0f;
 
         OnNavigationStarted?.Invoke();
     }
@@ -296,5 +272,15 @@ public class CameraController : MonoBehaviour
     public bool IsZoomedOut()
     {
         return _zoomedOut;
+    }
+
+    private float EaseOutCubic(float x)
+    {
+        return 1f - Mathf.Pow(1f - x, 3f);
+    }
+
+    private float EaseInOutCubic(float x)
+    {
+        return x < 0.5f ? 4f * x * x * x : 1f - Mathf.Pow(-2f * x + 2f, 3f) / 2f;
     }
 }

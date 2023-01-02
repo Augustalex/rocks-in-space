@@ -1,18 +1,18 @@
 using System;
 using UnityEngine;
 
+[Serializable]
+public enum ResidencyType
+{
+    Nothing,
+    Module
+}
+
 public class ResourceEffect : MonoBehaviour
 {
     public event Action<TinyPlanetResources> AttachedTo;
     public event Action<TinyPlanetResources> DetachedFrom;
 
-    [Serializable]
-    public enum ResidencyType
-    {
-        Nothing,
-        Module
-    }
-    
     public float energy;
     public ResidencyType residencyType;
     private TinyPlanetResources _resources;

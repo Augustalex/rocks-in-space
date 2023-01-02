@@ -3634,6 +3634,8 @@ GameObject:
   - component: {fileID: 328930481252772237}
   - component: {fileID: 4394644714644544695}
   - component: {fileID: 6923342867543943683}
+  - component: {fileID: 3564699523662977065}
+  - component: {fileID: -1662945947870651580}
   m_Layer: 0
   m_Name: Refinery
   m_TagString: Untagged
@@ -3686,6 +3688,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efef4f37b4836fa42b226acf7621fa6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3564699523662977065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5028280871199184891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b32daf228e43b9441b10764af06a11cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energy: 0
+  residencyType: 0
+--- !u!114 &-1662945947870651580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5028280871199184891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 336aaf521eb74e81bf6aa32492d5c93e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cashPerSecond: -1
 --- !u!1 &5064190760009860486
 GameObject:
   m_ObjectHideFlags: 0

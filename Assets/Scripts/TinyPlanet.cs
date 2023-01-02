@@ -19,7 +19,7 @@ public class PlanetId
     {
         return id._id == _id;
     }
-    
+
     public override string ToString()
     {
         return _id.ToString();
@@ -80,8 +80,6 @@ public class TinyPlanet : MonoBehaviour
     {
         rockType = RockTypes[Random.Range(0, RockTypes.Length)];
         _purpleRockMaterial = new Material(purpleRockMaterialTemplate);
-
-        HideLandmark();
     }
 
     private void Start()
@@ -238,17 +236,6 @@ public class TinyPlanet : MonoBehaviour
     public bool Anonymous()
     {
         return planetName is "Unknown" or "Unnamed";
-    }
-
-    public void ShowLandmark()
-    {
-        landmark.transform.position = GetCenter();
-        landmark.SetActive(true);
-    }
-
-    public void HideLandmark()
-    {
-        landmark.SetActive(false);
     }
 
     public PortController GetPort()

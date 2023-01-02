@@ -1,95 +1,129 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class Route
 {
-    public PlanetId startPlanetId;
-    public PlanetId destinationPlanetId;
-    public TinyPlanetResources.PlanetResourceType resourceType;
-    public float orePerSecond = 0;
-    public float metalsPerSecond = 0;
-    public float gadgetsPerSecond = 0;
-    
+    public readonly PlanetId StartPlanetId;
+    public readonly PlanetId DestinationPlanetId;
+    public TinyPlanetResources.PlanetResourceType ResourceType = TinyPlanetResources.PlanetResourceType.Ore;
+
+    private float _orePerSecond = 0;
+    private float _metalsPerSecond = 0;
+    private float _gadgetsPerSecond = 0;
+
+    private readonly Queue<float> _transfers = new();
+
     private readonly int _order;
+    private bool _isActive;
 
     public Route(PlanetId start, PlanetId destination, int order)
     {
         _order = order;
-        startPlanetId = start;
-        destinationPlanetId = destination;
+        StartPlanetId = start;
+        DestinationPlanetId = destination;
     }
 
     public void Run()
     {
-        var start = PlanetsRegistry.Get().FindPlanetById(startPlanetId);
+        var start = PlanetsRegistry.Get().FindPlanetById(StartPlanetId);
         if (!start || !start.HasPort()) return;
 
-        var destination = PlanetsRegistry.Get().FindPlanetById(destinationPlanetId);
+        var destination = PlanetsRegistry.Get().FindPlanetById(DestinationPlanetId);
         if (!destination || !destination.HasPort()) return;
 
         var startingResources = start.GetResources();
         var destinationResources = destination.GetResources();
 
-        if (orePerSecond > 0)
+        if (_orePerSecond > 0)
         {
-            var preferredTake = orePerSecond * Time.deltaTime;
+            var preferredTake = _orePerSecond * Time.deltaTime;
             var toTake = Mathf.Min(startingResources.GetOre(), preferredTake);
 
             startingResources.RemoveOre(toTake);
             destinationResources.AddOre(toTake);
+
+            if (_transfers.Count >= 10) _transfers.Dequeue();
+            _transfers.Enqueue(toTake);
         }
 
-        if (metalsPerSecond > 0)
+        if (_metalsPerSecond > 0)
         {
-            var preferredTake = metalsPerSecond * Time.deltaTime;
+            var preferredTake = _metalsPerSecond * Time.deltaTime;
             var toTake = Mathf.Min(startingResources.GetMetals(), preferredTake);
 
             startingResources.RemoveMetals(toTake);
             destinationResources.AddMetals(toTake);
+
+            if (_transfers.Count >= 10) _transfers.Dequeue();
+            _transfers.Enqueue(toTake);
         }
 
-        if (gadgetsPerSecond > 0)
+        if (_gadgetsPerSecond > 0)
         {
-            var preferredTake = gadgetsPerSecond * Time.deltaTime;
+            var preferredTake = _gadgetsPerSecond * Time.deltaTime;
             var toTake = Mathf.Min(startingResources.GetGadgets(), preferredTake);
 
             startingResources.RemoveGadgets(toTake);
             destinationResources.AddGadgets(toTake);
+
+            if (_transfers.Count >= 10) _transfers.Dequeue();
+            _transfers.Enqueue(toTake);
         }
+
+        _isActive = _transfers.Count >= 10 && _transfers.Sum() > 0f;
     }
 
     public bool Is(TinyPlanet start, TinyPlanet end)
     {
-        return start.planetId.Is(startPlanetId) && end.planetId.Is(destinationPlanetId);
+        return start.planetId.Is(StartPlanetId) && end.planetId.Is(DestinationPlanetId);
     }
 
     public void SetTrade(TinyPlanetResources.PlanetResourceType planetResourceType, int amountPerSecond)
     {
         if (planetResourceType == TinyPlanetResources.PlanetResourceType.Ore)
         {
-            orePerSecond = amountPerSecond;
+            ResourceType = planetResourceType;
+            _orePerSecond = amountPerSecond;
+
+            _metalsPerSecond = 0;
+            _gadgetsPerSecond = 0;
         }
         else if (planetResourceType == TinyPlanetResources.PlanetResourceType.Metals)
         {
-            metalsPerSecond = amountPerSecond;
+            ResourceType = planetResourceType;
+            _metalsPerSecond = amountPerSecond;
+
+            _orePerSecond = 0;
+            _gadgetsPerSecond = 0;
         }
         else if (planetResourceType == TinyPlanetResources.PlanetResourceType.Gadgets)
         {
-            gadgetsPerSecond = amountPerSecond;
+            ResourceType = planetResourceType;
+            _gadgetsPerSecond = amountPerSecond;
+
+            _orePerSecond = 0;
+            _metalsPerSecond = 0;
         }
     }
 
     public bool StartsFrom(TinyPlanet planet)
     {
-        return startPlanetId.Is(planet.planetId);
+        return StartPlanetId.Is(planet.planetId);
     }
 
     public bool FromTo(TinyPlanet start, TinyPlanet end)
     {
-        return start.planetId.Is(startPlanetId) && end.planetId.Is(destinationPlanetId);
+        return start.planetId.Is(StartPlanetId) && end.planetId.Is(DestinationPlanetId);
     }
 
     public int Order()
     {
         return _order;
+    }
+
+    public bool IsActive()
+    {
+        return _isActive;
     }
 }

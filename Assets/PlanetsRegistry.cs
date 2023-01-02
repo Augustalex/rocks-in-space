@@ -12,12 +12,12 @@ public class PlanetsRegistry : MonoBehaviour
     {
         return _instance;
     }
-    
+
     void Awake()
     {
         _instance = this;
     }
-    
+
     public TinyPlanet FindPlanetById(PlanetId convoyPlanetId)
     {
         return !_planetRegistry.ContainsKey(convoyPlanetId) ? null : _planetRegistry[convoyPlanetId];
@@ -27,15 +27,20 @@ public class PlanetsRegistry : MonoBehaviour
     {
         _planetRegistry.Add(planetId, tinyPlanet);
     }
-    
+
     public void Add(PortController port)
     {
         _ports.Add(port);
     }
-    
+
     public void Remove(PortController port)
     {
         _ports.Remove(port);
+    }
+
+    public int CurrentPortCount()
+    {
+        return _ports.Count;
     }
 
     public IEnumerable<TinyPlanet> All()

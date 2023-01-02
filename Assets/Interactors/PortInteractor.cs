@@ -33,7 +33,7 @@ namespace Interactors
             return cash > PortCost;
         }
 
-        public override void Build(Block block)
+        public override void Build(Block block, RaycastHit raycastHit)
         {
             var port = block.Seed(template);
             var portController = port.GetComponentInChildren<PortController>();

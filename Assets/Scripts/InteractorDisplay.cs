@@ -15,6 +15,13 @@ public class InteractorDisplay : MonoBehaviour
     void Start()
     {
         _interactorController = InteractorController.Get();
+
+        CameraController.Get().OnToggleZoom += ZoomToggled;
+    }
+
+    private void ZoomToggled(bool zoomedOut)
+    {
+        gameObject.SetActive(!zoomedOut);
     }
 
     void Update()
