@@ -34,7 +34,7 @@ public class ErrorDisplay : MonoBehaviour
 
     private void FailedToBuild(InteractorModule interactorModule, Block block)
     {
-        ShowTemporaryMessage(Time.time + 4f, interactorModule.GetCannotBuildHereMessage(block), block.transform);
+        ShowTemporaryMessage(Time.time + 3f, interactorModule.GetCannotBuildHereMessage(block), block.transform);
     }
 
     void Update()
@@ -42,7 +42,8 @@ public class ErrorDisplay : MonoBehaviour
         if (gameObject.activeSelf && _track != null && _track.gameObject != null)
         {
             transform.position =
-                RectTransformUtility.WorldToScreenPoint(CameraController.GetCamera(), _track.position + Vector3.up * .5f);
+                RectTransformUtility.WorldToScreenPoint(CameraController.GetCamera(),
+                    _track.position + Vector3.up * .5f);
         }
 
         if (_showUntil > 0f && Time.time > _showUntil)
