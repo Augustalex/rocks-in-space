@@ -9,36 +9,31 @@ public class ColonyShip : MonoBehaviour
     private float _arrived;
     private float _waitLength;
     private bool _shipGone;
+    private Animator _animator;
+    private static readonly int Leave = Animator.StringToHash("Leave");
+    private float _leaveAt = -1f;
 
     void Start()
     {
         _arrived = Time.time;
         _waitLength = 10f * 60f;
-        CurrentPlanetController.Get().CurrentPlanetChanged += OnPlanetChanged;
-    }
 
-    private void OnPlanetChanged(PlanetChangedInfo info)
-    {
-        if (shipModel == null)
-        {
-            Destroy(gameObject);
-        }
+        _animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        if (CurrentPlanetController.Get().CurrentShip())
+        if (_leaveAt > 0f && Time.time > _leaveAt)
         {
+            _animator.SetTrigger(Leave);
+            _leaveAt = -1f;
         }
     }
 
     public void MouseDown()
     {
+        if (CurrentPlanetController.Get().CurrentShip() == this) return;
         NavigateToShip();
-    }
-
-    public void MouseUp()
-    {
     }
 
     private void NavigateToShip()
@@ -73,13 +68,20 @@ public class ColonyShip : MonoBehaviour
 
     public void MoveAway()
     {
+        if (_shipGone) return;
+
         _shipGone = true;
-        Destroy(shipModel);
+        _leaveAt = Time.time + 3f;
     }
 
     public float TimeLeft()
     {
         var duration = Time.time - _arrived;
         return Mathf.Max(0f, _waitLength - duration);
+    }
+
+    public void EnteredHyperspace()
+    {
+        Destroy(gameObject);
     }
 }

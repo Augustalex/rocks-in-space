@@ -43,13 +43,18 @@ public class CurrentPlanetController : MonoBehaviour
     {
         _currentPlanet = null;
         _currentShip = colonyShip;
-        
+
         ShipSelected?.Invoke(colonyShip);
     }
 
     public ColonyShip CurrentShip()
     {
         return _currentShip;
+    }
+
+    public bool IsShipSelected()
+    {
+        return _currentShip != null;
     }
 }
 

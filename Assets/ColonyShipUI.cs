@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class ColonyShipUI : MonoBehaviour
 {
     public Button acceptButton;
+    public TMP_Text acceptErrorText;
     public Button rejectButton;
 
     public TMP_Text timerText;
@@ -73,8 +74,9 @@ public class ColonyShipUI : MonoBehaviour
         var suitablePlanets = GetSuitablePlanets(currentShip);
         if (suitablePlanets.Length == 0)
         {
-            Debug.LogError(
-                "Player accepted ship, even when there are no suitable planets. Something must have gone wrong!");
+            acceptErrorText.text = "No planet meets the requirements";
+            // Debug.LogError(
+            //     "Player accepted ship, even when there are no suitable planets. Something must have gone wrong!");
         }
         else
         {
@@ -107,14 +109,7 @@ public class ColonyShipUI : MonoBehaviour
 
     private void Show(ColonyShip ship)
     {
-        gameObject.SetActive(true);
-
-        var suitablePlanets = GetSuitablePlanets(ship);
-
-        var hasASuitablePlanet = suitablePlanets.Length > 0;
-        acceptButton.GetComponentInChildren<TMP_Text>().text =
-            hasASuitablePlanet ? "Welcome them" : "Nowhere to house them";
-        acceptButton.enabled = hasASuitablePlanet;
+        UpdateTimerText(ship);
 
         colonyCountText.text = $"{ship.colonists} colonists are looking for a new home";
 
@@ -130,6 +125,15 @@ public class ColonyShipUI : MonoBehaviour
 
         requirementText.text = $"Requirements:\n{ship.colonists} housing";
 
-        UpdateTimerText(ship);
+
+        var suitablePlanets = GetSuitablePlanets(ship);
+
+        var hasASuitablePlanet = suitablePlanets.Length > 0;
+        acceptButton.GetComponentInChildren<TMP_Text>().text =
+            hasASuitablePlanet ? "Welcome them" : "Welcome them";
+        // acceptButton.enabled = hasASuitablePlanet;
+        acceptErrorText.text = "";
+
+        gameObject.SetActive(true);
     }
 }

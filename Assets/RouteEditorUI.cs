@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ public class RouteEditorUI : MonoBehaviour
 
     private TinyPlanetResources.PlanetResourceType _resource;
     private PlanetsRegistry _planetsRegistry;
+    private RouteEditor _routeEditor;
 
     private void Start()
     {
@@ -21,6 +23,8 @@ public class RouteEditorUI : MonoBehaviour
             routeEditor.SetResourceType(TinyPlanetResources.PlanetResourceType.Metals));
         gadgetsButton.onClick.AddListener(() =>
             routeEditor.SetResourceType(TinyPlanetResources.PlanetResourceType.Gadgets));
+
+        _routeEditor = routeEditor;
 
         CameraController.Get().OnToggleZoom += OnToggleZoom;
 
@@ -53,6 +57,15 @@ public class RouteEditorUI : MonoBehaviour
             HideTutorialGroup();
             ShowTradeGroup();
         }
+    }
+
+    private void Update()
+    {
+        var resourceType = _routeEditor.GetSelectedResourceType();
+
+        if (resourceType == TinyPlanetResources.PlanetResourceType.Ore) oreButton.Select();
+        if (resourceType == TinyPlanetResources.PlanetResourceType.Metals) metalsButton.Select();
+        if (resourceType == TinyPlanetResources.PlanetResourceType.Gadgets) gadgetsButton.Select();
     }
 
     private void Hide()

@@ -30,6 +30,8 @@ public class ErrorDisplay : MonoBehaviour
     {
         _interactorController = InteractorController.Get();
         _interactorController.FailedToBuild += FailedToBuild;
+        
+        Hide();
     }
 
     private void FailedToBuild(InteractorModule interactorModule, Block block)

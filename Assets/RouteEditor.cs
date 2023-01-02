@@ -109,4 +109,9 @@ public class RouteEditor : MonoBehaviour
     {
         return _start != null;
     }
+
+    public TinyPlanetResources.PlanetResourceType GetSelectedResourceType()
+    {
+        return _resourceType;
+    }
 }

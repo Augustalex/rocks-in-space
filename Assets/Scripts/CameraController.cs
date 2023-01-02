@@ -285,8 +285,9 @@ public class CameraController : MonoBehaviour
         var cameraTransform = _camera.transform;
         var cameraPosition = cameraTransform.position;
 
-        var distanceFromCenter = Vector3.Distance(FocusPoint(), cameraPosition);
-        var distanceToMove = distanceFromCenter - 20f;
+        var currentDistanceFromCenter = Vector3.Distance(FocusPoint(), cameraPosition);
+        var targetDistanceFromCenter = CurrentPlanetController.Get().IsShipSelected() ? 60f : 20f;
+        var distanceToMove = currentDistanceFromCenter - targetDistanceFromCenter;
         var targetPosition = cameraPosition + cameraTransform.forward * distanceToMove;
 
         return new Tuple<Vector3, Quaternion>(targetPosition, cameraTransform.rotation);

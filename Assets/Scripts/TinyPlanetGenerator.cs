@@ -25,14 +25,25 @@ public class TinyPlanetGenerator : MonoBehaviour
     void Start()
     {
         var area = 1000;
-        for (int i = 0; i < 50; i++)
+        var center = new Vector3(-(area / 2f), -(area / 2f), -(area / 2f));
+        var max = 50;
+        for (int i = 0; i < max; i++)
         {
             var point = new Vector3(
                 Random.Range(0, -area),
                 Random.Range(0, -area),
                 Random.Range(0, -area)
             );
-            GenerateNewPlanetAtPosition(point);
+
+            var distanceToCenter = Vector3.Distance(point, center);
+            if (distanceToCenter < 50f)
+            {
+                max += 1;
+            }
+            else
+            {
+                GenerateNewPlanetAtPosition(point);
+            }
         }
     }
 
