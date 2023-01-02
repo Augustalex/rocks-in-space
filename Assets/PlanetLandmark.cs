@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,59 +15,86 @@ public class PlanetLandmark : MonoBehaviour
     private void Start()
     {
         CameraController.Get().OnToggleZoom += OnToggleZoom;
-        RouteEditor.Get().RouteFinished += TryAddLine;
+        RouteEditor.Get().RouteFinished += RouteFinished;
+    }
+
+    private void RouteFinished(TinyPlanet start, TinyPlanet end)
+    {
+        if (end == _planet || start == _planet)
+        {
+            // TryAddLine(start, end);
+            RefreshLines();
+        }
+    }
+
+    private void RefreshLines()
+    {
+        ClearRouteLines();
+        AddRouteLines();
     }
 
     private void TryAddLine(TinyPlanet start, TinyPlanet end)
     {
-        var startPlanetName = start.planetName;
-        var endPlanetName = end.planetName;
         var planetIsSameAsStart = _planet.planetId.Is(start.planetId);
-        var planetName = _planet.planetName;
-        Debug.Log("TRY ADD LINE:" + startPlanetName + "->" + endPlanetName + ", but planet is actually: " + planetName + " - ARE THE STARTS THE SAME? " + !planetIsSameAsStart);
         if (!planetIsSameAsStart) return;
-        Debug.Log("YES! Adding line.");
 
         var line = Instantiate(PrefabTemplateLibrary.Get().routeLineTemplate);
         var lineController = line.GetComponent<RouteLine>();
 
-        lineController.LinkBetween(_planet, end);
+        var (inboundOrNull, outboundOrNull) = RouteManager.Get().GetRoutesBetween(start, end);
+        lineController.LinkBetween(_planet, end, inboundOrNull != null, HasPriority(inboundOrNull, outboundOrNull));
 
         _lines.Add(line);
+    }
+
+    private bool HasPriority(Route inboundOrNull, Route outboundOrNull)
+    {
+        if (inboundOrNull == null) return false;
+        if (outboundOrNull == null) return false;
+
+        return outboundOrNull.Order() > inboundOrNull.Order();
     }
 
     private void OnToggleZoom(bool zoomOn)
     {
         if (zoomOn)
         {
-            foreach (var planetRoute in RouteManager.Get().GetPlanetRoutes(_planet))
-            {
-                var destinationPlanet = PlanetsRegistry.Get().FindPlanetById(planetRoute.destinationPlanetId);
-                if (!destinationPlanet) continue;
-
-                TryAddLine(_planet, destinationPlanet);
-            }
+            AddRouteLines();
         }
         else
         {
-            foreach (var line in _lines)
-            {
-                Destroy(line);
-            }
+            ClearRouteLines();
+        }
+    }
 
-            _lines.Clear();
+    private void ClearRouteLines()
+    {
+        foreach (var line in _lines)
+        {
+            Destroy(line);
+        }
+
+        _lines.Clear();
+    }
+
+    private void AddRouteLines()
+    {
+        foreach (var planetRoute in RouteManager.Get().GetPlanetRoutes(_planet))
+        {
+            var destinationPlanet = PlanetsRegistry.Get().FindPlanetById(planetRoute.destinationPlanetId);
+            if (!destinationPlanet) continue;
+
+            TryAddLine(_planet, destinationPlanet);
         }
     }
 
     public void MouseDown()
     {
-        Debug.Log("MOUSE DOWN ON: " + _planet.planetName);
         RouteEditor.Get().SelectRouteStart(_planet);
     }
 
     public void MouseUp()
     {
-        Debug.Log("MOUSE UP ON: " + _planet.planetName);
         if (RouteEditor.Get().IsValidDestination(_planet))
         {
             RouteEditor.Get().SelectRouteDestination(_planet);

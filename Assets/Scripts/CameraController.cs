@@ -24,6 +24,7 @@ public class CameraController : MonoBehaviour
 
     public bool cinematicOpening = false;
     private static CameraController _instance;
+    private static bool _hasInstance;
     private bool _zoomedOut;
     private MapPopupTarget _currentTarget;
 
@@ -33,11 +34,17 @@ public class CameraController : MonoBehaviour
     void Awake()
     {
         _instance = this;
+        _hasInstance = true;
+    }
+
+    public static bool HasInstance()
+    {
+        return _hasInstance;
     }
 
     public static CameraController Get()
     {
-        return _instance;
+        return !_hasInstance ? null : _instance;
     }
 
     public static Camera GetCamera()
@@ -175,7 +182,6 @@ public class CameraController : MonoBehaviour
                 if (planet.HasPort())
                 {
                     var mapPopupTarget = planet.GetPort().GetMapPopupTarget();
-                    Debug.Log("SHOW for: " + planet.planetName);
                     mapPopupTarget.Show();
                 }
             }
@@ -194,7 +200,6 @@ public class CameraController : MonoBehaviour
                 if (planet.HasPort())
                 {
                     var mapPopupTarget = planet.GetPort().GetMapPopupTarget();
-                    Debug.Log("HIDE.");
                     mapPopupTarget.HidePopup();
                 }
             }
@@ -286,5 +291,10 @@ public class CameraController : MonoBehaviour
         var targetPosition = cameraPosition + cameraTransform.forward * distanceToMove;
 
         return new Tuple<Vector3, Quaternion>(targetPosition, cameraTransform.rotation);
+    }
+
+    public bool IsZoomedOut()
+    {
+        return _zoomedOut;
     }
 }

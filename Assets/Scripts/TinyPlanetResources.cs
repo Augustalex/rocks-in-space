@@ -9,7 +9,8 @@ public class TinyPlanetResources : MonoBehaviour
         Gadgets,
         Energy,
         Food,
-        Inhabitants
+        Inhabitants,
+        Housing
     }
 
     public static string ResourceName(PlanetResourceType resourceType)
@@ -21,7 +22,8 @@ public class TinyPlanetResources : MonoBehaviour
             case PlanetResourceType.Gadgets: return "Gadgets";
             case PlanetResourceType.Energy: return "Energy";
             case PlanetResourceType.Food: return "Food";
-            case PlanetResourceType.Inhabitants: return "Inhabitants";
+            case PlanetResourceType.Inhabitants: return "Colonists";
+            case PlanetResourceType.Housing: return "Housing";
         }
 
         return "Unknown resource";
@@ -38,6 +40,30 @@ public class TinyPlanetResources : MonoBehaviour
     private float _ore = 0;
     private float _metals = 0;
     private float _gadgets = 0;
+
+    public float GetResource(PlanetResourceType resourceType)
+    {
+        switch (resourceType)
+        {
+            case PlanetResourceType.Energy:
+                return GetEnergy();
+            case PlanetResourceType.Food:
+                return GetFood();
+            case PlanetResourceType.Gadgets:
+                return GetGadgets();
+            case PlanetResourceType.Inhabitants:
+                return GetInhabitants();
+            case PlanetResourceType.Metals:
+                return GetMetals();
+            case PlanetResourceType.Ore:
+                return GetOre();
+            case PlanetResourceType.Housing:
+                return GetVacantHousing();
+        }
+
+        Debug.LogError("Trying to get resource that has not getter: " + resourceType);
+        return 0f;
+    }
 
     public float GetOre()
     {

@@ -46,7 +46,6 @@ public class MapPopupTarget : MonoBehaviour
 
     public void Show()
     {
-        Debug.Log("Create a new instance!");
         _show = true;
         _popup = MapPopup.GetNewInstance();
         _popupComponent = _popup.GetComponent<MapPopup>();
@@ -56,7 +55,6 @@ public class MapPopupTarget : MonoBehaviour
         
         void RemoveReference()
         {
-            Debug.Log("HIDDEN");
             _popupComponent.Hidden -= RemoveReference;
             
             _popup = null;

@@ -19,17 +19,20 @@ public class PlanetId
     {
         return id._id == _id;
     }
+    
+    public override string ToString()
+    {
+        return _id.ToString();
+    }
 }
 
 public class TinyPlanet : MonoBehaviour
 {
     public PlanetId planetId = new();
-    
-    [HideInInspector]
-    public string planetName = "Unnamed";
-    
-    [HideInInspector]
-    public List<GameObject> network;
+
+    [HideInInspector] public string planetName = "Unnamed";
+
+    [HideInInspector] public List<GameObject> network;
 
     public enum RockType
     {
@@ -41,7 +44,7 @@ public class TinyPlanet : MonoBehaviour
     public Material purpleRockMaterialTemplate;
     public RockType rockType;
     public GameObject landmark;
-    
+
     private Vector3 _lastCenterPosition;
     private GameObject _lastCenter;
     private int _networkCountWhenLastCalculatedCenter;
@@ -50,7 +53,7 @@ public class TinyPlanet : MonoBehaviour
     private static readonly int CenterPropertyId = Shader.PropertyToID("_Center");
     private static readonly int RockTypePropertyId = Shader.PropertyToID("_RockType");
 
-    
+
     private static readonly RockType[] RockTypes = new RockType[]
     {
         RockType.Orange,
@@ -60,10 +63,10 @@ public class TinyPlanet : MonoBehaviour
 
     private static readonly Color[][] ColorPairs = new Color[][]
     {
-        new [] {Hsl(26, 80, 100), Hsl(305, 100, 80)},
+        new[] { Hsl(26, 80, 100), Hsl(305, 100, 80) },
         // new [] {Hsl(185, 80, 100), Hsl(305, 100, 80)}, Blue
-        new [] {Hsl(270, 80, 100), Hsl(305, 100, 80)},
-        new [] {Hsl(76, 80, 100), Hsl(305, 100, 80)},
+        new[] { Hsl(270, 80, 100), Hsl(305, 100, 80) },
+        new[] { Hsl(76, 80, 100), Hsl(305, 100, 80) },
     };
 
     private int _rockTestIndex;
@@ -77,22 +80,22 @@ public class TinyPlanet : MonoBehaviour
     {
         rockType = RockTypes[Random.Range(0, RockTypes.Length)];
         _purpleRockMaterial = new Material(purpleRockMaterialTemplate);
-        
+
         HideLandmark();
     }
 
     private void Start()
     {
         _rockTestIndex = 0;
-        _purpleRockMaterial.SetInt(RockTypePropertyId, (int) rockType);
+        _purpleRockMaterial.SetInt(RockTypePropertyId, (int)rockType);
 
         var color = ColorPairs[(int)rockType];
         _purpleRockMaterial.SetColor("_LightColor", color[0]);
         _purpleRockMaterial.SetColor("_DarkColor", color[1]);
-        
+
         var newPosition = network[0].transform.position;
         _purpleRockMaterial.SetVector(CenterPropertyId, newPosition);
-        
+
         foreach (var networkItem in network)
         {
             networkItem.GetComponentInChildren<Block>().SetMaterial(_purpleRockMaterial);
@@ -108,9 +111,8 @@ public class TinyPlanet : MonoBehaviour
         {
             rockType = RockTypes[_rockTestIndex++];
             if (_rockTestIndex >= RockTypes.Length) _rockTestIndex = 0;
-            _purpleRockMaterial.SetInt(RockTypePropertyId, (int) rockType);
+            _purpleRockMaterial.SetInt(RockTypePropertyId, (int)rockType);
             var color = ColorPairs[(int)rockType];
-            Debug.Log("rockType: " + rockType + ", colors: " + color[0] + " - " + color[1]);
             _purpleRockMaterial.SetColor("_LightColor", color[0]);
             _purpleRockMaterial.SetColor("_DarkColor", color[1]);
         }
@@ -138,20 +140,20 @@ public class TinyPlanet : MonoBehaviour
                 resourceEffect.DetachFrom(GetResources());
             }
         }
-        
+
         var workingNetwork = newNetwork.Where(n => n != null).ToList();
-        
+
         network = workingNetwork;
         foreach (var networkItem in workingNetwork)
         {
             networkItem.transform.SetParent(transform);
-            
+
             var port = networkItem.GetComponentInChildren<PortController>();
             if (port)
             {
                 AttachPort(port);
             }
-            
+
             var resourceEffect = networkItem.GetComponentInChildren<ResourceEffect>();
             if (resourceEffect)
             {
@@ -207,13 +209,14 @@ public class TinyPlanet : MonoBehaviour
 
     public Vector3 GetCenter()
     {
-        if (_networkCountWhenLastCalculatedCenter == network.Count && _lastCenter.transform.position == _lastCenterPosition) return _lastCenterPosition;
-        
+        if (_networkCountWhenLastCalculatedCenter == network.Count &&
+            _lastCenter.transform.position == _lastCenterPosition) return _lastCenterPosition;
+
         var center = TinyPlanetCenterPointHelper.CalculateCenter(network);
         _lastCenterPosition = center.transform.position;
         _lastCenter = center;
         _networkCountWhenLastCalculatedCenter = network.Count;
-        
+
         return _lastCenterPosition;
     }
 
@@ -242,7 +245,7 @@ public class TinyPlanet : MonoBehaviour
         landmark.transform.position = GetCenter();
         landmark.SetActive(true);
     }
-    
+
     public void HideLandmark()
     {
         landmark.SetActive(false);

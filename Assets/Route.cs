@@ -8,9 +8,12 @@ public class Route
     public float orePerSecond = 0;
     public float metalsPerSecond = 0;
     public float gadgetsPerSecond = 0;
+    
+    private readonly int _order;
 
-    public Route(PlanetId start, PlanetId destination)
+    public Route(PlanetId start, PlanetId destination, int order)
     {
+        _order = order;
         startPlanetId = start;
         destinationPlanetId = destination;
     }
@@ -78,5 +81,15 @@ public class Route
     public bool StartsFrom(TinyPlanet planet)
     {
         return startPlanetId.Is(planet.planetId);
+    }
+
+    public bool FromTo(TinyPlanet start, TinyPlanet end)
+    {
+        return start.planetId.Is(startPlanetId) && end.planetId.Is(destinationPlanetId);
+    }
+
+    public int Order()
+    {
+        return _order;
     }
 }

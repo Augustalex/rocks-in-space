@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 4808046407388500201}
   - component: {fileID: 1900806462166323620}
   - component: {fileID: 207949388046596912}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,7 +172,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2386008860185699934}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 6077052717399936371}
   - component: {fileID: 2701661980974041698}
   - component: {fileID: 1416738626130496213}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Line (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -256,7 +256,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0d0f715ea6b0ee34195b54c95a2812db, type: 2}
+  - {fileID: 2100000, guid: 443b2c5db05179c498c428348d47564c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
