@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - PlanetLandmark
+  - ColonyShip
   layers:
   - Default
   - TransparentFX

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private const float MaxMoveLength = 1f;
     private const float ZoomedOutDistance = 600f;
 
     private Transform _focus;
@@ -197,6 +196,30 @@ public class CameraController : MonoBehaviour
         _displayController.SetToCinematicMode();
         _moveLength = cinematicOpening ? 8f : .1f;
         _moveTime = 0f;
+    }
+
+    public void FocusOnShip(ColonyShip colonyShip)
+    {
+        _moving = true;
+        _following = false;
+
+        _displayController.SetShipInFocus(colonyShip);
+
+        var center = colonyShip.GetCenterGo();
+        var previousFocusPoint = _focus ? _focus.position : Vector3.zero;
+        _focus = center.transform;
+
+        var cameraTransform = _camera.transform;
+        _startPosition = cameraTransform.position;
+        _startRotation = cameraTransform.rotation;
+        (_targetPosition, _targetRotation) = CameraPlanetFocusPosition(previousFocusPoint, _focus.position);
+
+        var distance = (_targetPosition - _startPosition).magnitude;
+
+        _moveLength = Mathf.Max(.25f, distance / 500f);
+        _moveTime = 0f;
+
+        OnNavigationStarted?.Invoke();
     }
 
     public void FocusOnPlanet(TinyPlanet planet)

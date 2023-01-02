@@ -216,6 +216,11 @@ namespace Interactors
                     hit.collider.GetComponent<PlanetLandmark>().MouseDown();
                     return;
                 }
+                if (hit.collider.CompareTag("ColonyShip"))
+                {
+                    hit.collider.GetComponent<ColonyShip>().MouseDown();
+                    return;
+                }
 
                 var parent = hit.collider.GetComponentInParent<BlockRoot>();
                 if (parent)

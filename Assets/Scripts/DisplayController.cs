@@ -9,6 +9,7 @@ public class DisplayController : MonoBehaviour
     private string _oldName;
     private string _newName;
     private TinyPlanet _currentPlanet;
+    private ColonyShip _currentShip;
     private IEnumerable<GameObject> _miscHidable;
     private PlanetNamingModal _planetNamingModal;
 
@@ -16,7 +17,8 @@ public class DisplayController : MonoBehaviour
     public event Action OnRenameDone;
 
     public InputMode inputMode = InputMode.Cinematic;
-    
+
+
     public enum InputMode
     {
         Renaming,
@@ -129,7 +131,7 @@ public class DisplayController : MonoBehaviour
         OnModeChange(InputMode.Static);
         OnRenameDone?.Invoke();
     }
-    
+
     public void StartRenamingPlanet()
     {
         _planetNamingModal.StartRenaming(_currentPlanet ? _currentPlanet.planetName : "");
@@ -139,6 +141,13 @@ public class DisplayController : MonoBehaviour
     public void SetPlanetInFocus(TinyPlanet planet)
     {
         _currentPlanet = planet;
+        _currentShip = null;
+    }
+
+    public void SetShipInFocus(ColonyShip colonyShip)
+    {
+        _currentShip = colonyShip;
+        _currentPlanet = null;
     }
 
     public void SetToModalMode()
@@ -167,6 +176,7 @@ public class DisplayController : MonoBehaviour
         {
             hidable.SetActive(false);
         }
+
         _hiding = true;
     }
 
@@ -176,9 +186,10 @@ public class DisplayController : MonoBehaviour
         {
             hidable.SetActive(true);
         }
+
         _hiding = false;
     }
-    
+
     protected virtual void OnModeChange(InputMode mode)
     {
         inputMode = mode;
