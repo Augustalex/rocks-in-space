@@ -124,7 +124,6 @@ public class PlanetLandmark : MonoBehaviour
         _material.SetInt(HasPort, _planet.HasPort() ? 1 : 0);
         _material.SetInt(IsSelected, IsCurrentPlanet(_planet) ? 1 : 0);
         var inMapView = _cameraController.IsZoomedOut();
-        Debug.Log("INMAPVIEW: " + inMapView);
         _material.SetInt(InMapView, inMapView ? 1 : 0);
     }
 

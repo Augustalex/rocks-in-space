@@ -12,6 +12,9 @@ public class ErrorDisplay : MonoBehaviour
     private static readonly int Visible = Animator.StringToHash("Visible");
     private Transform _track;
 
+    private const PopupManager.PopupImportance PopupImportance = PopupManager.PopupImportance.High;
+    private int _popupId;
+
     public static ErrorDisplay Get()
     {
         return _instance;
@@ -26,12 +29,44 @@ public class ErrorDisplay : MonoBehaviour
         _text.text = "";
     }
 
-    void Start()
+    private void Start()
     {
         _interactorController = InteractorController.Get();
         _interactorController.FailedToBuild += FailedToBuild;
-        
+
+        var popupManager = PopupManager.Get();
+        _popupId = popupManager.Register();
+        popupManager.PopupShown += AnotherPopupShown;
+        popupManager.RequestedCancel += Hide;
+
         Hide();
+    }
+
+    public void ShowTemporaryMessage(float showUntil, string text, Transform trackTransform)
+    {
+        _track = trackTransform;
+        gameObject.SetActive(true);
+        _animator.SetBool(Visible, true);
+        _showUntil = showUntil;
+        _text.text = text;
+
+        PopupManager.Get().NotifyShown(PopupImportance, _popupId);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+
+    private void AnotherPopupShown(PopupManager.PopupImportance popupImportance, int popupId)
+    {
+        if (popupId == _popupId) return;
+        if (popupImportance >= PopupImportance) Hide();
+    }
+
+    public bool IsVisible()
+    {
+        return gameObject.activeSelf;
     }
 
     private void FailedToBuild(InteractorModule interactorModule, Block block)
@@ -54,19 +89,5 @@ public class ErrorDisplay : MonoBehaviour
             _showUntil = -1f;
             _track = null;
         }
-    }
-
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-    }
-
-    public void ShowTemporaryMessage(float showUntil, string text, Transform trackTransform)
-    {
-        _track = trackTransform;
-        gameObject.SetActive(true);
-        _animator.SetBool(Visible, true);
-        _showUntil = showUntil;
-        _text.text = text;
     }
 }

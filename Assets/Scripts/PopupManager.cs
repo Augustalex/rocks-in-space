@@ -12,13 +12,13 @@ public class PopupManager : MonoBehaviour
 
     public enum PopupImportance
     {
-        High,
+        Low,
         Medium,
-        Low
+        High
     }
 
     public event Action<PopupImportance, int> PopupShown;
-
+    public event Action RequestedCancel;
     private int _nextId = 1;
 
     private void Awake()
@@ -29,6 +29,11 @@ public class PopupManager : MonoBehaviour
     public int Register()
     {
         return _nextId++;
+    }
+
+    public void CancelAllPopups()
+    {
+        RequestedCancel?.Invoke();
     }
 
     public void NotifyShown(PopupImportance popupImportance, int popupId)

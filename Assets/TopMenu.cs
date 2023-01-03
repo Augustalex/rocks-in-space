@@ -32,10 +32,8 @@ public class TopMenu : MonoBehaviour
     
     private void InteractorSelected(InteractorModule interactor)
     {
-        Debug.Log("SELECTED: " + interactor.GetInteractorName());
         if (interactor.GetInteractorName() == "Dig")
         {
-            Debug.Log("SELECT DIG");
             dig.Select();
         }
         else if (interactor.GetInteractorName() == "Select")
@@ -44,7 +42,6 @@ public class TopMenu : MonoBehaviour
         }
         else
         {
-            Debug.Log("SELECT BUILD");
             build.Select();
         }
     }

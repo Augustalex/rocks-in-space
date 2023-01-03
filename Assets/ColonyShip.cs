@@ -26,7 +26,10 @@ public class ColonyShip : MonoBehaviour
         _animator = GetComponent<Animator>();
         _landmarkMaterial = landmarkRenderer.material;
 
-        CameraController.Get().OnToggleZoom += OnToggleZoom;
+        var cameraController = CameraController.Get();
+        cameraController.OnToggleZoom += OnToggleZoom;
+        _landmarkMaterial.SetInt(InMapView, cameraController.IsZoomedOut() ? 1 : 0);
+
         CurrentPlanetController.Get().CurrentPlanetChanged += OnPlanetChanged;
     }
 

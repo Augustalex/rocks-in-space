@@ -2953,6 +2953,7 @@ GameObject:
   - component: {fileID: 1251590330}
   - component: {fileID: 1251590331}
   - component: {fileID: 1251590332}
+  - component: {fileID: 1251590333}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3111,6 +3112,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e387b6264c844ea9309181d3b5abeaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1251590333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251590319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea5d1a61cfa44814affd3ebc821fd740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1264131041
@@ -3484,7 +3497,7 @@ Camera:
     height: 1
   near clip plane: 1
   far clip plane: 4000
-  field of view: 60
+  field of view: 75
   orthographic: 0
   orthographic size: 5
   m_Depth: -1

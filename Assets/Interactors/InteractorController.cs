@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Interactors.Digging;
 using UnityEngine;
 
@@ -90,18 +89,11 @@ namespace Interactors
             }
             else
             {
-                if (Input.GetKeyDown(KeyCode.Escape))
+                for (var i = 0; i < _selectKeys.Length; i++)
                 {
-                    _currentModule = DefaultModule;
-                }
-                else
-                {
-                    for (var i = 0; i < _selectKeys.Length; i++)
+                    if (Input.GetKeyDown(_selectKeys[i]) && _modules.Length > i)
                     {
-                        if (Input.GetKeyDown(_selectKeys[i]) && _modules.Length > i)
-                        {
-                            _currentModule = i;
-                        }
+                        _currentModule = i;
                     }
                 }
             }
@@ -144,7 +136,7 @@ namespace Interactors
                     var popupTarget = block.GetRoot().GetComponentInChildren<PopupTarget>();
                     if (popupTarget)
                     {
-                        popupTarget.Show();
+                        if (!ErrorDisplay.Get().IsVisible()) popupTarget.Show();
                     }
                 }
 
@@ -181,7 +173,7 @@ namespace Interactors
         private void RayCastSecondaryAction()
         {
             return;
-            
+
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -221,14 +213,12 @@ namespace Interactors
             {
                 if (hit.collider.CompareTag("PlanetLandmark"))
                 {
-                    Debug.Log("HIT LANDMARK!");
                     hit.collider.GetComponent<PlanetLandmark>().MouseDown();
                     return;
                 }
 
                 if (hit.collider.CompareTag("ColonyShip"))
                 {
-                    Debug.Log("HIT SHIP!");
                     hit.collider.GetComponent<ColonyShip>().MouseDown();
                     return;
                 }

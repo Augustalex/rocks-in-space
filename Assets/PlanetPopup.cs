@@ -37,7 +37,8 @@ public class PlanetPopup : MonoBehaviour
         };
 
     private TMP_Text[] _texts;
-    private PopupManager _popupManager;
+
+    private const PopupManager.PopupImportance PopupImportance = PopupManager.PopupImportance.Low;
     private int _popupId;
 
     public static PlanetPopup Get()
@@ -63,19 +64,16 @@ public class PlanetPopup : MonoBehaviour
     {
         CameraController.Get().OnToggleZoom += ZoomToggled;
 
-        _popupManager = PopupManager.Get();
-        _popupId = _popupManager.Register();
-        _popupManager.PopupShown += AnotherPopupShown;
+        var popupManager = PopupManager.Get();
+        _popupId = popupManager.Register();
+        popupManager.PopupShown += AnotherPopupShown;
+        popupManager.RequestedCancel += Hide;
     }
 
     private void AnotherPopupShown(PopupManager.PopupImportance popupImportance, int popupId)
     {
         if (popupId == _popupId) return;
-    }
-
-    private void ZoomToggled(bool zoomedOut)
-    {
-        Hide();
+        if (popupImportance >= PopupImportance) Hide();
     }
 
     public void Show(Vector2 position, TinyPlanet planet)
@@ -89,6 +87,28 @@ public class PlanetPopup : MonoBehaviour
             gameObject.SetActive(true);
             _animator.SetBool(Visible, true);
         }
+
+        PopupManager.Get().NotifyShown(PopupImportance, _popupId);
+    }
+
+    public void StartHide()
+    {
+        // Triggers FadeOut animation that eventually calls Hide().
+
+        _animator.SetBool(Visible, false);
+    }
+
+    public void Hide()
+    {
+        // Hides right away - is called by the FadeOut animation as well when triggered from StartHide().
+
+        _selectedPlanet = null;
+        gameObject.SetActive(false);
+    }
+
+    private void ZoomToggled(bool zoomedOut)
+    {
+        Hide();
     }
 
     public void UpdateInformation(Vector2 position, TinyPlanet connectedPlanet)
@@ -142,20 +162,14 @@ public class PlanetPopup : MonoBehaviour
         transform.position = position;
     }
 
-    public void Hide()
+    public bool IsVisible()
     {
-        _selectedPlanet = null;
-        gameObject.SetActive(false);
-    }
-
-    public void StartHide()
-    {
-        _animator.SetBool(Visible, false);
+        return gameObject.activeSelf;
     }
 
     public bool HiddenAlready()
     {
-        return !gameObject.activeSelf;
+        return !IsVisible();
     }
 
     public bool ShownFor(TinyPlanet planet)

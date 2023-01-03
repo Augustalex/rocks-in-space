@@ -39,14 +39,6 @@ public class PopupTarget : MonoBehaviour
         return connectedPlanet != currentPlanet;
     }
 
-    public void Show(bool forceShow = false)
-    {
-        if (!_showcased && !forceShow) return;
-
-        _showUntil = Time.time + 1f;
-        PlanetPopup.Get().Show(GetPortScreenPosition(), _block.GetConnectedPlanet());
-    }
-
     public void ShowcaseSoon(float delay)
     {
         StartCoroutine(DoSoon());
@@ -61,7 +53,18 @@ public class PopupTarget : MonoBehaviour
     private void Showcase()
     {
         _showcased = true;
-        _showUntil = Time.time + 3f;
+        ShowUntil(Time.time + 3f);
+    }
+
+    public void Show()
+    {
+        if (!_showcased) return;
+        ShowUntil(Time.time + 1f);
+    }
+
+    private void ShowUntil(float showUntil)
+    {
+        _showUntil = showUntil;
         PlanetPopup.Get().Show(GetPortScreenPosition(), _block.GetConnectedPlanet());
     }
 

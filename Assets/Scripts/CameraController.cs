@@ -17,7 +17,6 @@ public class CameraController : MonoBehaviour
 
     private const float ShipZoomedInDistance = 60f;
 
-
     private Transform _focus;
     private Vector3 _backupFocus = Vector3.zero;
     private Camera _camera;
@@ -316,5 +315,10 @@ public class CameraController : MonoBehaviour
     private float EaseInOutCubic(float x)
     {
         return x < 0.5f ? 4f * x * x * x : 1f - Mathf.Pow(-2f * x + 2f, 3f) / 2f;
+    }
+
+    public void ZoomIn()
+    {
+        if (IsZoomedOut()) ToggleZoomMode();
     }
 }
