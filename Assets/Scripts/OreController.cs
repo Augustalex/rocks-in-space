@@ -14,19 +14,14 @@ public class OreController : MonoBehaviour
         {
             _ore = existingOreVein.gameObject;
         }
-        else
-        {
-            RandomizeOreVein();
-        }
     }
-
+    
     public void MakeIntoOreVein()
     {
-        if (_ore) return;
-        RandomizeOreVein();
+        if (!_ore) SetupOre();
     }
 
-    private void RandomizeOreVein()
+    public void RandomizeOreVein()
     {
         var self = gameObject;
         var position = transform.position;
