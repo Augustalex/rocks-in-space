@@ -8,7 +8,7 @@ public class PortConvoyManager : MonoBehaviour
 
     public Animator portGlobeAnimator;
     public PortGlobeAnimationEventHandler portGlobeAnimationEventHandler;
-    
+
     private static readonly int GotMessage = Animator.StringToHash("GotMessage");
     private ColonistManager _colonistManager;
     private bool _hasSentFirstMessage;
@@ -33,6 +33,8 @@ public class PortConvoyManager : MonoBehaviour
 
     private void Update()
     {
+        return;
+
         if (_hasSettled)
         {
             if (_displayController.inputMode == DisplayController.InputMode.Static)
@@ -42,7 +44,7 @@ public class PortConvoyManager : MonoBehaviour
 
             return;
         }
-        
+
         if (!_hasSentFirstMessage) return;
         if (_message) return;
         if (_convoyChoiceScreen.Visible()) return;
@@ -64,7 +66,6 @@ public class PortConvoyManager : MonoBehaviour
                 _waitUntil = Time.time + 20;
             }
         }
-            
     }
 
     private void Clicked()
@@ -72,7 +73,7 @@ public class PortConvoyManager : MonoBehaviour
         if (!_message) return;
         _message = false;
         portGlobeAnimator.SetBool(GotMessage, false);
-        
+
         var planet = GetComponentInParent<TinyPlanet>();
         var convoys = new[]
         {

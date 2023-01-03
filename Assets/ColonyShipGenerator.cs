@@ -5,6 +5,7 @@ public class ColonyShipGenerator : MonoBehaviour
     public GameObject colonyShipTemplate;
     private bool _hasSpawnedFirstShip;
     private float _spawnShipAt;
+    private GameObject _ship;
 
     void Start()
     {
@@ -13,13 +14,34 @@ public class ColonyShipGenerator : MonoBehaviour
 
     private void Update()
     {
-        if (_spawnShipAt > 0f && Time.time > _spawnShipAt)
+        if (!_hasSpawnedFirstShip)
         {
-            if (IsCenterInView())
+            if (_spawnShipAt > 0f)
             {
-                SpawnShip();
-                _hasSpawnedFirstShip = true;
-                _spawnShipAt = -1f;
+                if (Time.time > _spawnShipAt && IsCenterInView())
+                {
+                    SpawnShip();
+                    _hasSpawnedFirstShip = true;
+                    _spawnShipAt = -1f;
+                }
+            }
+        }
+        else
+        {
+            if (_spawnShipAt > 0f)
+            {
+                if (Time.time > _spawnShipAt)
+                {
+                    SpawnShip();
+                    _spawnShipAt = -1f;
+                }
+            }
+            else
+            {
+                if (_ship == null)
+                {
+                    _spawnShipAt = Time.time + 60f * 2f;
+                }
             }
         }
     }
@@ -46,6 +68,6 @@ public class ColonyShipGenerator : MonoBehaviour
 
     private void SpawnShip()
     {
-        Instantiate(colonyShipTemplate, transform, false);
+        _ship = Instantiate(colonyShipTemplate, transform, false);
     }
 }

@@ -2,7 +2,7 @@ using Interactors;
 using TMPro;
 using UnityEngine;
 
-public class InteractorDisplay : MonoBehaviour
+public class InteractorDisplay : Hidable
 {
     private InteractorController _interactorController;
     private TMP_Text _text;
@@ -33,5 +33,11 @@ public class InteractorDisplay : MonoBehaviour
     {
         var currentInteractorModule = _interactorController.CurrentModule();
         return currentInteractorModule.GetInteractorShortDescription();
+    }
+
+    public override void Show()
+    {
+        if (CameraController.Get().IsZoomedOut()) return;
+        gameObject.SetActive(true);
     }
 }

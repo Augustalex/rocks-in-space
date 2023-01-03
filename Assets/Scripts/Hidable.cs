@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Hidable : MonoBehaviour
@@ -9,7 +7,7 @@ public class Hidable : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void Show()
+    public virtual void Show()
     {
         gameObject.SetActive(true);
     }

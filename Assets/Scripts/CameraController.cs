@@ -206,7 +206,7 @@ public class CameraController : MonoBehaviour
         _displayController.SetShipInFocus(colonyShip);
 
         var center = colonyShip.GetCenterGo();
-        var previousFocusPoint = _focus ? _focus.position : Vector3.zero;
+        var previousFocusPoint = _focus ? _focus.position : _backupFocus;
         _focus = center.transform;
 
         var cameraTransform = _camera.transform;
@@ -230,7 +230,7 @@ public class CameraController : MonoBehaviour
         _displayController.SetPlanetInFocus(planet);
 
         var center = TinyPlanetCenterPointHelper.GetMostCentralBlock(planet.network);
-        var previousFocusPoint = _focus ? _focus.position : Vector3.zero;
+        var previousFocusPoint = _focus ? _focus.position : _backupFocus;
         _focus = center.transform;
 
         var cameraTransform = _camera.transform;
