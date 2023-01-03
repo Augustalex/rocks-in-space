@@ -54,7 +54,7 @@ public class ColonistManager : MonoBehaviour
                     else
                     {
                         var vacantHousing = resources.GetVacantHousing();
-                        GameOverScreen.Get().GameOver(convoy.Colonists, vacantHousing);
+                        GameOverScreen.Get().ColonistsDead(convoy.Colonists, vacantHousing);
                     }
                 }
 

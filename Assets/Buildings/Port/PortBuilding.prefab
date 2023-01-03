@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8433487641402806169}
   - component: {fileID: 5231951630694293163}
   m_Layer: 0
-  m_Name: Port
+  m_Name: PortBuilding
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

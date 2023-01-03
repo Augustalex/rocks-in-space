@@ -40,7 +40,10 @@ public class ColonyShipGenerator : MonoBehaviour
             {
                 if (_ship == null)
                 {
-                    _spawnShipAt = Time.time + 60f * 2f;
+                    var balanceSettings = SettingsManager.Get().balanceSettings;
+                    var timeToWait = Random.Range(balanceSettings.minTimeBetweenConvoySpawns,
+                        balanceSettings.maxTimeBetweenConvoySpawns);
+                    _spawnShipAt = Time.time + timeToWait;
                 }
             }
         }

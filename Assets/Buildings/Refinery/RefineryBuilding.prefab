@@ -3637,7 +3637,7 @@ GameObject:
   - component: {fileID: 3564699523662977065}
   - component: {fileID: -1662945947870651580}
   m_Layer: 0
-  m_Name: Refinery
+  m_Name: RefineryBuilding
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3714,7 +3714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336aaf521eb74e81bf6aa32492d5c93e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cashPerSecond: -1
+  cashPerMinute: -2
 --- !u!1 &5064190760009860486
 GameObject:
   m_ObjectHideFlags: 0

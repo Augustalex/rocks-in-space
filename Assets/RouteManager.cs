@@ -38,14 +38,14 @@ public class RouteManager : MonoBehaviour
     {
         return GetPlanetRoutes(start).Any(r => r.FromTo(start, end));
     }
-    
+
     public Route GetRoute(TinyPlanet start, TinyPlanet end)
     {
         return GetPlanetRoutes(start).First(r => r.FromTo(start, end));
     }
 
     public void SetTrade(TinyPlanet start, TinyPlanet end, TinyPlanetResources.PlanetResourceType resourceType,
-        int amountPerSecond)
+        float amountPerSecond)
     {
         var route = _routes.Find(route => route.Is(start, end));
         route?.SetTrade(resourceType, amountPerSecond);

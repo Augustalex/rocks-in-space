@@ -43,7 +43,7 @@ public class Route
             startingResources.RemoveOre(toTake);
             destinationResources.AddOre(toTake);
 
-            if (_transfers.Count >= 10) _transfers.Dequeue();
+            if (_transfers.Count >= InactiveRouteFramesThreshold()) _transfers.Dequeue();
             _transfers.Enqueue(toTake);
         }
 
@@ -55,7 +55,7 @@ public class Route
             startingResources.RemoveMetals(toTake);
             destinationResources.AddMetals(toTake);
 
-            if (_transfers.Count >= 10) _transfers.Dequeue();
+            if (_transfers.Count >= InactiveRouteFramesThreshold()) _transfers.Dequeue();
             _transfers.Enqueue(toTake);
         }
 
@@ -67,11 +67,11 @@ public class Route
             startingResources.RemoveGadgets(toTake);
             destinationResources.AddGadgets(toTake);
 
-            if (_transfers.Count >= 10) _transfers.Dequeue();
+            if (_transfers.Count >= InactiveRouteFramesThreshold()) _transfers.Dequeue();
             _transfers.Enqueue(toTake);
         }
 
-        _isActive = _transfers.Count >= 10 && _transfers.Sum() > 0f;
+        _isActive = _transfers.Count >= InactiveRouteFramesThreshold() && _transfers.Sum() > 0f;
     }
 
     public bool Is(TinyPlanet start, TinyPlanet end)
@@ -79,7 +79,7 @@ public class Route
         return start.planetId.Is(StartPlanetId) && end.planetId.Is(DestinationPlanetId);
     }
 
-    public void SetTrade(TinyPlanetResources.PlanetResourceType planetResourceType, int amountPerSecond)
+    public void SetTrade(TinyPlanetResources.PlanetResourceType planetResourceType, float amountPerSecond)
     {
         if (planetResourceType == TinyPlanetResources.PlanetResourceType.Ore)
         {
@@ -125,5 +125,10 @@ public class Route
     public bool IsActive()
     {
         return _isActive;
+    }
+
+    private float InactiveRouteFramesThreshold()
+    {
+        return SettingsManager.Get().miscSettings.inactiveRouteFramesThreshold;
     }
 }

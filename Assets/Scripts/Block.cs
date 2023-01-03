@@ -29,6 +29,7 @@ public class Block : MonoBehaviour, ILaserInteractable
             {
                 var costs = resourceSpent.costs;
                 var resources = GetConnectedPlanet().GetResources();
+                GlobalResources.Get().AddCash(costs.cash);
                 resources.AddOre(costs.ore);
                 resources.AddMetals(costs.metals);
                 resources.AddGadgets(costs.gadgets);
@@ -146,7 +147,8 @@ public class Block : MonoBehaviour, ILaserInteractable
 
     public float DisintegrationTime()
     {
-        return _oreController.HasOre() ? 2.2f : 1f;
+        var balanceSettings = SettingsManager.Get().balanceSettings;
+        return _oreController.HasOre() ? balanceSettings.oreDigTime : balanceSettings.rockDigTime;
     }
 
     public EntityOven GetOven()

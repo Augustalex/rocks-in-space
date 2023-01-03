@@ -86,10 +86,28 @@ public class RouteEditor : MonoBehaviour
                 routeManager.AddRoute(_start, end);
             }
 
-            routeManager.SetTrade(_start, end, _resourceType, 25);
+            routeManager.SetTrade(_start, end, _resourceType, TradeAmountForResource(_resourceType));
 
             RouteFinished?.Invoke(_start, end);
             Reset();
+        }
+    }
+
+    private float TradeAmountForResource(TinyPlanetResources.PlanetResourceType resourceType)
+    {
+        var balanceSettings = SettingsManager.Get().balanceSettings;
+        
+        switch (resourceType)
+        {
+            case TinyPlanetResources.PlanetResourceType.Ore:
+                return balanceSettings.oreTradeAmount;
+            case TinyPlanetResources.PlanetResourceType.Metals:
+                return balanceSettings.metalsTradeAmount;
+            case TinyPlanetResources.PlanetResourceType.Gadgets:
+                return balanceSettings.gadgetsTradeAmount;
+            default:
+                Debug.LogError("Trying to get trade amount for a resource that is not tradable: " + resourceType);
+                return 0f;
         }
     }
 

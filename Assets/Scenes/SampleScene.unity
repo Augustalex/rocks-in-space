@@ -940,7 +940,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b00f3760a7449cf43a354385170ab60f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b00f3760a7449cf43a354385170ab60f, type: 3}
       propertyPath: m_SizeDelta.y
@@ -948,7 +948,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b00f3760a7449cf43a354385170ab60f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b00f3760a7449cf43a354385170ab60f, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1531,7 +1531,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1539,7 +1539,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1812,7 +1812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   costs:
-    cash: 0
+    cash: 100
     ore: 0
     metals: 10
     gadgets: 0
@@ -1977,7 +1977,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 850811293212102773, guid: 6fdf553287bd1f24386a78ce50cc8c9d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 51.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 850811293212102773, guid: 6fdf553287bd1f24386a78ce50cc8c9d, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2951,6 +2951,7 @@ GameObject:
   - component: {fileID: 1251590328}
   - component: {fileID: 1251590329}
   - component: {fileID: 1251590330}
+  - component: {fileID: 1251590331}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3085,6 +3086,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9560bb86881df4640b7bfcdd20610af1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1251590331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251590319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a39e54d054bb40b2ab3913257d4e07df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  balanceSettings: {fileID: 11400000, guid: f2f4688a8055ad74a983d76a112b535b, type: 2}
+  miscSettings: {fileID: 11400000, guid: 4c6a3710563c2934baa3d0053d2cdff9, type: 2}
 --- !u!1 &1264131041
 GameObject:
   m_ObjectHideFlags: 0
@@ -4343,10 +4358,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameOverContainer
       objectReference: {fileID: 0}
-    - target: {fileID: 55608723812431130, guid: 6be7614b7eead2e4ab9f6ce027afc048, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 55608723812431141, guid: 6be7614b7eead2e4ab9f6ce027afc048, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4430,10 +4441,6 @@ PrefabInstance:
     - target: {fileID: 55608723812431141, guid: 6be7614b7eead2e4ab9f6ce027afc048, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5992869767423615639, guid: 6be7614b7eead2e4ab9f6ce027afc048, type: 3}
-      propertyPath: m_text
-      value: Restart
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6be7614b7eead2e4ab9f6ce027afc048, type: 3}
@@ -5459,7 +5466,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7064795026180372778, guid: e785533239eac2d478978989da6d3d87, type: 3}
       propertyPath: costs.cash
-      value: 800
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 7064795026180372779, guid: e785533239eac2d478978989da6d3d87, type: 3}
       propertyPath: costs.cash
@@ -5475,7 +5482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7064795026180372782, guid: e785533239eac2d478978989da6d3d87, type: 3}
       propertyPath: costs.cash
-      value: 100
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 7064795026180372782, guid: e785533239eac2d478978989da6d3d87, type: 3}
       propertyPath: costs.metals
@@ -5487,7 +5494,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7064795026180372783, guid: e785533239eac2d478978989da6d3d87, type: 3}
       propertyPath: costs.cash
-      value: 100
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 7064795026180372956, guid: e785533239eac2d478978989da6d3d87, type: 3}
       propertyPath: m_Name

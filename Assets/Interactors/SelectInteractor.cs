@@ -108,7 +108,7 @@ namespace Interactors
         public override string GetCannotBuildHereMessage(Block block)
         {
             // Not called
-            return "";
+            return "You're already on this rock, silly!";
         }
 
         public override float MaxActivationDistance()

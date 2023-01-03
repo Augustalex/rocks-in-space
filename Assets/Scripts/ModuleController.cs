@@ -4,9 +4,6 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(ResourceEffect))]
 public class ModuleController : MonoBehaviour
 {
-    [FormerlySerializedAs("incomePerSecond")]
-    public float incomePerMinute;
-
     private TinyPlanetResources _planetResources;
     private PowerControlled _powerControlled;
 
@@ -62,7 +59,7 @@ public class ModuleController : MonoBehaviour
 
             if (hasEnoughFood && hasEnoughEnergy)
             {
-                GlobalResources.Get().AddCash(incomePerMinute);
+                GlobalResources.Get().AddCash(SettingsManager.Get().balanceSettings.houseIncomePerMinute);
             }
         }
         else if (_planetResources.HasVacancy())

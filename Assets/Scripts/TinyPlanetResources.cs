@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class TinyPlanetResources : MonoBehaviour
 {
-    public enum PlanetResourceType
+    public enum
+        PlanetResourceType // Remake to global resource type? Since it includes both planet resource as well as cash (which is global).
     {
         Ore,
         Metals,
@@ -10,7 +11,8 @@ public class TinyPlanetResources : MonoBehaviour
         Energy,
         Food,
         Inhabitants,
-        Housing
+        Housing,
+        Cash, // Global, not planet specific.
     }
 
     public static string ResourceName(PlanetResourceType resourceType)
@@ -24,6 +26,7 @@ public class TinyPlanetResources : MonoBehaviour
             case PlanetResourceType.Food: return "Food";
             case PlanetResourceType.Inhabitants: return "Colonists";
             case PlanetResourceType.Housing: return "Housing";
+            case PlanetResourceType.Cash: return "credits";
         }
 
         return "Unknown resource";

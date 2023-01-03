@@ -1805,7 +1805,7 @@ GameObject:
   - component: {fileID: 3805649913758207126}
   - component: {fileID: 1613257581873915493}
   m_Layer: 0
-  m_Name: ResidencyModule
+  m_Name: ResidencyModuleBuilding
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

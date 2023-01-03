@@ -41,6 +41,7 @@ namespace Interactors
         protected bool HasEnoughResourceToBuild(Block block)
         {
             var resources = block.GetConnectedPlanet().GetResources();
+            if (GlobalResources.Get().GetCash() < costs.cash) return false;
             if (resources.GetOre() < costs.ore) return false;
             if (resources.GetMetals() < costs.metals) return false;
             if (resources.GetGadgets() < costs.gadgets) return false;
@@ -50,6 +51,9 @@ namespace Interactors
         protected Tuple<TinyPlanetResources.PlanetResourceType, int> CheckMostUrgentResourceRequirement(Block block)
         {
             var resources = block.GetConnectedPlanet().GetResources();
+            if (GlobalResources.Get().GetCash() < costs.cash)
+                return new Tuple<TinyPlanetResources.PlanetResourceType, int>(
+                    TinyPlanetResources.PlanetResourceType.Cash, costs.cash);
             if (resources.GetOre() < costs.ore)
                 return new Tuple<TinyPlanetResources.PlanetResourceType, int>(
                     TinyPlanetResources.PlanetResourceType.Ore, costs.ore);
@@ -65,6 +69,7 @@ namespace Interactors
         protected void ConsumeRequiredResources(Block block)
         {
             var resources = block.GetConnectedPlanet().GetResources();
+            GlobalResources.Get().UseCash(costs.cash);
             resources.RemoveOre(costs.ore);
             resources.RemoveMetals(costs.metals);
             resources.RemoveGadgets(costs.gadgets);
