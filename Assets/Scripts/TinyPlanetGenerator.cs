@@ -53,7 +53,7 @@ public class TinyPlanetGenerator : MonoBehaviour
             .NewNetworkTemplate();
 
         var network = networkTemplate
-            .Select(networkPosition => CreateRock(networkPosition + position))
+            .Select(networkPosition => CreateRockAndRandomizeOre(networkPosition + position))
             .ToList();
 
         NewPlanetWithNetwork(network);
@@ -174,6 +174,14 @@ public class TinyPlanetGenerator : MonoBehaviour
                 }
             }
         }
+    }
+
+    private GameObject CreateRockAndRandomizeOre(Vector3 position)
+    {
+        var rock = CreateRock(position);
+        if (Random.value < .2f) rock.GetComponentInChildren<OreController>().MakeIntoOreVein();
+
+        return rock;
     }
 
     private GameObject CreateRock(Vector3 position)
