@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -38,6 +37,8 @@ public class PlanetPopup : MonoBehaviour
         };
 
     private TMP_Text[] _texts;
+    private PopupManager _popupManager;
+    private int _popupId;
 
     public static PlanetPopup Get()
     {
@@ -61,6 +62,15 @@ public class PlanetPopup : MonoBehaviour
     private void Start()
     {
         CameraController.Get().OnToggleZoom += ZoomToggled;
+
+        _popupManager = PopupManager.Get();
+        _popupId = _popupManager.Register();
+        _popupManager.PopupShown += AnotherPopupShown;
+    }
+
+    private void AnotherPopupShown(PopupManager.PopupImportance popupImportance, int popupId)
+    {
+        if (popupId == _popupId) return;
     }
 
     private void ZoomToggled(bool zoomedOut)

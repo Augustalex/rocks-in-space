@@ -29,19 +29,19 @@ public class PlanetLandmark : MonoBehaviour
         _currentPlanetController.CurrentPlanetChanged += OnCurrentPlanetChanged;
         _currentPlanetController.ShipSelected += OnShipSelected;
 
-        ShowLandmark();
+        ShowAndUpdatePosition();
     }
 
     private void OnShipSelected(ColonyShip ship)
     {
-        UpdateStyle();
+        Show();
     }
 
     private void OnCurrentPlanetChanged(PlanetChangedInfo info)
     {
         if (_cameraController.IsZoomedOut())
         {
-            UpdateStyle();
+            Show();
         }
         else if (IsCurrentPlanet(_planet))
         {
@@ -49,7 +49,7 @@ public class PlanetLandmark : MonoBehaviour
         }
         else if (info.PreviousPlanet == _planet)
         {
-            UpdateStyle();
+            ShowAndUpdatePosition();
         }
     }
 
@@ -57,12 +57,12 @@ public class PlanetLandmark : MonoBehaviour
     {
         if (zoomOn)
         {
-            ShowLandmark();
+            ShowAndUpdatePosition();
         }
         else
         {
             if (IsCurrentPlanet(_planet)) Hide();
-            else Hide();
+            else Show();
         }
     }
 
@@ -107,10 +107,15 @@ public class PlanetLandmark : MonoBehaviour
         }
     }
 
-    private void ShowLandmark()
+    private void ShowAndUpdatePosition()
+    {
+        transform.position = _planet.GetCenter();
+        Show();
+    }
+
+    private void Show()
     {
         UpdateStyle();
-        transform.position = _planet.GetCenter();
         gameObject.SetActive(true);
     }
 
