@@ -6,6 +6,10 @@ public class PlanetLandmark : MonoBehaviour
     private float _lastHovered;
     private Material _material;
     private static readonly int HasPort = Shader.PropertyToID("_HasPort");
+    private static readonly int IsSelected = Shader.PropertyToID("_IsSelected");
+    private static readonly int InMapView = Shader.PropertyToID("_InMapView");
+    private CameraController _cameraController;
+    private CurrentPlanetController _currentPlanetController;
 
     private const float HoverTooltipThreshold = .8f;
     private const float HoverTooltipGracePeriod = 1f;
@@ -18,8 +22,48 @@ public class PlanetLandmark : MonoBehaviour
 
     private void Start()
     {
-        CameraController.Get().OnToggleZoom += OnToggleZoom;
-        Hide();
+        _cameraController = CameraController.Get();
+        _cameraController.OnToggleZoom += OnToggleZoom;
+
+        _currentPlanetController = CurrentPlanetController.Get();
+        _currentPlanetController.CurrentPlanetChanged += OnCurrentPlanetChanged;
+        _currentPlanetController.ShipSelected += OnShipSelected;
+
+        ShowLandmark();
+    }
+
+    private void OnShipSelected(ColonyShip ship)
+    {
+        UpdateStyle();
+    }
+
+    private void OnCurrentPlanetChanged(PlanetChangedInfo info)
+    {
+        if (_cameraController.IsZoomedOut())
+        {
+            UpdateStyle();
+        }
+        else if (IsCurrentPlanet(_planet))
+        {
+            Hide();
+        }
+        else if (info.PreviousPlanet == _planet)
+        {
+            UpdateStyle();
+        }
+    }
+
+    private void OnToggleZoom(bool zoomOn)
+    {
+        if (zoomOn)
+        {
+            ShowLandmark();
+        }
+        else
+        {
+            if (IsCurrentPlanet(_planet)) Hide();
+            else Hide();
+        }
     }
 
     public void Hover()
@@ -46,14 +90,14 @@ public class PlanetLandmark : MonoBehaviour
 
     public void MouseDown()
     {
-        RouteEditor.Get().SelectRouteStart(_planet);
+        if (_cameraController.IsZoomedOut()) RouteEditor.Get().SelectRouteStart(_planet);
     }
 
     public void MouseUp()
     {
         var routeEditor = RouteEditor.Get();
 
-        if (routeEditor.IsValidDestination(_planet))
+        if (_cameraController.IsZoomedOut() && routeEditor.IsValidDestination(_planet))
         {
             routeEditor.SelectRouteDestination(_planet);
         }
@@ -63,30 +107,20 @@ public class PlanetLandmark : MonoBehaviour
         }
     }
 
-    private void OnToggleZoom(bool zoomOn)
-    {
-        if (zoomOn)
-        {
-            ShowLandmark();
-        }
-        else
-        {
-            Hide();
-        }
-    }
-
     private void ShowLandmark()
     {
-        _material.SetInt(HasPort, _planet.HasPort() ? 1 : 0);
+        UpdateStyle();
         transform.position = _planet.GetCenter();
         gameObject.SetActive(true);
     }
 
-    private void ShowPortLandmark()
+    private void UpdateStyle()
     {
-        _material.SetInt(HasPort, 1);
-        transform.position = _planet.GetCenter();
-        gameObject.SetActive(true);
+        _material.SetInt(HasPort, _planet.HasPort() ? 1 : 0);
+        _material.SetInt(IsSelected, IsCurrentPlanet(_planet) ? 1 : 0);
+        var inMapView = _cameraController.IsZoomedOut();
+        Debug.Log("INMAPVIEW: " + inMapView);
+        _material.SetInt(InMapView, inMapView ? 1 : 0);
     }
 
     private void Hide()
@@ -98,7 +132,7 @@ public class PlanetLandmark : MonoBehaviour
     {
         var cameraController = CameraController.Get();
 
-        if (CurrentPlanetController.Get().CurrentPlanet() == planet)
+        if (_cameraController.IsZoomedOut() && IsCurrentPlanet(planet))
         {
             cameraController.ToggleZoomMode();
         }
@@ -107,5 +141,10 @@ public class PlanetLandmark : MonoBehaviour
             CurrentPlanetController.Get().ChangePlanet(planet);
             cameraController.FocusOnPlanet(planet);
         }
+    }
+
+    private static bool IsCurrentPlanet(TinyPlanet planet)
+    {
+        return CurrentPlanetController.Get().CurrentPlanet() == planet;
     }
 }

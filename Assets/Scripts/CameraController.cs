@@ -6,6 +6,17 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     private const float ZoomedOutDistance = 600f;
+    private const float MinZoomedOutDistance = 400f;
+    private const float MaxZoomedOutDistance = 1200f;
+    private const float ZoomedOutSpeed = 240f;
+
+    private const float ZoomedInDistance = 32f;
+    private const float MinZoomedInDistance = 25f;
+    private const float MaxZoomedInDistance = 60f;
+    private const float ZoomedInSpeed = 10f;
+
+    private const float ShipZoomedInDistance = 60f;
+
 
     private Transform _focus;
     private Vector3 _backupFocus = Vector3.zero;
@@ -143,21 +154,19 @@ public class CameraController : MonoBehaviour
                 _camera.transform.RotateAround(FocusPoint(), transform.right, 45f * Time.deltaTime);
             }
 
-            if (!_zoomedOut)
-            {
-                var maxInnerZoom = 12f;
-                var maxOuterZoom = 42f;
-                var cameraTransform = _camera.transform;
-                var distance = Vector3.Distance(FocusPoint(), cameraTransform.position);
+            var minZoom = _zoomedOut ? MinZoomedOutDistance : MinZoomedInDistance;
+            var maxZoom = _zoomedOut ? MaxZoomedOutDistance : MaxZoomedInDistance;
+            var cameraTransform = _camera.transform;
+            var distance = Vector3.Distance(FocusPoint(), cameraTransform.position);
 
-                if (Input.GetKey(KeyCode.S) && distance < maxOuterZoom)
-                {
-                    cameraTransform.position += cameraTransform.forward * (-10f * Time.deltaTime);
-                }
-                else if (Input.GetKey(KeyCode.W) && distance > maxInnerZoom)
-                {
-                    cameraTransform.position += cameraTransform.forward * (10f * Time.deltaTime);
-                }
+            var speed = _zoomedOut ? ZoomedOutSpeed : ZoomedInSpeed;
+            if (Input.GetKey(KeyCode.S) && distance < maxZoom)
+            {
+                cameraTransform.position += cameraTransform.forward * (-speed * Time.deltaTime);
+            }
+            else if (Input.GetKey(KeyCode.W) && distance > minZoom)
+            {
+                cameraTransform.position += cameraTransform.forward * (speed * Time.deltaTime);
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
@@ -261,7 +270,7 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            var newPosition = newFocusPoint + Vector3.forward * 20f;
+            var newPosition = newFocusPoint + Vector3.forward * ZoomedInDistance;
             var direction = (newFocusPoint - newPosition).normalized;
             return new Tuple<Vector3, Quaternion>(newPosition,
                 Quaternion.LookRotation(direction, Vector3.up));
@@ -286,7 +295,8 @@ public class CameraController : MonoBehaviour
         var cameraPosition = cameraTransform.position;
 
         var currentDistanceFromCenter = Vector3.Distance(FocusPoint(), cameraPosition);
-        var targetDistanceFromCenter = CurrentPlanetController.Get().IsShipSelected() ? 60f : 20f;
+        var targetDistanceFromCenter =
+            CurrentPlanetController.Get().IsShipSelected() ? ShipZoomedInDistance : ZoomedInDistance;
         var distanceToMove = currentDistanceFromCenter - targetDistanceFromCenter;
         var targetPosition = cameraPosition + cameraTransform.forward * distanceToMove;
 

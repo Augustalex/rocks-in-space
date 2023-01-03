@@ -12,9 +12,21 @@ namespace Interactors
         public int gadgets;
     }
 
+    [Serializable]
+    public enum InteractorType
+    {
+        Dig,
+        Misc
+    }
+
     public abstract class InteractorModule : MonoBehaviour
     {
         public InteractorCostsData costs;
+
+        public virtual InteractorType GetInteractorType()
+        {
+            return InteractorType.Misc;
+        }
 
         public virtual string GetCannotBuildHereMessage(Block block)
         {

@@ -7,11 +7,10 @@ namespace Interactors
     public class DigInteractor : InteractorModule
     {
         public const string DigInteractorName = "Dig";
-        private const float MiningSpeedFactor = 1f;
 
         public GameObject laserLight;
         public LaserEffect laserEffect;
-        
+
         private const float Cooldown = .14f;
 
         [NonSerialized] private float _lastDig = 1f;
@@ -27,11 +26,16 @@ namespace Interactors
             _camera = GetComponentInParent<Camera>();
         }
 
+        public override InteractorType GetInteractorType()
+        {
+            return InteractorType.Dig;
+        }
+
         public override string GetInteractorName()
         {
             return DigInteractorName;
         }
-        
+
         public override string GetInteractorShortDescription()
         {
             return "Shoot at rocks to dig";
@@ -79,7 +83,7 @@ namespace Interactors
 
         private float ActionLength()
         {
-            return _activeTargetEntity.DisintegrationTime() * MiningSpeedFactor;
+            return _activeTargetEntity.DisintegrationTime();
         }
 
         public void FinishInteraction()

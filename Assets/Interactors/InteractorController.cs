@@ -16,6 +16,7 @@ namespace Interactors
         public GameObject defaultModuleContainer;
         public GameObject interactorsContainer;
 
+        public event Action<InteractorModule> InteractorSelected;
         public event Action<InteractorModule, Block> FailedToBuild;
         public event Action UnhandledMouseUp;
 
@@ -40,6 +41,7 @@ namespace Interactors
         private static InteractorController _instance;
         private bool _lockedToDefaultInteractor;
         private int _selectedInteractorBeforeWasLocked;
+        private int _previousInteractor = -1;
 
         private void Awake()
         {
@@ -56,6 +58,7 @@ namespace Interactors
                 interactorsContainer.GetComponent<ResidencyInteractor>(),
                 interactorsContainer.GetComponent<PortInteractor>(),
                 interactorsContainer.GetComponent<ScaffoldingInteractor>(),
+                _defaultModule
             };
         }
 
@@ -102,6 +105,9 @@ namespace Interactors
                     }
                 }
             }
+
+            if (_currentModule != _previousInteractor) InteractorSelected?.Invoke(CurrentModule());
+            _previousInteractor = _currentModule;
         }
 
         public void SetInteractorByName(string interactorName)
@@ -174,6 +180,8 @@ namespace Interactors
 
         private void RayCastSecondaryAction()
         {
+            return;
+            
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -209,27 +217,33 @@ namespace Interactors
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
 
             var interactorModule = CurrentModule();
-            if (Physics.Raycast(ray, out var hit, interactorModule.MaxActivationDistance()))
+            if (Physics.Raycast(ray, out var hit, 10000f))
             {
                 if (hit.collider.CompareTag("PlanetLandmark"))
                 {
+                    Debug.Log("HIT LANDMARK!");
                     hit.collider.GetComponent<PlanetLandmark>().MouseDown();
                     return;
                 }
+
                 if (hit.collider.CompareTag("ColonyShip"))
                 {
+                    Debug.Log("HIT SHIP!");
                     hit.collider.GetComponent<ColonyShip>().MouseDown();
                     return;
                 }
 
-                var parent = hit.collider.GetComponentInParent<BlockRoot>();
-                if (parent)
+                if (hit.distance <= interactorModule.MaxActivationDistance())
                 {
-                    var actionTarget = parent.GetComponentInChildren<ActionTarget>();
-                    if (actionTarget)
+                    var parent = hit.collider.GetComponentInParent<BlockRoot>();
+                    if (parent)
                     {
-                        actionTarget.MouseDown();
-                        return;
+                        var actionTarget = parent.GetComponentInChildren<ActionTarget>();
+                        if (actionTarget)
+                        {
+                            actionTarget.MouseDown();
+                            return;
+                        }
                     }
                 }
             }
@@ -239,8 +253,7 @@ namespace Interactors
         {
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
 
-            var interactorModule = CurrentModule();
-            if (Physics.Raycast(ray, out var hit, interactorModule.MaxActivationDistance()))
+            if (Physics.Raycast(ray, out var hit, 10000f))
             {
                 if (hit.collider.CompareTag("PlanetLandmark"))
                 {

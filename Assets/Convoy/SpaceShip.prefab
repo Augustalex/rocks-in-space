@@ -108,7 +108,6 @@ GameObject:
   - component: {fileID: 7607231502272490807}
   - component: {fileID: 3801151523475235002}
   - component: {fileID: 3261034288321835170}
-  - component: {fileID: 7207022535883597829}
   m_Layer: 6
   m_Name: Marker
   m_TagString: Untagged
@@ -125,7 +124,7 @@ Transform:
   m_GameObject: {fileID: 4031636765276993095}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_LocalScale: {x: 24, y: 24, z: 24}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6067072210807727704}
@@ -181,19 +180,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &7207022535883597829
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4031636765276993095}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4167454898787085126
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,6 +350,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6067072210807727704}
   - component: {fileID: 918183543}
+  - component: {fileID: 5859023412928653121}
   - component: {fileID: 918183544}
   - component: {fileID: 3611803502307101799}
   m_Layer: 6
@@ -405,8 +392,21 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 20
+  m_Radius: 25
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &5859023412928653121
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6067072210807727707}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 60, y: 20, z: 20}
+  m_Center: {x: 38, y: 0, z: 0}
 --- !u!114 &918183544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -421,7 +421,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colonists: 1000
   cashReward: 10000
-  shipModel: {fileID: 2164581308947303525}
+  landmarkRenderer: {fileID: 3261034288321835170}
 --- !u!95 &3611803502307101799
 Animator:
   serializedVersion: 4

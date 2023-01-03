@@ -15,9 +15,9 @@ MonoBehaviour:
   oreTradeAmount: 12
   metalsTradeAmount: 12
   gadgetsTradeAmount: 5
-  rockDigTime: 0.65
-  oreDigTime: 1
-  startingCredits: 10000
-  houseIncomePerMinute: 1
+  rockDigTime: 0.75
+  oreDigTime: 1.5
+  startingCredits: 100000
+  houseIncomePerMinute: 10
   minTimeBetweenConvoySpawns: 60
   maxTimeBetweenConvoySpawns: 120
