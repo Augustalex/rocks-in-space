@@ -11,13 +11,33 @@ public class InteractorIcon : MonoBehaviour
         _toggle = GetComponent<IconToggle>();
         _toggle.OnToggle += OnToggle;
     }
-
+    
     void Start()
     {
         InteractorController.Get().InteractorSelected += (_) => UpdateStates();
         CameraController.Get().OnToggleZoom += (_) => UpdateStates();
+        InteractionMenuModality.Get().LockToggled += LockToggled;
 
         UpdateStates();
+    }
+
+    private void LockToggled(bool locked)
+    {
+        if (locked) _toggle.Lock();
+        else _toggle.Unlock();
+    }
+
+    private void OnToggle(bool isOn)
+    {
+        if (category == InteractorCategory.Map)
+        {
+            CameraController.Get().ToggleZoomMode();
+        }
+        else
+        {
+            var toolName = GetNameFromCategory(category);
+            InteractorController.Get().SetInteractorByName(toolName);
+        }
     }
 
     private void UpdateStates()
@@ -30,7 +50,6 @@ public class InteractorIcon : MonoBehaviour
         }
         else if (category == InteractorCategory.Build && interactor.GetInteractorName() == "Port")
         {
-            Debug.Log("TURN ON PORT");
             _toggle.SetOn();
         }
         else if (category == InteractorCategory.Select &&
@@ -59,19 +78,6 @@ public class InteractorIcon : MonoBehaviour
         else
         {
             _toggle.SetOff();
-        }
-    }
-
-    private void OnToggle(bool isOn)
-    {
-        if (category == InteractorCategory.Map)
-        {
-            CameraController.Get().ToggleZoomMode();
-        }
-        else
-        {
-            var toolName = GetNameFromCategory(category);
-            InteractorController.Get().SetInteractorByName(toolName);
         }
     }
 

@@ -25,7 +25,7 @@ public class Clicker : MonoBehaviour
 
     void Update()
     {
-        if (_enabled)
+        if (_enabled && !WorldInteractionLock.IsLocked())
         {
             _interactorController.Interact();
         }

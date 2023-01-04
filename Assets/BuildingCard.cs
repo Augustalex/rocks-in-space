@@ -15,6 +15,8 @@ public class BuildingCard : MonoBehaviour
 
     public Button select;
 
+    public event Action Clicked;
+
     void Start()
     {
         GetComponentInChildren<GifDisplay>().frames = GifManager.Get().FramesByBuildingType(buildingType);
@@ -46,12 +48,14 @@ public class BuildingCard : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
 
-        select.onClick.AddListener(Clicked);
+        select.onClick.AddListener(SelfClicked);
+        select.onClick.AddListener(WorldInteractionLock.LockInteractions);
     }
 
-    private void Clicked()
+    private void SelfClicked()
     {
         InteractorController.Get().SetInteractorByInteractorType(FromBuildingType(buildingType));
+        Clicked?.Invoke();
     }
 
     private static InteractorType FromBuildingType(BuildingType buildingType)

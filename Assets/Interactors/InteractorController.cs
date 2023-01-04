@@ -273,38 +273,33 @@ namespace Interactors
 
         private void RayCastToBuild()
         {
-            for (int i = 0; i < 100; i++)
+            var ray = _camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            var interactorModule = CurrentModule();
+            if (Physics.Raycast(ray, out hit, interactorModule.MaxActivationDistance()))
             {
-                var ray = _camera.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
+                var block = hit.collider.GetComponent<Block>();
 
-                var interactorModule = CurrentModule();
-                if (Physics.Raycast(ray, out hit, interactorModule.MaxActivationDistance()))
+                if (interactorModule is DigInteractor digInteractor)
                 {
-                    var block = hit.collider.GetComponent<Block>();
-
-                    if (interactorModule is DigInteractor digInteractor)
+                    HandleDigInteractions(digInteractor, hit);
+                }
+                else
+                {
+                    if (block != null)
                     {
-                        HandleDigInteractions(digInteractor, hit);
-                    }
-                    else
-                    {
-                        if (block != null)
+                        if (interactorModule && interactorModule.CanBuild(block))
                         {
-                            if (interactorModule && interactorModule.CanBuild(block))
-                            {
-                                interactorModule.Build(block, hit);
-                                interactorModule.OnBuilt(block.transform.position);
-                            }
-                            else
-                            {
-                                interactorModule.OnFailedToBuild(block.transform.position);
-                                FailedToBuild?.Invoke(interactorModule, block);
-                            }
+                            interactorModule.Build(block, hit);
+                            interactorModule.OnBuilt(block.transform.position);
+                        }
+                        else
+                        {
+                            interactorModule.OnFailedToBuild(block.transform.position);
+                            FailedToBuild?.Invoke(interactorModule, block);
                         }
                     }
-
-                    return;
                 }
             }
         }
