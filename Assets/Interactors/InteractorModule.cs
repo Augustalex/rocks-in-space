@@ -16,11 +16,33 @@ namespace Interactors
     public enum InteractorType
     {
         Dig,
+        Port,
+        Refinery,
+        Factory,
+        PowerPlant,
+        FarmDome,
+        ResidentModule,
+        Platform,
         Misc
+    }
+
+    [Serializable]
+    public enum BuildingType
+    {
+        Port,
+        Refinery,
+        Factory,
+        PowerPlant,
+        FarmDome,
+        ResidentModule,
+        Platform
     }
 
     public abstract class InteractorModule : MonoBehaviour
     {
+        public GameObject
+            template; // TODO: Could there be a BuildInteractor subclass that defines this attribute instead? Since it is not used by action interactors.
+
         public InteractorCostsData costs;
 
         public virtual InteractorType GetInteractorType()

@@ -1,49 +1,13 @@
-using System;
 using Interactors;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TopMenu : MonoBehaviour
 {
     private InteractorController _interactorController;
 
-    public Button dig;
-    public Button build;
-    public Button select;
-    public Button map;
-
     void Start()
     {
         _interactorController = InteractorController.Get();
-
-        _interactorController.InteractorSelected += InteractorSelected;
-        CameraController.Get().OnToggleZoom += ZoomToggled;
-
-        dig.onClick.AddListener(UseDig);
-        build.onClick.AddListener(UseBuild);
-        select.onClick.AddListener(UseSelect);
-        map.onClick.AddListener(UseMap);
-    }
-
-    private void ZoomToggled(bool zoomedOut)
-    {
-        if (zoomedOut) map.Select();
-    }
-    
-    private void InteractorSelected(InteractorModule interactor)
-    {
-        if (interactor.GetInteractorName() == "Dig")
-        {
-            dig.Select();
-        }
-        else if (interactor.GetInteractorName() == "Select")
-        {
-            if (!CameraController.Get().IsZoomedOut()) select.Select();
-        }
-        else
-        {
-            build.Select();
-        }
     }
 
     public void UseMap()

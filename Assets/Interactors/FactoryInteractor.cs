@@ -4,8 +4,11 @@ namespace Interactors
 {
     public class FactoryInteractor : InteractorModule
     {
-        public GameObject template;
-
+        public override InteractorType GetInteractorType()
+        {
+            return InteractorType.Factory;
+        }
+        
         public override string GetInteractorName()
         {
             return "Factory";

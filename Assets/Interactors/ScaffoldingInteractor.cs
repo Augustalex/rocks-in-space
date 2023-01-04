@@ -4,7 +4,10 @@ namespace Interactors
 {
     public class ScaffoldingInteractor : InteractorModule
     {
-        public GameObject template;
+        public override InteractorType GetInteractorType()
+        {
+            return InteractorType.Platform;
+        }
 
         public override string GetInteractorName()
         {

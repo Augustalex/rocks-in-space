@@ -47,7 +47,7 @@ MonoBehaviour:
     failOperation: 0
     zFailOperation: 0
   m_ShadowTransparentReceive: 1
-  m_RenderingMode: 0
+  m_RenderingMode: 1
   m_DepthPrimingMode: 0
   m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Name: ScreenSpaceOutlines
   m_EditorClassIdentifier: 
   m_Active: 1
-  renderPassEvent: 300
+  renderPassEvent: 250
   outlinesLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -77,16 +77,16 @@ MonoBehaviour:
   outlineSettings:
     outlineColor: {r: 0.040198255, g: 0.011747954, b: 0.0754717, a: 1}
     outlineScale: 1
-    depthThreshold: 0.2
-    robertsCrossMultiplier: 16
-    normalThreshold: 0.505
-    steepAngleThreshold: 0
-    steepAngleMultiplier: 75
+    depthThreshold: 2.4
+    robertsCrossMultiplier: 330
+    normalThreshold: 0.5
+    steepAngleThreshold: 0.1
+    steepAngleMultiplier: 100
   viewSpaceNormalsTextureSettings:
     colorFormat: 0
-    depthBufferBits: 16
+    depthBufferBits: 32
     filterMode: 0
-    backgroundColor: {r: 0, g: 0, b: 0, a: 1}
-    perObjectData: 0
-    enableDynamicBatching: 0
-    enableInstancing: 0
+    backgroundColor: {r: 1, g: 1, b: 1, a: 0}
+    perObjectData: -1
+    enableDynamicBatching: 1
+    enableInstancing: 1

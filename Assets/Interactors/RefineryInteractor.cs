@@ -4,7 +4,10 @@ namespace Interactors
 {
     public class RefineryInteractor : InteractorModule
     {
-        public GameObject template;
+        public override InteractorType GetInteractorType()
+        {
+            return InteractorType.Refinery;
+        }
 
         public override string GetInteractorName()
         {

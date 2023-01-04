@@ -206,7 +206,7 @@ public class ScreenSpaceOutlines : ScriptableRendererFeature
 
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
-        if (CameraController.HasInstance() && CameraController.Get().IsZoomedOut()) return;
+        // if (CameraController.HasInstance() && CameraController.Get().IsZoomedOut()) return;
 
         renderer.EnqueuePass(viewSpaceNormalsTexturePass);
         renderer.EnqueuePass(screenSpaceOutlinePass);

@@ -10,7 +10,8 @@ public class ModuleController : MonoBehaviour
     private bool _occupied;
     private float _life = 100f;
     private ResourceEffect _resourceEffect;
-    private const float FoodUsedPerSecond = 2f;
+    
+    public const float FoodUsedPerMinute = 120f;
     private const float LifeLossPerSecond = 10f;
 
     void Start()
@@ -27,7 +28,7 @@ public class ModuleController : MonoBehaviour
     {
         if (_occupied)
         {
-            var foodNeed = FoodUsedPerSecond * Time.deltaTime;
+            var foodNeed = FoodUsedPerMinute * Time.deltaTime;
             var food = _planetResources.GetFood();
             var hasEnoughFood = food >= foodNeed;
 

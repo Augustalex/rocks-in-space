@@ -4,7 +4,8 @@ public class FarmController : MonoBehaviour
 {
     private ResourceEffect _resourceEffect;
     private TinyPlanetResources _resources;
-    private const float FoodPerSecond = 10f;
+
+    public const float FoodPerSecond = 10f;
 
     void Start()
     {
@@ -31,7 +32,7 @@ public class FarmController : MonoBehaviour
             Debug.LogError("This farm is not attached to any planet!");
             return;
         }
-        
+
         var energy = _resources.GetEnergy();
         if (energy >= 0)
         {

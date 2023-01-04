@@ -5,7 +5,10 @@ namespace Interactors
 {
     public class PowerPlantInteractor : InteractorModule
     {
-        public GameObject template;
+        public override InteractorType GetInteractorType()
+        {
+            return InteractorType.PowerPlant;
+        }
 
         public override string GetInteractorName()
         {

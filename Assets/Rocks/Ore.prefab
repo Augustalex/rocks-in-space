@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1524270308550429796}
   - component: {fileID: 8844497858949919362}
   - component: {fileID: 5623415421171753905}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 2104470010623935285}
   - component: {fileID: 7187998537644493127}
   - component: {fileID: 705257077599110788}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8329182661420145650}
   - component: {fileID: 273701921843318595}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 8012439641562613642}
   - component: {fileID: 7177471477301693327}
   - component: {fileID: 1463615167431146265}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,7 +310,7 @@ GameObject:
   - component: {fileID: 3875498750048852903}
   - component: {fileID: 6655577922340503584}
   - component: {fileID: 6289769314611232512}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -393,7 +393,7 @@ GameObject:
   - component: {fileID: 2355565359524262348}
   - component: {fileID: 4519974785789327973}
   - component: {fileID: 2567257475402308875}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -476,7 +476,7 @@ GameObject:
   - component: {fileID: 3474556526412247757}
   - component: {fileID: 3725560488161082762}
   - component: {fileID: 3799146182744279331}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -559,7 +559,7 @@ GameObject:
   - component: {fileID: 759737434543340273}
   - component: {fileID: 400774208087730956}
   - component: {fileID: 3301430007989545232}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -642,7 +642,7 @@ GameObject:
   - component: {fileID: 5118052734729212267}
   - component: {fileID: 4433372615716580675}
   - component: {fileID: 8518007789762020128}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -725,7 +725,7 @@ GameObject:
   - component: {fileID: 918950082006088173}
   - component: {fileID: 6278653790869341720}
   - component: {fileID: 5238660481491418857}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -808,7 +808,7 @@ GameObject:
   - component: {fileID: 7895173224629756485}
   - component: {fileID: 6718295996071405685}
   - component: {fileID: 5210974598887581372}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -889,7 +889,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 563465017157194644}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OreFace (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -923,7 +923,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6364192381918187844}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OreFace (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -959,7 +959,7 @@ GameObject:
   - component: {fileID: 7496606558786866934}
   - component: {fileID: 7301841726417956040}
   - component: {fileID: 974222865386780096}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1040,7 +1040,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 423087446611138629}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OreFace (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1074,7 +1074,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 537864472161991847}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OreFace (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1110,7 +1110,7 @@ GameObject:
   - component: {fileID: 4629301255095491329}
   - component: {fileID: 6285348271069486370}
   - component: {fileID: 1454155148951028224}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1193,7 +1193,7 @@ GameObject:
   - component: {fileID: 2464813917845309181}
   - component: {fileID: 6780367352087374948}
   - component: {fileID: 7308898793949542324}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1276,7 +1276,7 @@ GameObject:
   - component: {fileID: 418350191052947147}
   - component: {fileID: 8511572102426549346}
   - component: {fileID: 4644459454438809559}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1359,7 +1359,7 @@ GameObject:
   - component: {fileID: 6138011473388829557}
   - component: {fileID: 5572474532098639429}
   - component: {fileID: 458070915673171087}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1442,7 +1442,7 @@ GameObject:
   - component: {fileID: 3441491067703172951}
   - component: {fileID: 926055663201513152}
   - component: {fileID: 1089838739711023980}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1525,7 +1525,7 @@ GameObject:
   - component: {fileID: 6898712168278246410}
   - component: {fileID: 8769864450460470929}
   - component: {fileID: 6776491699499755107}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1606,7 +1606,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 717556641205155386}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OreFace (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1640,7 +1640,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 764791582847486734}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OreFace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1676,7 +1676,7 @@ GameObject:
   - component: {fileID: 6367696436921317439}
   - component: {fileID: 7573867920566279683}
   - component: {fileID: 7170562621455698761}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ore (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

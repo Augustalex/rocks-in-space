@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Interactors.Digging;
 using UnityEngine;
 
@@ -115,6 +116,21 @@ namespace Interactors
             }
 
             Debug.Log($"Tried to set interactor with name '{interactorName}' but there is no such interactor.");
+        }
+
+        public void SetInteractorByInteractorType(InteractorType interactorType)
+        {
+            for (var index = 0; index < _modules.Length; index++)
+            {
+                var interactorModule = _modules[index];
+                if (interactorModule.GetInteractorType() == interactorType)
+                {
+                    _currentModule = index;
+                    return;
+                }
+            }
+
+            Debug.Log($"Tried to set interactor with type '{interactorType}' but there is no such interactor.");
         }
 
         private void RayCastToHover()
@@ -339,6 +355,11 @@ namespace Interactors
         {
             _currentModule = _selectedInteractorBeforeWasLocked;
             _lockedToDefaultInteractor = false;
+        }
+
+        public InteractorModule GetInteractor(InteractorType interactorType)
+        {
+            return _modules.First(m => m.GetInteractorType() == interactorType);
         }
     }
 }

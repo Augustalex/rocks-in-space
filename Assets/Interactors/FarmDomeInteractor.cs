@@ -5,7 +5,10 @@ namespace Interactors
 {
     public class FarmDomeInteractor : InteractorModule
     {
-        public GameObject template;
+        public override InteractorType GetInteractorType()
+        {
+            return InteractorType.FarmDome;
+        }
 
         public override string GetInteractorName()
         {

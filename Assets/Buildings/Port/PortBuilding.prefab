@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 1878620656938405416}
   - component: {fileID: 2315863814797825125}
   - component: {fileID: 1635222521064755656}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Leg (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,7 +236,7 @@ GameObject:
   - component: {fileID: 6595205177595723867}
   - component: {fileID: 9201012663696311531}
   - component: {fileID: 3284931031331949935}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Leg (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 4571637840852956352}
   - component: {fileID: 9082458437363257417}
   - component: {fileID: 6533022656263939478}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Globe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -503,7 +503,7 @@ GameObject:
   - component: {fileID: 4467921377536717977}
   - component: {fileID: 2596110630412650284}
   - component: {fileID: 2602196831168553949}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Leg (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -601,7 +601,7 @@ GameObject:
   - component: {fileID: 5686468151796286637}
   - component: {fileID: 4714823742856001925}
   - component: {fileID: 6832226779456738261}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Leg (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -705,7 +705,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6097088983539969719
 Transform:
   m_ObjectHideFlags: 0
@@ -853,6 +853,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: ad845cc39a499474e8bd55f46ac0378c, type: 3}
       propertyPath: m_Name
       value: Frame (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ad845cc39a499474e8bd55f46ac0378c, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad845cc39a499474e8bd55f46ac0378c, type: 3}

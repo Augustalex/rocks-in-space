@@ -4,7 +4,10 @@ namespace Interactors
 {
     public class ResidencyInteractor : InteractorModule
     {
-        public GameObject template;
+        public override InteractorType GetInteractorType()
+        {
+            return InteractorType.ResidentModule;
+        }
 
         public override string GetInteractorName()
         {

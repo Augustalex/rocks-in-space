@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class OreVein : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
-    }
+        var pieces = GetComponentsInChildren<MeshRenderer>();
+        var onCount = 0;
+        foreach (var meshRenderer in pieces)
+        {
+            if (Random.value < .6f) meshRenderer.gameObject.SetActive(false);
+            else onCount += 1;
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (onCount == 0)
+        {
+            pieces[Random.Range(0, pieces.Length)].gameObject.SetActive(true);
+        }
     }
 }

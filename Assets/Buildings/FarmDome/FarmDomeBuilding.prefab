@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2402456058380142893}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 1096967473811894556}
   - component: {fileID: 1096967473808501620}
   - component: {fileID: 1096967473809496198}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree_5 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 1931154113061566547}
   - component: {fileID: 1931154113062887995}
   - component: {fileID: 1931154113063817673}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree_5 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 1982389854045313369}
   - component: {fileID: 2015877306375828179}
   - component: {fileID: 2007864978633137523}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FruitTree_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -312,7 +312,7 @@ GameObject:
   - component: {fileID: 2236364155726446708}
   - component: {fileID: 2236364155723029020}
   - component: {fileID: 2236364155723999726}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree_5 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -395,7 +395,7 @@ GameObject:
   - component: {fileID: 2473870342399138232}
   - component: {fileID: 2473870342400459728}
   - component: {fileID: 2473870342401470498}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree_5 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -478,7 +478,7 @@ GameObject:
   - component: {fileID: 2497917428874428774}
   - component: {fileID: 2508903022952606180}
   - component: {fileID: 2519167182551718324}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FruitTree_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -561,7 +561,7 @@ GameObject:
   - component: {fileID: 8851632462327474835}
   - component: {fileID: 1372825143039013120}
   - component: {fileID: 7854627022131809896}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Grass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -644,7 +644,7 @@ GameObject:
   - component: {fileID: 2791973410723362027}
   - component: {fileID: 2791973410726751875}
   - component: {fileID: 2791973410725813617}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree_5 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -727,7 +727,7 @@ GameObject:
   - component: {fileID: 2846200588951589324}
   - component: {fileID: 2846200588948196260}
   - component: {fileID: 2846200588949141590}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree_5 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -897,7 +897,7 @@ GameObject:
   - component: {fileID: 3959108442111585086}
   - component: {fileID: 3959108442114486614}
   - component: {fileID: 3959108442113311396}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -980,7 +980,7 @@ GameObject:
   - component: {fileID: 3976496543236547211}
   - component: {fileID: 3976496543235225827}
   - component: {fileID: 3976496543234214673}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree_5 (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1063,7 +1063,7 @@ GameObject:
   - component: {fileID: 4416000166626906495}
   - component: {fileID: 4416000166627674903}
   - component: {fileID: 4416000166628784357}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree_5 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1146,7 +1146,7 @@ GameObject:
   - component: {fileID: 4590645201958172139}
   - component: {fileID: 4590645201959488393}
   - component: {fileID: 4590645201960390283}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1229,7 +1229,7 @@ GameObject:
   - component: {fileID: 4947761801396998912}
   - component: {fileID: 4947761801400387944}
   - component: {fileID: 4947761801399270042}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree_5 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1312,7 +1312,7 @@ GameObject:
   - component: {fileID: 5536078008571352287}
   - component: {fileID: 5536078008567926455}
   - component: {fileID: 5536078008568970565}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree_5 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1395,7 +1395,7 @@ GameObject:
   - component: {fileID: 7496858030903083669}
   - component: {fileID: 6892173456038448432}
   - component: {fileID: 8665238443042585082}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: dome
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1479,7 +1479,7 @@ GameObject:
   - component: {fileID: 2757246310569534673}
   - component: {fileID: 3489161845393656787}
   - component: {fileID: 9067464688727789072}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1562,7 +1562,7 @@ GameObject:
   - component: {fileID: 8510644106667223296}
   - component: {fileID: 8510644106666423144}
   - component: {fileID: 8510644106665279642}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tree_5 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1645,7 +1645,7 @@ GameObject:
   - component: {fileID: 8541590725291427758}
   - component: {fileID: 8571154010252028964}
   - component: {fileID: 8563119825047634820}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FruitTree_1 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1728,7 +1728,7 @@ GameObject:
   - component: {fileID: 9145292838444827933}
   - component: {fileID: 9120233216587898949}
   - component: {fileID: 9130231305474908763}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FruitTree_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1870,6 +1870,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: ad845cc39a499474e8bd55f46ac0378c, type: 3}
       propertyPath: m_Name
       value: Frame (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ad845cc39a499474e8bd55f46ac0378c, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad845cc39a499474e8bd55f46ac0378c, type: 3}

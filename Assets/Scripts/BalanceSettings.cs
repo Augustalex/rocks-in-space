@@ -15,9 +15,8 @@ public class BalanceSettings : ScriptableObject
 
     [Header("Build costs (build costs can be changed in each added interactor component on the camera")]
     [Header("Running costs (running costs can be changed in each building prefab")]
-    
-    [Header("Convoy")]
-    public float minTimeBetweenConvoySpawns = 60f;
+
+    [Header("Convoy")] public float minTimeBetweenConvoySpawns = 60f;
 
     public float maxTimeBetweenConvoySpawns = 2 * 60f;
 }
