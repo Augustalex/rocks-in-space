@@ -18,7 +18,7 @@ namespace Interactors
 
         public override string GetInteractorShortDescription()
         {
-            return "Place port to colonise asteroid";
+            return "Place Beacon to establish a settlement";
         }
 
         public override bool CanBuild(Block block)
@@ -101,11 +101,11 @@ namespace Interactors
             if (AsteroidAlreadyHasPort(block))
             {
                 return
-                    $"This asteroid already has a port";
+                    $"This asteroid already has a Beacon";
             }
             else if (!AllowedMorePorts())
             {
-                return "Need more inhabitants to build more ports";
+                return "Not enough credits to build another Beacon";
             }
 
             return "Can't build here";

@@ -5,10 +5,9 @@ namespace Interactors
 {
     public class SelectInteractor : InteractorModule
     {
-        public static string SelectInteractorName = "Select";
-        
-        [NonSerialized]
-        private GameObject _lastCenteredPlanet;
+        public static readonly string SelectInteractorName = "Select";
+
+        [NonSerialized] private GameObject _lastCenteredPlanet;
 
         private static SelectInteractor _instance;
         private CurrentPlanetController _currentPlanetController;
@@ -29,7 +28,12 @@ namespace Interactors
 
             return _instance;
         }
-        
+
+        public override InteractorType GetInteractorType()
+        {
+            return InteractorType.Select;
+        }
+
         public override string GetInteractorName()
         {
             return SelectInteractorName;
@@ -47,13 +51,14 @@ namespace Interactors
 
             if (_lastCenteredPlanet != blocksPlanet)
             {
-                return cameraController.AvailableToUpdate() 
-                    && !block.IsSeeded(); // TODO: Why do we need to check if it is seeded or not? What does that have to do with being able to go there or not?
+                return cameraController.AvailableToUpdate()
+                       &&
+                       !block.IsSeeded(); // TODO: Why do we need to check if it is seeded or not? What does that have to do with being able to go there or not?
             }
             else
             {
                 return block.GetRoot().GetComponentInChildren<Selectable.Selectable>();
-            } 
+            }
         }
 
         public override void Build(Block block, RaycastHit raycastHit)
@@ -67,7 +72,7 @@ namespace Interactors
                 var planet = planetBlock.GetComponent<TinyPlanet>();
                 _currentPlanetController.ChangePlanet(planet);
                 _lastCenteredPlanet = planet.gameObject;
-                
+
                 cameraController.FocusOnPlanet(planet);
             }
             else
@@ -82,12 +87,10 @@ namespace Interactors
 
         public override void OnBuilt(Vector3 hitPoint)
         {
-            
         }
-        
+
         public override void OnSecondaryInteract(Block block, RaycastHit hit)
         {
-            
         }
 
         public override bool Continuous()

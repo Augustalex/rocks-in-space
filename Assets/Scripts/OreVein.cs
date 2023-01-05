@@ -1,9 +1,10 @@
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class OreVein : MonoBehaviour
 {
+    private int _resources = 0;
+
     private void Start()
     {
         var pieces = GetComponentsInChildren<MeshRenderer>();
@@ -17,6 +18,17 @@ public class OreVein : MonoBehaviour
         if (onCount == 0)
         {
             pieces[Random.Range(0, pieces.Length)].gameObject.SetActive(true);
+            onCount += 1;
         }
+
+        _resources += onCount * 250;
+    }
+
+    public int Collect()
+    {
+        var resources = _resources;
+        _resources = 0;
+
+        return resources;
     }
 }

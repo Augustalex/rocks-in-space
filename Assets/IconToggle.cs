@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class IconToggle : MonoBehaviour
 {
-    public event Action<bool> OnToggle;
+    public event Action OnToggle;
 
     public Button on;
     public Button off;
@@ -15,28 +15,16 @@ public class IconToggle : MonoBehaviour
         on.onClick.AddListener(WorldInteractionLock.LockInteractions);
         off.onClick.AddListener(WorldInteractionLock.LockInteractions);
 
-        on.onClick.AddListener(TurnOff);
-        off.onClick.AddListener(TurnOn);
+        on.onClick.AddListener(Toggle);
+        off.onClick.AddListener(Toggle);
 
         SetOff();
     }
 
-    public void Lock()
-    {
-        _locked = true;
-    }
-
-    public void Unlock()
-    {
-        _locked = false;
-    }
-
-    private void TurnOn()
+    private void Toggle()
     {
         if (_locked) return;
-
-        SetOn();
-        OnToggle?.Invoke(true);
+        OnToggle?.Invoke();
     }
 
     public void SetOn()
@@ -45,12 +33,6 @@ public class IconToggle : MonoBehaviour
 
         off.gameObject.SetActive(false);
         on.gameObject.SetActive(true);
-    }
-
-    private void TurnOff()
-    {
-        SetOff();
-        OnToggle?.Invoke(false);
     }
 
     public void SetOff()

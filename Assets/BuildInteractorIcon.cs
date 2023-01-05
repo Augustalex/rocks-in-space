@@ -1,4 +1,5 @@
 ﻿using System;
+using Interactors;
 using UnityEngine;
 
 public class BuildInteractorIcon : MonoBehaviour
@@ -7,7 +8,14 @@ public class BuildInteractorIcon : MonoBehaviour
 
     public GameObject buildMenu;
 
-    public event Action<bool> Toggled;
+    private enum BuildMenuState
+    {
+        Active, // The active interactor is Building related
+        Inactive, // No active interactor is related to something you "Build"
+        ForceClosed, // Closed because of something else having modality (like the map being open for example)
+    }
+
+    private BuildMenuState _buildMenuState = BuildMenuState.Inactive;
 
     void Awake()
     {
@@ -16,7 +24,7 @@ public class BuildInteractorIcon : MonoBehaviour
 
         foreach (var buildingCard in buildMenu.GetComponentsInChildren<BuildingCard>())
         {
-            buildingCard.Clicked += TurnOff;
+            buildingCard.Clicked += BuildingSelected;
         }
 
         buildMenu.SetActive(false);
@@ -25,41 +33,64 @@ public class BuildInteractorIcon : MonoBehaviour
     void Start()
     {
         CameraController.Get().OnToggleZoom += (_) => UpdateStates();
+        InteractorController.Get().InteractorSelected += InteractorSelected;
 
+        UpdateStates();
+    }
+
+    private void OnToggle()
+    {
+        buildMenu.SetActive(!buildMenu.activeSelf);
+        UpdateStates();
+    }
+
+    private void InteractorSelected(InteractorModule interactor)
+    {
         UpdateStates();
     }
 
     private void UpdateStates()
     {
+        var interactorActionCategory =
+            InteractorMenuModality.GetCategoryFromInteractorType(InteractorController.Get().CurrentModule()
+                .GetInteractorType());
+
         if (CameraController.Get().IsZoomedOut())
         {
-            TurnOff();
+            _buildMenuState = BuildMenuState.ForceClosed;
         }
-        else if (buildMenu.activeSelf)
+        else if (interactorActionCategory == InteractorCategory.Build)
         {
-            TurnOff();
+            _buildMenuState = BuildMenuState.Active;
         }
         else
         {
-            TurnOn();
+            _buildMenuState = BuildMenuState.Inactive;
+        }
+
+        switch (_buildMenuState)
+        {
+            case BuildMenuState.Active:
+                _toggle.gameObject.SetActive(true);
+                _toggle.SetOn();
+                break;
+            case BuildMenuState.Inactive:
+                _toggle.gameObject.SetActive(true);
+                _toggle.SetOff();
+                break;
+            case BuildMenuState.ForceClosed:
+                if (buildMenu.activeSelf) buildMenu.SetActive(false);
+                _toggle.SetOff();
+                _toggle.gameObject.SetActive(false);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 
-    private void TurnOff()
+    private void BuildingSelected()
     {
         buildMenu.SetActive(false);
-        Toggled?.Invoke(false);
-        _toggle.SetOff();
-    }
-
-    private void TurnOn()
-    {
-        Toggled?.Invoke(true);
-        _toggle.SetOn();
-    }
-
-    private void OnToggle(bool isOn)
-    {
-        buildMenu.SetActive(!buildMenu.activeSelf);
+        UpdateStates();
     }
 }

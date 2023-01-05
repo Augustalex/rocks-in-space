@@ -23,6 +23,7 @@ namespace Interactors
         FarmDome,
         ResidentModule,
         Platform,
+        Select,
         Misc
     }
 
@@ -54,7 +55,7 @@ namespace Interactors
         {
             if (!block.GetConnectedPlanet().HasPort())
             {
-                return "Asteroid needs a port before anything can be done here!";
+                return "Asteroid needs a Beacon before anything can be done here!";
             }
 
             if (!HasEnoughResourceToBuild(block))
