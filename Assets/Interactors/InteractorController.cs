@@ -9,10 +9,6 @@ namespace Interactors
     {
         private const int DefaultModule = -1;
 
-        private const int
-            PortInteractorIndex =
-                6; // You want the player to as easily as possible to the correct first action, which is to place a port.
-
         public GameObject defaultModuleContainer;
         public GameObject interactorsContainer;
 
@@ -22,7 +18,7 @@ namespace Interactors
 
         private InteractorModule _defaultModule;
         private InteractorModule[] _modules;
-        private int _currentModule = PortInteractorIndex;
+        private int _currentModule = -1;
         private Camera _camera;
 
         private readonly KeyCode[] _selectKeys =
@@ -50,8 +46,8 @@ namespace Interactors
             _defaultModule = defaultModuleContainer.GetComponent<InteractorModule>();
             _modules = new[]
             {
-                interactorsContainer.GetComponent<PortInteractor>(),
                 interactorsContainer.GetComponent<DigInteractor>(),
+                interactorsContainer.GetComponent<PortInteractor>(),
                 interactorsContainer.GetComponent<RefineryInteractor>(),
                 interactorsContainer.GetComponent<FactoryInteractor>(),
                 interactorsContainer.GetComponent<PowerPlantInteractor>(),
@@ -60,6 +56,7 @@ namespace Interactors
                 interactorsContainer.GetComponent<ScaffoldingInteractor>(),
                 _defaultModule
             };
+            SetInteractorByInteractorType(InteractorType.Port);
         }
 
         public static InteractorController Get()
@@ -152,7 +149,8 @@ namespace Interactors
                     var popupTarget = block.GetRoot().GetComponentInChildren<PopupTarget>();
                     if (popupTarget)
                     {
-                        if (!ErrorDisplay.Get().IsVisible()) popupTarget.Show();
+                        if (ErrorDisplay.Get().IsVisible()) ErrorDisplay.Get().FadeOut(); 
+                        popupTarget.Show();
                     }
                 }
 

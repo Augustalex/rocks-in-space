@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GameNotifications;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -26,6 +27,7 @@ public class PlanetId
     }
 }
 
+[RequireComponent(typeof(PlanetResourceMonitor))]
 public class TinyPlanet : MonoBehaviour
 {
     public PlanetId planetId = new();

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(ResourceEffect))]
 public class ModuleController : MonoBehaviour
@@ -10,9 +9,9 @@ public class ModuleController : MonoBehaviour
     private bool _occupied;
     private float _life = 100f;
     private ResourceEffect _resourceEffect;
-    
+
     public const float FoodUsedPerMinute = 120f;
-    private const float LifeLossPerSecond = 10f;
+    private const float LifeLossPerSecond = 100f / 60f;
 
     void Start()
     {
@@ -28,7 +27,7 @@ public class ModuleController : MonoBehaviour
     {
         if (_occupied)
         {
-            var foodNeed = FoodUsedPerMinute * Time.deltaTime;
+            var foodNeed = (FoodUsedPerMinute / 60f) * Time.deltaTime;
             var food = _planetResources.GetFood();
             var hasEnoughFood = food >= foodNeed;
 

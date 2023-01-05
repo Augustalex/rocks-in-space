@@ -66,7 +66,7 @@ public class BuildingCard : MonoBehaviour
             BuildingType.Refinery => InteractorType.Refinery,
             BuildingType.Factory => InteractorType.Factory,
             BuildingType.PowerPlant => InteractorType.PowerPlant,
-            BuildingType.FarmDome => InteractorType.PowerPlant,
+            BuildingType.FarmDome => InteractorType.FarmDome,
             BuildingType.ResidentModule => InteractorType.ResidentModule,
             BuildingType.Platform => InteractorType.Platform,
             _ => throw new ArgumentOutOfRangeException()

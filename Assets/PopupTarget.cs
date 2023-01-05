@@ -59,7 +59,7 @@ public class PopupTarget : MonoBehaviour
     public void Show()
     {
         if (!_showcased) return;
-        ShowUntil(Time.time + 1f);
+        ShowUntil(Time.time + .2f);
     }
 
     private void ShowUntil(float showUntil)

@@ -32,6 +32,12 @@ public class TinyPlanetResources : MonoBehaviour
         return "Unknown resource";
     }
 
+    public struct ResourcesData
+    {
+        public float Energy;
+        public int Inhabitants;
+    }
+
     private const int InhabitantsPerResidency = 100;
 
     private int _residencies = 0;
@@ -191,5 +197,14 @@ public class TinyPlanetResources : MonoBehaviour
     public void AddGadgets(float toAdd)
     {
         _gadgets += toAdd;
+    }
+
+    public ResourcesData CopyData()
+    {
+        return new ResourcesData
+        {
+            Energy = GetEnergy(),
+            Inhabitants = GetInhabitants()
+        };
     }
 }

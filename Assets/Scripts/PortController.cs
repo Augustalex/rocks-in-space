@@ -30,7 +30,7 @@ public class PortController : MonoBehaviour
         PlanetsRegistry.Get().Remove(this);
 
         var displayController = DisplayController.Get();
-        displayController.OnRenameDone -= ShowPopupSoon;
+        displayController.OnRenameDone -= MaybeShowPopup;
     }
 
     private void MaybeShowPopup()

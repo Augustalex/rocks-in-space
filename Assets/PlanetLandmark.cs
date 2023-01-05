@@ -26,31 +26,15 @@ public class PlanetLandmark : MonoBehaviour
         _cameraController.OnToggleZoom += OnToggleZoom;
 
         _currentPlanetController = CurrentPlanetController.Get();
-        _currentPlanetController.CurrentPlanetChanged += OnCurrentPlanetChanged;
         _currentPlanetController.ShipSelected += OnShipSelected;
 
-        ShowAndUpdatePosition();
+        UpdatePosition();
+        Hide();
     }
 
     private void OnShipSelected(ColonyShip ship)
     {
         Show();
-    }
-
-    private void OnCurrentPlanetChanged(PlanetChangedInfo info)
-    {
-        if (_cameraController.IsZoomedOut())
-        {
-            Show();
-        }
-        else if (IsCurrentPlanet(_planet))
-        {
-            Hide();
-        }
-        else if (info.PreviousPlanet == _planet)
-        {
-            ShowAndUpdatePosition();
-        }
     }
 
     private void OnToggleZoom(bool zoomOn)
@@ -61,8 +45,7 @@ public class PlanetLandmark : MonoBehaviour
         }
         else
         {
-            if (IsCurrentPlanet(_planet)) Hide();
-            else Show();
+            Hide();
         }
     }
 
@@ -111,6 +94,11 @@ public class PlanetLandmark : MonoBehaviour
     {
         transform.position = _planet.GetCenter();
         Show();
+    }
+
+    private void UpdatePosition()
+    {
+        transform.position = _planet.GetCenter();
     }
 
     private void Show()

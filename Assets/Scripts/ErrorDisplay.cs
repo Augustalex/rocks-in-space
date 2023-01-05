@@ -53,8 +53,17 @@ public class ErrorDisplay : MonoBehaviour
         PopupManager.Get().NotifyShown(PopupImportance, _popupId);
     }
 
+    public void FadeOut()
+    {
+        _animator.SetBool(Visible, false);
+        _showUntil = -1f;
+        _track = null;
+    }
+
     public void Hide()
     {
+        _showUntil = -1f;
+        _track = null;
         gameObject.SetActive(false);
     }
 
@@ -85,9 +94,7 @@ public class ErrorDisplay : MonoBehaviour
 
         if (_showUntil > 0f && Time.time > _showUntil)
         {
-            _animator.SetBool(Visible, false);
-            _showUntil = -1f;
-            _track = null;
+            FadeOut();
         }
     }
 }
