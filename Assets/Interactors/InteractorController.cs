@@ -48,7 +48,7 @@ namespace Interactors
             _instance = this;
 
             _defaultModule = defaultModuleContainer.GetComponent<InteractorModule>();
-            _modules = new InteractorModule[]
+            _modules = new[]
             {
                 interactorsContainer.GetComponent<PortInteractor>(),
                 interactorsContainer.GetComponent<DigInteractor>(),
