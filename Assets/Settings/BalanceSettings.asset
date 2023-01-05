@@ -17,7 +17,7 @@ MonoBehaviour:
   gadgetsTradeAmount: 12
   rockDigTime: 0.75
   oreDigTime: 1.5
-  startingCredits: 100000
+  startingCredits: 1000
   houseIncomePerMinute: 10
   minTimeBetweenConvoySpawns: 60
   maxTimeBetweenConvoySpawns: 120

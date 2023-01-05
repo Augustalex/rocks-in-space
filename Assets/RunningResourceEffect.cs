@@ -15,6 +15,7 @@ public class RunningResourceEffect : MonoBehaviour
 
     private void Update()
     {
-        _globalResources.AddCash(cashPerMinute / 60f);
+        var cashEffectPerMinute = cashPerMinute / 60f;
+        _globalResources.AddCash(cashEffectPerMinute * Time.deltaTime);
     }
 }

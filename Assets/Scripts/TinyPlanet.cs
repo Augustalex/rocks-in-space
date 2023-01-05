@@ -107,15 +107,17 @@ public class TinyPlanet : MonoBehaviour
     private void Update()
     {
         if (CurrentPlanetController.Get().CurrentPlanet() != this) return;
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            rockType = RockTypes[_rockTestIndex++];
-            if (_rockTestIndex >= RockTypes.Length) _rockTestIndex = 0;
-            _purpleRockMaterial.SetInt(RockTypePropertyId, (int)rockType);
-            var color = ColorPairs[(int)rockType];
-            _purpleRockMaterial.SetColor("_LightColor", color[0]);
-            _purpleRockMaterial.SetColor("_DarkColor", color[1]);
-        }
+        
+        // Enable to allow changing planet color by pressing "R"
+        // if (Input.GetKeyDown(KeyCode.R))
+        // {
+        //     rockType = RockTypes[_rockTestIndex++];
+        //     if (_rockTestIndex >= RockTypes.Length) _rockTestIndex = 0;
+        //     _purpleRockMaterial.SetInt(RockTypePropertyId, (int)rockType);
+        //     var color = ColorPairs[(int)rockType];
+        //     _purpleRockMaterial.SetColor("_LightColor", color[0]);
+        //     _purpleRockMaterial.SetColor("_DarkColor", color[1]);
+        // }
     }
 
     void FixedUpdate()

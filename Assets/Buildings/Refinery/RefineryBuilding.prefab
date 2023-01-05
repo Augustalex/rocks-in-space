@@ -3714,7 +3714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336aaf521eb74e81bf6aa32492d5c93e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cashPerMinute: -2
+  cashPerMinute: -10
 --- !u!1 &5064190760009860486
 GameObject:
   m_ObjectHideFlags: 0
