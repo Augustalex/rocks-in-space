@@ -21,7 +21,7 @@ public class OreVein : MonoBehaviour
             onCount += 1;
         }
 
-        _resources += onCount * 25;
+        _resources += onCount * 50;
     }
 
     public int Collect()

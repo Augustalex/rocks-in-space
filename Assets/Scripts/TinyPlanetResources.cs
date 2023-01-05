@@ -35,6 +35,7 @@ public class TinyPlanetResources : MonoBehaviour
     public struct ResourcesData
     {
         public float Energy;
+        public float Food;
         public int Inhabitants;
     }
 
@@ -49,6 +50,9 @@ public class TinyPlanetResources : MonoBehaviour
     private float _ore = 0;
     private float _metals = 0;
     private float _gadgets = 0;
+    
+    private int _powerPlants;
+    private int _farms;
 
     public float GetResource(PlanetResourceType resourceType)
     {
@@ -204,7 +208,38 @@ public class TinyPlanetResources : MonoBehaviour
         return new ResourcesData
         {
             Energy = GetEnergy(),
+            Food = GetFood(),
             Inhabitants = GetInhabitants()
         };
+    }
+
+    public void RegisterFarm()
+    {
+        _farms += 1;
+    }
+
+    public void DeregisterFarm()
+    {
+        _farms -= 0;
+    }
+
+    public void RegisterPowerPlant()
+    {
+        _powerPlants += 1;
+    }
+
+    public void DeregisterPowerPlant()
+    {
+        _powerPlants -= 1;
+    }
+
+    public bool HasFarm()
+    {
+        return _farms > 0;
+    }
+
+    public bool HasPowerPlant()
+    {
+        return _powerPlants > 0;
     }
 }

@@ -50,6 +50,7 @@ public class BuildingCard : MonoBehaviour
 
         select.onClick.AddListener(SelfClicked);
         select.onClick.AddListener(WorldInteractionLock.LockInteractions);
+        select.onClick.AddListener(WorldInteractionLock.LockInteractions);
     }
 
     private void SelfClicked()

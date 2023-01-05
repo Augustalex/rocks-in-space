@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   oreTradeAmount: 12
   metalsTradeAmount: 12
-  gadgetsTradeAmount: 5
+  gadgetsTradeAmount: 12
   rockDigTime: 0.75
   oreDigTime: 1.5
   startingCredits: 100000

@@ -7,22 +7,23 @@ public class FarmController : MonoBehaviour
 
     public const float FoodPerSecond = 10f;
 
-    void Start()
+    void Awake()
     {
         _resourceEffect = GetComponent<ResourceEffect>();
-        _resources = _resourceEffect.GetAttachedPlanet();
         _resourceEffect.AttachedTo += OnResourceEffectAttached;
         _resourceEffect.DetachedFrom += OnResourceEffectDetached;
     }
 
     private void OnResourceEffectDetached(TinyPlanetResources resources)
     {
-        _resources = resources;
+        resources.DeregisterFarm();
+        _resources = null;
     }
 
     private void OnResourceEffectAttached(TinyPlanetResources resources)
     {
-        _resources = null;
+        resources.RegisterFarm();
+        _resources = resources;
     }
 
     void Update()

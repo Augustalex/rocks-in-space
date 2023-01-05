@@ -139,6 +139,14 @@ public class PlanetPopup : MonoBehaviour
             {
                 resourceToShow.Add(resource);
             }
+            else if (resource == TinyPlanetResources.PlanetResourceType.Food && resources.HasFarm())
+            {
+                resourceToShow.Add(resource);
+            }
+            else if (resource == TinyPlanetResources.PlanetResourceType.Energy && resources.HasPowerPlant())
+            {
+                resourceToShow.Add(resource);
+            }
         }
 
         ShowResources(resources, resourceToShow);

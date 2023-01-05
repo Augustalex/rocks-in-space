@@ -59,7 +59,9 @@ public class ModuleController : MonoBehaviour
 
             if (hasEnoughFood && hasEnoughEnergy)
             {
-                GlobalResources.Get().AddCash(SettingsManager.Get().balanceSettings.houseIncomePerMinute);
+                var incomePerMinute =
+                    (SettingsManager.Get().balanceSettings.houseIncomePerMinute / 60f) * Time.deltaTime;
+                GlobalResources.Get().AddCash(incomePerMinute);
             }
         }
         else if (_planetResources.HasVacancy())

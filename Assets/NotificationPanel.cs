@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class NotificationPanel : MonoBehaviour
 {
@@ -14,18 +11,19 @@ public class NotificationPanel : MonoBehaviour
     void Start()
     {
         _spawned = Time.time;
+    }
 
-        GetComponent<Button>().onClick.AddListener(() =>
-        {
-            if (!_killed) return;
+    public void Click()
+    {
+        if (_killed) return;
 
-            Clicked?.Invoke();
-        });
+        Clicked?.Invoke();
     }
 
     private void Update()
     {
-        if (Time.time - _spawned > 10f)
+        var duration = Time.time - _spawned;
+        if (duration > 10f)
         {
             Kill();
         }
