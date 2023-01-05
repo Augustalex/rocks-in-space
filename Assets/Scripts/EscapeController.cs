@@ -9,11 +9,21 @@ public class EscapeController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (ErrorDisplay.Get().IsVisible() || PlanetPopup.Get().IsVisible()) PopupManager.Get().CancelAllPopups();
-            else if (!CameraController.Get().IsZoomedOut())
-                InteractorController.Get().SetInteractorByName(SelectInteractor.SelectInteractorName);
+            else if (BuildInteractorIcon.Get().IsBuildMenuOpen())
+            {
+                BuildInteractorIcon.Get().CloseBuildMenu();
+            }
             else if (CameraController.Get().IsZoomedOut())
             {
                 CameraController.Get().ZoomIn();
+            }
+            else if (CurrentPlanetController.Get().IsShipSelected())
+            {
+                CameraController.Get().ToggleZoomMode();
+            }
+            else
+            {
+                InteractorController.Get().SetInteractorByName(SelectInteractor.SelectInteractorName);
             }
         }
     }

@@ -50,13 +50,13 @@ namespace Interactors
             _defaultModule = defaultModuleContainer.GetComponent<InteractorModule>();
             _modules = new InteractorModule[]
             {
+                interactorsContainer.GetComponent<PortInteractor>(),
                 interactorsContainer.GetComponent<DigInteractor>(),
                 interactorsContainer.GetComponent<RefineryInteractor>(),
                 interactorsContainer.GetComponent<FactoryInteractor>(),
                 interactorsContainer.GetComponent<PowerPlantInteractor>(),
                 interactorsContainer.GetComponent<FarmDomeInteractor>(),
                 interactorsContainer.GetComponent<ResidencyInteractor>(),
-                interactorsContainer.GetComponent<PortInteractor>(),
                 interactorsContainer.GetComponent<ScaffoldingInteractor>(),
                 _defaultModule
             };

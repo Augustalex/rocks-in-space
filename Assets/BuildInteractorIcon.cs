@@ -16,9 +16,17 @@ public class BuildInteractorIcon : MonoBehaviour
     }
 
     private BuildMenuState _buildMenuState = BuildMenuState.Inactive;
+    private static BuildInteractorIcon _instance;
+
+    public static BuildInteractorIcon Get()
+    {
+        return _instance;
+    }
 
     void Awake()
     {
+        _instance = this;
+
         _toggle = GetComponent<IconToggle>();
         _toggle.OnToggle += OnToggle;
 
@@ -92,5 +100,15 @@ public class BuildInteractorIcon : MonoBehaviour
     {
         buildMenu.SetActive(false);
         UpdateStates();
+    }
+
+    public bool IsBuildMenuOpen()
+    {
+        return buildMenu.activeSelf;
+    }
+
+    public void CloseBuildMenu()
+    {
+        buildMenu.SetActive(false);
     }
 }
