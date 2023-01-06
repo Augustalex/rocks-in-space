@@ -75,8 +75,6 @@ public class ColonyShipUI : MonoBehaviour
         if (suitablePlanets.Length == 0)
         {
             acceptErrorText.text = "No planet meets the requirements";
-            // Debug.LogError(
-            //     "Player accepted ship, even when there are no suitable planets. Something must have gone wrong!");
         }
         else
         {

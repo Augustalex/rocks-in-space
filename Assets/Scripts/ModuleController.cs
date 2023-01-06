@@ -37,13 +37,14 @@ public class ModuleController : MonoBehaviour
             }
 
             var hasEnoughEnergy = _planetResources.GetEnergy() > 0f;
-            if (!hasEnoughEnergy)
+      
+            if (hasEnoughEnergy)
             {
-                _powerControlled.PowerOff();
+                if (!_powerControlled.PowerIsOn()) _powerControlled.PowerOn();
             }
-            else if (!_powerControlled.PowerIsOn())
+            else
             {
-                _powerControlled.PowerOn();
+                if (_powerControlled.PowerIsOn()) _powerControlled.PowerOff();
             }
 
             if (!hasEnoughFood || !hasEnoughEnergy)

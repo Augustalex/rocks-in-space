@@ -132,25 +132,38 @@ public class CameraController : MonoBehaviour
                 _lastPosition = focusPosition;
             }
 
-            if (Input.GetKey(KeyCode.A))
+            var xDelta = Input.GetAxis("Mouse X");
+            var yDelta = Input.GetAxis("Mouse Y");
+
+            var rightClickOn = Input.GetMouseButton(1);
+            var goingLeft = rightClickOn && xDelta < 0.01f || Input.GetKey(KeyCode.A);
+            var goingRight = rightClickOn && xDelta > 0.01f || Input.GetKey(KeyCode.D);
+            var goingUp = rightClickOn && yDelta > 0.01f || Input.GetKey(KeyCode.Q);
+            var goingDown = rightClickOn && yDelta < 0.01f || Input.GetKey(KeyCode.E);
+
+            if (goingLeft)
             {
-                _camera.transform.RotateAround(FocusPoint(), Vector3.up, 45f * Time.deltaTime);
+                var leftMovementSpeed = rightClickOn ? 180f * xDelta : 45f;
+                _camera.transform.RotateAround(FocusPoint(), Vector3.up, leftMovementSpeed * Time.deltaTime);
             }
-            else if (Input.GetKey(KeyCode.D))
+            else if (goingRight)
             {
-                _camera.transform.RotateAround(FocusPoint(), Vector3.up, -45f * Time.deltaTime);
+                var rightMovementSpeed = rightClickOn ? 180f * xDelta : -45f;
+                _camera.transform.RotateAround(FocusPoint(), Vector3.up, rightMovementSpeed * Time.deltaTime);
             }
 
             var maxTilt = 75f;
             var eulerAnglesX = _camera.transform.rotation.eulerAngles.x;
             var adjustedAngles = eulerAnglesX > 180f ? (eulerAnglesX - 360f) : eulerAnglesX;
-            if (Input.GetKey(KeyCode.Q) && adjustedAngles > -maxTilt)
+            if (goingUp && adjustedAngles > -maxTilt)
             {
-                _camera.transform.RotateAround(FocusPoint(), transform.right, -45f * Time.deltaTime);
+                var upMovementSpeed = rightClickOn ? 100f * yDelta : -45f;
+                _camera.transform.RotateAround(FocusPoint(), transform.right, upMovementSpeed * Time.deltaTime);
             }
-            else if (Input.GetKey(KeyCode.E) && adjustedAngles < maxTilt)
+            else if (goingDown && adjustedAngles < maxTilt)
             {
-                _camera.transform.RotateAround(FocusPoint(), transform.right, 45f * Time.deltaTime);
+                var downMovementSpeed = rightClickOn ? 100f * yDelta : 45f;
+                _camera.transform.RotateAround(FocusPoint(), transform.right, downMovementSpeed * Time.deltaTime);
             }
 
             var minZoom = _zoomedOut ? MinZoomedOutDistance : MinZoomedInDistance;
@@ -166,6 +179,17 @@ public class CameraController : MonoBehaviour
             else if (Input.GetKey(KeyCode.W) && distance > minZoom)
             {
                 cameraTransform.position += cameraTransform.forward * (speed * Time.deltaTime);
+            }
+
+            var scrollDelta = Input.mouseScrollDelta.y * .5f;
+            if (Math.Abs(scrollDelta) > 0.001f)
+            {
+                var newPosition = cameraTransform.position + cameraTransform.forward * (scrollDelta * speed);
+                var scrollDistance = Vector3.Distance(FocusPoint(), newPosition);
+                if (scrollDistance <= maxZoom && scrollDistance >= minZoom)
+                {
+                    cameraTransform.position = newPosition;
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Space))

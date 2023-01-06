@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class TinyPlanetResources : MonoBehaviour
@@ -50,7 +51,7 @@ public class TinyPlanetResources : MonoBehaviour
     private float _ore = 0;
     private float _metals = 0;
     private float _gadgets = 0;
-    
+
     private int _powerPlants;
     private int _farms;
 
@@ -76,6 +77,14 @@ public class TinyPlanetResources : MonoBehaviour
 
         Debug.LogError("Trying to get resource that has not getter: " + resourceType);
         return 0f;
+    }
+
+    private void Update()
+    {
+        // if (CurrentPlanetController.Get().CurrentPlanet()?.GetResources() == this && Input.GetKeyDown(KeyCode.G))
+        // {
+        //     AddGadgets(1000);
+        // }
     }
 
     public float GetOre()

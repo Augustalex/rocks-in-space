@@ -77,7 +77,8 @@ public class DisplayController : MonoBehaviour
 
     private void AuxiliaryDisplaysUpdate()
     {
-        if (!_currentPlanet)
+        var noPlanetSelected = !_currentPlanet && !_currentShip;
+        if (noPlanetSelected)
         {
             HideAll();
         }

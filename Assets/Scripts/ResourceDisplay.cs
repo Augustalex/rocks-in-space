@@ -19,13 +19,8 @@ public class ResourceDisplay : Hidable
 
     public void ShowGlobalResources()
     {
-        var currentPlanet = CurrentPlanetController.Get().CurrentPlanet();
-        if (!currentPlanet) _text = "";
-        else
-        {
-            var cash = Math.Round(GlobalResources.Get().GetCash());
-            _text =
-                $"Credits: {(int)cash}c";
-        }
+        var cash = Math.Round(GlobalResources.Get().GetCash());
+        _text =
+            $"Credits: {(int)cash}c";
     }
 }

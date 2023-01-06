@@ -54,8 +54,15 @@ public class ColonyShip : MonoBehaviour
 
     public void MouseDown()
     {
-        if (CurrentPlanetController.Get().CurrentShip() == this) return;
-        NavigateToShip();
+        if (CurrentPlanetController.Get().CurrentShip() == this)
+        {
+            var cameraController = CameraController.Get();
+            if(cameraController.IsZoomedOut()) cameraController.ToggleZoomMode();
+        }
+        else
+        {
+            NavigateToShip();
+        }
     }
 
     private void NavigateToShip()

@@ -95,6 +95,9 @@ public class TinyPlanetGenerator : MonoBehaviour
                 var newPlanet = NewPlanet();
 
                 var dislodgedNetworkHasPort = dislodgedNetwork.Any(b => b.GetComponentInChildren<PortController>());
+                var connectedRocksHasPort = connectedRocks.Any(b => b.GetComponentInChildren<PortController>());
+                Debug.Log("dislodgedNetworkHasPort: " + dislodgedNetworkHasPort);
+                Debug.Log("connectedRocksHasPort: " + connectedRocksHasPort);
                 var networkThatHasThePort = dislodgedNetworkHasPort
                     ? dislodgedNetwork
                     : connectedRocks;

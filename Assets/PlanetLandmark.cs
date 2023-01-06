@@ -26,10 +26,16 @@ public class PlanetLandmark : MonoBehaviour
         _cameraController.OnToggleZoom += OnToggleZoom;
 
         _currentPlanetController = CurrentPlanetController.Get();
+        _currentPlanetController.CurrentPlanetChanged += PlanetChanged;
         _currentPlanetController.ShipSelected += OnShipSelected;
 
         UpdatePosition();
         Hide();
+    }
+
+    private void PlanetChanged(PlanetChangedInfo info)
+    {
+        UpdateStyle();
     }
 
     private void OnShipSelected(ColonyShip ship)
