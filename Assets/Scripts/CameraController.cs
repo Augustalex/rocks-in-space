@@ -96,24 +96,11 @@ public class CameraController : MonoBehaviour
         {
             if (_moveTime < _moveLength)
             {
-                var linearProgress = Mathf.Clamp(_moveTime / _moveLength, 0f, 1f);
-                var progress = _displayController.inputMode == DisplayController.InputMode.Cinematic
-                    ? EaseInOutCubic(linearProgress)
-                    : EaseOutCubic(linearProgress);
-                transform.rotation = Quaternion.Slerp(_startRotation, _targetRotation, progress);
-                // transform.rotation = Quaternion.Lerp(_startRotation, _targetRotation, progress);
-                transform.position = Vector3.Lerp(_startPosition, _targetPosition, progress);
-
-                _moveTime = Mathf.Min(_moveLength, _moveTime + Time.deltaTime);
+                ProgressMove();
             }
             else
             {
-                var cameraTransform = transform;
-                cameraTransform.rotation = _targetRotation;
-                cameraTransform.position = _targetPosition;
-                _moving = false;
-                if (_displayController.inputMode == DisplayController.InputMode.Cinematic)
-                    _displayController.ExitCinematicMode();
+                ClampAndFinishMove();
             }
         }
         else if (_displayController.inputMode == DisplayController.InputMode.Static)
@@ -191,12 +178,48 @@ public class CameraController : MonoBehaviour
                     cameraTransform.position = newPosition;
                 }
             }
+        }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (_moving)
+            {
+                AbortMoveAndToggleZoom();
+            }
+            else
             {
                 ToggleZoomMode();
             }
         }
+    }
+
+    private void AbortMoveAndToggleZoom()
+    {
+        ClampAndFinishMove();
+        ToggleZoomMode();
+    }
+
+    private void ProgressMove()
+    {
+        var linearProgress = Mathf.Clamp(_moveTime / _moveLength, 0f, 1f);
+        var progress = _displayController.inputMode == DisplayController.InputMode.Cinematic
+            ? EaseInOutCubic(linearProgress)
+            : EaseOutCubic(linearProgress);
+        transform.rotation = Quaternion.Slerp(_startRotation, _targetRotation, progress);
+        // transform.rotation = Quaternion.Lerp(_startRotation, _targetRotation, progress);
+        transform.position = Vector3.Lerp(_startPosition, _targetPosition, progress);
+
+        _moveTime = Mathf.Min(_moveLength, _moveTime + Time.deltaTime);
+    }
+
+    private void ClampAndFinishMove()
+    {
+        var cameraTransform = transform;
+        cameraTransform.rotation = _targetRotation;
+        cameraTransform.position = _targetPosition;
+        _moving = false;
+        if (_displayController.inputMode == DisplayController.InputMode.Cinematic)
+            _displayController.ExitCinematicMode();
     }
 
     public void ToggleZoomMode()

@@ -1866,7 +1866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32daf228e43b9441b10764af06a11cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: -10
+  energy: -1
   residencyType: 1
 --- !u!1 &4913068576420846930
 GameObject:

@@ -124,7 +124,7 @@ public class BuildingCard : MonoBehaviour
 
         costs.text = $"{costData.gadgets} gadgets";
         upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}c/min";
-        description.text = $"Provides {effect.energy} amount of energy, that powers farms and residencies.";
+        description.text = $"Provides {effect.energy} energy. Powers farms and residencies.";
     }
 
     private void FarmDome()
@@ -142,7 +142,7 @@ public class BuildingCard : MonoBehaviour
             $"{costData.gadgets} gadgets";
         upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}c/min";
         description.text =
-            $"Provides {FarmController.FoodPerSecond} amount of food to a settlement. Food is consumed by colonists.";
+            $"Produces {FarmController.FoodPerSecond} food/min. Food is consumed by colonists.";
     }
 
     private void HousingModule()
@@ -159,9 +159,9 @@ public class BuildingCard : MonoBehaviour
 
         costs.text =
             $"{costData.gadgets} gadgets";
-        upkeep.text = $"Upkeep: {effect.energy} energy  {controller.foodPerMinute}/min";
+        upkeep.text = $"Upkeep: {effect.energy} energy  {controller.foodPerMinute} food/min";
         description.text =
-            $"A basic form of residency for new colonists. When moved into and all needs are satisfied, they generate {controller.cashPerMinute}c/min in taxes.";
+            $"Generates {controller.cashPerMinute}c/min in taxes when colonists have moved in and food and energy needs are satisfied.";
     }
 
     private void Platform()
