@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PopupTarget : MonoBehaviour
 {
+    private const bool EnableInZoomedInMore = false;
+
     private float _showUntil = 0f;
     private Block _block;
     private bool _showcased;
@@ -32,15 +34,15 @@ public class PopupTarget : MonoBehaviour
         }
     }
 
-    private bool PlanetNotSelectedAnymore()
+    private bool AllowedToShow()
     {
-        var connectedPlanet = _block.GetConnectedPlanet();
-        var currentPlanet = CurrentPlanetController.Get().CurrentPlanet();
-        return connectedPlanet != currentPlanet;
+        return EnableInZoomedInMore || CameraController.Get().IsZoomedOut();
     }
 
     public void ShowcaseSoon(float delay)
     {
+        if (!AllowedToShow()) return;
+
         StartCoroutine(DoSoon());
 
         IEnumerator DoSoon()
@@ -50,16 +52,22 @@ public class PopupTarget : MonoBehaviour
         }
     }
 
+    public void Show()
+    {
+        if (!AllowedToShow()) return;
+        if (!HasShownRequiredInitialShowcase()) return;
+        ShowUntil(Time.time + .8f);
+    }
+
     private void Showcase()
     {
         _showcased = true;
         ShowUntil(Time.time + 4f);
     }
 
-    public void Show()
+    private bool HasShownRequiredInitialShowcase()
     {
-        if (!_showcased) return;
-        ShowUntil(Time.time + .8f);
+        return !EnableInZoomedInMore || _showcased;
     }
 
     private void ShowUntil(float showUntil)

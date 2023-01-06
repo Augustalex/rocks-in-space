@@ -941,7 +941,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b00f3760a7449cf43a354385170ab60f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b00f3760a7449cf43a354385170ab60f, type: 3}
       propertyPath: m_SizeDelta.y
@@ -949,7 +949,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b00f3760a7449cf43a354385170ab60f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b00f3760a7449cf43a354385170ab60f, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1280,7 +1280,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9bb6ed4f263be8a43a0632317786c013, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.6
+  m_Volume: 0.2
   m_Pitch: 0.9
   Loop: 1
   Mute: 0
@@ -1537,7 +1537,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1545,7 +1545,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -3019,6 +3019,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7951583028673062548, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8074620873737844200, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8082824211832479919, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
@@ -5117,9 +5121,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyBlock: {fileID: 8300000, guid: 698a6a2912eeec146a2afafa501a636d, type: 3}
-  destroyBlockVolume: 0.4
+  destroyBlockVolume: 0.15
   cannotBuild: {fileID: 8300000, guid: 5bf02b498490a494ab2a3a29e07b8d70, type: 3}
-  cannotBuildVolume: 1
+  cannotBuildVolume: 0.4
 --- !u!1 &1694424999
 GameObject:
   m_ObjectHideFlags: 0

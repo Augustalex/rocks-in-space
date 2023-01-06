@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6203254793432954223}
   - component: {fileID: 5238820192278125295}
   - component: {fileID: 7856610612243758000}
+  - component: {fileID: 8496944420010234114}
   m_Layer: 0
   m_Name: TinyPlanet
   m_TagString: Untagged
@@ -67,7 +68,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &5238820192278125295
 MonoBehaviour:
@@ -91,6 +92,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0907259c788b2644f9fd9534e9d121cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8496944420010234114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5159183553568185527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34347ae3bb54109a21d563c3966b3d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6227045055698196259
