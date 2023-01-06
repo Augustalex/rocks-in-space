@@ -9,6 +9,8 @@ namespace GameNotifications
         private TinyPlanet _planet;
         private TinyPlanetResources _resources;
         private TinyPlanetResources.ResourcesData _previousResources;
+        private PlanetNotification _outOfOreNotification;
+        private PlanetNotification _freezingColonistsNotification;
         private PlanetNotification _lowEnergyNotification;
         private PlanetNotification _lowFoodNotification;
 
@@ -38,9 +40,13 @@ namespace GameNotifications
             var newData = _resources.CopyData();
             if (Math.Abs(newData.Energy - _previousResources.Energy) > .5f)
             {
-                if (newData.Inhabitants > 0)
+                if (newData.Energy <= 0f)
                 {
-                    if (newData.Energy <= 0f)
+                    if (newData.Inhabitants > 0)
+                    {
+                        GenerateFreezingColonistsAlert();
+                    }
+                    else
                     {
                         GenerateLowEnergyAlert();
                     }
@@ -58,18 +64,48 @@ namespace GameNotifications
                 }
             }
 
+            if (Math.Abs(newData.Ore - _previousResources.Ore) > .5f)
+            {
+                if (newData.Ore <= 0f)
+                {
+                    GenerateNoMoreOreAlert();
+                }
+            }
+
             _previousResources = newData;
+        }
+
+        private void GenerateNoMoreOreAlert()
+        {
+            if (_outOfOreNotification != null && !_outOfOreNotification.Closed()) return;
+
+            var message = $"Refineries have nothing to work with on {_planet.planetName}!";
+            var notification = new PlanetNotification { location = _planet, message = message };
+            _outOfOreNotification = notification;
+
+            Notifications.Get().Send(notification);
         }
 
         private void GenerateLowEnergyAlert()
         {
             if (_lowEnergyNotification != null && !_lowEnergyNotification.Closed()) return;
 
-            var message = $"No power as colonists are freezing to death on {_planet.planetName}!";
+            var message = $"Not enough power on {_planet.planetName}!";
             var lowEnergyNotification = new PlanetNotification { location = _planet, message = message };
             _lowEnergyNotification = lowEnergyNotification;
 
             Notifications.Get().Send(lowEnergyNotification);
+        }
+
+        private void GenerateFreezingColonistsAlert()
+        {
+            if (_freezingColonistsNotification != null && !_freezingColonistsNotification.Closed()) return;
+
+            var message = $"No power as colonists are freezing to death on {_planet.planetName}!";
+            var notification = new PlanetNotification { location = _planet, message = message };
+            _freezingColonistsNotification = notification;
+
+            Notifications.Get().Send(notification);
         }
 
         private void GenerateLowFoodAlert()

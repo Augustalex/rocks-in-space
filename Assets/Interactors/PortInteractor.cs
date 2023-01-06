@@ -4,8 +4,6 @@ namespace Interactors
 {
     public class PortInteractor : InteractorModule
     {
-        private const double PortCost = 200;
-
         public override InteractorType GetInteractorType()
         {
             return InteractorType.Port;
@@ -23,7 +21,7 @@ namespace Interactors
 
         public override bool CanBuild(Block block)
         {
-            return !AsteroidAlreadyHasPort(block) && AllowedMorePorts();
+            return !AsteroidAlreadyHasPort(block) && HasEnoughResourceToBuild(block);
         }
 
         private static bool AsteroidAlreadyHasPort(Block block)
@@ -31,22 +29,15 @@ namespace Interactors
             return block.GetConnectedPlanet().HasPort();
         }
 
-        private bool AllowedMorePorts()
-        {
-            var cash = GlobalResources.Get().GetCash();
-            return cash > PortCost;
-        }
-
         public override void Build(Block block, RaycastHit raycastHit)
         {
+            ConsumeRequiredResources(block);
+
             var port = block.Seed(template);
             var portController = port.GetComponentInChildren<PortController>();
-            
             var connectedPlanet = block.GetConnectedPlanet();
             connectedPlanet.AttachPort(portController);
-            
-            GlobalResources.Get().UseCash(PortCost);
-            
+
             var displayController = DisplayController.Get();
             if (displayController.PlanetInFocus(connectedPlanet))
             {
@@ -67,8 +58,10 @@ namespace Interactors
             var audioController = AudioController.Get();
             audioController.Play(audioController.destroyBlock, audioController.destroyBlockVolume,
                 hitPoint);
-            
-            InteractorController.Get().SetInteractorByName(DigInteractor.DigInteractorName); // It's unlikely the player want's to Port, digging is the most likely used next tool.
+
+            InteractorController.Get()
+                .SetInteractorByName(DigInteractor
+                    .DigInteractorName); // It's unlikely the player want's to Port, digging is the most likely used next tool.
         }
 
         public override void OnSecondaryInteract(Block block, RaycastHit hit)
@@ -95,7 +88,7 @@ namespace Interactors
         {
             // Do nothing
         }
-        
+
         public override string GetCannotBuildHereMessage(Block block)
         {
             if (AsteroidAlreadyHasPort(block))
@@ -103,7 +96,7 @@ namespace Interactors
                 return
                     $"This asteroid already has a Beacon";
             }
-            else if (!AllowedMorePorts())
+            else if (!HasEnoughResourceToBuild(block))
             {
                 return "Not enough credits to build another Beacon";
             }

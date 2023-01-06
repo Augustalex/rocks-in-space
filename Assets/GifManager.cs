@@ -26,31 +26,16 @@ public class GifManager : MonoBehaviour
 
     public Texture[] FramesByBuildingType(BuildingType buildingType)
     {
-        switch (buildingType)
+        return buildingType switch
         {
-            case BuildingType.Port:
-                return portFrames;
-                break;
-            case BuildingType.Refinery:
-                return refineryFrames;
-                break;
-            case BuildingType.Factory:
-                return factoryFrames;
-                break;
-            case BuildingType.PowerPlant:
-                return powerPlantFrames;
-                break;
-            case BuildingType.FarmDome:
-                return farmDomeFrames;
-                break;
-            case BuildingType.ResidentModule:
-                return housingModuleFrames;
-                break;
-            case BuildingType.Platform:
-                return platformFrames;
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(buildingType), buildingType, null);
-        }
+            BuildingType.Port => portFrames,
+            BuildingType.Refinery => refineryFrames,
+            BuildingType.Factory => factoryFrames,
+            BuildingType.PowerPlant => powerPlantFrames,
+            BuildingType.FarmDome => farmDomeFrames,
+            BuildingType.ResidentModule => housingModuleFrames,
+            BuildingType.Platform => platformFrames,
+            _ => throw new ArgumentOutOfRangeException(nameof(buildingType), buildingType, null)
+        };
     }
 }

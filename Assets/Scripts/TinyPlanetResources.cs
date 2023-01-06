@@ -35,6 +35,7 @@ public class TinyPlanetResources : MonoBehaviour
 
     public struct ResourcesData
     {
+        public float Ore;
         public float Energy;
         public float Food;
         public int Inhabitants;
@@ -216,6 +217,7 @@ public class TinyPlanetResources : MonoBehaviour
     {
         return new ResourcesData
         {
+            Ore = GetOre(),
             Energy = GetEnergy(),
             Food = GetFood(),
             Inhabitants = GetInhabitants()

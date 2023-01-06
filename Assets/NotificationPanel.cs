@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class NotificationPanel : MonoBehaviour
 {
+    private const float Length = 20f;
+
     private bool _killed;
     private float _spawned;
+
     public event Action Clicked;
+    public event Action TimedOut;
 
     void Start()
     {
@@ -23,10 +27,16 @@ public class NotificationPanel : MonoBehaviour
     private void Update()
     {
         var duration = Time.time - _spawned;
-        if (duration > 10f)
+        if (duration > Length)
         {
-            Kill();
+            TimeOut();
         }
+    }
+
+    private void TimeOut()
+    {
+        TimedOut?.Invoke();
+        Kill();
     }
 
     public void Kill(float delay = 0)

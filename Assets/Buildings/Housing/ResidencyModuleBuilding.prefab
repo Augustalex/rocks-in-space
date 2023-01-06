@@ -1840,6 +1840,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a968767183111204592e77e5e74f1c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  foodPerMinute: -10
+  cashPerMinute: 10
 --- !u!114 &3805649913758207126
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,6 @@
-﻿public abstract class Notification
+﻿using UnityEngine;
+
+public abstract class Notification
 {
     protected NotificationStatus _status = NotificationStatus.Open;
 

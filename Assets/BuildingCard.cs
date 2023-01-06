@@ -1,6 +1,7 @@
 using System;
 using Interactors;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -147,28 +148,29 @@ public class BuildingCard : MonoBehaviour
     private void HousingModule()
     {
         header.text = "Housing";
-        var interactor = InteractorController.Get().GetInteractor(InteractorType.FarmDome);
+        var interactor = InteractorController.Get().GetInteractor(InteractorType.ResidentModule);
         var costData = interactor.costs;
-        var runningCosts = interactor.template.GetComponent<RunningResourceEffect>();
-        if (!runningCosts) Debug.LogError("Housing module is missing running costs component.");
 
         var effect = interactor.template.GetComponent<ResourceEffect>();
         if (!effect) Debug.LogError("Housing module is missing resource effects component.");
 
+        var controller = interactor.template.GetComponent<ModuleController>();
+        if (!controller) Debug.LogError("Housing module is missing controller component.");
+
         costs.text =
             $"{costData.gadgets} gadgets";
-        upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}/min  {effect.energy} energy";
+        upkeep.text = $"Upkeep: {effect.energy} energy  {controller.foodPerMinute}/min";
         description.text =
-            $"A basic form of residency for new colonists. When moved into, each module consume {ModuleController.FoodUsedPerMinute} food /min.";
+            $"A basic form of residency for new colonists. When moved into and all needs are satisfied, they generate {controller.cashPerMinute}c/min in taxes.";
     }
 
     private void Platform()
     {
         header.text = "Scaffolding";
-        var interactor = InteractorController.Get().GetInteractor(InteractorType.FarmDome);
-        var cost = interactor.costs.cash;
+        var interactor = InteractorController.Get().GetInteractor(InteractorType.Platform);
+        var cost = interactor.costs.metals;
 
-        costs.text = $"{cost}c";
+        costs.text = $"{cost} metals";
         upkeep.gameObject.SetActive(false);
         description.text =
             $"A thin but strong metal frame used for extending building space in a settlement.";

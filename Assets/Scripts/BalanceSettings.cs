@@ -10,8 +10,7 @@ public class BalanceSettings : ScriptableObject
     [Header("Digging")] public float rockDigTime = .5f;
     public float oreDigTime = 1f;
 
-    [Header("Income (credits)")] public float startingCredits = 10000f;
-    public float houseIncomePerMinute = 1f;
+    [Header("Money")] public float startingCredits = 10000f;
 
     [Header("Build costs (build costs can be changed in each added interactor component on the camera")]
     [Header("Running costs (running costs can be changed in each building prefab")]
