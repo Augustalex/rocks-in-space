@@ -6,34 +6,32 @@ namespace Interactors.Digging
     public class EntityOven : MonoBehaviour
     {
         private OvenMesh _mesh;
+        private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+        private Material _material;
 
         private void Awake()
         {
             _mesh = GetComponentInChildren<OvenMesh>();
+            _material = _mesh.GetComponent<MeshRenderer>().materials[0];
         }
 
         void Start()
         {
             _mesh.gameObject.SetActive(false);
         }
-        
+
         public void SetHeat(float factor)
         {
-            if(!_mesh.gameObject.activeSelf) _mesh.gameObject.SetActive(true);
-            
+            if (!_mesh.gameObject.activeSelf) _mesh.gameObject.SetActive(true);
+
             var clampedFactor = Mathf.Clamp(factor, 0f, 1f);
-            var material = _mesh.GetComponent<MeshRenderer>().materials[0];
-            material.EnableKeyword("_EMISSION");
-            material.SetColor("_EmissionColor", new Color(1.0f, 0, 0, 1.0f) * clampedFactor);
+            _material.SetColor(BaseColor, new Color(1.0f, 0, 0, clampedFactor * .5f));
         }
 
         public void ResetHeat()
         {
-            var material = _mesh.GetComponent<MeshRenderer>().materials[0];
-            material.EnableKeyword("_EMISSION");
-            material.SetColor("_EmissionColor", new Color(1.0f,0, 0,1.0f) * 0f);
-            material.DisableKeyword("_EMISSION");
-            
+            _material.SetColor(BaseColor, new Color(1.0f, 0, 0, 0.0f));
+
             _mesh.gameObject.SetActive(false);
         }
     }

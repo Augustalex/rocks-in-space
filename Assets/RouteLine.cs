@@ -5,12 +5,16 @@ public class RouteLine : MonoBehaviour
 {
     public GameObject linePivot;
     public GameObject arrowPivot;
+
+    public event Action Removed;
+
     private MeshRenderer _lineMeshRenderer;
     private MeshRenderer _arrowMeshRenderer;
     private Material _lineMaterial;
     private Material _arrowMaterial;
     private static readonly int Active = Shader.PropertyToID("_IsActive");
     private static readonly int ResourceType = Shader.PropertyToID("_ResourceType");
+    private Route _route;
 
     private void Awake()
     {
@@ -26,7 +30,8 @@ public class RouteLine : MonoBehaviour
     public void SetIsActive(bool isActive)
     {
         _lineMaterial.SetInt(Active, isActive ? 1 : 0);
-        _arrowMaterial.SetInt(Active, isActive ? 1 : 0);
+        _arrowMaterial.SetInt(Active,
+            1); // Always setting this to 1 let's the arrow be a UI element to always show what resource a line is trading
     }
 
     private void SetResourceType(TinyPlanetResources.PlanetResourceType routeResourceType)
@@ -61,6 +66,7 @@ public class RouteLine : MonoBehaviour
 
     public void LinkBetween(Route route)
     {
+        _route = route;
         var planetRegistry = PlanetsRegistry.Get();
         var start = planetRegistry.FindPlanetById(route.StartPlanetId);
         if (!start) return;
@@ -80,5 +86,12 @@ public class RouteLine : MonoBehaviour
         if (outboundOrNull == null) return false;
 
         return outboundOrNull.Order() > inboundOrNull.Order();
+    }
+
+    public void RemoveLine()
+    {
+        _route.Remove();
+        Removed?.Invoke();
+        Destroy(gameObject);
     }
 }

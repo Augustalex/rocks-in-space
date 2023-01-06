@@ -10,9 +10,9 @@ public class CameraController : MonoBehaviour
     private const float MaxZoomedOutDistance = 1200f;
     private const float ZoomedOutSpeed = 320f;
 
-    private const float ZoomedInDistance = 32f;
-    private const float MinZoomedInDistance = 18f;
-    private const float MaxZoomedInDistance = 60f;
+    private const float ZoomedInDistance = 28f;
+    private const float MinZoomedInDistance = 16f;
+    private const float MaxZoomedInDistance = 90f;
     private const float ZoomedInSpeed = 10f;
 
     private const float ShipZoomedInDistance = 60f;
@@ -36,6 +36,7 @@ public class CameraController : MonoBehaviour
     private static bool _hasInstance;
     private bool _zoomedOut;
     private MapPopupTarget _currentTarget;
+    private bool _hitLimit;
 
     public event Action<bool> OnToggleZoom;
     public event Action OnNavigationStarted;
@@ -173,6 +174,33 @@ public class CameraController : MonoBehaviour
             {
                 var newPosition = cameraTransform.position + cameraTransform.forward * (scrollDelta * speed);
                 var scrollDistance = Vector3.Distance(FocusPoint(), newPosition);
+
+                if (!_zoomedOut)
+                {
+                    if (_hitLimit && scrollDistance > maxZoom)
+                    {
+                        ToggleZoomMode();
+                        _hitLimit = false;
+                    }
+                    else
+                    {
+                        _hitLimit = scrollDistance > maxZoom;
+                    }
+                }
+                else
+                {
+                    if (_hitLimit && scrollDistance < minZoom)
+                    {
+                        ToggleZoomMode();
+                        _hitLimit = false;
+                    }
+                    else
+                    {
+                        _hitLimit = scrollDistance < minZoom;
+                    }
+                }
+
+
                 if (scrollDistance <= maxZoom && scrollDistance >= minZoom)
                 {
                     cameraTransform.position = newPosition;

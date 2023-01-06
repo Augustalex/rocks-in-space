@@ -31,7 +31,16 @@ public class RouteManager : MonoBehaviour
 
     public void AddRoute(TinyPlanet start, TinyPlanet end)
     {
-        _routes.Add(new Route(start.planetId, end.planetId, _order++));
+        var newRoute = new Route(start.planetId, end.planetId, _order++);
+        _routes.Add(newRoute);
+
+        newRoute.Removed += DoRemove;
+
+        void DoRemove()
+        {
+            _routes.Remove(newRoute);
+            newRoute.Removed -= DoRemove;
+        }
     }
 
     public bool RouteExists(TinyPlanet start, TinyPlanet end)

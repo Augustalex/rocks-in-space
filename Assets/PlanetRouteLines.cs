@@ -28,7 +28,7 @@ public class PlanetRouteLines : MonoBehaviour
             }
         }
     }
-    
+
     private void OnToggleZoom(bool zoomOn)
     {
         if (zoomOn)
@@ -40,7 +40,7 @@ public class PlanetRouteLines : MonoBehaviour
             ClearRouteLines();
         }
     }
-    
+
     private void RouteFinished(TinyPlanet start, TinyPlanet end)
     {
         if (end == _planet || start == _planet)
@@ -48,13 +48,13 @@ public class PlanetRouteLines : MonoBehaviour
             RefreshLines();
         }
     }
-    
+
     private void RefreshLines()
     {
         ClearRouteLines();
         AddRouteLines();
     }
-    
+
     private void AddRouteLines()
     {
         foreach (var planetRoute in RouteManager.Get().GetPlanetRoutes(_planet))
@@ -75,7 +75,15 @@ public class PlanetRouteLines : MonoBehaviour
         var lineController = line.GetComponent<RouteLine>();
         lineController.LinkBetween(planetRoute);
 
-        _lines.Add(new Tuple<RouteLine, Route>(lineController, planetRoute));
+        var lineMemo = new Tuple<RouteLine, Route>(lineController, planetRoute);
+        _lines.Add(lineMemo);
+        lineController.Removed += DoRemove;
+
+        void DoRemove()
+        {
+            _lines.Remove(lineMemo);
+            lineController.Removed -= DoRemove;
+        }
     }
 
     private void ClearRouteLines()

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class Route
     public readonly PlanetId DestinationPlanetId;
     public TinyPlanetResources.PlanetResourceType ResourceType = TinyPlanetResources.PlanetResourceType.Ore;
 
+    public event Action Removed;
+
     private float _orePerSecond = 0;
     private float _metalsPerSecond = 0;
     private float _gadgetsPerSecond = 0;
@@ -16,6 +19,7 @@ public class Route
 
     private readonly int _order;
     private bool _isActive;
+    private bool _removed;
 
     public Route(PlanetId start, PlanetId destination, int order)
     {
@@ -26,6 +30,8 @@ public class Route
 
     public void Run()
     {
+        if (_removed) return;
+
         var start = PlanetsRegistry.Get().FindPlanetById(StartPlanetId);
         if (!start || !start.HasPort()) return;
 
@@ -125,6 +131,12 @@ public class Route
     public bool IsActive()
     {
         return _isActive;
+    }
+
+    public void Remove()
+    {
+        _removed = true;
+        Removed?.Invoke();
     }
 
     private float InactiveRouteFramesThreshold()

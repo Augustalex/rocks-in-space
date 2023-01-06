@@ -149,7 +149,7 @@ namespace Interactors
                     var popupTarget = block.GetRoot().GetComponentInChildren<PopupTarget>();
                     if (popupTarget)
                     {
-                        if (ErrorDisplay.Get().IsVisible()) ErrorDisplay.Get().FadeOut(); 
+                        if (ErrorDisplay.Get().IsVisible()) ErrorDisplay.Get().FadeOut();
                         popupTarget.Show();
                     }
                 }
@@ -216,6 +216,15 @@ namespace Interactors
             {
                 HandleMouseUp();
             }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                HandleRightMouseDown();
+            }
+            else if (Input.GetMouseButtonUp(1))
+            {
+                HandleRightMouseUp();
+            }
         }
 
         private void HandleMouseDown()
@@ -267,6 +276,25 @@ namespace Interactors
             }
 
             UnhandledMouseUp?.Invoke();
+        }
+
+        private void HandleRightMouseDown()
+        {
+            // Do nothing
+        }
+
+        private void HandleRightMouseUp()
+        {
+            var ray = _camera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out var hit, 10000f))
+            {
+                if (hit.collider.CompareTag("TradeLine"))
+                {
+                    hit.collider.GetComponentInParent<RouteLine>().RemoveLine();
+                    return;
+                }
+            }
         }
 
         private void RayCastToBuild()

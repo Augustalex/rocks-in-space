@@ -5,7 +5,7 @@ public class FarmController : MonoBehaviour
     private ResourceEffect _resourceEffect;
     private TinyPlanetResources _resources;
 
-    public const float FoodPerSecond = 10f;
+    public float foodPerMinute = 10f;
 
     void Awake()
     {
@@ -37,7 +37,8 @@ public class FarmController : MonoBehaviour
         var energy = _resources.GetEnergy();
         if (energy >= 0)
         {
-            _resources.AddFood(FoodPerSecond * Time.deltaTime);
+            var foodEffect = foodPerMinute / 60f;
+            _resources.AddFood(foodEffect * Time.deltaTime);
         }
     }
 }

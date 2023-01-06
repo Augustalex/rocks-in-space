@@ -138,11 +138,14 @@ public class BuildingCard : MonoBehaviour
         var effect = interactor.template.GetComponent<ResourceEffect>();
         if (!effect) Debug.LogError("Farms is missing resource effects component.");
 
+        var controller = interactor.template.GetComponent<FarmController>();
+        if (!controller) Debug.LogError("Farms is missing controller component.");
+
         costs.text =
             $"{costData.gadgets} gadgets";
-        upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}c/min";
+        upkeep.text = $"Upkeep: {effect.energy} energy  {runningCosts.cashPerMinute}c/min";
         description.text =
-            $"Produces {FarmController.FoodPerSecond} food/min. Food is consumed by colonists.";
+            $"Produces {controller.foodPerMinute} food/min. Food is consumed by colonists.";
     }
 
     private void HousingModule()
