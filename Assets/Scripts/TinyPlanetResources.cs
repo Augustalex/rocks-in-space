@@ -84,10 +84,10 @@ public class TinyPlanetResources : MonoBehaviour
 
     private void Update()
     {
-        if (CurrentPlanetController.Get().CurrentPlanet()?.GetResources() == this && Input.GetKeyDown(KeyCode.G))
-        {
-            AddGadgets(1000);
-        }
+        // if (CurrentPlanetController.Get().CurrentPlanet()?.GetResources() == this && Input.GetKeyDown(KeyCode.G))
+        // {
+        //     AddGadgets(1000);
+        // }
     }
 
     public float GetOre()
