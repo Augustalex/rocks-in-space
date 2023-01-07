@@ -11,6 +11,7 @@ public class NotificationPanel : MonoBehaviour
     private float _spawned;
 
     public event Action Clicked;
+    public event Action Rejected;
     public event Action TimedOut;
 
     void Start()
@@ -43,7 +44,12 @@ public class NotificationPanel : MonoBehaviour
         }
     }
 
-    public void Kill(float delay = 0)
+    public void Reject()
+    {
+        Rejected?.Invoke();
+    }
+
+    public void Kill(float delay = 0f)
     {
         _killed = true;
         Destroy(gameObject, delay);

@@ -104,105 +104,9 @@ public class CameraController : MonoBehaviour
         }
         else if (_displayController.inputMode == DisplayController.InputMode.Static)
         {
-            if (_focus) _backupFocus = _focus.position;
-
-            if (!_following && _focus)
+            if (!WorldInteractionLock.IsLocked())
             {
-                _following = true;
-                _lastPosition = _focus.position;
-            }
-            else if (_following && _focus)
-            {
-                var focusPosition = _focus.position;
-                _camera.transform.position += focusPosition - _lastPosition;
-                _lastPosition = focusPosition;
-            }
-
-            var xDelta = Input.GetAxis("Mouse X");
-            var yDelta = Input.GetAxis("Mouse Y");
-
-            var rightClickOn = Input.GetMouseButton(1);
-            var goingLeft = rightClickOn && xDelta < 0.01f || Input.GetKey(KeyCode.A);
-            var goingRight = rightClickOn && xDelta > 0.01f || Input.GetKey(KeyCode.D);
-            var goingUp = rightClickOn && yDelta > 0.01f || Input.GetKey(KeyCode.Q);
-            var goingDown = rightClickOn && yDelta < 0.01f || Input.GetKey(KeyCode.E);
-
-            if (goingLeft)
-            {
-                var leftMovementSpeed = rightClickOn ? 180f * xDelta : 45f;
-                _camera.transform.RotateAround(FocusPoint(), Vector3.up, leftMovementSpeed * Time.deltaTime);
-            }
-            else if (goingRight)
-            {
-                var rightMovementSpeed = rightClickOn ? 180f * xDelta : -45f;
-                _camera.transform.RotateAround(FocusPoint(), Vector3.up, rightMovementSpeed * Time.deltaTime);
-            }
-
-            var maxTilt = 75f;
-            var eulerAnglesX = _camera.transform.rotation.eulerAngles.x;
-            var adjustedAngles = eulerAnglesX > 180f ? (eulerAnglesX - 360f) : eulerAnglesX;
-            if (goingUp && adjustedAngles > -maxTilt)
-            {
-                var upMovementSpeed = rightClickOn ? 120f * -yDelta : -45f;
-                _camera.transform.RotateAround(FocusPoint(), transform.right, upMovementSpeed * Time.deltaTime);
-            }
-            else if (goingDown && adjustedAngles < maxTilt)
-            {
-                var downMovementSpeed = rightClickOn ? 120f * -yDelta : 45f;
-                _camera.transform.RotateAround(FocusPoint(), transform.right, downMovementSpeed * Time.deltaTime);
-            }
-
-            var minZoom = _zoomedOut ? MinZoomedOutDistance : MinZoomedInDistance;
-            var maxZoom = _zoomedOut ? MaxZoomedOutDistance : MaxZoomedInDistance;
-            var cameraTransform = _camera.transform;
-            var distance = Vector3.Distance(FocusPoint(), cameraTransform.position);
-
-            var speed = _zoomedOut ? ZoomedOutSpeed : ZoomedInSpeed;
-            if (Input.GetKey(KeyCode.S) && distance < maxZoom)
-            {
-                cameraTransform.position += cameraTransform.forward * (-speed * Time.deltaTime);
-            }
-            else if (Input.GetKey(KeyCode.W) && distance > minZoom)
-            {
-                cameraTransform.position += cameraTransform.forward * (speed * Time.deltaTime);
-            }
-
-            var scrollDelta = Input.mouseScrollDelta.y * .5f;
-            if (Math.Abs(scrollDelta) > 0.001f)
-            {
-                var newPosition = cameraTransform.position + cameraTransform.forward * (scrollDelta * speed);
-                var scrollDistance = Vector3.Distance(FocusPoint(), newPosition);
-
-                if (!_zoomedOut)
-                {
-                    if (_hitLimit && scrollDistance > maxZoom)
-                    {
-                        ToggleZoomMode();
-                        _hitLimit = false;
-                    }
-                    else
-                    {
-                        _hitLimit = scrollDistance > maxZoom;
-                    }
-                }
-                else
-                {
-                    if (_hitLimit && scrollDistance < minZoom)
-                    {
-                        ToggleZoomMode();
-                        _hitLimit = false;
-                    }
-                    else
-                    {
-                        _hitLimit = scrollDistance < minZoom;
-                    }
-                }
-
-
-                if (scrollDistance <= maxZoom && scrollDistance >= minZoom)
-                {
-                    cameraTransform.position = newPosition;
-                }
+                HandleStaticMovement();
             }
         }
 
@@ -215,6 +119,110 @@ public class CameraController : MonoBehaviour
             else
             {
                 ToggleZoomMode();
+            }
+        }
+    }
+
+    private void HandleStaticMovement()
+    {
+        if (_focus) _backupFocus = _focus.position;
+
+        if (!_following && _focus)
+        {
+            _following = true;
+            _lastPosition = _focus.position;
+        }
+        else if (_following && _focus)
+        {
+            var focusPosition = _focus.position;
+            _camera.transform.position += focusPosition - _lastPosition;
+            _lastPosition = focusPosition;
+        }
+
+        var xDelta = Input.GetAxis("Mouse X");
+        var yDelta = Input.GetAxis("Mouse Y");
+
+        var rightClickOn = Input.GetMouseButton(1);
+        var goingLeft = rightClickOn && xDelta < 0.01f || Input.GetKey(KeyCode.A);
+        var goingRight = rightClickOn && xDelta > 0.01f || Input.GetKey(KeyCode.D);
+        var goingUp = rightClickOn && yDelta > 0.01f || Input.GetKey(KeyCode.Q);
+        var goingDown = rightClickOn && yDelta < 0.01f || Input.GetKey(KeyCode.E);
+
+        if (goingLeft)
+        {
+            var leftMovementSpeed = rightClickOn ? 180f * xDelta : 45f;
+            _camera.transform.RotateAround(FocusPoint(), Vector3.up, leftMovementSpeed * Time.deltaTime);
+        }
+        else if (goingRight)
+        {
+            var rightMovementSpeed = rightClickOn ? 180f * xDelta : -45f;
+            _camera.transform.RotateAround(FocusPoint(), Vector3.up, rightMovementSpeed * Time.deltaTime);
+        }
+
+        var maxTilt = 75f;
+        var eulerAnglesX = _camera.transform.rotation.eulerAngles.x;
+        var adjustedAngles = eulerAnglesX > 180f ? (eulerAnglesX - 360f) : eulerAnglesX;
+        if (goingUp && adjustedAngles > -maxTilt)
+        {
+            var upMovementSpeed = rightClickOn ? 120f * -yDelta : -45f;
+            _camera.transform.RotateAround(FocusPoint(), transform.right, upMovementSpeed * Time.deltaTime);
+        }
+        else if (goingDown && adjustedAngles < maxTilt)
+        {
+            var downMovementSpeed = rightClickOn ? 120f * -yDelta : 45f;
+            _camera.transform.RotateAround(FocusPoint(), transform.right, downMovementSpeed * Time.deltaTime);
+        }
+
+        var minZoom = _zoomedOut ? MinZoomedOutDistance : MinZoomedInDistance;
+        var maxZoom = _zoomedOut ? MaxZoomedOutDistance : MaxZoomedInDistance;
+        var cameraTransform = _camera.transform;
+        var distance = Vector3.Distance(FocusPoint(), cameraTransform.position);
+
+        var speed = _zoomedOut ? ZoomedOutSpeed : ZoomedInSpeed;
+        if (Input.GetKey(KeyCode.S) && distance < maxZoom)
+        {
+            cameraTransform.position += cameraTransform.forward * (-speed * Time.deltaTime);
+        }
+        else if (Input.GetKey(KeyCode.W) && distance > minZoom)
+        {
+            cameraTransform.position += cameraTransform.forward * (speed * Time.deltaTime);
+        }
+
+        var scrollDelta = Input.mouseScrollDelta.y * .5f;
+        if (Math.Abs(scrollDelta) > 0.001f)
+        {
+            var newPosition = cameraTransform.position + cameraTransform.forward * (scrollDelta * speed);
+            var scrollDistance = Vector3.Distance(FocusPoint(), newPosition);
+
+            if (!_zoomedOut)
+            {
+                if (_hitLimit && scrollDistance > maxZoom)
+                {
+                    ToggleZoomMode();
+                    _hitLimit = false;
+                }
+                else
+                {
+                    _hitLimit = scrollDistance > maxZoom;
+                }
+            }
+            else
+            {
+                if (_hitLimit && scrollDistance < minZoom)
+                {
+                    ToggleZoomMode();
+                    _hitLimit = false;
+                }
+                else
+                {
+                    _hitLimit = scrollDistance < minZoom;
+                }
+            }
+
+
+            if (scrollDistance <= maxZoom && scrollDistance >= minZoom)
+            {
+                cameraTransform.position = newPosition;
             }
         }
     }

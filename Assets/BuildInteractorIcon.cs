@@ -45,17 +45,6 @@ public class BuildInteractorIcon : MonoBehaviour
         UpdateStates();
     }
 
-    private void LateUpdate()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (IsBuildMenuOpen())
-            {
-                CloseBuildMenu();
-            }
-        }
-    }
-
     private void OnToggle()
     {
         if (bottomBar.BuildMenuVisible()) CloseBuildMenu();
@@ -121,13 +110,11 @@ public class BuildInteractorIcon : MonoBehaviour
 
     public void CloseBuildMenu()
     {
-        WorldInteractionLock.UnlockInteractions();
         bottomBar.HideBuildMenu();
     }
 
     public void OpenBuildMenu()
     {
-        WorldInteractionLock.LockInteractionsUntilUnlocked();
         bottomBar.ShowBuildMenu();
     }
 }

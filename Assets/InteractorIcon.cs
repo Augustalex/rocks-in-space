@@ -33,6 +33,8 @@ public class InteractorIcon : MonoBehaviour
 
     private void OnToggle()
     {
+        BuildInteractorIcon.Get().CloseBuildMenu();
+        
         // TODO: Break out into subclasses?
         switch (category)
         {

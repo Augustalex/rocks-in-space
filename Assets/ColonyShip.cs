@@ -50,9 +50,9 @@ public class ColonyShip : MonoBehaviour
         if (_leaveAt > 0f)
         {
             var timeLeft = TimeLeft();
-            if (timeLeft <= (60f * 5))
-                Notifications.Get().Send(new ConvoyNotification
-                    { colonyShip = this, message = "The convoy ship leaves soon." });
+            // if (timeLeft <= (60f * 1))
+            //     Notifications.Get().Send(new ConvoyNotification
+            //         { colonyShip = this, message = "The convoy ship leaves soon." });
 
             if (timeLeft <= 0f)
             {

@@ -20,6 +20,11 @@ public class NotificationsPanel : MonoBehaviour
             notification.Accept();
             notificationPanel.Kill(1f);
         };
+        notificationPanel.Rejected += () =>
+        {
+            notification.Reject();
+            notificationPanel.Kill();
+        };
         notificationPanel.TimedOut += notification.Reject;
     }
 }
