@@ -75,7 +75,10 @@ namespace Interactors
 
         public virtual bool CanBuild(Block block)
         {
-            return block.GetConnectedPlanet().HasPort() && HasEnoughResourceToBuild(block) && block.CanSeed();
+            return block.GetConnectedPlanet().HasPort()
+                   && HasEnoughResourceToBuild(block)
+                   && block.CanSeed()
+                   && block.GetConnectedPlanet().planetId.Is(CurrentPlanetController.Get().CurrentPlanet().planetId);
         }
 
         protected bool HasEnoughResourceToBuild(Block block)
