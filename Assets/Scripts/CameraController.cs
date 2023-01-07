@@ -143,12 +143,12 @@ public class CameraController : MonoBehaviour
             var adjustedAngles = eulerAnglesX > 180f ? (eulerAnglesX - 360f) : eulerAnglesX;
             if (goingUp && adjustedAngles > -maxTilt)
             {
-                var upMovementSpeed = rightClickOn ? 100f * yDelta : -45f;
+                var upMovementSpeed = rightClickOn ? 120f * -yDelta : -45f;
                 _camera.transform.RotateAround(FocusPoint(), transform.right, upMovementSpeed * Time.deltaTime);
             }
             else if (goingDown && adjustedAngles < maxTilt)
             {
-                var downMovementSpeed = rightClickOn ? 100f * yDelta : 45f;
+                var downMovementSpeed = rightClickOn ? 120f * -yDelta : 45f;
                 _camera.transform.RotateAround(FocusPoint(), transform.right, downMovementSpeed * Time.deltaTime);
             }
 
