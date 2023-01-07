@@ -51,8 +51,6 @@ public class BuildingCard : MonoBehaviour
         }
 
         select.onClick.AddListener(SelfClicked);
-        select.onClick.AddListener(WorldInteractionLock.LockInteractions);
-        select.onClick.AddListener(WorldInteractionLock.LockInteractions);
 
         _progressLock = GetComponentInChildren<ProgressLock>();
         _progressLock.CheckLock(buildingType);

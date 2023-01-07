@@ -35,9 +35,6 @@ public class BuildInteractorIcon : MonoBehaviour
         {
             buildingCard.Clicked += BuildingSelected;
         }
-
-        // bottomBar.HideBuildMenu();
-        // buildMenu.SetActive(false);
     }
 
     void Start()
@@ -48,11 +45,21 @@ public class BuildInteractorIcon : MonoBehaviour
         UpdateStates();
     }
 
+    private void LateUpdate()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (IsBuildMenuOpen())
+            {
+                CloseBuildMenu();
+            }
+        }
+    }
+
     private void OnToggle()
     {
-        // buildMenu.SetActive(!buildMenu.activeSelf);
-        if (bottomBar.BuildMenuVisible()) bottomBar.HideBuildMenu();
-        else bottomBar.ShowBuildMenu();
+        if (bottomBar.BuildMenuVisible()) CloseBuildMenu();
+        else OpenBuildMenu();
 
         UpdateStates();
     }
@@ -92,7 +99,7 @@ public class BuildInteractorIcon : MonoBehaviour
                 _toggle.SetOff();
                 break;
             case BuildMenuState.ForceClosed:
-                bottomBar.HideBuildMenu();
+                CloseBuildMenu();
                 _toggle.SetOff();
                 _toggle.gameObject.SetActive(false);
                 break;
@@ -103,7 +110,7 @@ public class BuildInteractorIcon : MonoBehaviour
 
     private void BuildingSelected()
     {
-        bottomBar.HideBuildMenu();
+        CloseBuildMenu();
         UpdateStates();
     }
 
@@ -114,11 +121,13 @@ public class BuildInteractorIcon : MonoBehaviour
 
     public void CloseBuildMenu()
     {
+        WorldInteractionLock.UnlockInteractions();
         bottomBar.HideBuildMenu();
     }
 
     public void OpenBuildMenu()
     {
+        WorldInteractionLock.LockInteractionsUntilUnlocked();
         bottomBar.ShowBuildMenu();
     }
 }

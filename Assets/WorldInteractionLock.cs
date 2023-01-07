@@ -1,11 +1,11 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WorldInteractionLock : MonoBehaviour
 {
     public bool lockWorldInteraction = false;
 
     private static WorldInteractionLock _instance;
+    private bool _lockUntilUnlock;
 
     public static void LockInteractions()
     {
@@ -15,6 +15,7 @@ public class WorldInteractionLock : MonoBehaviour
     public static void UnlockInteractions()
     {
         _instance.lockWorldInteraction = false;
+        _instance._lockUntilUnlock = false;
     }
 
     public static bool IsLocked()
@@ -29,6 +30,17 @@ public class WorldInteractionLock : MonoBehaviour
 
     private void LateUpdate()
     {
-        lockWorldInteraction = false;
+        if (!_lockUntilUnlock && lockWorldInteraction) UnlockInteractions();
+    }
+
+    public static void LockInteractionsUntilUnlocked()
+    {
+        LockInteractions();
+        _instance.LockUntilUnlocked();
+    }
+
+    private void LockUntilUnlocked()
+    {
+        _lockUntilUnlock = true;
     }
 }
