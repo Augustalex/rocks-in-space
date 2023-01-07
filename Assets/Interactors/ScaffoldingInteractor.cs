@@ -9,9 +9,14 @@ namespace Interactors
             return InteractorType.Platform;
         }
 
-        public override string GetInteractorName()
+        public static string GetName()
         {
             return "Scaffolding";
+        }
+
+        public override string GetInteractorName()
+        {
+            return GetName();
         }
 
         public override string GetInteractorShortDescription()

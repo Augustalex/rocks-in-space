@@ -78,8 +78,6 @@ public class CameraController : MonoBehaviour
 
             //Game start
             CurrentPlanetController.Get().ChangePlanet(startingPlanet);
-            SelectInteractor.Get()
-                .ForceSetLastConnectedPlanet(startingPlanet); // TODO: Fix circular dependency on SelectInteractor
             FocusOnPlanetSlowly(startingPlanet);
         }
     }

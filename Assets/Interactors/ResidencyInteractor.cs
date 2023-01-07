@@ -8,10 +8,15 @@ namespace Interactors
         {
             return InteractorType.ResidentModule;
         }
-
-        public override string GetInteractorName()
+        
+        public static string GetName()
         {
             return "Housing";
+        }
+        
+        public override string GetInteractorName()
+        {
+            return GetName();
         }
 
         public override string GetInteractorShortDescription()

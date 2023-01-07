@@ -25,6 +25,8 @@ namespace Interactors
 
             var seed = block.Seed(template);
             SetSeedRefund(seed);
+
+            ProgressManager.Get().Built(BuildingType.Refinery);
         }
         
         public override void OnFailedToBuild(Vector3 hitPoint)

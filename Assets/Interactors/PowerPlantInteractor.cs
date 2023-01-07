@@ -10,24 +10,31 @@ namespace Interactors
             return InteractorType.PowerPlant;
         }
 
-        public override string GetInteractorName()
+        public static string GetName()
         {
             return "Power plant";
+        }
+
+        public override string GetInteractorName()
+        {
+            return GetName();
         }
 
         public override string GetInteractorShortDescription()
         {
             return $"Placing {GetInteractorName()}";
         }
-        
+
         public override void Build(Block block, RaycastHit raycastHit)
         {
             ConsumeRequiredResources(block);
 
             var seed = block.Seed(template);
             SetSeedRefund(seed);
+
+            ProgressManager.Get().Built(BuildingType.PowerPlant);
         }
-        
+
         public override void OnFailedToBuild(Vector3 hitPoint)
         {
             var audioController = AudioController.Get();
@@ -39,7 +46,7 @@ namespace Interactors
         public override void OnBuilt(Vector3 hitPoint)
         {
             var audioController = AudioController.Get();
-            
+
             audioController.Play(audioController.destroyBlock, audioController.destroyBlockVolume,
                 hitPoint);
         }
@@ -53,7 +60,7 @@ namespace Interactors
         {
             return false;
         }
-        
+
         public override float MaxActivationDistance()
         {
             return 60f;

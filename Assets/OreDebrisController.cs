@@ -1,30 +1,41 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class OreDebrisController : MonoBehaviour
 {
     public GameObject oreParticleTemplate;
 
-    private GameObject[] _particles;
+    private Tuple<float, Vector3, Vector3, GameObject>[] _particles;
     private GameObject _target;
     private float _cameAlive = -1f;
     private bool _killed;
     private PortGlobeController _globe;
 
-    private const float BaseSpeed = 3f;
-    private const float ParticleSpeed = 8f;
-    private const float EaseDistance = 6f;
+    private const float BaseSpeed = 6f;
+    private const float ParticleSpeed = 9f;
+    private const float EaseDistance = 2.5f;
+
+    private const float TravelTime = 3f;
 
     public void StartUp(int size)
     {
         var amount = size;
-        _particles = new GameObject[amount];
+        _particles = new Tuple<float, Vector3, Vector3, GameObject>[amount];
 
         for (int i = 0; i < amount; i++)
         {
             var particle = Instantiate(oreParticleTemplate, transform.position + Random.insideUnitSphere,
                 Random.rotation);
             particle.transform.localScale *= Random.Range(.5f, 1.5f);
-            _particles[i] = particle;
+
+            var startingPosition = particle.transform.position;
+            var randomOutwardsTarget = Vector3.Lerp(startingPosition,
+                CameraController.GetCamera().transform.position + Random.insideUnitSphere * 3f,
+                Random.Range(.25f, .4f));
+            _particles[i] =
+                new Tuple<float, Vector3, Vector3, GameObject>(Time.time, startingPosition, randomOutwardsTarget,
+                    particle);
         }
 
         _cameAlive = Time.time;
@@ -49,17 +60,19 @@ public class OreDebrisController : MonoBehaviour
 
         if (!_target) return;
 
-        foreach (var particle in _particles)
+        foreach (var (cameAlive, startingPosition, midTarget, particle) in _particles)
         {
             if (!particle) continue;
 
             var particleTransform = particle.transform;
             var targetPosition = _target.transform.position;
-            var currentPosition = particleTransform.position;
-            var currentDistance = Vector3.Distance(currentPosition, targetPosition);
-            var easedSpeed = BaseSpeed + ParticleSpeed * EasedSpeed(currentDistance);
-            var newPosition = Vector3.MoveTowards(currentPosition, targetPosition,
-                Time.deltaTime * easedSpeed);
+
+            // var travelLength = TravelTime / Vector3.Distance(startingPosition, targetPosition) * .1f;
+            var duration = Time.time - cameAlive;
+            var progress = duration / 1.25f;
+            var easedProgress = EaseOutCubic(progress);
+            var newPosition = Lerp3(startingPosition, midTarget, targetPosition, easedProgress);
+
             var newDistance = Vector3.Distance(newPosition, targetPosition);
 
             particleTransform.position = newPosition;
@@ -69,6 +82,18 @@ public class OreDebrisController : MonoBehaviour
                 _globe.OreGathered();
                 Destroy(particle);
             }
+        }
+    }
+
+    private Vector3 Lerp3(Vector3 a, Vector3 b, Vector3 c, float t)
+    {
+        if (t <= 0.5f)
+        {
+            return Vector3.Lerp(a, b, t * 2f);
+        }
+        else
+        {
+            return Vector3.Lerp(b, c, (t - 0.5f) * 2f);
         }
     }
 
@@ -86,7 +111,7 @@ public class OreDebrisController : MonoBehaviour
     private void Kill()
     {
         _killed = true;
-        foreach (var particle in _particles)
+        foreach (var (_, _, _, particle) in _particles)
         {
             if (particle) Destroy(particle);
         }

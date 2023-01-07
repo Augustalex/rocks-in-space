@@ -15,10 +15,11 @@ public class BuildingCard : MonoBehaviour
     public TMP_Text description;
 
     public Button select;
+    private ProgressLock _progressLock;
 
     public event Action Clicked;
 
-    void Start()
+    private void Start()
     {
         GetComponentInChildren<GifDisplay>().frames = GifManager.Get().FramesByBuildingType(buildingType);
 
@@ -52,6 +53,9 @@ public class BuildingCard : MonoBehaviour
         select.onClick.AddListener(SelfClicked);
         select.onClick.AddListener(WorldInteractionLock.LockInteractions);
         select.onClick.AddListener(WorldInteractionLock.LockInteractions);
+
+        _progressLock = GetComponentInChildren<ProgressLock>();
+        _progressLock.CheckLock(buildingType);
     }
 
     private void SelfClicked()

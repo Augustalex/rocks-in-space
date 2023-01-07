@@ -7,7 +7,6 @@ public class RefineryController : MonoBehaviour
     private const float InverseRate = 1.5f; // Smaller is faster
     private const int OrePerMetal = 10;
 
-
     void Start()
     {
         _planetResources = GetComponentInParent<TinyPlanetResources>();

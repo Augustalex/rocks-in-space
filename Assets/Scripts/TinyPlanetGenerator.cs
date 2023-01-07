@@ -106,8 +106,11 @@ public class TinyPlanetGenerator : MonoBehaviour
                 currentPlanet.SetNetwork(networkThatHasThePort);
                 newPlanet.SetNetwork(networkWithoutPort);
 
-                var direction = (currentPlanet.transform.position - newPlanet.transform.position).normalized;
-                currentPlanet.gameObject.GetComponent<Rigidbody>().AddForce(direction * .5f, ForceMode.Impulse);
+                var direction = (currentPlanet.GetCenter() - newPlanet.GetCenter()).normalized;
+                currentPlanet.gameObject.GetComponent<Rigidbody>().AddForce(direction * 1.5f, ForceMode.Impulse);
+
+                CurrentPlanetController.Get().ChangePlanet(currentPlanet);
+                CameraController.Get().FocusOnPlanet(currentPlanet);
             }
         }
     }

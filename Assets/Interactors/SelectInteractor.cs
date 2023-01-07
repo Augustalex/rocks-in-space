@@ -7,8 +7,6 @@ namespace Interactors
     {
         public static readonly string SelectInteractorName = "Select";
 
-        [NonSerialized] private GameObject _lastCenteredPlanet;
-
         private static SelectInteractor _instance;
         private CurrentPlanetController _currentPlanetController;
 
@@ -47,37 +45,26 @@ namespace Interactors
         public override bool CanBuild(Block block)
         {
             var cameraController = CameraController.Get();
-            var blocksPlanet = block.GetConnectedPlanet().gameObject;
+            var blocksPlanet = block.GetConnectedPlanet();
 
-            if (_lastCenteredPlanet != blocksPlanet)
+            if (CurrentPlanetController.Get().CurrentPlanet() != blocksPlanet)
             {
-                return cameraController.AvailableToUpdate()
-                       &&
-                       !block.IsSeeded(); // TODO: Why do we need to check if it is seeded or not? What does that have to do with being able to go there or not?
+                return cameraController.AvailableToUpdate();
             }
-            else
-            {
-                return block.GetRoot().GetComponentInChildren<Selectable.Selectable>();
-            }
+
+            return false;
         }
 
         public override void Build(Block block, RaycastHit raycastHit)
         {
             var cameraController = CameraController.Get();
-            var blocksPlanet = block.GetConnectedPlanet().gameObject;
+            var blocksPlanet = block.GetConnectedPlanet();
 
-            if (_lastCenteredPlanet != blocksPlanet)
+            if (CurrentPlanetController.Get().CurrentPlanet() != blocksPlanet)
             {
-                var planetBlock = block.GetConnectedPlanet().gameObject;
-                var planet = planetBlock.GetComponent<TinyPlanet>();
+                var planet = block.GetConnectedPlanet();
                 _currentPlanetController.ChangePlanet(planet);
-                _lastCenteredPlanet = planet.gameObject;
-
                 cameraController.FocusOnPlanet(planet);
-            }
-            else
-            {
-                block.GetRoot().GetComponentInChildren<Selectable.Selectable>().Select();
             }
         }
 
@@ -117,11 +104,6 @@ namespace Interactors
         public override float MaxActivationDistance()
         {
             return 2500f;
-        }
-
-        public void ForceSetLastConnectedPlanet(TinyPlanet startingPlanet)
-        {
-            _lastCenteredPlanet = startingPlanet.gameObject;
         }
     }
 }

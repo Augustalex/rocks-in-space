@@ -157,7 +157,8 @@ public class Block : MonoBehaviour, ILaserInteractable
     public float DisintegrationTime()
     {
         var balanceSettings = SettingsManager.Get().balanceSettings;
-        return _oreController.HasOre() ? balanceSettings.oreDigTime : balanceSettings.rockDigTime;
+        return .1f;
+        // return _oreController.HasOre() ? balanceSettings.oreDigTime : balanceSettings.rockDigTime;
     }
 
     public EntityOven GetOven()

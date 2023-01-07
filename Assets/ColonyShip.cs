@@ -54,13 +54,16 @@ public class ColonyShip : MonoBehaviour
                 Notifications.Get().Send(new ConvoyNotification
                     { colonyShip = this, message = "The convoy ship leaves soon." });
 
-            if (Time.time > _leaveAt)
+            if (timeLeft <= 0f)
             {
                 Notifications.Get().Send(new ConvoyNotification
                     { colonyShip = this, message = "The convoy ship has left, but another one is on it's way." });
 
-                _animator.SetTrigger(Leave);
-                _leaveAt = -1f;
+                MoveAwayNow();
+            }
+            else if (Time.time > _leaveAt)
+            {
+                MoveAwayNow();
             }
         }
     }
@@ -130,6 +133,13 @@ public class ColonyShip : MonoBehaviour
 
         _shipGone = true;
         _leaveAt = Time.time + 3f;
+    }
+
+    public void MoveAwayNow()
+    {
+        _shipGone = true;
+        _animator.SetTrigger(Leave);
+        _leaveAt = -1f;
     }
 
     public float TimeLeft()
