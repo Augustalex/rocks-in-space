@@ -85,9 +85,9 @@ public class ProgressLock : MonoBehaviour
     {
         if (PowerPlantUnlocked())
         {
-            Notifications.Get().Send(new TextNotification
+            Notifications.Get().Send(new BuildingNotification
             {
-                message = $"{PowerPlantInteractor.GetName()} building option unlocked!"
+                message = $"New building \"{PowerPlantInteractor.GetName()}\" unlocked!"
             });
             Hide();
         }
@@ -102,9 +102,9 @@ public class ProgressLock : MonoBehaviour
     {
         if (HousingUnlocked())
         {
-            Notifications.Get().Send(new TextNotification
+            Notifications.Get().Send(new BuildingNotification
             {
-                message = $"{FarmDomeInteractor.GetName()} building option unlocked!"
+                message = $"New building \"{FarmDomeInteractor.GetName()}\" unlocked!"
             });
             Hide();
         }
@@ -127,9 +127,9 @@ public class ProgressLock : MonoBehaviour
     {
         if (HousingUnlocked())
         {
-            Notifications.Get().Send(new TextNotification
+            Notifications.Get().Send(new BuildingNotification
             {
-                message = $"{ResidencyInteractor.GetName()} building option unlocked!"
+                message = $"New building \"{ResidencyInteractor.GetName()}\" unlocked!"
             });
             Hide();
         }
@@ -154,9 +154,9 @@ public class ProgressLock : MonoBehaviour
         if (progressManager.TotalColonistsCount() >=
             1000) // TODO: Perhaps this unlocking checks should happen outside the UI!! Perhaps in an update loop in the ProgressManager?
         {
-            Notifications.Get().Send(new TextNotification
+            Notifications.Get().Send(new BuildingNotification
             {
-                message = $"{ScaffoldingInteractor.GetName()} building option unlocked!"
+                message = $"New building \"{ScaffoldingInteractor.GetName()}\" unlocked!"
             });
             Hide();
         }

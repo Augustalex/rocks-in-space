@@ -116,4 +116,9 @@ public class BuildInteractorIcon : MonoBehaviour
     {
         bottomBar.HideBuildMenu();
     }
+
+    public void OpenBuildMenu()
+    {
+        bottomBar.ShowBuildMenu();
+    }
 }
