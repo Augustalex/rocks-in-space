@@ -7,6 +7,8 @@ public class ColonyShipGenerator : MonoBehaviour
     private float _spawnShipAt;
     private GameObject _ship;
 
+    private int _level = 1;
+
     void Start()
     {
         CameraController.Get().OnToggleZoom += OnToggleZoom;
@@ -72,5 +74,6 @@ public class ColonyShipGenerator : MonoBehaviour
     private void SpawnShip()
     {
         _ship = Instantiate(colonyShipTemplate, transform, false);
+        _ship.GetComponent<ColonyShip>().SetLevel(_level++);
     }
 }

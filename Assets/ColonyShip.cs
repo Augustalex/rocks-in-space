@@ -152,4 +152,24 @@ public class ColonyShip : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    public void SetLevel(int level)
+    {
+        if (level == 1)
+        {
+            colonists = 1000;
+        }
+        else if (level <= 4)
+        {
+            colonists = 2000;
+        }
+        else if (level <= 9)
+        {
+            colonists = 5000;
+        }
+        else
+        {
+            colonists = 10000;
+        }
+    }
 }
