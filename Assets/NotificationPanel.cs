@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NotificationPanel : MonoBehaviour
 {
+    private const bool EnableTimeOut = false;
     private const float Length = 20f;
 
     private bool _killed;
@@ -35,8 +36,11 @@ public class NotificationPanel : MonoBehaviour
 
     private void TimeOut()
     {
-        TimedOut?.Invoke();
-        Kill();
+        if (EnableTimeOut)
+        {
+            TimedOut?.Invoke();
+            Kill();
+        }
     }
 
     public void Kill(float delay = 0)
