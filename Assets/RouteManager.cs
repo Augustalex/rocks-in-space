@@ -38,9 +38,17 @@ public class RouteManager : MonoBehaviour
 
         void DoRemove()
         {
-            _routes.Remove(newRoute);
+            if (_routes.Contains(newRoute)) _routes.Remove(newRoute);
             newRoute.Removed -= DoRemove;
         }
+    }
+
+    public void RemoveRoute(TinyPlanet start, TinyPlanet end)
+    {
+        if (!RouteExists(start, end)) return;
+
+        var existingRoute = GetRoute(start, end);
+        existingRoute.Remove();
     }
 
     public bool RouteExists(TinyPlanet start, TinyPlanet end)

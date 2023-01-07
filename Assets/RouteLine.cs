@@ -40,6 +40,24 @@ public class RouteLine : MonoBehaviour
         _arrowMaterial.SetFloat(ResourceType, (int)routeResourceType);
     }
 
+    public void LinkBetween(Route route)
+    {
+        _route = route;
+        var planetRegistry = PlanetsRegistry.Get();
+        var start = planetRegistry.FindPlanetById(route.StartPlanetId);
+        if (!start) return;
+
+        var destination = planetRegistry.FindPlanetById(route.DestinationPlanetId);
+        if (!destination) return;
+
+        var (inboundOrNull, outboundOrNull) = RouteManager.Get().GetRoutesBetween(start, destination);
+        LinkBetween(start, destination, inboundOrNull != null, HasPriority(inboundOrNull, outboundOrNull));
+        SetIsActive(route.IsActive());
+        SetResourceType(route.ResourceType);
+
+        _route.Removed += OnRouteRemoved;
+    }
+
     public void LinkBetween(TinyPlanet start, TinyPlanet end, bool planetHasInboundFromSource, bool planetHasPriority)
     {
         var startPosition = start.GetCenter();
@@ -64,22 +82,6 @@ public class RouteLine : MonoBehaviour
         arrowPivot.transform.position = endPosition - arrowPivot.transform.forward * 26f;
     }
 
-    public void LinkBetween(Route route)
-    {
-        _route = route;
-        var planetRegistry = PlanetsRegistry.Get();
-        var start = planetRegistry.FindPlanetById(route.StartPlanetId);
-        if (!start) return;
-
-        var destination = planetRegistry.FindPlanetById(route.DestinationPlanetId);
-        if (!destination) return;
-
-        var (inboundOrNull, outboundOrNull) = RouteManager.Get().GetRoutesBetween(start, destination);
-        LinkBetween(start, destination, inboundOrNull != null, HasPriority(inboundOrNull, outboundOrNull));
-        SetIsActive(route.IsActive());
-        SetResourceType(route.ResourceType);
-    }
-
     private bool HasPriority(Route inboundOrNull, Route outboundOrNull)
     {
         if (inboundOrNull == null) return false;
@@ -90,8 +92,37 @@ public class RouteLine : MonoBehaviour
 
     public void RemoveLine()
     {
-        _route.Remove();
+        _route.Remove(); // Eventually triggers OnRouteRemoved();
+    }
+
+    private void OnRouteRemoved()
+    {
+        ClearLineDisplay();
+    }
+
+    private void ClearLineDisplay()
+    {
         Removed?.Invoke();
         Destroy(gameObject);
+    }
+
+    public void EditRoute()
+    {
+        var planetRegistry = PlanetsRegistry.Get();
+        var start = planetRegistry.FindPlanetById(_route.StartPlanetId);
+        if (!start)
+        {
+            RemoveLine();
+            return;
+        }
+
+        var destination = planetRegistry.FindPlanetById(_route.DestinationPlanetId);
+        if (!destination)
+        {
+            RemoveLine();
+            return;
+        }
+
+        RouteEditor.Get().EditRoute(start, destination);
     }
 }

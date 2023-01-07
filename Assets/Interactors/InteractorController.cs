@@ -246,6 +246,12 @@ namespace Interactors
                     return;
                 }
 
+                if (hit.collider.CompareTag("TradeLine"))
+                {
+                    hit.collider.GetComponentInParent<RouteLine>().EditRoute();
+                    return;
+                }
+
                 if (hit.distance <= interactorModule.MaxActivationDistance())
                 {
                     var parent = hit.collider.GetComponentInParent<BlockRoot>();

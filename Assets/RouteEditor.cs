@@ -8,9 +8,11 @@ public class RouteEditor : MonoBehaviour
     private TinyPlanet _start;
     private TinyPlanetResources.PlanetResourceType _resourceType = TinyPlanetResources.PlanetResourceType.Ore;
     private float _started;
+    private TinyPlanet _end;
 
     public event Action<TinyPlanet> RouteStarted;
     public event Action RouteCancelled;
+    public event Action RouteDestinationSelected;
     public event Action<TinyPlanet, TinyPlanet> RouteFinished;
 
     public static RouteEditor Get()
@@ -43,7 +45,7 @@ public class RouteEditor : MonoBehaviour
         }
     }
 
-    private void CancelEditing()
+    public void CancelEditing()
     {
         Reset();
         RouteCancelled?.Invoke();
@@ -72,6 +74,12 @@ public class RouteEditor : MonoBehaviour
         return _start != null;
     }
 
+    public void EditRoute(TinyPlanet start, TinyPlanet end)
+    {
+        SelectRouteStart(start);
+        SelectRouteDestination(end);
+    }
+
     public void SelectRouteDestination(TinyPlanet end)
     {
         if (!IsValidDestination(end))
@@ -80,23 +88,29 @@ public class RouteEditor : MonoBehaviour
         }
         else
         {
-            var routeManager = RouteManager.Get();
-            if (!routeManager.RouteExists(_start, end))
-            {
-                routeManager.AddRoute(_start, end);
-            }
-
-            routeManager.SetTrade(_start, end, _resourceType, TradeAmountForResource(_resourceType));
-
-            RouteFinished?.Invoke(_start, end);
-            Reset();
+            _end = end;
+            RouteDestinationSelected?.Invoke();
         }
+    }
+
+    public void ConfirmRoute()
+    {
+        var routeManager = RouteManager.Get();
+        if (!routeManager.RouteExists(_start, _end))
+        {
+            routeManager.AddRoute(_start, _end);
+        }
+
+        routeManager.SetTrade(_start, _end, _resourceType, TradeAmountForResource(_resourceType));
+
+        RouteFinished?.Invoke(_start, _end);
+        Reset();
     }
 
     private float TradeAmountForResource(TinyPlanetResources.PlanetResourceType resourceType)
     {
         var balanceSettings = SettingsManager.Get().balanceSettings;
-        
+
         switch (resourceType)
         {
             case TinyPlanetResources.PlanetResourceType.Ore:
@@ -131,5 +145,10 @@ public class RouteEditor : MonoBehaviour
     public TinyPlanetResources.PlanetResourceType GetSelectedResourceType()
     {
         return _resourceType;
+    }
+
+    public TinyPlanet GetRouteDestination()
+    {
+        return _end;
     }
 }

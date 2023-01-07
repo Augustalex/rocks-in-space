@@ -15,7 +15,7 @@ public class RouteEditorLine : MonoBehaviour
         _routeEditor = RouteEditor.Get();
 
         _routeEditor.RouteStarted += RouteStarted;
-        _routeEditor.RouteFinished += RouteFinished;
+        _routeEditor.RouteDestinationSelected += RouteFinished;
         _routeEditor.RouteCancelled += RouteCancelled;
     }
 
@@ -24,7 +24,7 @@ public class RouteEditorLine : MonoBehaviour
         ResetAndHideLine();
     }
 
-    private void RouteFinished(TinyPlanet start, TinyPlanet end)
+    private void RouteFinished()
     {
         ResetAndHideLine();
     }
