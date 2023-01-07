@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour
     private const float ZoomedOutSpeed = 320f;
 
     private const float ZoomedInDistance = 28f;
-    private const float MinZoomedInDistance = 16f;
+    private const float MinZoomedInDistance = 12f;
     private const float MaxZoomedInDistance = 90f;
     private const float ZoomedInSpeed = 10f;
 

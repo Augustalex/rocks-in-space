@@ -58,6 +58,11 @@ namespace Interactors
                 return "Asteroid needs a Beacon before anything can be done here!";
             }
 
+            if (!block.CanSeed())
+            {
+                return "Can't build here!";
+            }
+
             if (!HasEnoughResourceToBuild(block))
             {
                 var (neededResource, costAmount) = CheckMostUrgentResourceRequirement(block);
