@@ -100,8 +100,17 @@ public class Block : MonoBehaviour, ILaserInteractable
     {
         if (_seed)
         {
-            if (!_seedOverridable) return null;
-            Destroy(_seed);
+            if (_seedOverridable)
+            {
+                _seedOverridable =
+                    false; // The overridable seed will no be replaced by a seed that might not be overridable.
+                Destroy(_seed);
+            }
+            else
+            {
+                Debug.LogError("Tried to seed on a block that is not overridable");
+                return null; // Cannot seed if the seed is not overridable.
+            }
         }
 
         KillOre();

@@ -1,3 +1,5 @@
+using System;
+using GameNotifications;
 using UnityEngine;
 
 public class ColonyShip : MonoBehaviour
@@ -18,19 +20,24 @@ public class ColonyShip : MonoBehaviour
     private static readonly int IsSelected = Shader.PropertyToID("_IsSelected");
     private static readonly int InMapView = Shader.PropertyToID("_InMapView");
 
-    void Start()
+    private void Awake()
     {
         _arrived = Time.time;
         _waitLength = 10f * 60f;
 
         _animator = GetComponent<Animator>();
         _landmarkMaterial = landmarkRenderer.material;
+    }
 
+    void Start()
+    {
         var cameraController = CameraController.Get();
         cameraController.OnToggleZoom += OnToggleZoom;
         _landmarkMaterial.SetInt(InMapView, cameraController.IsZoomedOut() ? 1 : 0);
-
         CurrentPlanetController.Get().CurrentPlanetChanged += OnPlanetChanged;
+
+        Notifications.Get().Send(new ConvoyNotification
+            { colonyShip = this, message = "A convoy has arrived with some colonists that wants to settle." });
     }
 
     private void OnToggleZoom(bool zoomedOut)
@@ -40,10 +47,21 @@ public class ColonyShip : MonoBehaviour
 
     void Update()
     {
-        if (_leaveAt > 0f && Time.time > _leaveAt)
+        if (_leaveAt > 0f)
         {
-            _animator.SetTrigger(Leave);
-            _leaveAt = -1f;
+            var timeLeft = TimeLeft();
+            if (timeLeft <= (60f * 5))
+                Notifications.Get().Send(new ConvoyNotification
+                    { colonyShip = this, message = "The convoy ship leaves soon." });
+
+            if (Time.time > _leaveAt)
+            {
+                Notifications.Get().Send(new ConvoyNotification
+                    { colonyShip = this, message = "The convoy ship has left, but another one is on it's way." });
+
+                _animator.SetTrigger(Leave);
+                _leaveAt = -1f;
+            }
         }
     }
 

@@ -1,13 +1,13 @@
 ﻿namespace GameNotifications
 {
-    public class PlanetNotification : Notification
+    public class ConvoyNotification : Notification
     {
-        public TinyPlanet location;
+        public ColonyShip colonyShip;
 
         public override void Accept()
         {
-            CurrentPlanetController.Get().ChangePlanet(location);
-            CameraController.Get().FocusOnPlanet(location);
+            CurrentPlanetController.Get().FocusOnShip(colonyShip);
+            CameraController.Get().FocusOnShip(colonyShip);
 
             _status = NotificationStatus.Accepted;
         }
