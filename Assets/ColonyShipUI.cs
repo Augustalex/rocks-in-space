@@ -121,7 +121,7 @@ public class ColonyShipUI : MonoBehaviour
             rewardText.gameObject.SetActive(false);
         }
 
-        requirementText.text = $"Requirements:\n{ship.colonists} housing";
+        requirementText.text = $"Requirements:\n{ship.colonists} housing\nPower\nFood";
 
 
         var suitablePlanets = GetSuitablePlanets(ship);

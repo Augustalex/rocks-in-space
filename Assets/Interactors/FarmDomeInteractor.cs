@@ -12,12 +12,12 @@ namespace Interactors
 
         public override string GetInteractorName()
         {
-            return "Farm Dome";
+            return "Farms";
         }
 
         public override string GetInteractorShortDescription()
         {
-            return $"Place {GetInteractorName()}";
+            return $"Placing {GetInteractorName()}";
         }
 
         public override void Build(Block block, RaycastHit raycastHit)

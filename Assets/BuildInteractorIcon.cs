@@ -7,6 +7,7 @@ public class BuildInteractorIcon : MonoBehaviour
     private IconToggle _toggle;
 
     public GameObject buildMenu;
+    public BottomBarController bottomBar;
 
     private enum BuildMenuState
     {
@@ -35,7 +36,8 @@ public class BuildInteractorIcon : MonoBehaviour
             buildingCard.Clicked += BuildingSelected;
         }
 
-        buildMenu.SetActive(false);
+        // bottomBar.HideBuildMenu();
+        // buildMenu.SetActive(false);
     }
 
     void Start()
@@ -48,7 +50,10 @@ public class BuildInteractorIcon : MonoBehaviour
 
     private void OnToggle()
     {
-        buildMenu.SetActive(!buildMenu.activeSelf);
+        // buildMenu.SetActive(!buildMenu.activeSelf);
+        if (bottomBar.BuildMenuVisible()) bottomBar.HideBuildMenu();
+        else bottomBar.ShowBuildMenu();
+
         UpdateStates();
     }
 
@@ -87,7 +92,7 @@ public class BuildInteractorIcon : MonoBehaviour
                 _toggle.SetOff();
                 break;
             case BuildMenuState.ForceClosed:
-                if (buildMenu.activeSelf) buildMenu.SetActive(false);
+                bottomBar.HideBuildMenu();
                 _toggle.SetOff();
                 _toggle.gameObject.SetActive(false);
                 break;
@@ -98,17 +103,17 @@ public class BuildInteractorIcon : MonoBehaviour
 
     private void BuildingSelected()
     {
-        buildMenu.SetActive(false);
+        bottomBar.HideBuildMenu();
         UpdateStates();
     }
 
     public bool IsBuildMenuOpen()
     {
-        return buildMenu.activeSelf;
+        return bottomBar.BuildMenuVisible();
     }
 
     public void CloseBuildMenu()
     {
-        buildMenu.SetActive(false);
+        bottomBar.HideBuildMenu();
     }
 }

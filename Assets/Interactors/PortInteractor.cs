@@ -16,7 +16,7 @@ namespace Interactors
 
         public override string GetInteractorShortDescription()
         {
-            return "Place Beacon to establish a settlement";
+            return "Placing Beacon";
         }
 
         public override bool CanBuild(Block block)

@@ -57,7 +57,7 @@ public class ColonyShip : MonoBehaviour
         if (CurrentPlanetController.Get().CurrentShip() == this)
         {
             var cameraController = CameraController.Get();
-            if(cameraController.IsZoomedOut()) cameraController.ToggleZoomMode();
+            if (cameraController.IsZoomedOut()) cameraController.ToggleZoomMode();
         }
         else
         {
@@ -82,7 +82,9 @@ public class ColonyShip : MonoBehaviour
 
     public bool PlanetMeetRequirements(TinyPlanet planet)
     {
-        return planet.GetResources().HasSpaceForInhabitants(colonists);
+        return planet.GetResources().HasSpaceForInhabitants(colonists)
+               && planet.GetResources().GetEnergy() >= 0
+               && planet.GetResources().GetFood() > 0;
     }
 
     public void MoveInTo(TinyPlanet suitablePlanet)

@@ -23,7 +23,7 @@ public class TinyPlanetResources : MonoBehaviour
             case PlanetResourceType.Ore: return "Ore";
             case PlanetResourceType.Metals: return "Metals";
             case PlanetResourceType.Gadgets: return "Gadgets";
-            case PlanetResourceType.Energy: return "Energy";
+            case PlanetResourceType.Energy: return "Power";
             case PlanetResourceType.Food: return "Food";
             case PlanetResourceType.Inhabitants: return "Colonists";
             case PlanetResourceType.Housing: return "Housing";
@@ -39,6 +39,8 @@ public class TinyPlanetResources : MonoBehaviour
         public float Energy;
         public float Food;
         public int Inhabitants;
+        public float Metals;
+        public float Gadgets;
     }
 
     private const int InhabitantsPerResidency = 100;
@@ -218,6 +220,8 @@ public class TinyPlanetResources : MonoBehaviour
         return new ResourcesData
         {
             Ore = GetOre(),
+            Metals = GetMetals(),
+            Gadgets = GetGadgets(),
             Energy = GetEnergy(),
             Food = GetFood(),
             Inhabitants = GetInhabitants()

@@ -164,7 +164,7 @@ public class BuildingCard : MonoBehaviour
             $"{costData.gadgets} gadgets";
         upkeep.text = $"Upkeep: {effect.energy} energy  {controller.foodPerMinute} food/min";
         description.text =
-            $"Generates {controller.cashPerMinute}c/min in taxes when colonists have moved in and food and energy needs are satisfied.";
+            $"Generates {controller.cashPerMinute}c/min in taxes when colonists have moved in and food and energy needs are satisfied. Houses a 1000 colonists.";
     }
 
     private void Platform()

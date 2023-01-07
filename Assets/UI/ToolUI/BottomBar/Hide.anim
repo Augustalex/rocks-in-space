@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PlanetInfoFadeOut
+  m_Name: Hide
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -23,20 +23,20 @@ AnimationClip:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: -1189.117
-        outSlope: -1189.117
-        tangentMode: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.05610446
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 150
-        inSlope: -536.3462
-        outSlope: -536.3462
-        tangentMode: 0
+        value: -280
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
-        inWeight: 0.046224177
+        inWeight: 0.33333334
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -88,20 +88,20 @@ AnimationClip:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: -1189.117
-        outSlope: -1189.117
-        tangentMode: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.05610446
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 150
-        inSlope: -536.3462
-        outSlope: -536.3462
-        tangentMode: 0
+        value: -280
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
-        inWeight: 0.046224177
+        inWeight: 0.33333334
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2

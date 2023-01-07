@@ -54,6 +54,7 @@ public class InteractorIcon : MonoBehaviour
 
     private void DigToggle()
     {
+        Debug.Log("DIG TOGGLE");
         var interactorController = InteractorController.Get();
         if (interactorController.CurrentModule().GetInteractorType() == InteractorType.Dig)
         {
@@ -125,7 +126,6 @@ public class InteractorIcon : MonoBehaviour
     {
         var interactor = InteractorController.Get().CurrentModule();
         var zoomedOut = CameraController.Get().IsZoomedOut();
-
         if (zoomedOut)
         {
             _interactorIconState = InteractorIconState.ForceInactive;
@@ -161,7 +161,7 @@ public class InteractorIcon : MonoBehaviour
 
         if (zoomedOut)
         {
-            _interactorIconState = InteractorIconState.Inactive;
+            _interactorIconState = InteractorIconState.ForceInactive;
         }
         else if (interactor.GetInteractorType() == InteractorType.Select)
         {

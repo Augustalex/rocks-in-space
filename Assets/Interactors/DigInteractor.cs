@@ -38,7 +38,7 @@ namespace Interactors
 
         public override string GetInteractorShortDescription()
         {
-            return "Shoot at rocks to dig";
+            return "Laser active";
         }
 
         public bool Started()

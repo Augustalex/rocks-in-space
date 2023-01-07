@@ -16,7 +16,7 @@ namespace Interactors
 
         public override string GetInteractorShortDescription()
         {
-            return $"Place {GetInteractorName()}";
+            return $"Placing {GetInteractorName()}";
         }
 
         public override bool CanBuild(Block block)

@@ -11,14 +11,14 @@ namespace Interactors
 
         public override string GetInteractorName()
         {
-            return "Residency module";
+            return "Housing";
         }
 
         public override string GetInteractorShortDescription()
         {
-            return $"Place {GetInteractorName()}";
+            return $"Placing {GetInteractorName()}";
         }
-        
+
         public override void Build(Block block, RaycastHit raycastHit)
         {
             ConsumeRequiredResources(block);
@@ -35,7 +35,7 @@ namespace Interactors
         public override void OnBuilt(Vector3 hitPoint)
         {
             var audioController = AudioController.Get();
-            
+
             audioController.Play(audioController.destroyBlock, audioController.destroyBlockVolume,
                 hitPoint);
         }
@@ -52,7 +52,7 @@ namespace Interactors
         {
             return false;
         }
-        
+
         public override float MaxActivationDistance()
         {
             return 60f;

@@ -57,7 +57,7 @@ namespace GameNotifications
             {
                 if (newData.Inhabitants > 0)
                 {
-                    if (newData.Food <= 10f)
+                    if (newData.Food <= 0f)
                     {
                         GenerateLowFoodAlert();
                     }
@@ -69,6 +69,18 @@ namespace GameNotifications
                 if (newData.Ore <= 0f)
                 {
                     GenerateNoMoreOreAlert();
+                }
+            }
+            
+            if (Math.Abs(newData.Inhabitants - _previousResources.Inhabitants) > .5f)
+            {
+                if (newData.Energy <= 0f)
+                {
+                    GenerateFreezingColonistsAlert();
+                }
+                else if (newData.Food <= 0f)
+                {
+                    GenerateLowFoodAlert();
                 }
             }
 
