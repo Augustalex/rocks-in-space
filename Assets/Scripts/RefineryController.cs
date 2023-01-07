@@ -4,7 +4,7 @@ using UnityEngine;
 public class RefineryController : MonoBehaviour
 {
     private TinyPlanetResources _planetResources;
-    private const float InverseRate = 1.5f; // Smaller is faster
+    private const float InverseRate = 2f; // Smaller is faster
     private const int OrePerMetal = 10;
 
     void Start()
