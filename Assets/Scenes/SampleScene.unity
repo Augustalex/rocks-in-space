@@ -4682,7 +4682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23d1560133936b94b8a94c72f54105cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cinematicOpening: 0
+  cinematicOpening: 1
 --- !u!114 &1687258587
 MonoBehaviour:
   m_ObjectHideFlags: 0

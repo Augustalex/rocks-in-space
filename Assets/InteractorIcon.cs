@@ -54,16 +54,8 @@ public class InteractorIcon : MonoBehaviour
 
     private void DigToggle()
     {
-        Debug.Log("DIG TOGGLE");
         var interactorController = InteractorController.Get();
-        if (interactorController.CurrentModule().GetInteractorType() == InteractorType.Dig)
-        {
-            interactorController.SetInteractorByInteractorType(InteractorType.Select);
-        }
-        else
-        {
-            interactorController.SetInteractorByInteractorType(InteractorType.Dig);
-        }
+        interactorController.SetInteractorByInteractorType(InteractorType.Dig);
     }
 
     private void MapToggle()
