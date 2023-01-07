@@ -64,4 +64,14 @@ public class PortController : MonoBehaviour
         var connectedPlanet = GetComponentInParent<TinyPlanet>();
         return connectedPlanet;
     }
+
+    public GameObject GetTarget()
+    {
+        return GetComponentInParent<BlockRoot>().gameObject;
+    }
+
+    public PortGlobeController GetGlobe()
+    {
+        return GetComponent<PortGlobeController>();
+    }
 }

@@ -4,6 +4,8 @@ using Random = UnityEngine.Random;
 public class OreVein : MonoBehaviour
 {
     private int _resources = 0;
+    
+    public static int OrePerBlock = 25;
 
     private void Start()
     {
@@ -21,7 +23,7 @@ public class OreVein : MonoBehaviour
             onCount += 1;
         }
 
-        _resources += onCount * 25;
+        _resources += onCount * OrePerBlock;
     }
 
     public int Collect()

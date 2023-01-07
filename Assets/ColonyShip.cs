@@ -107,7 +107,14 @@ public class ColonyShip : MonoBehaviour
 
     public void MoveInTo(TinyPlanet suitablePlanet)
     {
+        if (_shipGone) return;
+
         suitablePlanet.GetResources().AddColonists(colonists);
+
+        Notifications.Get().Send(new PlanetNotification
+        {
+            location = suitablePlanet, message = $"{colonists} colonists have moved in to {suitablePlanet.planetName}!"
+        });
 
         MoveAway();
     }

@@ -35,9 +35,25 @@ public class OreController : MonoBehaviour
     public void Mine(TinyPlanet planet)
     {
         var planetResources = planet.GetComponent<TinyPlanetResources>();
-        planetResources.AddOre(_oreVein.Collect());
+        var oreAmount = _oreVein.Collect();
+        planetResources.AddOre(oreAmount);
+
+        SpawnOreDebris(planet, oreAmount / OreVein.OrePerBlock);
 
         DestroyOre();
+    }
+
+    private void SpawnOreDebris(TinyPlanet planet, int oreAmount)
+    {
+        var blockRoot = GetComponentInParent<BlockRoot>();
+        var blockTransform = blockRoot.transform;
+        var position = blockTransform.position;
+        var rotation = blockTransform.rotation;
+        var oreDebris = Instantiate(PrefabTemplateLibrary.Get().oreDebrisTemplate, position, rotation);
+
+        var oreDebrisController = oreDebris.GetComponent<OreDebrisController>();
+        oreDebrisController.SetTarget(planet.GetPort());
+        oreDebrisController.StartUp(oreAmount);
     }
 
     public bool HasOre()
