@@ -11,7 +11,7 @@ public class OreVein : MonoBehaviour
         var onCount = 0;
         foreach (var meshRenderer in pieces)
         {
-            if (Random.value < .6f) meshRenderer.gameObject.SetActive(false);
+            if (Random.value < .45f) meshRenderer.gameObject.SetActive(false);
             else onCount += 1;
         }
 
@@ -21,7 +21,7 @@ public class OreVein : MonoBehaviour
             onCount += 1;
         }
 
-        _resources += onCount * 50;
+        _resources += onCount * 25;
     }
 
     public int Collect()

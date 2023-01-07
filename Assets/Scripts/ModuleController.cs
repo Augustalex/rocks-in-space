@@ -11,7 +11,6 @@ public class ModuleController : MonoBehaviour
     private float _life = 100f;
     private ResourceEffect _resourceEffect;
 
-    // public const float FoodUsedPerMinute = 120f;
     private const float LifeLossPerSecond = 100f / 60f;
 
     public float

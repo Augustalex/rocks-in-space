@@ -1,34 +1,31 @@
+using System.Collections;
 using UnityEngine;
 
 public class FactoryController : MonoBehaviour
 {
     private TinyPlanetResources _planetResources;
-    private const double Rate = 1f;
-    private const int MetalThreshold = 2;
-    private const int GadgetGain = 1;
-    private double _cooldown = 0;
+    private const float InverseRate = 1f; // Smaller is faster
+    private const int MetalsPerGadget = 10;
 
     void Start()
     {
         _planetResources = GetComponentInParent<TinyPlanetResources>();
+
+        StartCoroutine(Check());
     }
 
-    void Update()
+    private IEnumerator Check()
     {
-        if (_cooldown >= 1f)
+        while (gameObject != null)
         {
-            _cooldown = 0;
+            yield return new WaitForSeconds(InverseRate);
 
             var metals = _planetResources.GetMetals();
-            if (metals >= MetalThreshold)
+            if (metals >= MetalsPerGadget)
             {
-                _planetResources.RemoveMetals(MetalThreshold);
-                _planetResources.AddGadgets(GadgetGain);
+                _planetResources.RemoveMetals(MetalsPerGadget);
+                _planetResources.AddGadgets(1);
             }
-        }
-        else
-        {
-            _cooldown += Rate * Time.deltaTime;
         }
     }
 }
