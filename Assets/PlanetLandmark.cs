@@ -57,7 +57,7 @@ public class PlanetLandmark : MonoBehaviour
 
     public void Hover()
     {
-        if (_planet.HasPort()) HandleHoverPopup();
+        if (_planet.HasPort() && !RouteEditor.Get().IsEditing()) HandleHoverPopup();
     }
 
     private void HandleHoverPopup()

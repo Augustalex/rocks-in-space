@@ -8,7 +8,9 @@ public class EscapeController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (ErrorDisplay.Get().IsVisible() || PlanetPopup.Get().IsVisible()) PopupManager.Get().CancelAllPopups();
+            if (TradeMenu.Get().Visible()) TradeMenu.Get().Dismiss();
+            else if (ErrorDisplay.Get().IsVisible() || PlanetPopup.Get().IsVisible())
+                PopupManager.Get().CancelAllPopups();
             else if (BuildInteractorIcon.Get().IsBuildMenuOpen())
             {
                 BuildInteractorIcon.Get().CloseBuildMenu();

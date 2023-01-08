@@ -56,7 +56,7 @@ public class TradeMenu : MonoBehaviour
             return;
         }
 
-        tradeRouteText.text = $"{start.planetName} <i>to</i> {end.planetName}";
+        tradeRouteText.text = $"{start.planetName} <b>to</b> {end.planetName}";
 
         var existingRoute = _routeManager.RouteExists(start, end) ? _routeManager.GetRoute(start, end) : null;
 
@@ -66,12 +66,14 @@ public class TradeMenu : MonoBehaviour
         confirm.GetComponentInChildren<TMP_Text>().text = existingRoute != null ? "Update" : "Create";
 
         WorldInteractionLock.LockInteractionsUntilUnlocked();
+        CameraController.Get().LockControls();
         gameObject.SetActive(true);
     }
 
     public void Hide()
     {
         WorldInteractionLock.UnlockInteractions();
+        CameraController.Get().UnlockControls();
         gameObject.SetActive(false);
     }
 
@@ -98,5 +100,10 @@ public class TradeMenu : MonoBehaviour
     {
         _routeEditor.CancelEditing();
         Hide();
+    }
+
+    public bool Visible()
+    {
+        return gameObject.activeSelf;
     }
 }

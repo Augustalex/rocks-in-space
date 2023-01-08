@@ -6,7 +6,7 @@ public class RouteLine : MonoBehaviour
     public GameObject linePivot;
     public GameObject arrowPivot;
 
-    public event Action Removed;
+    public event Action RouteRemoved;
 
     private MeshRenderer _lineMeshRenderer;
     private MeshRenderer _arrowMeshRenderer;
@@ -54,8 +54,6 @@ public class RouteLine : MonoBehaviour
         LinkBetween(start, destination, inboundOrNull != null, HasPriority(inboundOrNull, outboundOrNull));
         SetIsActive(route.IsActive());
         SetResourceType(route.ResourceType);
-
-        _route.Removed += OnRouteRemoved;
     }
 
     public void LinkBetween(TinyPlanet start, TinyPlanet end, bool planetHasInboundFromSource, bool planetHasPriority)
@@ -92,24 +90,7 @@ public class RouteLine : MonoBehaviour
 
     public void RemoveLine()
     {
-        _route.Remove(); // Eventually triggers OnRouteRemoved();
-    }
-
-    private void OnRouteRemoved()
-    {
-        ClearLineDisplay();
-    }
-
-    private void ClearLineDisplay()
-    {
-        if (gameObject == null)
-        {
-            Debug.LogError("Trying to clear line that has already been cleared.");
-            return;
-        }
-
-        Removed?.Invoke();
-        Destroy(gameObject);
+        RouteRemoved?.Invoke();
     }
 
     public void EditRoute()
@@ -130,5 +111,10 @@ public class RouteLine : MonoBehaviour
         }
 
         RouteEditor.Get().EditRoute(start, destination);
+    }
+
+    public void DestroySelf()
+    {
+        Destroy(gameObject);
     }
 }

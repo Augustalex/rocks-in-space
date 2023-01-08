@@ -73,24 +73,20 @@ public class PlanetRouteLines : MonoBehaviour
 
         var line = Instantiate(PrefabTemplateLibrary.Get().routeLineTemplate);
         var lineController = line.GetComponent<RouteLine>();
-        lineController.LinkBetween(planetRoute);
-
         var lineMemo = new Tuple<RouteLine, Route>(lineController, planetRoute);
         _lines.Add(lineMemo);
-        lineController.Removed += DoRemove;
 
-        void DoRemove()
-        {
-            _lines.Remove(lineMemo);
-            lineController.Removed -= DoRemove;
-        }
+        lineController.LinkBetween(planetRoute);
+        planetRoute.Removed += RefreshLines;
+        lineController.RouteRemoved += planetRoute.Remove;
     }
 
     private void ClearRouteLines()
     {
         foreach (var (lineController, route) in _lines)
         {
-            Destroy(lineController.gameObject);
+            route.Removed -= RefreshLines;
+            lineController.DestroySelf();
         }
 
         _lines.Clear();

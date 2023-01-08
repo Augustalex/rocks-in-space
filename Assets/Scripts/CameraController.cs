@@ -37,6 +37,7 @@ public class CameraController : MonoBehaviour
     private bool _zoomedOut;
     private MapPopupTarget _currentTarget;
     private bool _hitLimit;
+    private bool _locked;
 
     public event Action<bool> OnToggleZoom;
     public event Action OnNavigationStarted;
@@ -60,6 +61,16 @@ public class CameraController : MonoBehaviour
     public static Camera GetCamera()
     {
         return _instance._camera;
+    }
+
+    public void LockControls()
+    {
+        _locked = true;
+    }
+
+    public void UnlockControls()
+    {
+        _locked = false;
     }
 
     void Start()
@@ -400,5 +411,10 @@ public class CameraController : MonoBehaviour
     public void ZoomIn()
     {
         if (IsZoomedOut()) ToggleZoomMode();
+    }
+
+    public bool ControlsLocked()
+    {
+        return _locked;
     }
 }
