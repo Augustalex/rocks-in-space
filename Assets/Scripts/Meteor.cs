@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameNotifications;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -52,6 +53,12 @@ public class Meteor : MonoBehaviour
         {
             if (block.IsSeeded())
             {
+                var connectedPlanet = block.GetConnectedPlanet();
+                Notifications.Get().Send(new PlanetNotification
+                {
+                    location = connectedPlanet, message =
+                        $"A building was destroyed by a meteor at {connectedPlanet.planetName}."
+                });
                 block.DestroyedByNonPlayer();
             }
             else

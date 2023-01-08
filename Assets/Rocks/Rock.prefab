@@ -131,10 +131,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockBaseMesh
       objectReference: {fileID: 0}
-    - target: {fileID: 2251497726763565268, guid: 5ae0a9327f29d2b4ca06bc9ec7e56a50, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7819359677714221926, guid: 5ae0a9327f29d2b4ca06bc9ec7e56a50, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -179,8 +175,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4393262045535175586, guid: 5ae0a9327f29d2b4ca06bc9ec7e56a50, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ae0a9327f29d2b4ca06bc9ec7e56a50, type: 3}
 --- !u!4 &6494279202604831165 stripped
 Transform:

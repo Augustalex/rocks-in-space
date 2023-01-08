@@ -4,8 +4,8 @@ using UnityEngine;
 public class RefineryController : MonoBehaviour
 {
     private TinyPlanetResources _planetResources;
-    private const float InverseRate = 2f; // Smaller is faster
-    private const int OrePerMetal = 10;
+    private const float IterationDelay = 4f;
+    private const int OrePerMetal = 1;
 
     void Start()
     {
@@ -17,7 +17,7 @@ public class RefineryController : MonoBehaviour
     {
         while (gameObject != null)
         {
-            yield return new WaitForSeconds(InverseRate);
+            yield return new WaitForSeconds(IterationDelay);
 
             var ore = _planetResources.GetOre();
             if (ore >= OrePerMetal)

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class TinyPlanetResources : MonoBehaviour
@@ -82,14 +81,6 @@ public class TinyPlanetResources : MonoBehaviour
         return 0f;
     }
 
-    private void Update()
-    {
-        // if (CurrentPlanetController.Get().CurrentPlanet()?.GetResources() == this && Input.GetKeyDown(KeyCode.G))
-        // {
-        //     AddGadgets(1000);
-        // }
-    }
-
     public float GetOre()
     {
         return _ore;
@@ -171,10 +162,13 @@ public class TinyPlanetResources : MonoBehaviour
         _occupiedResidencies += 1;
     }
 
-    public void KillResidencyInhabitants()
+    public int RemoveResidencyInhabitants()
     {
-        _inhabitants -= InhabitantsPerResidency;
+        var toRemove = InhabitantsPerResidency;
+        _inhabitants -= toRemove;
         _occupiedResidencies -= 1;
+
+        return toRemove;
     }
 
     public int GetVacantHousing()

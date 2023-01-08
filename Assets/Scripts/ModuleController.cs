@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
+[RequireComponent(typeof(AttachedToPlanet))]
 [RequireComponent(typeof(ResourceEffect))]
 public class ModuleController : MonoBehaviour
 {
@@ -10,6 +10,7 @@ public class ModuleController : MonoBehaviour
     private bool _occupied;
     private float _life = 100f;
     private ResourceEffect _resourceEffect;
+    private AttachedToPlanet _planetAttachment;
 
     private const float LifeLossPerSecond = 100f / 60f;
 
@@ -26,7 +27,8 @@ public class ModuleController : MonoBehaviour
 
         _resourceEffect = GetComponent<ResourceEffect>();
         _planetResources = _resourceEffect.GetAttachedPlanet();
-        _resourceEffect.DetachedFrom += OnResourceEffectDetached;
+        _planetAttachment = GetComponent<AttachedToPlanet>();
+        _planetAttachment.TransferredFromTo += OnPlanetTransfer;
     }
 
     void Update()
@@ -65,7 +67,7 @@ public class ModuleController : MonoBehaviour
                     {
                         // This random number will help make sure not all houses die on the same frame.
                         // It gives the player more breathing room, but also a bigger chance to the needs to balance out before to many people die.
-                        _planetResources.KillResidencyInhabitants();
+                        _planetResources.RemoveResidencyInhabitants();
                         _occupied = false;
                     }
                 }
@@ -91,11 +93,12 @@ public class ModuleController : MonoBehaviour
         }
     }
 
-    private void OnResourceEffectDetached(TinyPlanetResources resources)
+    private void OnPlanetTransfer(TinyPlanetResources from, TinyPlanetResources to)
     {
         if (_occupied)
         {
-            _planetResources.KillResidencyInhabitants();
+            var removed = from.RemoveResidencyInhabitants();
+            to.AddColonists(removed);
         }
     }
 }

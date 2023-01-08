@@ -1,14 +1,20 @@
 using UnityEngine;
 
+[RequireComponent(typeof(AttachedToPlanet))]
 public class PowerPlantController : MonoBehaviour
 {
-    private ResourceEffect _resourceEffect;
+    private AttachedToPlanet _planetAttachment;
 
     void Awake()
     {
-        _resourceEffect = GetComponent<ResourceEffect>();
-        _resourceEffect.AttachedTo += OnResourceEffectAttached;
-        _resourceEffect.DetachedFrom += OnResourceEffectDetached;
+        _planetAttachment = GetComponent<AttachedToPlanet>();
+        _planetAttachment.AttachedTo += OnResourceEffectAttached;
+        _planetAttachment.TransferredFromTo += (from, to) =>
+        {
+            OnResourceEffectDetached(from);
+            OnResourceEffectAttached(to);
+        };
+        _planetAttachment.DetachedFrom += OnResourceEffectDetached;
     }
 
     private void OnResourceEffectDetached(TinyPlanetResources resources)

@@ -5,7 +5,7 @@ public class OreVein : MonoBehaviour
 {
     private int _resources = 0;
 
-    public static readonly int OrePerBlock = 50;
+    public static readonly int OrePerBlock = 1;
 
     private void Start()
     {
@@ -13,7 +13,7 @@ public class OreVein : MonoBehaviour
         var onCount = 0;
         foreach (var meshRenderer in pieces)
         {
-            if (Random.value < .65f) meshRenderer.gameObject.SetActive(false);
+            if (Random.value < .4f) meshRenderer.gameObject.SetActive(false);
             else onCount += 1;
         }
 

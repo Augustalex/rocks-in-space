@@ -36,8 +36,14 @@ namespace Interactors
 
         private static InteractorController _instance;
         private bool _lockedToDefaultInteractor;
-        private int _selectedInteractorBeforeWasLocked;
+        private int _selectedInteractorBeforeWasLocked = -1;
         private int _previousInteractor = -1;
+        private CameraController _cameraController;
+
+        public static InteractorController Get()
+        {
+            return _instance;
+        }
 
         private void Awake()
         {
@@ -54,19 +60,24 @@ namespace Interactors
                 interactorsContainer.GetComponent<FarmDomeInteractor>(),
                 interactorsContainer.GetComponent<ResidencyInteractor>(),
                 interactorsContainer.GetComponent<ScaffoldingInteractor>(),
+                interactorsContainer.GetComponent<KorvKioskInteractor>(),
                 _defaultModule
             };
-            SetInteractorByInteractorType(InteractorType.Port);
-        }
-
-        public static InteractorController Get()
-        {
-            return _instance;
         }
 
         private void Start()
         {
             _camera = GetComponent<Camera>();
+
+            _cameraController = CameraController.Get();
+            _cameraController.OnToggleZoom += (b) => UpdateInteractorLock();
+            _cameraController.OnNavigationStarted += UpdateInteractorLock;
+
+            var currentPlanetController = CurrentPlanetController.Get();
+            currentPlanetController.CurrentPlanetChanged += (i) => UpdateInteractorLock();
+            currentPlanetController.ShipSelected += (i) => UpdateInteractorLock();
+
+            SetInteractorByInteractorType(InteractorType.Port);
         }
 
         private void Update()
@@ -83,6 +94,7 @@ namespace Interactors
         {
             if (_lockedToDefaultInteractor)
             {
+                _selectedInteractorBeforeWasLocked = DefaultModule;
                 _currentModule = DefaultModule;
             }
             else
@@ -91,6 +103,7 @@ namespace Interactors
                 {
                     if (Input.GetKeyDown(_selectKeys[i]) && _modules.Length > i)
                     {
+                        _selectedInteractorBeforeWasLocked = i;
                         _currentModule = i;
                     }
                 }
@@ -107,6 +120,7 @@ namespace Interactors
                 var interactorModule = _modules[index];
                 if (interactorModule.GetInteractorName() == interactorName)
                 {
+                    _selectedInteractorBeforeWasLocked = index;
                     _currentModule = index;
                     return;
                 }
@@ -122,6 +136,7 @@ namespace Interactors
                 var interactorModule = _modules[index];
                 if (interactorModule.GetInteractorType() == interactorType)
                 {
+                    _selectedInteractorBeforeWasLocked = index;
                     _currentModule = index;
                     return;
                 }
@@ -372,16 +387,17 @@ namespace Interactors
             }
         }
 
-        public void LockToDefaultInteractor()
+        private void UpdateInteractorLock()
         {
-            _selectedInteractorBeforeWasLocked = _currentModule;
-            _lockedToDefaultInteractor = true;
-        }
-
-        public void UnlockFromDefaultInteractor()
-        {
-            _currentModule = _selectedInteractorBeforeWasLocked;
-            _lockedToDefaultInteractor = false;
+            if (CameraController.Get().IsZoomedOut())
+            {
+                _lockedToDefaultInteractor = true;
+            }
+            else
+            {
+                _currentModule = _selectedInteractorBeforeWasLocked;
+                _lockedToDefaultInteractor = false;
+            }
         }
 
         public InteractorModule GetInteractor(InteractorType interactorType)

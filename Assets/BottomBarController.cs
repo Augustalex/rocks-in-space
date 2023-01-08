@@ -6,10 +6,25 @@ public class BottomBarController : MonoBehaviour
     private static readonly int Visible = Animator.StringToHash("Visible");
 
     public GameObject hideClickZone;
+    private ProgressLock[] _progressLocks;
+    private static BottomBarController _instance;
+
+    public static BottomBarController Get()
+    {
+        return _instance;
+    }
 
     void Awake()
     {
+        _instance = this;
+
         _animator = GetComponent<Animator>();
+        _progressLocks = GetComponentsInChildren<ProgressLock>();
+    }
+
+    public ProgressLock[] GetProgressLocks()
+    {
+        return _progressLocks;
     }
 
     public void ShowBuildMenu()

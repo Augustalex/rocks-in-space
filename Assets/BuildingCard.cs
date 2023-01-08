@@ -1,7 +1,6 @@
 using System;
 using Interactors;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,6 +45,9 @@ public class BuildingCard : MonoBehaviour
             case BuildingType.Platform:
                 Platform();
                 break;
+            case BuildingType.KorvKiosk:
+                KorvKiosk();
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -73,6 +75,7 @@ public class BuildingCard : MonoBehaviour
             BuildingType.FarmDome => InteractorType.FarmDome,
             BuildingType.ResidentModule => InteractorType.ResidentModule,
             BuildingType.Platform => InteractorType.Platform,
+            BuildingType.KorvKiosk => InteractorType.KorvKiosk,
             _ => throw new ArgumentOutOfRangeException()
         };
     }
@@ -179,5 +182,17 @@ public class BuildingCard : MonoBehaviour
         upkeep.gameObject.SetActive(false);
         description.text =
             $"A thin but strong metal frame used for extending building space in a settlement.";
+    }
+
+    private void KorvKiosk()
+    {
+        header.text = "Fluxcapacitor+";
+        var interactor = InteractorController.Get().GetInteractor(InteractorType.KorvKiosk);
+        var cost = interactor.costs.cash;
+
+        costs.text = $"{cost}c";
+        upkeep.gameObject.SetActive(false);
+        description.text =
+            $"A breakthrough in fluxcapacitation technology. It comes with a free life time subscription of happy memories.";
     }
 }

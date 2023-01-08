@@ -1,44 +1,42 @@
 using UnityEngine;
 
+[RequireComponent(typeof(AttachedToPlanet))]
 public class FarmController : MonoBehaviour
 {
-    private ResourceEffect _resourceEffect;
-    private TinyPlanetResources _resources;
+    public float foodPerMinute = 4f;
 
-    public float foodPerMinute = 10f;
+    private AttachedToPlanet _planetAttachment;
 
     void Awake()
     {
-        _resourceEffect = GetComponent<ResourceEffect>();
-        _resourceEffect.AttachedTo += OnResourceEffectAttached;
-        _resourceEffect.DetachedFrom += OnResourceEffectDetached;
+        _planetAttachment = GetComponent<AttachedToPlanet>();
+        _planetAttachment.AttachedTo += OnResourceEffectAttached;
+        _planetAttachment.TransferredFromTo += (from, to) =>
+        {
+            OnResourceEffectDetached(from);
+            OnResourceEffectAttached(to);
+        };
+        _planetAttachment.DetachedFrom += OnResourceEffectDetached;
     }
 
     private void OnResourceEffectDetached(TinyPlanetResources resources)
     {
         resources.DeregisterFarm();
-        _resources = null;
     }
 
     private void OnResourceEffectAttached(TinyPlanetResources resources)
     {
         resources.RegisterFarm();
-        _resources = resources;
     }
 
     void Update()
     {
-        if (!_resources)
-        {
-            Debug.LogError("This farm is not attached to any planet!");
-            return;
-        }
-
-        var energy = _resources.GetEnergy();
+        var resources = _planetAttachment.GetAttachedResources();
+        var energy = resources.GetEnergy();
         if (energy >= 0)
         {
             var foodEffect = foodPerMinute / 60f;
-            _resources.AddFood(foodEffect * Time.deltaTime);
+            resources.AddFood(foodEffect * Time.deltaTime);
         }
     }
 }

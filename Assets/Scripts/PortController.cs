@@ -16,8 +16,14 @@ public class PortController : MonoBehaviour
     private void Start()
     {
         RegisterPort();
+        MarkNonLaserable();
 
         DisplayController.Get().OnRenameDone += MaybeShowPopup;
+    }
+
+    private void MarkNonLaserable()
+    {
+        GetComponentInParent<BlockRoot>().GetComponentInChildren<Block>().MarkNonLaserable();
     }
 
     private void RegisterPort()

@@ -4,8 +4,8 @@ using UnityEngine;
 public class FactoryController : MonoBehaviour
 {
     private TinyPlanetResources _planetResources;
-    private const float InverseRate = 1f; // Smaller is faster
-    private const int MetalsPerGadget = 10;
+    private const float IterationDelay = 8f;
+    private const int MetalsPerGadget = 1;
 
     void Start()
     {
@@ -18,7 +18,7 @@ public class FactoryController : MonoBehaviour
     {
         while (gameObject != null)
         {
-            yield return new WaitForSeconds(InverseRate);
+            yield return new WaitForSeconds(IterationDelay);
 
             var metals = _planetResources.GetMetals();
             if (metals >= MetalsPerGadget)

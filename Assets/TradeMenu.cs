@@ -64,10 +64,20 @@ public class TradeMenu : MonoBehaviour
 
     public void Show()
     {
-        WorldInteractionLock.LockInteractionsUntilUnlocked();
-
         var start = _routeEditor.GetRouteStart();
+        if (!start)
+        {
+            _routeEditor.CancelEditing();
+            return;
+        }
+
         var end = _routeEditor.GetRouteDestination();
+        if (!end)
+        {
+            _routeEditor.CancelEditing();
+            return;
+        }
+
         tradeRouteText.text = $"{start.planetName} <i>to</i> {end.planetName}";
 
         var existingRoute = _routeManager.RouteExists(start, end) ? _routeManager.GetRoute(start, end) : null;
@@ -89,6 +99,7 @@ public class TradeMenu : MonoBehaviour
         confirm.GetComponentInChildren<TMP_Text>().text = existingRoute != null ? "Update" : "Create";
         cancel.GetComponentInChildren<TMP_Text>().text = existingRoute != null ? "Remove" : "Cancel";
 
+        WorldInteractionLock.LockInteractionsUntilUnlocked();
         gameObject.SetActive(true);
     }
 
@@ -113,6 +124,12 @@ public class TradeMenu : MonoBehaviour
             _routeManager.RemoveRoute(start, end);
         }
 
+        _routeEditor.CancelEditing();
+        Hide();
+    }
+
+    public void Dismiss()
+    {
         _routeEditor.CancelEditing();
         Hide();
     }

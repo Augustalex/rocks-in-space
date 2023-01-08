@@ -176,6 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8329182661420145650}
   - component: {fileID: 273701921843318595}
+  - component: {fileID: 8537955803659189541}
   m_Layer: 7
   m_Name: Ore
   m_TagString: Untagged
@@ -216,6 +217,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 719b3f7721bf5c242881a1ed12056840, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!205 &8537955803659189541
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157895631769246542}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.00000047683716, y: 0.01349999, z: 0.114500135}
+  m_Size: 1.1640015
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.017361877
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3799146182744279331}
+    - renderer: {fileID: 1454155148951028224}
+    - renderer: {fileID: 6289769314611232512}
+    - renderer: {fileID: 6776491699499755107}
+    - renderer: {fileID: 7170562621455698761}
+    - renderer: {fileID: 458070915673171087}
+    - renderer: {fileID: 974222865386780096}
+    - renderer: {fileID: 7308898793949542324}
+    - renderer: {fileID: 1463615167431146265}
+    - renderer: {fileID: 2567257475402308875}
+    - renderer: {fileID: 1089838739711023980}
+    - renderer: {fileID: 5238660481491418857}
+    - renderer: {fileID: 5623415421171753905}
+    - renderer: {fileID: 4644459454438809559}
+    - renderer: {fileID: 705257077599110788}
+    - renderer: {fileID: 8518007789762020128}
+    - renderer: {fileID: 3301430007989545232}
+    - renderer: {fileID: 5210974598887581372}
+  m_Enabled: 1
 --- !u!1 &1203681702100209636
 GameObject:
   m_ObjectHideFlags: 0

@@ -102,6 +102,12 @@ public class RouteLine : MonoBehaviour
 
     private void ClearLineDisplay()
     {
+        if (!gameObject)
+        {
+            Debug.LogError("Trying to clear line that has already been cleared.");
+            return;
+        }
+
         Removed?.Invoke();
         Destroy(gameObject);
     }

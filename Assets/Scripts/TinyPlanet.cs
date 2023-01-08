@@ -104,22 +104,6 @@ public class TinyPlanet : MonoBehaviour
         PlanetsRegistry.Get().Add(planetId, this);
     }
 
-    private void Update()
-    {
-        if (CurrentPlanetController.Get().CurrentPlanet() != this) return;
-        
-        // Enable to allow changing planet color by pressing "R"
-        // if (Input.GetKeyDown(KeyCode.R))
-        // {
-        //     rockType = RockTypes[_rockTestIndex++];
-        //     if (_rockTestIndex >= RockTypes.Length) _rockTestIndex = 0;
-        //     _purpleRockMaterial.SetInt(RockTypePropertyId, (int)rockType);
-        //     var color = ColorPairs[(int)rockType];
-        //     _purpleRockMaterial.SetColor("_LightColor", color[0]);
-        //     _purpleRockMaterial.SetColor("_DarkColor", color[1]);
-        // }
-    }
-
     void FixedUpdate()
     {
         // var newCenter = GetCenter();
@@ -134,15 +118,6 @@ public class TinyPlanet : MonoBehaviour
 
     public void SetNetwork(List<GameObject> newNetwork)
     {
-        foreach (var oldNetworkItemm in network)
-        {
-            var resourceEffect = oldNetworkItemm.GetComponentInChildren<ResourceEffect>();
-            if (resourceEffect)
-            {
-                resourceEffect.DetachFrom(GetResources());
-            }
-        }
-
         var workingNetwork = newNetwork.Where(n => n != null).ToList();
 
         network = workingNetwork;
@@ -155,11 +130,11 @@ public class TinyPlanet : MonoBehaviour
             {
                 AttachPort(port);
             }
-
-            var resourceEffect = networkItem.GetComponentInChildren<ResourceEffect>();
-            if (resourceEffect)
+            
+            var planetAttachment = networkItem.GetComponentInChildren<AttachedToPlanet>();
+            if (planetAttachment)
             {
-                resourceEffect.AttachTo(GetResources());
+                planetAttachment.TransferTo(GetResources());
             }
         }
     }

@@ -128,6 +128,7 @@ public class RouteEditor : MonoBehaviour
     private void Reset()
     {
         _start = null;
+        _end = null;
     }
 
     public bool IsValidDestination(TinyPlanet tinyPlanet)

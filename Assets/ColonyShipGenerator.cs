@@ -58,16 +58,19 @@ public class ColonyShipGenerator : MonoBehaviour
 
     private void OnToggleZoom(bool zoomedOut)
     {
-        if (zoomedOut)
+        if (!_hasSpawnedFirstShip)
         {
-            if (!_hasSpawnedFirstShip)
+            if (zoomedOut)
             {
-                _spawnShipAt = Time.time + 3f;
+                if (!_hasSpawnedFirstShip)
+                {
+                    _spawnShipAt = Time.time + 3f;
+                }
             }
-        }
-        else
-        {
-            _spawnShipAt = -1f;
+            else
+            {
+                _spawnShipAt = -1f;
+            }
         }
     }
 

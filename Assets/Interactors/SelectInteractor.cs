@@ -44,15 +44,7 @@ namespace Interactors
 
         public override bool CanBuild(Block block)
         {
-            var cameraController = CameraController.Get();
-            var blocksPlanet = block.GetConnectedPlanet();
-
-            if (CurrentPlanetController.Get().CurrentPlanet() != blocksPlanet)
-            {
-                return cameraController.AvailableToUpdate();
-            }
-
-            return false;
+            return true;
         }
 
         public override void Build(Block block, RaycastHit raycastHit)
@@ -65,6 +57,10 @@ namespace Interactors
                 var planet = block.GetConnectedPlanet();
                 _currentPlanetController.ChangePlanet(planet);
                 cameraController.FocusOnPlanet(planet);
+            }
+            else
+            {
+                cameraController.FocusOnPlanet(block.GetConnectedPlanet());
             }
         }
 
@@ -98,7 +94,7 @@ namespace Interactors
         public override string GetCannotBuildHereMessage(Block block)
         {
             // Not called
-            return "You're already on this rock, silly!";
+            return "";
         }
 
         public override float MaxActivationDistance()

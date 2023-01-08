@@ -19,7 +19,7 @@ public class ResourceDisplay : Hidable
 
     public void ShowGlobalResources()
     {
-        var cash = Math.Round(GlobalResources.Get().GetCash());
+        var cash = Math.Floor(GlobalResources.Get().GetCash());
         _text =
             $"Credits: {(int)cash}c";
     }

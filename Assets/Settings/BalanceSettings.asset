@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab989071b4704396af77e4809800a2dc, type: 3}
   m_Name: BalanceSettings
   m_EditorClassIdentifier: 
-  oreTradeAmount: 10
-  metalsTradeAmount: 10
-  gadgetsTradeAmount: 10
-  rockDigTime: 0.7
-  oreDigTime: 1.2
+  oreTradeAmount: 1
+  metalsTradeAmount: 1
+  gadgetsTradeAmount: 1
+  rockDigTime: 0.5
+  oreDigTime: 1
   startingCredits: 1000
   minTimeBetweenConvoySpawns: 60
   maxTimeBetweenConvoySpawns: 120

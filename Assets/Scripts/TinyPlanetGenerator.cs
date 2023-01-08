@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Interactors;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -108,9 +109,6 @@ public class TinyPlanetGenerator : MonoBehaviour
 
                 var direction = (currentPlanet.GetCenter() - newPlanet.GetCenter()).normalized;
                 currentPlanet.gameObject.GetComponent<Rigidbody>().AddForce(direction * 1.5f, ForceMode.Impulse);
-
-                CurrentPlanetController.Get().ChangePlanet(currentPlanet);
-                CameraController.Get().FocusOnPlanet(currentPlanet);
             }
         }
     }

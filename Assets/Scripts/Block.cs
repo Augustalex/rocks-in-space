@@ -7,10 +7,16 @@ public class Block : MonoBehaviour, ILaserInteractable
     private GameObject _seed;
     private OreController _oreController;
     private bool _seedOverridable;
+    private bool _laserable = true;
 
     private void Awake()
     {
         _oreController = GetComponent<OreController>();
+    }
+
+    public void MarkNonLaserable()
+    {
+        _laserable = false;
     }
 
     public void Dig()
@@ -51,10 +57,10 @@ public class Block : MonoBehaviour, ILaserInteractable
 
         if (_seed)
         {
-            var resourceEffect = _seed.GetComponentInChildren<ResourceEffect>();
-            if (resourceEffect)
+            var planetAttachment = _seed.GetComponentInChildren<AttachedToPlanet>();
+            if (planetAttachment)
             {
-                resourceEffect.DetachFrom(GetConnectedPlanet().GetResources());
+                planetAttachment.DetachFrom(GetConnectedPlanet().GetResources());
             }
         }
 
@@ -118,10 +124,10 @@ public class Block : MonoBehaviour, ILaserInteractable
         _seed = Instantiate(seedTemplate, transform.parent, true);
         _seed.transform.position = transform.position;
 
-        var resourceEffect = _seed.GetComponentInChildren<ResourceEffect>();
-        if (resourceEffect)
+        var planetAttachment = _seed.GetComponentInChildren<AttachedToPlanet>();
+        if (planetAttachment)
         {
-            resourceEffect.AttachTo(GetConnectedPlanet().GetResources());
+            planetAttachment.AttachTo(GetConnectedPlanet().GetResources());
         }
 
         var killMesh = _seed.GetComponent<KillRockMesh>();
@@ -151,7 +157,7 @@ public class Block : MonoBehaviour, ILaserInteractable
 
     public bool CanInteract()
     {
-        return gameObject != null;
+        return _laserable && gameObject != null;
     }
 
     public float DisintegrationTime()
@@ -171,7 +177,7 @@ public class Block : MonoBehaviour, ILaserInteractable
         var mesh = GetMesh();
         if (mesh)
         {
-            var meshRenderer = mesh.GetComponent<MeshRenderer>();
+            var meshRenderer = mesh.GetComponentInChildren<MeshRenderer>();
             var materials = meshRenderer.materials;
             materials[0] = purpleRockMaterial;
             meshRenderer.materials = materials;

@@ -134,7 +134,7 @@ public class PlanetPopup : MonoBehaviour
         var resourceToShow = new List<TinyPlanetResources.PlanetResourceType>();
         foreach (var resource in _resources)
         {
-            var amount = Mathf.RoundToInt(resources.GetResource(resource));
+            var amount = Mathf.FloorToInt(resources.GetResource(resource));
             if (amount > 0 || _tutorialItems.Contains(resource))
             {
                 resourceToShow.Add(resource);
@@ -158,7 +158,7 @@ public class PlanetPopup : MonoBehaviour
         for (var i = 0; i < resourcesToShow.Count; i++)
         {
             var resource = resourcesToShow[i];
-            var amount = Mathf.RoundToInt(resources.GetResource(resource));
+            var amount = Mathf.FloorToInt(resources.GetResource(resource));
 
             _texts[ResourceTextsStartingIndex + i].gameObject.SetActive(true);
             _texts[ResourceTextsStartingIndex + i].text = $"{TinyPlanetResources.ResourceName(resource)}: {amount}";

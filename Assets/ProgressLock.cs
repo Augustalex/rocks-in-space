@@ -1,20 +1,15 @@
 using System;
-using System.Collections;
 using GameNotifications;
 using Interactors;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class ProgressLock : MonoBehaviour
 {
     private TMP_Text _text;
     private bool _hidden;
     private BuildingType _buildingType;
-
-    private const float LoopDelay = 2f;
-
+    
     public GameObject lightVeil;
     public GameObject textVeil;
     private GifDisplay _gifDisplay;
@@ -32,20 +27,9 @@ public class ProgressLock : MonoBehaviour
         _gifDisplay = gifDisplay;
 
         UpdateLocks();
-        StartCoroutine(UpdateLocksLoop());
     }
 
-    private IEnumerator UpdateLocksLoop()
-    {
-        while (!_hidden && gameObject != null)
-        {
-            yield return new WaitForSeconds(LoopDelay);
-            if (Random.value < .5f) yield return new WaitForNextFrameUnit();
-            UpdateLocks();
-        }
-    }
-
-    private void UpdateLocks()
+    public void UpdateLocks()
     {
         switch (_buildingType)
         {
@@ -69,6 +53,9 @@ public class ProgressLock : MonoBehaviour
                 break;
             case BuildingType.Platform:
                 Platform();
+                break;
+            case BuildingType.KorvKiosk:
+                KorvKiosk();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -150,9 +137,7 @@ public class ProgressLock : MonoBehaviour
 
     private void Platform()
     {
-        var progressManager = ProgressManager.Get();
-        if (progressManager.TotalColonistsCount() >=
-            1000) // TODO: Perhaps this unlocking checks should happen outside the UI!! Perhaps in an update loop in the ProgressManager?
+        if (PlatformUnlocked())
         {
             Notifications.Get().Send(new BuildingNotification
             {
@@ -166,6 +151,34 @@ public class ProgressLock : MonoBehaviour
             {
                 HideVeil();
                 _text.text = "Unlock with\n1000 colonists";
+            }
+            else
+            {
+                ShowVeil();
+                _text.text = "???";
+            }
+        }
+    }
+
+    private void KorvKiosk()
+    {
+        var progressManager = ProgressManager.Get();
+        if (progressManager.TotalColonistsCount() >=
+            10000)
+        {
+            Notifications.Get().Send(new BuildingNotification
+            {
+                message = $"Something different has been unlocked in the building menu."
+            });
+            Hide();
+        }
+        else
+        {
+            ShowVeil();
+
+            if (PlatformUnlocked())
+            {
+                _text.text = "Unlock with\n10000 colonists";
             }
             else
             {
@@ -191,6 +204,14 @@ public class ProgressLock : MonoBehaviour
         textVeil.SetActive(true);
     }
 
+    private bool PlatformUnlocked()
+    {
+        var progressManager = ProgressManager.Get();
+        return
+            progressManager.TotalColonistsCount() >=
+            1000; // TODO: Perhaps this unlocking checks should happen outside the UI!! Perhaps in an update loop in the ProgressManager?
+    }
+
     private bool HousingUnlocked()
     {
         var progressManager = ProgressManager.Get();
@@ -201,5 +222,10 @@ public class ProgressLock : MonoBehaviour
     {
         var progressManager = ProgressManager.Get();
         return progressManager.HasBuilt(BuildingType.Refinery) && progressManager.HasBuilt(BuildingType.Factory);
+    }
+
+    public bool Hidden()
+    {
+        return _hidden;
     }
 }

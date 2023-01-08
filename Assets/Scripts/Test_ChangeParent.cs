@@ -8,13 +8,11 @@ public class Test_ChangeParent : MonoBehaviour
     public Transform secondParent;
     private int _step = 0;
 
-    // Start is called before the first frame update
     void Start()
     {
         _firstParent = transform.parent;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return))

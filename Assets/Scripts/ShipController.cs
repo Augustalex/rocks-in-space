@@ -11,11 +11,8 @@ public class ShipController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-    
-
         if (Input.GetKey(KeyCode.LeftShift))
         {
             _rigidbody.AddForce(-_rigidbody.velocity * 100f * Time.deltaTime, ForceMode.Acceleration);

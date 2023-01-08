@@ -8,21 +8,34 @@ public enum ResidencyType
     Module
 }
 
+[RequireComponent(typeof(AttachedToPlanet))]
 public class ResourceEffect : MonoBehaviour
 {
-    public event Action<TinyPlanetResources> AttachedTo;
-    public event Action<TinyPlanetResources> DetachedFrom;
-
     public float energy;
     public ResidencyType residencyType;
     private TinyPlanetResources _resources;
 
+    private AttachedToPlanet _planetAttachment;
+
+    private void Awake()
+    {
+        _planetAttachment = GetComponent<AttachedToPlanet>();
+
+        _planetAttachment.AttachedTo += AttachTo;
+        _planetAttachment.TransferredFromTo += (from, to) =>
+        {
+            DetachFrom(from);
+            AttachTo(to);
+        };
+        _planetAttachment.DetachedFrom += DetachFrom;
+    }
+
     public void AttachTo(TinyPlanetResources resources)
     {
         _resources = resources;
-        
+
         resources.AddEnergy(energy);
-        
+
         switch (residencyType)
         {
             case ResidencyType.Nothing:
@@ -33,10 +46,8 @@ public class ResourceEffect : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
-        AttachedTo?.Invoke(resources);
     }
-    
+
     public void DetachFrom(TinyPlanetResources resources)
     {
         if (resources != _resources)
@@ -44,9 +55,9 @@ public class ResourceEffect : MonoBehaviour
             Debug.LogError("Trying to detach resource effect from planet it is not attached to!");
             return;
         }
-        
+
         resources.RemoveEnergy(energy);
-        
+
         switch (residencyType)
         {
             case ResidencyType.Nothing:
@@ -57,8 +68,6 @@ public class ResourceEffect : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
-        DetachedFrom?.Invoke(resources);
     }
 
     public TinyPlanetResources GetAttachedPlanet()

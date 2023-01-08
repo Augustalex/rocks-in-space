@@ -26,6 +26,8 @@ public class InteractorMenuModality : MonoBehaviour
                 return InteractorCategory.Build;
             case InteractorType.Select:
                 return InteractorCategory.Select;
+            case InteractorType.KorvKiosk:
+                return InteractorCategory.Build;
             case InteractorType.Misc:
                 return InteractorCategory.Dig;
             default:

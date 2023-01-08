@@ -23,6 +23,7 @@ namespace Interactors
         FarmDome,
         ResidentModule,
         Platform,
+        KorvKiosk,
         Select,
         Misc
     }
@@ -36,7 +37,8 @@ namespace Interactors
         PowerPlant,
         FarmDome,
         ResidentModule,
-        Platform
+        Platform,
+        KorvKiosk
     }
 
     public abstract class InteractorModule : MonoBehaviour

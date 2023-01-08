@@ -104,10 +104,7 @@ public class CameraController : MonoBehaviour
         }
         else if (_displayController.inputMode == DisplayController.InputMode.Static)
         {
-            if (!WorldInteractionLock.IsLocked())
-            {
-                HandleStaticMovement();
-            }
+            HandleStaticMovement();
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -261,7 +258,6 @@ public class CameraController : MonoBehaviour
         _zoomedOut = !_zoomedOut;
         if (_zoomedOut)
         {
-            InteractorController.Get().LockToDefaultInteractor();
             PopupManager.Get().CancelAllPopups();
 
             var (targetPosition, targetRotation) = CameraPlanetZoomedOutPosition();
@@ -271,7 +267,6 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            InteractorController.Get().UnlockFromDefaultInteractor();
             PopupManager.Get().CancelAllPopups();
 
             var (targetPosition, targetRotation) = CameraPlanetZoomedInPosition();

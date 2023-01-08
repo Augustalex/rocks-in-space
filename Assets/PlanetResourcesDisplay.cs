@@ -28,8 +28,8 @@ public class PlanetResourcesDisplay : Hidable
 
     private void ShowPlanetResources(TinyPlanetResources currentPlanet)
     { 
-        var energy = Mathf.RoundToInt(currentPlanet.GetEnergy());
-        var food = Mathf.RoundToInt(currentPlanet.GetFood());
+        var energy = Mathf.FloorToInt(currentPlanet.GetEnergy());
+        var food = Mathf.FloorToInt(currentPlanet.GetFood());
         var vacantHousing = currentPlanet.GetVacantHousing();
         var inhabitants = currentPlanet.GetInhabitants();
         _textComponent.text =
