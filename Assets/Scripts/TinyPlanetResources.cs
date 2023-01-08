@@ -81,6 +81,54 @@ public class TinyPlanetResources : MonoBehaviour
         return 0f;
     }
 
+    public void RemoveResource(PlanetResourceType resourceType, float amount)
+    {
+        switch (resourceType)
+        {
+            case PlanetResourceType.Energy:
+                RemoveEnergy(amount);
+                break;
+            case PlanetResourceType.Food:
+                UseFood(amount);
+                break;
+            case PlanetResourceType.Gadgets:
+                RemoveGadgets(amount);
+                break;
+            case PlanetResourceType.Metals:
+                RemoveMetals(amount);
+                break;
+            case PlanetResourceType.Ore:
+                RemoveOre(amount);
+                break;
+        }
+
+        Debug.LogError("Trying to remove resource that has not remove method: " + resourceType);
+    }
+
+    public void AddResource(PlanetResourceType resourceType, float amount)
+    {
+        switch (resourceType)
+        {
+            case PlanetResourceType.Energy:
+                AddEnergy(amount);
+                break;
+            case PlanetResourceType.Food:
+                AddFood(amount);
+                break;
+            case PlanetResourceType.Gadgets:
+                AddGadgets(amount);
+                break;
+            case PlanetResourceType.Metals:
+                AddMetals(amount);
+                break;
+            case PlanetResourceType.Ore:
+                AddOre(amount);
+                break;
+        }
+
+        Debug.LogError("Trying to remove resource that has not remove method: " + resourceType);
+    }
+
     public float GetOre()
     {
         return _ore;

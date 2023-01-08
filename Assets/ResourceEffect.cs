@@ -13,7 +13,6 @@ public class ResourceEffect : MonoBehaviour
 {
     public float energy;
     public ResidencyType residencyType;
-    private TinyPlanetResources _resources;
 
     private AttachedToPlanet _planetAttachment;
 
@@ -30,10 +29,8 @@ public class ResourceEffect : MonoBehaviour
         _planetAttachment.DetachedFrom += DetachFrom;
     }
 
-    public void AttachTo(TinyPlanetResources resources)
+    private void AttachTo(TinyPlanetResources resources)
     {
-        _resources = resources;
-
         resources.AddEnergy(energy);
 
         switch (residencyType)
@@ -48,14 +45,8 @@ public class ResourceEffect : MonoBehaviour
         }
     }
 
-    public void DetachFrom(TinyPlanetResources resources)
+    private void DetachFrom(TinyPlanetResources resources)
     {
-        if (resources != _resources)
-        {
-            Debug.LogError("Trying to detach resource effect from planet it is not attached to!");
-            return;
-        }
-
         resources.RemoveEnergy(energy);
 
         switch (residencyType)
@@ -68,10 +59,5 @@ public class ResourceEffect : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
-    }
-
-    public TinyPlanetResources GetAttachedPlanet()
-    {
-        return _resources;
     }
 }

@@ -4,12 +4,10 @@ using UnityEngine;
 [RequireComponent(typeof(ResourceEffect))]
 public class ModuleController : MonoBehaviour
 {
-    private TinyPlanetResources _planetResources;
     private PowerControlled _powerControlled;
 
     private bool _occupied;
     private float _life = 100f;
-    private ResourceEffect _resourceEffect;
     private AttachedToPlanet _planetAttachment;
 
     private const float LifeLossPerSecond = 100f / 60f;
@@ -25,27 +23,27 @@ public class ModuleController : MonoBehaviour
         _powerControlled = GetComponentInChildren<PowerControlled>();
         _powerControlled.PowerOff();
 
-        _resourceEffect = GetComponent<ResourceEffect>();
-        _planetResources = _resourceEffect.GetAttachedPlanet();
         _planetAttachment = GetComponent<AttachedToPlanet>();
         _planetAttachment.TransferredFromTo += OnPlanetTransfer;
     }
 
     void Update()
     {
+        var resources = _planetAttachment.GetAttachedResources();
+
         if (_occupied)
         {
             var foodEffect = (foodPerMinute / 60f) * Time.deltaTime;
-            var food = _planetResources.GetFood();
+            var food = resources.GetFood();
             var hasEnoughFood = food >= foodEffect;
 
             if (hasEnoughFood)
             {
-                _planetResources
+                resources
                     .AddFood(foodEffect); // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
             }
 
-            var hasEnoughEnergy = _planetResources.GetEnergy() > 0f;
+            var hasEnoughEnergy = resources.GetEnergy() > 0f;
 
             if (hasEnoughEnergy)
             {
@@ -67,7 +65,7 @@ public class ModuleController : MonoBehaviour
                     {
                         // This random number will help make sure not all houses die on the same frame.
                         // It gives the player more breathing room, but also a bigger chance to the needs to balance out before to many people die.
-                        _planetResources.RemoveResidencyInhabitants();
+                        resources.RemoveResidencyInhabitants();
                         _occupied = false;
                     }
                 }
@@ -80,11 +78,11 @@ public class ModuleController : MonoBehaviour
                 GlobalResources.Get().AddCash(cashEffect);
             }
         }
-        else if (_planetResources.HasVacancy())
+        else if (resources.HasVacancy())
         {
             _life = 100f;
             _powerControlled.PowerOn();
-            _planetResources.OccupyResidency();
+            resources.OccupyResidency();
             _occupied = true;
         }
         else if (_powerControlled.PowerIsOn())

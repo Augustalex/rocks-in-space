@@ -2114,7 +2114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336aaf521eb74e81bf6aa32492d5c93e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cashPerMinute: -2
+  cashPerMinute: -5
 --- !u!114 &1091763718292813009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2128,8 +2128,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   from: 0
-  to: 0
-  iterationTime: 1
+  to: 1
+  iterationTime: 4
 --- !u!114 &-3728626087985763771
 MonoBehaviour:
   m_ObjectHideFlags: 0
