@@ -96,7 +96,7 @@ public class BuildingCard : MonoBehaviour
         var interactor = InteractorController.Get().GetInteractor(InteractorType.Refinery);
         var cost = interactor.costs.cash;
         var runningCosts = interactor.template.GetComponent<RunningResourceEffect>();
-        if (!runningCosts) Debug.LogError("Refinery is missing running costs component.");
+        if (runningCosts == null) Debug.LogError("Refinery is missing running costs component.");
 
         costs.text = $"{cost}c";
         upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}c/min";
@@ -109,7 +109,7 @@ public class BuildingCard : MonoBehaviour
         var interactor = InteractorController.Get().GetInteractor(InteractorType.Factory);
         var cost = interactor.costs.cash;
         var runningCosts = interactor.template.GetComponent<RunningResourceEffect>();
-        if (!runningCosts) Debug.LogError("Factory is missing running costs component.");
+        if (runningCosts == null) Debug.LogError("Factory is missing running costs component.");
 
         costs.text = $"{cost}c";
         upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}c/min";
@@ -122,10 +122,10 @@ public class BuildingCard : MonoBehaviour
         var interactor = InteractorController.Get().GetInteractor(InteractorType.PowerPlant);
         var costData = interactor.costs;
         var runningCosts = interactor.template.GetComponent<RunningResourceEffect>();
-        if (!runningCosts) Debug.LogError("Power plant is missing running costs component.");
+        if (runningCosts == null) Debug.LogError("Power plant is missing running costs component.");
 
         var effect = interactor.template.GetComponent<ResourceEffect>();
-        if (!effect) Debug.LogError("Power plant is missing resource effects component.");
+        if (effect == null) Debug.LogError("Power plant is missing resource effects component.");
 
         costs.text = $"{costData.gadgets} gadgets";
         upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}c/min";
@@ -138,13 +138,13 @@ public class BuildingCard : MonoBehaviour
         var interactor = InteractorController.Get().GetInteractor(InteractorType.FarmDome);
         var costData = interactor.costs;
         var runningCosts = interactor.template.GetComponent<RunningResourceEffect>();
-        if (!runningCosts) Debug.LogError("Farms is missing running costs component.");
+        if (runningCosts == null) Debug.LogError("Farms is missing running costs component.");
 
         var effect = interactor.template.GetComponent<ResourceEffect>();
-        if (!effect) Debug.LogError("Farms is missing resource effects component.");
+        if (effect == null) Debug.LogError("Farms is missing resource effects component.");
 
         var controller = interactor.template.GetComponent<FarmController>();
-        if (!controller) Debug.LogError("Farms is missing controller component.");
+        if (controller == null) Debug.LogError("Farms is missing controller component.");
 
         costs.text =
             $"{costData.gadgets} gadgets";
@@ -160,10 +160,10 @@ public class BuildingCard : MonoBehaviour
         var costData = interactor.costs;
 
         var effect = interactor.template.GetComponent<ResourceEffect>();
-        if (!effect) Debug.LogError("Housing module is missing resource effects component.");
+        if (effect == null) Debug.LogError("Housing module is missing resource effects component.");
 
         var controller = interactor.template.GetComponent<ModuleController>();
-        if (!controller) Debug.LogError("Housing module is missing controller component.");
+        if (controller == null) Debug.LogError("Housing module is missing controller component.");
 
         costs.text =
             $"{costData.gadgets} gadgets";

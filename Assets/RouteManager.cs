@@ -31,6 +31,7 @@ public class RouteManager : MonoBehaviour
 
     public void AddRoute(TinyPlanet start, TinyPlanet end)
     {
+        Debug.Log("ADD ROUTE: " + start + ", end: " + end);
         var newRoute = new Route(start.planetId, end.planetId, _order++);
         _routes.Add(newRoute);
 

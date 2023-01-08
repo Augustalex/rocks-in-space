@@ -209,7 +209,7 @@ namespace Interactors
             var interactorModule = CurrentModule();
             if (Physics.Raycast(ray, out hit, interactorModule.MaxActivationDistance()))
             {
-                if (!interactorModule) return;
+                if (interactorModule == null) return;
                 var block = hit.collider.GetComponent<Block>();
                 if (block != null)
                 {

@@ -20,7 +20,7 @@ public class OreController : MonoBehaviour
 
     public void MakeIntoOreVein()
     {
-        if (!_ore) SetupOre();
+        if (_ore == null) SetupOre();
     }
 
     private void SetupOre()

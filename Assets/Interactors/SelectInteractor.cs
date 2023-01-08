@@ -17,16 +17,6 @@ namespace Interactors
             _currentPlanetController = CurrentPlanetController.Get();
         }
 
-        public static SelectInteractor Get()
-        {
-            if (!_instance)
-            {
-                _instance = FindObjectOfType<SelectInteractor>();
-            }
-
-            return _instance;
-        }
-
         public override InteractorType GetInteractorType()
         {
             return InteractorType.Select;

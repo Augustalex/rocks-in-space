@@ -33,10 +33,10 @@ public class Route
         if (_removed) return;
 
         var start = PlanetsRegistry.Get().FindPlanetById(StartPlanetId);
-        if (!start || !start.HasPort()) return;
+        if (start == null || !start.HasPort()) return;
 
         var destination = PlanetsRegistry.Get().FindPlanetById(DestinationPlanetId);
-        if (!destination || !destination.HasPort()) return;
+        if (destination == null || !destination.HasPort()) return;
 
         var startingResources = start.GetResources();
         var destinationResources = destination.GetResources();

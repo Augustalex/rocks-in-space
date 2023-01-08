@@ -58,11 +58,11 @@ public class OreDebrisController : MonoBehaviour
             return;
         }
 
-        if (!_target) return;
+        if (_target == null) return;
 
         foreach (var (cameAlive, startingPosition, midTarget, particle) in _particles)
         {
-            if (!particle) continue;
+            if (particle == null) continue;
 
             var particleTransform = particle.transform;
             var targetPosition = _target.transform.position;

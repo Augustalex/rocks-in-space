@@ -51,7 +51,7 @@ public class ColonyShipUI : MonoBehaviour
     private void Update()
     {
         var currentShip = CurrentPlanetController.Get().CurrentShip();
-        if (!currentShip) return;
+        if (currentShip == null) return;
 
         UpdateTimerText(currentShip);
 
@@ -61,7 +61,7 @@ public class ColonyShipUI : MonoBehaviour
     private void Reject()
     {
         var currentShip = CurrentPlanetController.Get().CurrentShip();
-        if (!currentShip) return;
+        if (currentShip == null) return;
 
         currentShip.MoveAway();
     }
@@ -69,7 +69,7 @@ public class ColonyShipUI : MonoBehaviour
     private void Accept()
     {
         var currentShip = CurrentPlanetController.Get().CurrentShip();
-        if (!currentShip) return;
+        if (currentShip == null) return;
 
         var suitablePlanets = GetSuitablePlanets(currentShip);
         if (suitablePlanets.Length == 0)

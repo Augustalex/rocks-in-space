@@ -45,10 +45,10 @@ public class RouteLine : MonoBehaviour
         _route = route;
         var planetRegistry = PlanetsRegistry.Get();
         var start = planetRegistry.FindPlanetById(route.StartPlanetId);
-        if (!start) return;
+        if (start == null) return;
 
         var destination = planetRegistry.FindPlanetById(route.DestinationPlanetId);
-        if (!destination) return;
+        if (destination == null) return;
 
         var (inboundOrNull, outboundOrNull) = RouteManager.Get().GetRoutesBetween(start, destination);
         LinkBetween(start, destination, inboundOrNull != null, HasPriority(inboundOrNull, outboundOrNull));
@@ -102,7 +102,7 @@ public class RouteLine : MonoBehaviour
 
     private void ClearLineDisplay()
     {
-        if (!gameObject)
+        if (gameObject == null)
         {
             Debug.LogError("Trying to clear line that has already been cleared.");
             return;
@@ -116,14 +116,14 @@ public class RouteLine : MonoBehaviour
     {
         var planetRegistry = PlanetsRegistry.Get();
         var start = planetRegistry.FindPlanetById(_route.StartPlanetId);
-        if (!start)
+        if (start == null)
         {
             RemoveLine();
             return;
         }
 
         var destination = planetRegistry.FindPlanetById(_route.DestinationPlanetId);
-        if (!destination)
+        if (destination == null)
         {
             RemoveLine();
             return;

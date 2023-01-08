@@ -9,13 +9,10 @@ public class TradeMenu : MonoBehaviour
     public TMP_Text tradeRouteText;
     private RouteEditor _routeEditor;
 
-    public Button oreButton;
-    public Button metalsButton;
-    public Button gadgetsButton;
-
     public Button confirm;
     public Button cancel;
     private RouteManager _routeManager;
+    private SelectResourceController _selectedResourceController;
 
     public static TradeMenu Get()
     {
@@ -34,45 +31,26 @@ public class TradeMenu : MonoBehaviour
 
         _routeManager = RouteManager.Get();
 
-        oreButton.onClick.AddListener(SelectOre);
-        metalsButton.onClick.AddListener(SelectMetals);
-        gadgetsButton.onClick.AddListener(SelectGadgets);
+        _selectedResourceController = GetComponentInChildren<SelectResourceController>();
+        _selectedResourceController.ResourceSelected += _routeEditor.SetResourceType;
 
         confirm.onClick.AddListener(Confirm);
-        cancel.onClick.AddListener(Cancel);
+        cancel.onClick.AddListener(Remove);
 
         gameObject.SetActive(false);
-    }
-
-    private void SelectOre()
-    {
-        oreButton.Select();
-        _routeEditor.SetResourceType(TinyPlanetResources.PlanetResourceType.Ore);
-    }
-
-    private void SelectMetals()
-    {
-        metalsButton.Select();
-        _routeEditor.SetResourceType(TinyPlanetResources.PlanetResourceType.Metals);
-    }
-
-    private void SelectGadgets()
-    {
-        gadgetsButton.Select();
-        _routeEditor.SetResourceType(TinyPlanetResources.PlanetResourceType.Gadgets);
     }
 
     public void Show()
     {
         var start = _routeEditor.GetRouteStart();
-        if (!start)
+        if (start == null)
         {
             _routeEditor.CancelEditing();
             return;
         }
 
         var end = _routeEditor.GetRouteDestination();
-        if (!end)
+        if (end == null)
         {
             _routeEditor.CancelEditing();
             return;
@@ -83,21 +61,9 @@ public class TradeMenu : MonoBehaviour
         var existingRoute = _routeManager.RouteExists(start, end) ? _routeManager.GetRoute(start, end) : null;
 
         var resourceType = existingRoute?.ResourceType ?? _routeEditor.GetSelectedResourceType();
-        switch (resourceType)
-        {
-            case TinyPlanetResources.PlanetResourceType.Metals:
-                metalsButton.Select();
-                break;
-            case TinyPlanetResources.PlanetResourceType.Gadgets:
-                gadgetsButton.Select();
-                break;
-            default:
-                oreButton.Select();
-                break;
-        }
+        _selectedResourceController.SetSelectedResource(resourceType);
 
         confirm.GetComponentInChildren<TMP_Text>().text = existingRoute != null ? "Update" : "Create";
-        cancel.GetComponentInChildren<TMP_Text>().text = existingRoute != null ? "Remove" : "Cancel";
 
         WorldInteractionLock.LockInteractionsUntilUnlocked();
         gameObject.SetActive(true);
@@ -115,7 +81,7 @@ public class TradeMenu : MonoBehaviour
         Hide();
     }
 
-    private void Cancel()
+    private void Remove()
     {
         var start = _routeEditor.GetRouteStart();
         var end = _routeEditor.GetRouteDestination();

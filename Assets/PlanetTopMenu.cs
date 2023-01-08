@@ -61,7 +61,7 @@ public class PlanetTopMenu : MonoBehaviour
     private void Update()
     {
         if (HiddenAlready()) return;
-        if (!_selectedPlanet) return;
+        if (_selectedPlanet == null) return;
 
         UpdateTexts(_selectedPlanet);
     }
@@ -69,7 +69,7 @@ public class PlanetTopMenu : MonoBehaviour
     private void UpdateState()
     {
         var currentPlanet = CurrentPlanetController.Get().CurrentPlanet();
-        if (!currentPlanet || currentPlanet.Anonymous())
+        if (currentPlanet == null || currentPlanet.Anonymous())
         {
             TryHide();
         }

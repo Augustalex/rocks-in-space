@@ -17,7 +17,7 @@ public class MapPopupTarget : MonoBehaviour
 
     void Update()
     {
-        if (!_popupComponent) return;
+        if (_popupComponent == null) return;
         
         var planetPopup = _popupComponent;
         var connectedPlanet = _block.GetConnectedPlanet();
@@ -72,7 +72,7 @@ public class MapPopupTarget : MonoBehaviour
 
     public void HidePopup()
     {
-        if (!_popupComponent) return;
+        if (_popupComponent == null) return;
         
         _show = false;
         _popupComponent.Hide();

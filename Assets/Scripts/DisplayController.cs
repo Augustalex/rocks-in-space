@@ -121,7 +121,7 @@ public class DisplayController : MonoBehaviour
 
     private void DoneRenamingPlanet(string newName)
     {
-        if (!_currentPlanet) return;
+        if (_currentPlanet == null) return;
         if (inputMode != InputMode.Renaming) return;
 
         if (newName != "")

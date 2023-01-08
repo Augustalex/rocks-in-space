@@ -133,7 +133,7 @@ public class RouteEditor : MonoBehaviour
 
     public bool IsValidDestination(TinyPlanet tinyPlanet)
     {
-        if (!_start) return false;
+        if (_start == null) return false;
 
         return !_start.planetId.Is(tinyPlanet.planetId);
     }

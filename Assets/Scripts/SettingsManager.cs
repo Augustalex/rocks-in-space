@@ -9,7 +9,7 @@ public class SettingsManager : MonoBehaviour
 
     public static SettingsManager Get()
     {
-        if (!_instance)
+        if (_instance == null)
         {
             Debug.LogError(
                 "Trying to get Settings manager before it is instantiated. Try changing call order settings to fix this?");

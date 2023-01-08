@@ -106,7 +106,7 @@ public class MapPopup : MonoBehaviour
         {
             _mode = MapPopupMode.Connecting;
         }
-        if (!_selectedPlanet) return;
+        if (_selectedPlanet == null) return;
         
         
         var currentPlanet = CurrentPlanetController.Get().CurrentPlanet();

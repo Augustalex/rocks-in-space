@@ -32,7 +32,7 @@ public class ColonistManager : MonoBehaviour
             if (timeLeft <= 0f)
             {
                 var planet = PlanetsRegistry.Get().FindPlanetById(convoy.PlanetId);
-                if (!planet || !planet.HasPort())
+                if (planet == null || !planet.HasPort())
                 {
                     Debug.LogError("Convoy arrived, but planet no longer exists, or planet has no port.");
                     // TODO: Need some solution for if every block of the planet has been destroyed before the Convoy arrives.

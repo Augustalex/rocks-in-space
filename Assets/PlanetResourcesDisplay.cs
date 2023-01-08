@@ -16,7 +16,7 @@ public class PlanetResourcesDisplay : Hidable
     {
         var currentPlanet = _currentPlanetController.CurrentPlanet();
         
-        if (!currentPlanet || currentPlanet.Anonymous())
+        if (currentPlanet == null || currentPlanet.Anonymous())
         {
             _textComponent.text = "";
         }
