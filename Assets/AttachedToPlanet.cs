@@ -7,37 +7,40 @@ public class AttachedToPlanet : MonoBehaviour
     public event Action<TinyPlanetResources> DetachedFrom;
     public event Action<TinyPlanetResources, TinyPlanetResources> TransferredFromTo;
 
-    private TinyPlanetResources _resources;
+    private TinyPlanet _planet;
 
-    public void AttachTo(TinyPlanetResources resources)
+    public void AttachTo(TinyPlanet planet)
     {
-        _resources = resources;
-        AttachedTo?.Invoke(resources);
+        _planet = planet;
+        AttachedTo?.Invoke(planet.GetResources());
     }
 
-    public void DetachFrom(TinyPlanetResources resources)
+    public void DetachFrom(TinyPlanet planet)
     {
-        if (resources != _resources)
+        if (planet != _planet)
         {
             Debug.LogError("Trying to detach resource effect from planet it is not attached to!");
             return;
         }
 
-        DetachedFrom?.Invoke(resources);
+        DetachedFrom?.Invoke(planet.GetResources());
     }
 
-    public void TransferTo(TinyPlanetResources target)
+    public void TransferTo(TinyPlanet target)
     {
-        var original = _resources;
+        var original = _planet;
         if (original == target) return;
 
-        _resources = target;
-
-        TransferredFromTo?.Invoke(original, target);
+        TransferredFromTo?.Invoke(original.GetResources(), target.GetResources());
     }
 
     public TinyPlanetResources GetAttachedResources()
     {
-        return _resources;
+        return _planet.GetResources();
+    }
+
+    public PlanetColonistMonitor GetAttachedColonistsMonitor()
+    {
+        return _planet.GetColonistMonitor();
     }
 }

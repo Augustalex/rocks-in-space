@@ -7,7 +7,8 @@ public class ModuleController : MonoBehaviour
     private PowerControlled _powerControlled;
 
     private bool _occupied;
-    private float _life = 100f;
+    private const float TotalLife = 100f;
+    private float _life = TotalLife;
     private AttachedToPlanet _planetAttachment;
 
     private const float LifeLossPerSecond = 100f / 60f;
@@ -30,53 +31,72 @@ public class ModuleController : MonoBehaviour
 
     void Update()
     {
+        var cashEffect = (cashPerMinute / 60f) * Time.deltaTime;
+
         var resources = _planetAttachment.GetAttachedResources();
+        var monitor = _planetAttachment.GetAttachedColonistsMonitor();
 
         if (_occupied)
         {
             var foodEffect = (foodPerMinute / 60f) * Time.deltaTime;
             var food = resources.GetFood();
             var hasEnoughFood = food >= foodEffect;
-
             if (hasEnoughFood)
             {
                 resources
                     .AddFood(foodEffect); // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
+                monitor.RegisterFoodSatisfied();
+            }
+            else
+            {
+                monitor.RegisterNotEnoughFood();
             }
 
             var hasEnoughEnergy = resources.GetEnergy() >= 0f;
-
             if (hasEnoughEnergy)
             {
                 if (!_powerControlled.PowerIsOn()) _powerControlled.PowerOn();
+                monitor.RegisterPowerSatisfied();
             }
             else
             {
                 if (_powerControlled.PowerIsOn()) _powerControlled.PowerOff();
+                monitor.RegisterNotEnoughPower();
             }
 
-            if (!hasEnoughFood || !hasEnoughEnergy)
+            var status = monitor.CalculateStatus(hasEnoughEnergy, hasEnoughFood);
+            if (status == PlanetColonistMonitor.ColonistStatus.MovingOut)
             {
                 _life -= LifeLossPerSecond * Time.deltaTime;
 
                 if (_life <= 0f)
                 {
-                    var shouldDieNow = Random.value < .2f;
-                    if (shouldDieNow)
-                    {
-                        // This random number will help make sure not all houses die on the same frame.
-                        // It gives the player more breathing room, but also a bigger chance to the needs to balance out before to many people die.
-                        resources.DeregisterOccupiedResident();
-                        _occupied = false;
-                    }
+                    resources.DeregisterOccupiedResident();
+                    resources.RegisterDeath();
+                    _occupied = false;
+                }
+                else if (_life <= 10f)
+                {
+                    _life += Random.Range(LifeLossPerSecond * .5f, LifeLossPerSecond) * Time.deltaTime;
+                }
+                else
+                {
+                    _life -= LifeLossPerSecond * Time.deltaTime;
                 }
             }
-
-            if (hasEnoughFood && hasEnoughEnergy)
+            else if (status == PlanetColonistMonitor.ColonistStatus.Neutral)
             {
-                // Is most likely positive, but kept as a neutral variable to make thinking about balance easier.
-                var cashEffect = (cashPerMinute / 60f) * Time.deltaTime;
                 GlobalResources.Get().AddCash(cashEffect);
+            }
+            else if (status == PlanetColonistMonitor.ColonistStatus.Happy)
+            {
+                _life = Mathf.Min(TotalLife, _life + LifeLossPerSecond * Time.deltaTime);
+                GlobalResources.Get().AddCash(cashEffect * 2f);
+            }
+            else if (status == PlanetColonistMonitor.ColonistStatus.Overjoyed)
+            {
+                _life = Mathf.Min(TotalLife, _life + LifeLossPerSecond * 2f * Time.deltaTime);
+                GlobalResources.Get().AddCash(cashEffect * 2f);
             }
         }
         else if (resources.HasVacancy())
@@ -106,8 +126,7 @@ public class ModuleController : MonoBehaviour
         if (_occupied)
         {
             current.DeregisterOccupiedResident();
+            current.RegisterDeath();
         }
-
-        current.RemoveResidency();
     }
 }

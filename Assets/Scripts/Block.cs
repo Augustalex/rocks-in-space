@@ -60,7 +60,7 @@ public class Block : MonoBehaviour, ILaserInteractable
             var planetAttachment = _seed.GetComponentInChildren<AttachedToPlanet>();
             if (planetAttachment)
             {
-                planetAttachment.DetachFrom(GetConnectedPlanet().GetResources());
+                planetAttachment.DetachFrom(GetConnectedPlanet());
             }
         }
 
@@ -127,7 +127,7 @@ public class Block : MonoBehaviour, ILaserInteractable
         var planetAttachment = _seed.GetComponentInChildren<AttachedToPlanet>();
         if (planetAttachment)
         {
-            planetAttachment.AttachTo(GetConnectedPlanet().GetResources());
+            planetAttachment.AttachTo(GetConnectedPlanet());
         }
 
         var killMesh = _seed.GetComponent<KillRockMesh>();

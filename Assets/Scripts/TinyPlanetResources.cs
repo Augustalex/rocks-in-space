@@ -56,6 +56,7 @@ public class TinyPlanetResources : MonoBehaviour
 
     private int _powerPlants;
     private int _farms;
+    private bool _hasHadDeaths;
 
     public float GetResource(PlanetResourceType resourceType)
     {
@@ -157,12 +158,12 @@ public class TinyPlanetResources : MonoBehaviour
 
     public void AddFood(float food)
     {
-        _food += food;
+        _food = Mathf.Max(0f, _food + food);
     }
 
     public void UseFood(float food)
     {
-        _food -= food;
+        _food = Mathf.Max(0f, _food - food);
     }
 
     public float GetFood()
@@ -173,6 +174,11 @@ public class TinyPlanetResources : MonoBehaviour
     public int GetInhabitants()
     {
         return _inhabitants;
+    }
+
+    public bool HasHadDeaths()
+    {
+        return _hasHadDeaths;
     }
 
     public void AddColonists(int colonistCount)
@@ -187,6 +193,11 @@ public class TinyPlanetResources : MonoBehaviour
         _occupiedResidencies -= 1;
 
         return toRemove;
+    }
+
+    public void RegisterDeath()
+    {
+        _hasHadDeaths = true;
     }
 
     public int RegisterOccupiedResident()

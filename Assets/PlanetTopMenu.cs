@@ -13,8 +13,6 @@ public class PlanetTopMenu : MonoBehaviour
     public TMP_Text headerText;
     public TMP_Text resourcesText;
 
-    // If a planet has all these resources - then this is the optimal order to display them in.
-    // It is also a mapping between the text elements in the popup - starting from the index below the header.
     private readonly List<TinyPlanetResources.PlanetResourceType> _resources =
         new()
         {
@@ -24,7 +22,7 @@ public class PlanetTopMenu : MonoBehaviour
             TinyPlanetResources.PlanetResourceType.Energy,
             TinyPlanetResources.PlanetResourceType.Food,
             TinyPlanetResources.PlanetResourceType.Housing,
-            TinyPlanetResources.PlanetResourceType.Inhabitants,
+            // TinyPlanetResources.PlanetResourceType.Inhabitants,
         };
 
     // When there are a lack of resources - show these as 0, in this order, to guide the player on what to do.
@@ -34,7 +32,7 @@ public class PlanetTopMenu : MonoBehaviour
             TinyPlanetResources.PlanetResourceType.Ore,
             TinyPlanetResources.PlanetResourceType.Metals,
             TinyPlanetResources.PlanetResourceType.Gadgets,
-            TinyPlanetResources.PlanetResourceType.Inhabitants,
+            // TinyPlanetResources.PlanetResourceType.Inhabitants,
         };
 
     public static PlanetTopMenu Get()

@@ -130,11 +130,11 @@ public class TinyPlanet : MonoBehaviour
             {
                 AttachPort(port);
             }
-            
+
             var planetAttachment = networkItem.GetComponentInChildren<AttachedToPlanet>();
             if (planetAttachment)
             {
-                planetAttachment.TransferTo(GetResources());
+                planetAttachment.TransferTo(this);
             }
         }
     }
@@ -182,6 +182,11 @@ public class TinyPlanet : MonoBehaviour
     public TinyPlanetResources GetResources()
     {
         return GetComponent<TinyPlanetResources>();
+    }
+
+    public PlanetColonistMonitor GetColonistMonitor()
+    {
+        return GetComponent<PlanetColonistMonitor>();
     }
 
     public Vector3 GetCenter()
