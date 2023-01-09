@@ -25,6 +25,7 @@ public class ModuleController : MonoBehaviour
 
         _planetAttachment = GetComponent<AttachedToPlanet>();
         _planetAttachment.TransferredFromTo += OnPlanetTransfer;
+        _planetAttachment.DetachedFrom += OnDetachedToDeath;
     }
 
     void Update()
@@ -98,5 +99,15 @@ public class ModuleController : MonoBehaviour
             from.DeregisterOccupiedResident();
             to.RegisterOccupiedResident();
         }
+    }
+
+    private void OnDetachedToDeath(TinyPlanetResources current)
+    {
+        if (_occupied)
+        {
+            current.DeregisterOccupiedResident();
+        }
+
+        current.RemoveResidency();
     }
 }
