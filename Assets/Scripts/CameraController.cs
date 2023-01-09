@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
-using Interactors;
+using UnityEditor.Rendering.Universal.ShaderGUI;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraController : MonoBehaviour
 {
@@ -181,6 +182,14 @@ public class CameraController : MonoBehaviour
             _camera.transform.RotateAround(FocusPoint(), transform.right, downMovementSpeed * Time.deltaTime);
         }
 
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            HandleZoom();
+        }
+    }
+
+    private void HandleZoom()
+    {
         var minZoom = _zoomedOut ? MinZoomedOutDistance : MinZoomedInDistance;
         var maxZoom = _zoomedOut ? MaxZoomedOutDistance : MaxZoomedInDistance;
         var cameraTransform = _camera.transform;
