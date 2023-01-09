@@ -180,6 +180,24 @@ public class TinyPlanetResources : MonoBehaviour
         _inhabitants += colonistCount;
     }
 
+    public int DeregisterOccupiedResident()
+    {
+        var toRemove = InhabitantsPerResidency;
+        _inhabitants -= toRemove;
+        _occupiedResidencies -= 1;
+
+        return toRemove;
+    }
+
+    public int RegisterOccupiedResident()
+    {
+        var toAdd = InhabitantsPerResidency;
+        _inhabitants += toAdd;
+        _occupiedResidencies += 1;
+
+        return toAdd;
+    }
+
     public void AddResidency()
     {
         _residencies += 1;
@@ -204,15 +222,6 @@ public class TinyPlanetResources : MonoBehaviour
     public void OccupyResidency()
     {
         _occupiedResidencies += 1;
-    }
-
-    public int RemoveResidencyInhabitants()
-    {
-        var toRemove = InhabitantsPerResidency;
-        _inhabitants -= toRemove;
-        _occupiedResidencies -= 1;
-
-        return toRemove;
     }
 
     public int GetVacantHousing()

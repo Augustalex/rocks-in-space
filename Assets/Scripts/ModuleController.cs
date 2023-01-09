@@ -65,7 +65,7 @@ public class ModuleController : MonoBehaviour
                     {
                         // This random number will help make sure not all houses die on the same frame.
                         // It gives the player more breathing room, but also a bigger chance to the needs to balance out before to many people die.
-                        resources.RemoveResidencyInhabitants();
+                        resources.DeregisterOccupiedResident();
                         _occupied = false;
                     }
                 }
@@ -95,8 +95,8 @@ public class ModuleController : MonoBehaviour
     {
         if (_occupied)
         {
-            var removed = from.RemoveResidencyInhabitants();
-            to.AddColonists(removed);
+            from.DeregisterOccupiedResident();
+            to.RegisterOccupiedResident();
         }
     }
 }

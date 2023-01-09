@@ -29,6 +29,8 @@ public class AttachedToPlanet : MonoBehaviour
     public void TransferTo(TinyPlanetResources target)
     {
         var original = _resources;
+        if (original == target) return;
+
         _resources = target;
 
         TransferredFromTo?.Invoke(original, target);
