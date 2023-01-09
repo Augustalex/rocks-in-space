@@ -1,12 +1,12 @@
 using Interactors;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Clicker : MonoBehaviour
 {
     private Vector3 _point;
     private InteractorController _interactorController;
     private static Clicker _instance;
-    private bool _enabled = true;
 
     private void Awake()
     {
@@ -25,19 +25,6 @@ public class Clicker : MonoBehaviour
 
     void Update()
     {
-        if (_enabled && !WorldInteractionLock.IsLocked())
-        {
-            _interactorController.Interact();
-        }
-    }
-
-    public void Disable()
-    {
-        _enabled = false;
-    }
-
-    public void Enable()
-    {
-        _enabled = true;
+        if (!EventSystem.current.IsPointerOverGameObject()) _interactorController.Interact();
     }
 }

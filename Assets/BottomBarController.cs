@@ -30,14 +30,12 @@ public class BottomBarController : MonoBehaviour
     public void ShowBuildMenu()
     {
         hideClickZone.SetActive(true);
-        WorldInteractionLock.LockInteractionsUntilUnlocked();
         _animator.SetBool(Visible, true);
     }
 
     public void HideBuildMenu()
     {
         hideClickZone.SetActive(false);
-        WorldInteractionLock.UnlockInteractions();
         _animator.SetBool(Visible, false);
     }
 

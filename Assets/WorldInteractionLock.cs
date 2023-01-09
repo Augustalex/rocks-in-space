@@ -6,16 +6,16 @@ public class WorldInteractionLock : MonoBehaviour
 
     private static WorldInteractionLock _instance;
     private bool _lockUntilUnlock;
+    private bool _unlockAtEndOfFrame;
 
-    public static void LockInteractions()
+    public static void LockInteractionsThisFrame()
     {
         _instance.lockWorldInteraction = true;
     }
 
     public static void UnlockInteractions()
     {
-        _instance.lockWorldInteraction = false;
-        _instance._lockUntilUnlock = false;
+        _instance.UnlockSoon();
     }
 
     public static bool IsLocked()
@@ -30,12 +30,27 @@ public class WorldInteractionLock : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!_lockUntilUnlock && lockWorldInteraction) UnlockInteractions();
+        if (_unlockAtEndOfFrame) UnlockNow();
+        else if (!_lockUntilUnlock && lockWorldInteraction) UnlockNow();
+    }
+
+    private void UnlockSoon()
+    {
+        _unlockAtEndOfFrame = true;
+    }
+
+    private void UnlockNow()
+    {
+        Debug.Log("UNLOCK NOW");
+        lockWorldInteraction = false;
+        _lockUntilUnlock = false;
+
+        _unlockAtEndOfFrame = false;
     }
 
     public static void LockInteractionsUntilUnlocked()
     {
-        LockInteractions();
+        LockInteractionsThisFrame();
         _instance.LockUntilUnlocked();
     }
 

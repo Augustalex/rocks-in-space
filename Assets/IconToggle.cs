@@ -12,8 +12,8 @@ public class IconToggle : MonoBehaviour
 
     void Start()
     {
-        on.onClick.AddListener(WorldInteractionLock.LockInteractions);
-        off.onClick.AddListener(WorldInteractionLock.LockInteractions);
+        on.onClick.AddListener(WorldInteractionLock.LockInteractionsThisFrame);
+        off.onClick.AddListener(WorldInteractionLock.LockInteractionsThisFrame);
 
         on.onClick.AddListener(Toggle);
         off.onClick.AddListener(Toggle);
