@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class RouteEditorLine : MonoBehaviour
@@ -9,6 +10,18 @@ public class RouteEditorLine : MonoBehaviour
     private TinyPlanet _end;
     private float _showUntil = -1f;
     private float _startedAt;
+
+    private static RouteEditorLine _instance;
+
+    public static RouteEditorLine Get()
+    {
+        return _instance;
+    }
+
+    private void Awake()
+    {
+        _instance = this;
+    }
 
     private void Start()
     {
@@ -98,5 +111,10 @@ public class RouteEditorLine : MonoBehaviour
         _end = null;
         _showUntil = -1f;
         _startedAt = -1f;
+    }
+
+    public bool Drawing()
+    {
+        return _start != null || _end != null;
     }
 }

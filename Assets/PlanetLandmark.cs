@@ -86,12 +86,15 @@ public class PlanetLandmark : MonoBehaviour
     {
         var routeEditor = RouteEditor.Get();
 
+        Debug.Log("MOUSE UP!");
         if (_cameraController.IsZoomedOut() && routeEditor.IsValidDestination(_planet))
         {
+            Debug.Log("SELECT ROUTE");
             routeEditor.SelectRouteDestination(_planet);
         }
         else
         {
+            Debug.Log("NAVIGATE");
             NavigateToPlanet(_planet);
         }
     }

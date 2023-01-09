@@ -178,6 +178,7 @@ namespace Interactors
 
         public void Interact()
         {
+            Debug.Log("INTERACT!");
             CheckForActionTarget();
 
             if (CurrentModule().Continuous() ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
@@ -287,6 +288,7 @@ namespace Interactors
         {
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
 
+            Debug.Log("HANDLE MOUSE UP");
             if (Physics.Raycast(ray, out var hit, 10000f))
             {
                 if (hit.collider.CompareTag("PlanetLandmark"))

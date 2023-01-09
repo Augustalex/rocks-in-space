@@ -25,6 +25,6 @@ public class Clicker : MonoBehaviour
 
     void Update()
     {
-        if (!EventSystem.current.IsPointerOverGameObject()) _interactorController.Interact();
+        if (WorldInteractionLock.Get().CanInteract()) _interactorController.Interact();
     }
 }

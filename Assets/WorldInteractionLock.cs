@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class WorldInteractionLock : MonoBehaviour
 {
@@ -23,6 +24,11 @@ public class WorldInteractionLock : MonoBehaviour
         return _instance.lockWorldInteraction;
     }
 
+    public static WorldInteractionLock Get()
+    {
+        return _instance;
+    }
+
     private void Awake()
     {
         _instance = this;
@@ -32,6 +38,12 @@ public class WorldInteractionLock : MonoBehaviour
     {
         if (_unlockAtEndOfFrame) UnlockNow();
         else if (!_lockUntilUnlock && lockWorldInteraction) UnlockNow();
+    }
+
+    public bool CanInteract()
+    {
+        // TODO: Unify all of these locks. Now that I know I can use EventSystem to check UI clicks and don't have to lock things manually.
+        return !EventSystem.current.IsPointerOverGameObject() || RouteEditorLine.Get().Drawing();
     }
 
     private void UnlockSoon()

@@ -81,6 +81,7 @@ public class RouteEditor : MonoBehaviour
 
     public void SelectRouteDestination(TinyPlanet end)
     {
+        Debug.Log("SELECT: " + end);
         if (!IsValidDestination(end))
         {
             CancelEditing();
