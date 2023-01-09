@@ -188,4 +188,9 @@ public class Block : MonoBehaviour, ILaserInteractable
     {
         _seedOverridable = true;
     }
+
+    public GameObject GetSeed()
+    {
+        return _seed;
+    }
 }

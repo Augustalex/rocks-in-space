@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 8433487641402806169}
   - component: {fileID: 5231951630694293163}
   - component: {fileID: 5008209292881904089}
+  - component: {fileID: 30874615343563403}
   m_Layer: 0
   m_Name: PortBuilding
   m_TagString: Untagged
@@ -139,6 +140,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 169a2b20656d4cd1bd53107ef0fcf2cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &30874615343563403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023215026128566752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 122d53f2549fed44cb33a03c329a73aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seedName: Beacon
 --- !u!1 &1670923640651328574
 GameObject:
   m_ObjectHideFlags: 0

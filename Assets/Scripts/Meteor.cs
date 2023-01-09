@@ -54,11 +54,19 @@ public class Meteor : MonoBehaviour
             if (block.IsSeeded())
             {
                 var connectedPlanet = block.GetConnectedPlanet();
+                var seed = block.GetSeed();
+                var message = $"A building was destroyed by a meteor at {connectedPlanet.planetName}.";
+                var seedInfo = seed.GetComponent<SeedInfo>();
+                if (seedInfo)
+                {
+                    message = $"A {seedInfo.seedName} was destroyed by a meteor at {connectedPlanet.planetName}.";
+                }
+
                 Notifications.Get().Send(new PlanetNotification
                 {
-                    location = connectedPlanet, message =
-                        $"A building was destroyed by a meteor at {connectedPlanet.planetName}."
+                    location = connectedPlanet, message = message
                 });
+
                 block.DestroyedByNonPlayer();
             }
             else

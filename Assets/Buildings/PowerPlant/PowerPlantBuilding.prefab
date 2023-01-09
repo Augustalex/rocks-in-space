@@ -269,6 +269,8 @@ GameObject:
   - component: {fileID: 4524821439851363633}
   - component: {fileID: 6318563387829932295}
   - component: {fileID: -1646605259869712026}
+  - component: {fileID: 8340817556601631518}
+  - component: {fileID: 3170199669742957492}
   m_Layer: 0
   m_Name: PowerPlantBuilding
   m_TagString: Untagged
@@ -343,6 +345,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cashPerMinute: -2
+--- !u!114 &8340817556601631518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5977357871203673727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 022634ae534c84d44b8b947f46481801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3170199669742957492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5977357871203673727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 122d53f2549fed44cb33a03c329a73aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seedName: Power plant
 --- !u!1 &6392800098331943009
 GameObject:
   m_ObjectHideFlags: 0

@@ -30,7 +30,7 @@ namespace GameNotifications
         {
             while (gameObject != null)
             {
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(1f);
                 Check();
             }
         }
@@ -39,7 +39,7 @@ namespace GameNotifications
         {
             var newData = _resources.CopyData();
             var noEnergy = newData.Energy < 0f;
-            
+
             if (Math.Abs(newData.Energy - _previousResources.Energy) > .5f)
             {
                 if (noEnergy)

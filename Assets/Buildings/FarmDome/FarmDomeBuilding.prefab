@@ -813,6 +813,7 @@ GameObject:
   - component: {fileID: -6125573926813975838}
   - component: {fileID: 2252861517128830687}
   - component: {fileID: 4305766060919539564}
+  - component: {fileID: 2432672066532335419}
   m_Layer: 0
   m_Name: FarmDomeBuilding
   m_TagString: Untagged
@@ -900,6 +901,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 022634ae534c84d44b8b947f46481801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2432672066532335419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2957951342149841532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 122d53f2549fed44cb33a03c329a73aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seedName: Farm
 --- !u!1 &3959108442111318734
 GameObject:
   m_ObjectHideFlags: 0
