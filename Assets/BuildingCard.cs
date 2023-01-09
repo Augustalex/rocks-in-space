@@ -186,13 +186,13 @@ public class BuildingCard : MonoBehaviour
 
     private void KorvKiosk()
     {
-        header.text = "Fluxcapacitor+";
+        header.text = "SpaceLife+";
         var interactor = InteractorController.Get().GetInteractor(InteractorType.KorvKiosk);
         var cost = interactor.costs.cash;
 
         costs.text = $"{cost}c";
         upkeep.gameObject.SetActive(false);
         description.text =
-            $"A breakthrough in fluxcapacitation technology. It comes with a free life time subscription of happy memories.";
+            $"A breakthrough in life time subscription technology. Increases taxes paid by residents.";
     }
 }

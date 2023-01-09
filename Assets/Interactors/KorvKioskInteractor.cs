@@ -11,7 +11,7 @@ namespace Interactors
 
         public static string GetName()
         {
-            return "Fluxcapacitor+";
+            return "SpaceLife+";
         }
 
         public override string GetInteractorName()

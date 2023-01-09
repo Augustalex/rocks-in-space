@@ -101,8 +101,6 @@ public class TinyPlanetResources : MonoBehaviour
                 RemoveOre(amount);
                 break;
         }
-
-        Debug.LogError("Trying to remove resource that has not remove method: " + resourceType);
     }
 
     public void AddResource(PlanetResourceType resourceType, float amount)
@@ -125,8 +123,6 @@ public class TinyPlanetResources : MonoBehaviour
                 AddOre(amount);
                 break;
         }
-
-        Debug.LogError("Trying to remove resource that has not remove method: " + resourceType);
     }
 
     public float GetOre()

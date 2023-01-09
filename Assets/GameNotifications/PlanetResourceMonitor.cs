@@ -38,9 +38,11 @@ namespace GameNotifications
         private void Check()
         {
             var newData = _resources.CopyData();
+            var noEnergy = newData.Energy < 0f;
+            
             if (Math.Abs(newData.Energy - _previousResources.Energy) > .5f)
             {
-                if (newData.Energy <= 0f)
+                if (noEnergy)
                 {
                     if (newData.Inhabitants > 0)
                     {
@@ -71,10 +73,10 @@ namespace GameNotifications
                     GenerateNoMoreOreAlert();
                 }
             }
-            
+
             if (Math.Abs(newData.Inhabitants - _previousResources.Inhabitants) > .5f)
             {
-                if (newData.Energy <= 0f)
+                if (noEnergy)
                 {
                     GenerateFreezingColonistsAlert();
                 }

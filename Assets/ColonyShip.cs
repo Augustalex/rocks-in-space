@@ -1,6 +1,7 @@
 using System;
 using GameNotifications;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ColonyShip : MonoBehaviour
 {
@@ -86,7 +87,7 @@ public class ColonyShip : MonoBehaviour
         }
     }
 
-    private void NavigateToShip()
+    public void NavigateToShip()
     {
         _landmarkMaterial.SetInt(IsSelected, 1);
 
@@ -148,7 +149,7 @@ public class ColonyShip : MonoBehaviour
         return Mathf.Max(0f, _waitLength - duration);
     }
 
-    public void EnteredHyperspace()
+    public void EnteredHyperspace() // Called by animation
     {
         Destroy(gameObject);
     }
@@ -163,13 +164,13 @@ public class ColonyShip : MonoBehaviour
         {
             colonists = 2000;
         }
-        else if (level <= 9)
+        else if (level == 5)
         {
-            colonists = 5000;
+            colonists = 3000;
         }
         else
         {
-            colonists = 10000;
+            colonists = Random.Range(1000, 3000);
         }
     }
 }

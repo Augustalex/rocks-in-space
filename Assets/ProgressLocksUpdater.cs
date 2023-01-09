@@ -39,7 +39,5 @@ public class ProgressLocksUpdater : MonoBehaviour
 
             yield return new WaitForSeconds(LoopDelay);
         }
-
-        Debug.Log("OUT OF LOOP! YAY!");
     }
 }

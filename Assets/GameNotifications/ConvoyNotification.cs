@@ -6,9 +6,7 @@
 
         public override void Accept()
         {
-            CurrentPlanetController.Get().FocusOnShip(colonyShip);
-            CameraController.Get().FocusOnShip(colonyShip);
-
+            colonyShip.NavigateToShip();
             _status = NotificationStatus.Accepted;
         }
 

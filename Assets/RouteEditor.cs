@@ -45,10 +45,17 @@ public class RouteEditor : MonoBehaviour
 
     public void SelectRouteStart(TinyPlanet start)
     {
-        _started = Time.time;
-        _start = start;
+        if (!start.HasPort())
+        {
+            CancelEditing();
+        }
+        else
+        {
+            _started = Time.time;
+            _start = start;
 
-        RouteStarted?.Invoke(_start);
+            RouteStarted?.Invoke(_start);
+        }
     }
 
     public TinyPlanet GetRouteStart()
@@ -74,15 +81,12 @@ public class RouteEditor : MonoBehaviour
 
     public void SelectRouteDestination(TinyPlanet end)
     {
-        Debug.Log("SELECT DESTIATION! " + end);
         if (!IsValidDestination(end))
         {
-            Debug.Log("NOT VALID DESTINATIOn");
             CancelEditing();
         }
         else
         {
-            Debug.Log("THIS IS THE END: " + _end);
             _end = end;
             RouteDestinationSelected?.Invoke();
         }
@@ -90,8 +94,6 @@ public class RouteEditor : MonoBehaviour
 
     public void ConfirmRoute()
     {
-        Debug.Log("CONFIRM ROUTE: " + _start + ", " + _end);
-
         var routeManager = RouteManager.Get();
         if (!routeManager.RouteExists(_start, _end))
         {
@@ -124,7 +126,6 @@ public class RouteEditor : MonoBehaviour
 
     private void Reset()
     {
-        Debug.Log("RESET");
         _start = null;
         _end = null;
     }
@@ -133,7 +134,7 @@ public class RouteEditor : MonoBehaviour
     {
         if (_start == null) return false;
 
-        return !_start.planetId.Is(tinyPlanet.planetId);
+        return !_start.planetId.Is(tinyPlanet.planetId) && tinyPlanet.HasPort();
     }
 
     public bool IsEditing()

@@ -43,7 +43,7 @@ public class ModuleController : MonoBehaviour
                     .AddFood(foodEffect); // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
             }
 
-            var hasEnoughEnergy = resources.GetEnergy() > 0f;
+            var hasEnoughEnergy = resources.GetEnergy() >= 0f;
 
             if (hasEnoughEnergy)
             {
