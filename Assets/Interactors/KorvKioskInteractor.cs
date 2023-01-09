@@ -11,7 +11,7 @@ namespace Interactors
 
         public static string GetName()
         {
-            return "SpaceLife+";
+            return "Mackapär";
         }
 
         public override string GetInteractorName()

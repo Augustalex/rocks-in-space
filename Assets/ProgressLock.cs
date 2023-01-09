@@ -55,7 +55,8 @@ public class ProgressLock : MonoBehaviour
                 Platform();
                 break;
             case BuildingType.KorvKiosk:
-                KorvKiosk();
+                Hide();
+                // KorvKiosk();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

@@ -12,7 +12,6 @@ public class ColonyShipUI : MonoBehaviour
 
     public TMP_Text timerText;
     public TMP_Text colonyCountText;
-    public TMP_Text rewardText;
     public TMP_Text requirementText;
 
     void Start()
@@ -110,17 +109,7 @@ public class ColonyShipUI : MonoBehaviour
         UpdateTimerText(ship);
 
         colonyCountText.text = $"{ship.colonists} colonists are looking for a new home";
-
-        if (ship.cashReward > 0)
-        {
-            rewardText.gameObject.SetActive(true);
-            rewardText.text = $"Reward:\n{ship.cashReward}c";
-        }
-        else
-        {
-            rewardText.gameObject.SetActive(false);
-        }
-
+        
         requirementText.text = $"Requirements:\n{ship.colonists} housing\nPower\nFood";
 
 

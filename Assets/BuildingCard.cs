@@ -186,13 +186,16 @@ public class BuildingCard : MonoBehaviour
 
     private void KorvKiosk()
     {
-        header.text = "SpaceLife+";
+        header.text = "Mackapär";
         var interactor = InteractorController.Get().GetInteractor(InteractorType.KorvKiosk);
         var cost = interactor.costs.cash;
 
+        var effect = interactor.template.GetComponent<ResourceEffect>();
+        if (effect == null) Debug.LogError("Mackapar is missing resource effects component.");
+
         costs.text = $"{cost}c";
-        upkeep.gameObject.SetActive(false);
+        upkeep.text = $"Upkeep: {effect.energy} power";
         description.text =
-            $"A breakthrough in life time subscription technology. Increases taxes paid by residents.";
+            $"A breakthrough in the cutting edge. Does nothing in particular. Requires a lot of energy.";
     }
 }

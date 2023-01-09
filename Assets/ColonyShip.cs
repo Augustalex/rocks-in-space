@@ -1,4 +1,3 @@
-using System;
 using GameNotifications;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -6,7 +5,6 @@ using Random = UnityEngine.Random;
 public class ColonyShip : MonoBehaviour
 {
     public int colonists = 1000;
-    public int cashReward = 0;
 
     private float _arrived;
     private float _waitLength;

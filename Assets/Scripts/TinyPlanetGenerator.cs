@@ -37,7 +37,7 @@ public class TinyPlanetGenerator : MonoBehaviour
             );
 
             var distanceToCenter = Vector3.Distance(point, center);
-            if (distanceToCenter < 50f)
+            if (distanceToCenter < 50f || Physics.OverlapSphere(point, 15f).Any())
             {
                 max += 1;
             }

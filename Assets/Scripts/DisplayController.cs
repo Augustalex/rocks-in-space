@@ -18,7 +18,6 @@ public class DisplayController : MonoBehaviour
 
     public InputMode inputMode = InputMode.Cinematic;
 
-
     public enum InputMode
     {
         Renaming,

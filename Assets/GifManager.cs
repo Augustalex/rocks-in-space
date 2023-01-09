@@ -11,6 +11,7 @@ public class GifManager : MonoBehaviour
     public Texture[] housingModuleFrames;
     public Texture[] platformFrames;
     public Texture[] portFrames;
+    public Texture[] korvKioskFrames;
 
     private static GifManager _instance;
 
@@ -35,7 +36,7 @@ public class GifManager : MonoBehaviour
             BuildingType.FarmDome => farmDomeFrames,
             BuildingType.ResidentModule => housingModuleFrames,
             BuildingType.Platform => platformFrames,
-            BuildingType.KorvKiosk => platformFrames,
+            BuildingType.KorvKiosk => korvKioskFrames,
             _ => throw new ArgumentOutOfRangeException(nameof(buildingType), buildingType, null)
         };
     }
