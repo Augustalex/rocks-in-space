@@ -178,7 +178,6 @@ namespace Interactors
 
         public void Interact()
         {
-            Debug.Log("INTERACT!");
             CheckForActionTarget();
 
             if (CurrentModule().Continuous() ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))

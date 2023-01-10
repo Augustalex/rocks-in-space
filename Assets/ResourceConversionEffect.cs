@@ -28,6 +28,12 @@ public class ResourceConversionEffect : MonoBehaviour
 
             var resources = _planetAttachment.GetAttachedResources();
             var fromResources = resources.GetResource(from);
+            while (fromResources < 1f && gameObject != null)
+            {
+                // Wat until there is resources to take from. Then restart the iteration timer.
+                yield return new WaitForEndOfFrame();
+            }
+
             if (fromResources >= 1f)
             {
                 resources.RemoveResource(from, 1f);

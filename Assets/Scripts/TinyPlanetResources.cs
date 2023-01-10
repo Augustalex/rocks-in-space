@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class TinyPlanetResources : MonoBehaviour
@@ -13,6 +15,15 @@ public class TinyPlanetResources : MonoBehaviour
         Inhabitants,
         Housing,
         Cash, // Global, not planet specific.
+    }
+
+    public enum ResourceTrend
+    {
+        doubleDown,
+        down,
+        neutral,
+        up,
+        doubleUp,
     }
 
     public static string ResourceName(PlanetResourceType resourceType)
@@ -46,17 +57,36 @@ public class TinyPlanetResources : MonoBehaviour
 
     private int _residencies = 0;
     private int _occupiedResidencies = 0;
-    private float _energy = 0;
-    private float _food = 0;
     private int _inhabitants = 0;
 
-    private float _ore = 0;
-    private float _metals = 0;
-    private float _gadgets = 0;
+    private readonly ResourceTracker _powerTracker = new();
+    private readonly ResourceTracker _foodTracker = ResourceTracker.Signed();
+
+    private readonly ResourceTracker _oreTracker = ResourceTracker.Signed();
+    private readonly ResourceTracker _metalsTracker = ResourceTracker.Signed();
+    private readonly ResourceTracker _gadgetsTracker = ResourceTracker.Signed();
 
     private int _powerPlants;
     private int _farms;
     private bool _hasHadDeaths;
+
+    void Start()
+    {
+        StartCoroutine(RunTrends());
+    }
+
+    IEnumerator RunTrends()
+    {
+        while (gameObject != null)
+        {
+            yield return new WaitForSeconds(1f);
+            _oreTracker.ProgressHistory();
+            _metalsTracker.ProgressHistory();
+            _gadgetsTracker.ProgressHistory();
+            _powerTracker.ProgressHistory();
+            _foodTracker.ProgressHistory();
+        }
+    }
 
     public float GetResource(PlanetResourceType resourceType)
     {
@@ -126,49 +156,107 @@ public class TinyPlanetResources : MonoBehaviour
         }
     }
 
+    public ResourceTrend GetTrend(PlanetResourceType resourceType)
+    {
+        if (resourceType == PlanetResourceType.Housing) return ResourceTrend.neutral;
+        if (resourceType == PlanetResourceType.Energy) return ResourceTrend.neutral;
+
+        return GetTracker(resourceType).GetTrend();
+    }
+
+    private ResourceTracker GetTracker(PlanetResourceType resourceType)
+    {
+        switch (resourceType)
+        {
+            case PlanetResourceType.Energy:
+                return _powerTracker;
+            case PlanetResourceType.Food:
+                return _foodTracker;
+            case PlanetResourceType.Gadgets:
+                return _gadgetsTracker;
+            case PlanetResourceType.Metals:
+                return _metalsTracker;
+            case PlanetResourceType.Ore:
+                return _oreTracker;
+        }
+
+        throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType,
+            "Trying to get tracker for resources that doesnt have any");
+    }
+
     public float GetOre()
     {
-        return _ore;
+        return _oreTracker.Get();
+    }
+
+    public void RemoveOre(float toTake)
+    {
+        _oreTracker.Remove(toTake);
+    }
+
+    public void AddOre(float toAdd)
+    {
+        _oreTracker.Add(toAdd);
     }
 
     public float GetMetals()
     {
-        return _metals;
+        return _metalsTracker.Get();
+    }
+
+    public void RemoveMetals(float toTake)
+    {
+        _metalsTracker.Remove(toTake);
+    }
+
+    public void AddMetals(float toAdd)
+    {
+        _metalsTracker.Add(toAdd);
     }
 
     public float GetGadgets()
     {
-        return _gadgets;
+        return _gadgetsTracker.Get();
+    }
+
+    public void RemoveGadgets(float toTake)
+    {
+        _gadgetsTracker.Remove(toTake);
+    }
+
+    public void AddGadgets(float toAdd)
+    {
+        _gadgetsTracker.Add(toAdd);
     }
 
     public void RemoveEnergy(float energyToRemove)
     {
-        _energy -= energyToRemove;
+        _powerTracker.Remove(energyToRemove);
     }
 
     public void AddEnergy(float energyToAdd)
     {
-        _energy += energyToAdd;
+        _powerTracker.Add(energyToAdd);
     }
 
     public float GetEnergy()
     {
-        return _energy;
+        return _powerTracker.Get();
     }
 
     public void AddFood(float food)
     {
-        _food = Mathf.Max(0f, _food + food);
+        _foodTracker.Add(food);
     }
 
     public void UseFood(float food)
     {
-        _food = Mathf.Max(0f, _food - food);
+        _foodTracker.Remove(food);
     }
 
     public float GetFood()
     {
-        return _food;
+        return _foodTracker.Get();
     }
 
     public int GetInhabitants()
@@ -241,36 +329,6 @@ public class TinyPlanetResources : MonoBehaviour
         var additionalCapacity = vacancies * InhabitantsPerResidency;
 
         return additionalCapacity;
-    }
-
-    public void RemoveOre(float toTake)
-    {
-        _ore -= toTake;
-    }
-
-    public void AddOre(float toAdd)
-    {
-        _ore += toAdd;
-    }
-
-    public void RemoveMetals(float toTake)
-    {
-        _metals -= toTake;
-    }
-
-    public void AddMetals(float toAdd)
-    {
-        _metals += toAdd;
-    }
-
-    public void RemoveGadgets(float toTake)
-    {
-        _gadgets -= toTake;
-    }
-
-    public void AddGadgets(float toAdd)
-    {
-        _gadgets += toAdd;
     }
 
     public ResourcesData CopyData()
