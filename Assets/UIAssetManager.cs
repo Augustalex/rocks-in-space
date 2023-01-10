@@ -14,6 +14,7 @@ public class UIAssetManager : MonoBehaviour
     public Texture powerIcon;
     public Texture foodIcon;
     public Texture housingIcon;
+    public Texture creditsIcon;
 
     private static UIAssetManager _instance;
 

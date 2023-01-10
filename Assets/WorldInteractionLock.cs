@@ -53,7 +53,6 @@ public class WorldInteractionLock : MonoBehaviour
 
     private void UnlockNow()
     {
-        Debug.Log("UNLOCK NOW");
         lockWorldInteraction = false;
         _lockUntilUnlock = false;
 

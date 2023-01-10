@@ -287,7 +287,6 @@ namespace Interactors
         {
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
 
-            Debug.Log("HANDLE MOUSE UP");
             if (Physics.Raycast(ray, out var hit, 10000f))
             {
                 if (hit.collider.CompareTag("PlanetLandmark"))

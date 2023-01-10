@@ -10,6 +10,7 @@ public class BuildingCard : MonoBehaviour
 
     public TMP_Text header;
     public TMP_Text costs;
+    public RawImage costsIcon;
     public TMP_Text upkeep;
     public TMP_Text description;
 
@@ -84,7 +85,8 @@ public class BuildingCard : MonoBehaviour
     {
         header.text = "Beacon";
         var interactor = InteractorController.Get().GetInteractor(InteractorType.Port);
-        costs.text = $"{interactor.costs.cash}c";
+        costs.text = $"{interactor.costs.cash}";
+        costsIcon.texture = UIAssetManager.Get().creditsIcon;
         upkeep.gameObject.SetActive(false);
         description.text =
             "Establishes a settlement on an asteroid when placed. Trade routes can be created between two beacons.";
@@ -98,7 +100,8 @@ public class BuildingCard : MonoBehaviour
         var runningCosts = interactor.template.GetComponent<RunningResourceEffect>();
         if (runningCosts == null) Debug.LogError("Refinery is missing running costs component.");
 
-        costs.text = $"{cost}c";
+        costs.text = $"{cost}";
+        costsIcon.texture = UIAssetManager.Get().creditsIcon;
         upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}c/min";
         description.text = "Converts ore into metals.";
     }
@@ -111,7 +114,8 @@ public class BuildingCard : MonoBehaviour
         var runningCosts = interactor.template.GetComponent<RunningResourceEffect>();
         if (runningCosts == null) Debug.LogError("Factory is missing running costs component.");
 
-        costs.text = $"{cost}c";
+        costs.text = $"{cost}";
+        costsIcon.texture = UIAssetManager.Get().creditsIcon;
         upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}c/min";
         description.text = "Converts metals into gadgets.";
     }
@@ -127,7 +131,8 @@ public class BuildingCard : MonoBehaviour
         var effect = interactor.template.GetComponent<ResourceEffect>();
         if (effect == null) Debug.LogError("Power plant is missing resource effects component.");
 
-        costs.text = $"{costData.gadgets} gadgets";
+        costs.text = $"{costData.gadgets}";
+        costsIcon.texture = UIAssetManager.Get().GetResourceTexture(TinyPlanetResources.PlanetResourceType.Gadgets);
         upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}c/min";
         description.text = $"Provides {effect.energy} power. Powers farms and residencies.";
     }
@@ -147,7 +152,8 @@ public class BuildingCard : MonoBehaviour
         if (controller == null) Debug.LogError("Farms is missing controller component.");
 
         costs.text =
-            $"{costData.gadgets} gadgets";
+            $"{costData.gadgets}";
+        costsIcon.texture = UIAssetManager.Get().GetResourceTexture(TinyPlanetResources.PlanetResourceType.Gadgets);
         upkeep.text = $"Upkeep: {effect.energy} power {runningCosts.cashPerMinute}c/min";
         description.text =
             $"Produces {controller.foodPerMinute} food/min. Food is consumed by colonists.";
@@ -166,7 +172,8 @@ public class BuildingCard : MonoBehaviour
         if (controller == null) Debug.LogError("Housing module is missing controller component.");
 
         costs.text =
-            $"{costData.gadgets} gadgets";
+            $"{costData.gadgets}";
+        costsIcon.texture = UIAssetManager.Get().GetResourceTexture(TinyPlanetResources.PlanetResourceType.Gadgets);
         upkeep.text = $"Upkeep: {effect.energy} power {controller.foodPerMinute} food/min";
         description.text =
             $"Houses 1000 colonists. Generates {controller.cashPerMinute}c/min when colonists have moved in. Only generates income when food and power needs are met.";
@@ -178,7 +185,8 @@ public class BuildingCard : MonoBehaviour
         var interactor = InteractorController.Get().GetInteractor(InteractorType.Platform);
         var cost = interactor.costs.metals;
 
-        costs.text = $"{cost} metals";
+        costs.text = $"{cost}";
+        costsIcon.texture = UIAssetManager.Get().GetResourceTexture(TinyPlanetResources.PlanetResourceType.Metals);
         upkeep.gameObject.SetActive(false);
         description.text =
             $"A thin but strong metal frame used for extending building space in a settlement.";
@@ -193,7 +201,9 @@ public class BuildingCard : MonoBehaviour
         var effect = interactor.template.GetComponent<ResourceEffect>();
         if (effect == null) Debug.LogError("Mackapar is missing resource effects component.");
 
-        costs.text = $"{cost}c";
+        costs.text = $"{cost}";
+        var uiAssetManager = UIAssetManager.Get();
+        costsIcon.texture = uiAssetManager.creditsIcon;
         upkeep.text = $"Upkeep: {effect.energy} power";
         description.text =
             $"A breakthrough in the cutting edge. Does nothing in particular. Requires a lot of power.";

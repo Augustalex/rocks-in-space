@@ -10,7 +10,6 @@ public class ResourceDisplay : MonoBehaviour
     void Start()
     {
         _textComponent = GetComponent<TMP_Text>();
-        
     }
 
     void Update()

@@ -9,7 +9,7 @@ public class ProgressLock : MonoBehaviour
     private TMP_Text _text;
     private bool _hidden;
     private BuildingType _buildingType;
-    
+
     public GameObject lightVeil;
     public GameObject textVeil;
     private GifDisplay _gifDisplay;
@@ -55,8 +55,8 @@ public class ProgressLock : MonoBehaviour
                 Platform();
                 break;
             case BuildingType.KorvKiosk:
-                Hide();
-                // KorvKiosk();
+                // Hide();
+                KorvKiosk();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

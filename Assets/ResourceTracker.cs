@@ -81,7 +81,6 @@ public class ResourceTracker
 
         // var average = totalB - totalA;
         var average = totalB;
-        Debug.Log(average);
         if (average < -10) return TinyPlanetResources.ResourceTrend.doubleDown;
         if (average < 0) return TinyPlanetResources.ResourceTrend.down;
         if (average > 10) return TinyPlanetResources.ResourceTrend.doubleUp;
