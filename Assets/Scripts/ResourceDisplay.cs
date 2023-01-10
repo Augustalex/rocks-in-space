@@ -1,7 +1,8 @@
 using System;
 using TMPro;
+using UnityEngine;
 
-public class ResourceDisplay : Hidable
+public class ResourceDisplay : MonoBehaviour
 {
     private string _text;
     private TMP_Text _textComponent;
@@ -9,6 +10,7 @@ public class ResourceDisplay : Hidable
     void Start()
     {
         _textComponent = GetComponent<TMP_Text>();
+        
     }
 
     void Update()
@@ -21,6 +23,6 @@ public class ResourceDisplay : Hidable
     {
         var cash = Math.Floor(GlobalResources.Get().GetCash());
         _text =
-            $"Credits: {(int)cash}c";
+            $"{(int)cash}";
     }
 }
