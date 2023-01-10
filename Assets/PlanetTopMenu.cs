@@ -97,31 +97,31 @@ public class PlanetTopMenu : MonoBehaviour
 
     private void UpdateTexts(TinyPlanet planet)
     {
-        var resources = planet.GetResources();
+        // var resources = planet.GetResources();
 
         var header = headerText;
         if (!header.gameObject.activeSelf) header.gameObject.SetActive(true);
         header.text = planet.planetName;
 
-        var resourceToShow = new List<TinyPlanetResources.PlanetResourceType>();
-        foreach (var resource in _resources)
-        {
-            var amount = Mathf.FloorToInt(resources.GetResource(resource));
-            if (amount > 0 || _tutorialItems.Contains(resource))
-            {
-                resourceToShow.Add(resource);
-            }
-            else if (resource == TinyPlanetResources.PlanetResourceType.Food && resources.HasFarm())
-            {
-                resourceToShow.Add(resource);
-            }
-            else if (resource == TinyPlanetResources.PlanetResourceType.Energy && resources.HasPowerPlant())
-            {
-                resourceToShow.Add(resource);
-            }
-        }
-
-        ShowResources(resources, resourceToShow);
+        // var resourceToShow = new List<TinyPlanetResources.PlanetResourceType>();
+        // foreach (var resource in _resources)
+        // {
+        //     var amount = Mathf.FloorToInt(resources.GetResource(resource));
+        //     if (amount > 0 || _tutorialItems.Contains(resource))
+        //     {
+        //         resourceToShow.Add(resource);
+        //     }
+        //     else if (resource == TinyPlanetResources.PlanetResourceType.Food && resources.HasFarm())
+        //     {
+        //         resourceToShow.Add(resource);
+        //     }
+        //     else if (resource == TinyPlanetResources.PlanetResourceType.Energy && resources.HasPowerPlant())
+        //     {
+        //         resourceToShow.Add(resource);
+        //     }
+        // }
+        //
+        // ShowResources(resources, resourceToShow);
     }
 
     private void ShowResources(TinyPlanetResources resources,

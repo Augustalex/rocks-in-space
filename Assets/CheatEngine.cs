@@ -15,15 +15,15 @@ public class CheatEngine : MonoBehaviour
     {
         _cheats["toomuchoregano"] = () =>
         {
-            CurrentPlanetController.Get().CurrentPlanet()?.GetResources().AddOre(1000000);
+            CurrentPlanetController.Get().CurrentPlanet()?.GetResources().AddOre(1000);
         };
         _cheats["sparvagnar"] = () =>
         {
-            CurrentPlanetController.Get().CurrentPlanet()?.GetResources().AddMetals(1000000);
+            CurrentPlanetController.Get().CurrentPlanet()?.GetResources().AddMetals(1000);
         };
         _cheats["inspectorgadget"] = () =>
         {
-            CurrentPlanetController.Get().CurrentPlanet()?.GetResources().AddGadgets(1000000);
+            CurrentPlanetController.Get().CurrentPlanet()?.GetResources().AddGadgets(1000);
         };
         _cheats["smallloan"] = () => { GlobalResources.Get().AddCash(1000000); };
 

@@ -186,7 +186,7 @@ public class BuildingCard : MonoBehaviour
 
     private void KorvKiosk()
     {
-        header.text = "Mackapär";
+        header.text = "Mackapar";
         var interactor = InteractorController.Get().GetInteractor(InteractorType.KorvKiosk);
         var cost = interactor.costs.cash;
 
@@ -196,6 +196,6 @@ public class BuildingCard : MonoBehaviour
         costs.text = $"{cost}c";
         upkeep.text = $"Upkeep: {effect.energy} power";
         description.text =
-            $"A breakthrough in the cutting edge. Does nothing in particular. Requires a lot of energy.";
+            $"A breakthrough in the cutting edge. Does nothing in particular. Requires a lot of power.";
     }
 }
