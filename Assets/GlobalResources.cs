@@ -1,14 +1,15 @@
+using System.Collections;
 using UnityEngine;
 
 public class GlobalResources : MonoBehaviour
 {
     private static GlobalResources _instance;
 
-    private double _cash = 0f;
+    private readonly ResourceTracker _cashTracker = ResourceTracker.Signed();
 
     private void Awake()
     {
-        _cash = SettingsManager.Get().balanceSettings.startingCredits;
+        _cashTracker.Set(SettingsManager.Get().balanceSettings.startingCredits);
         _instance = this;
     }
 
@@ -17,18 +18,37 @@ public class GlobalResources : MonoBehaviour
         return _instance;
     }
 
+    void Start()
+    {
+        StartCoroutine(RunTrends());
+    }
+
+    IEnumerator RunTrends()
+    {
+        while (gameObject != null)
+        {
+            yield return new WaitForSeconds(1f);
+            _cashTracker.ProgressHistory();
+        }
+    }
+
     public void AddCash(double cash)
     {
-        _cash += cash;
+        _cashTracker.Add((float)cash);
     }
 
     public void UseCash(double cash)
     {
-        _cash -= cash;
+        _cashTracker.Remove((float)cash);
     }
 
     public double GetCash()
     {
-        return _cash;
+        return _cashTracker.Get();
+    }
+
+    public TinyPlanetResources.ResourceTrend GetTrend()
+    {
+        return _cashTracker.GetTrend();
     }
 }

@@ -182,7 +182,8 @@ public class CameraController : MonoBehaviour
             _camera.transform.RotateAround(FocusPoint(), transform.right, downMovementSpeed * Time.deltaTime);
         }
 
-        if (!EventSystem.current.IsPointerOverGameObject())
+        var isPointerOverGameObject = EventSystem.current.IsPointerOverGameObject();
+        if (!isPointerOverGameObject)
         {
             HandleZoom();
         }

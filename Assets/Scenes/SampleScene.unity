@@ -5271,6 +5271,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3856960044238393081, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3856960044238393081, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3856960044238393081, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3856960044238393081, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3856960044238393081, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4007754142094652009, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5426,6 +5446,26 @@ PrefabInstance:
     - target: {fileID: 4391174427611220493, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4420917537751394824, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
+      propertyPath: sadColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4420917537751394824, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
+      propertyPath: deadColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4420917537751394824, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
+      propertyPath: happyColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4420917537751394824, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
+      propertyPath: neutralColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4420917537751394824, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
+      propertyPath: overjoyedColor.a
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4425624687365875032, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
       propertyPath: m_AnchorMax.y

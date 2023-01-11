@@ -41,9 +41,8 @@ public class ResourceTracker
         else Set(Mathf.Max(0f, _amount - x));
     }
 
-    private void Set(float x)
+    public void Set(float x)
     {
-        var originalAmount = _amount;
         _amount = x;
         UpdateHistory(_amount);
     }

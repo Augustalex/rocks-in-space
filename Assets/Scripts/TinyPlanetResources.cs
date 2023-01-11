@@ -59,12 +59,12 @@ public class TinyPlanetResources : MonoBehaviour
     private int _occupiedResidencies = 0;
     private int _inhabitants = 0;
 
-    private readonly ResourceTracker _powerTracker = new();
-    private readonly ResourceTracker _foodTracker = ResourceTracker.Signed();
+    private readonly ResourceTracker _powerTracker = ResourceTracker.Signed();
+    private readonly ResourceTracker _foodTracker = new();
 
-    private readonly ResourceTracker _oreTracker = ResourceTracker.Signed();
-    private readonly ResourceTracker _metalsTracker = ResourceTracker.Signed();
-    private readonly ResourceTracker _gadgetsTracker = ResourceTracker.Signed();
+    private readonly ResourceTracker _oreTracker = new();
+    private readonly ResourceTracker _metalsTracker = new();
+    private readonly ResourceTracker _gadgetsTracker = new();
 
     private int _powerPlants;
     private int _farms;

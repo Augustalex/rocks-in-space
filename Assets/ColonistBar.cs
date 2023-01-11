@@ -35,6 +35,7 @@ public class ColonistBar : MonoBehaviour
 
         var monitor = currentPlanet.GetColonistMonitor();
         var status = monitor.GetPlanetStatus();
+
         if (resources.HasHadDeaths() && status == PlanetColonistMonitor.PlanetStatus.Uninhabited)
         {
             SetIcon(dead, deadColor);

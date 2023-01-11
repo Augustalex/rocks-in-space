@@ -1,11 +1,14 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ResourceDisplay : MonoBehaviour
 {
     private string _text;
     private TMP_Text _textComponent;
+
+    public RawImage trendIcon;
 
     void Start()
     {
@@ -14,14 +17,18 @@ public class ResourceDisplay : MonoBehaviour
 
     void Update()
     {
-        ShowGlobalResources();
-        _textComponent.text = _text;
-    }
-
-    public void ShowGlobalResources()
-    {
-        var cash = Math.Floor(GlobalResources.Get().GetCash());
-        _text =
-            $"{(int)cash}";
+        var globalResources = GlobalResources.Get();
+        var cash = Math.Floor(globalResources.GetCash());
+        _textComponent.text = $"{(int)cash}";
+        var resourceTrend = globalResources.GetTrend();
+        if (resourceTrend == TinyPlanetResources.ResourceTrend.neutral)
+        {
+            trendIcon.gameObject.SetActive(false);
+        }
+        else
+        {
+            trendIcon.gameObject.SetActive(true);
+            trendIcon.texture = UIAssetManager.Get().GetTrendTexture(resourceTrend);
+        }
     }
 }
