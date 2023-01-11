@@ -168,7 +168,7 @@ public class ColonyShip : MonoBehaviour
         }
         else
         {
-            colonists = Random.Range(1000, 3000);
+            colonists = Random.Range(10, 30) * 100;
         }
     }
 }
