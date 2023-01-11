@@ -48,6 +48,8 @@ namespace Interactors
 
         public InteractorCostsData costs;
 
+        protected bool Additive = false; // False=Replaces target block, True=Adds new block onto that block
+
         public virtual InteractorType GetInteractorType()
         {
             return InteractorType.Misc;
@@ -60,7 +62,7 @@ namespace Interactors
                 return "Asteroid needs a Beacon before anything can be done here!";
             }
 
-            if (!block.CanSeed())
+            if (!Additive && !block.CanSeed())
             {
                 return "Can't build here!";
             }

@@ -4,6 +4,8 @@ namespace Interactors
 {
     public class ScaffoldingInteractor : InteractorModule
     {
+        protected new bool Additive = true;
+
         public override InteractorType GetInteractorType()
         {
             return InteractorType.Platform;
