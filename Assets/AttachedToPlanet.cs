@@ -23,6 +23,8 @@ public class AttachedToPlanet : MonoBehaviour
             return;
         }
 
+        _planet = null;
+
         DetachedFrom?.Invoke(planet.GetResources());
     }
 
@@ -30,6 +32,8 @@ public class AttachedToPlanet : MonoBehaviour
     {
         var original = _planet;
         if (original == target) return;
+
+        _planet = target;
 
         TransferredFromTo?.Invoke(original.GetResources(), target.GetResources());
     }

@@ -4,7 +4,10 @@ namespace Interactors
 {
     public class ScaffoldingInteractor : InteractorModule
     {
-        protected new bool Additive = true;
+        public override bool GetIsAdditive()
+        {
+            return true;
+        }
 
         public override InteractorType GetInteractorType()
         {

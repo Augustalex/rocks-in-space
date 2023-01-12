@@ -11,11 +11,10 @@ public class DebugManager : MonoBehaviour
         if (on)
         {
             _hidable = FindObjectsOfType<DebugHidable>();
+            ProgressManager.Get().Built(BuildingType.Factory);
+            ProgressManager.Get().Built(BuildingType.Refinery);
+            ProgressManager.Get().Built(BuildingType.PowerPlant);
         }
-
-        ProgressManager.Get().Built(BuildingType.Factory);
-        ProgressManager.Get().Built(BuildingType.Refinery);
-        ProgressManager.Get().Built(BuildingType.PowerPlant);
     }
 
     void Update()

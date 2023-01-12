@@ -156,13 +156,25 @@ public class ColonyShip : MonoBehaviour
     {
         if (level == 1)
         {
+            colonists = 500;
+        }
+        else if (level == 2)
+        {
             colonists = 1000;
         }
-        else if (level <= 4)
+        else if (level == 3)
+        {
+            colonists = 2000;
+        }
+        else if (level == 4)
         {
             colonists = 2000;
         }
         else if (level == 5)
+        {
+            colonists = 2000;
+        }
+        else if (level == 6)
         {
             colonists = 3000;
         }
