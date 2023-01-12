@@ -19,24 +19,35 @@ public class PortController : MonoBehaviour
         MarkNonLaserable();
 
         DisplayController.Get().OnRenameDone += MaybeShowPopup;
+
+        var planetId = GetConnectedBlock().GetConnectedPlanet().planetId;
+        ProgressManager.Get().BuiltPort(planetId);
+    }
+
+    private void OnDestroy()
+    {
+        ProgressManager.Get().DestroyedPort(GetConnectedBlock().GetConnectedPlanet().planetId);
+        PlanetsRegistry.Get().Remove(this);
+
+        var displayController = DisplayController.Get();
+        displayController.OnRenameDone -= MaybeShowPopup;
+    }
+
+    private Block GetConnectedBlock()
+    {
+        var blockRoot = GetComponentInParent<BlockRoot>();
+
+        return blockRoot.GetBlock();
     }
 
     private void MarkNonLaserable()
     {
-        GetComponentInParent<BlockRoot>().GetComponentInChildren<Block>().MarkNonLaserable();
+        GetConnectedBlock().MarkNonLaserable();
     }
 
     private void RegisterPort()
     {
         PlanetsRegistry.Get().Add(this);
-    }
-
-    private void OnDestroy()
-    {
-        PlanetsRegistry.Get().Remove(this);
-
-        var displayController = DisplayController.Get();
-        displayController.OnRenameDone -= MaybeShowPopup;
     }
 
     private void MaybeShowPopup()

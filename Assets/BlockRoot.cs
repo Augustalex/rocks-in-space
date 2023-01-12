@@ -4,4 +4,8 @@ using UnityEngine;
 
 public class BlockRoot : MonoBehaviour
 {
+    public Block GetBlock()
+    {
+        return GetComponentInChildren<Block>();
+    }
 }
