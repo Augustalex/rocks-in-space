@@ -1,4 +1,5 @@
 using System.Linq;
+using GameNotifications;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,6 +9,11 @@ public class GameOverScreen : MonoBehaviour
     private GameObject _contents;
     private static GameOverScreen _instance;
     private GlobalResources _globalResources;
+    private bool _hasNotSentWarning;
+    private bool _hasGotWarning;
+    private bool _hasGotLoan;
+    private bool _hasRepaidLoan;
+    private bool _hasEndedGame;
     private const float GraceThreshold = -500f;
 
     public static GameOverScreen Get()
@@ -30,9 +36,36 @@ public class GameOverScreen : MonoBehaviour
 
     private void Update()
     {
-        if (_globalResources.GetCash() < GraceThreshold)
+        if (!_hasGotLoan && _globalResources.GetCash() < 0)
+        {
+            Notifications.Get().Send(new TextNotification
+            {
+                message =
+                    "The company has been made aware of your struggle to turn a profit. You have been giving a warning and a small sum to turn this situation around."
+            });
+            _globalResources.AddCash(500);
+            _hasGotLoan = true;
+        }
+        else if (_hasGotLoan && !_hasRepaidLoan && _globalResources.GetCash() > 1000)
+        {
+            Notifications.Get().Send(new TextNotification
+                { message = "The company has taken an extra piece of your profits as recourse for their earlier aid." });
+            _globalResources.UseCash(500);
+            _hasRepaidLoan = true;
+        }
+        else if (!_hasGotWarning && _globalResources.GetCash() < 0)
+        {
+            Notifications.Get().Send(new TextNotification
+            {
+                message =
+                    "The company has issued you a final warning. If you don't turn a profit soon, you will be fired."
+            });
+            _hasGotWarning = true;
+        }
+        else if (_hasGotWarning && !_hasEndedGame && _globalResources.GetCash() < GraceThreshold)
         {
             NoMoreMoney();
+            _hasEndedGame = true;
         }
     }
 

@@ -8,6 +8,8 @@ public class ResourceConversionEffect : MonoBehaviour
     public TinyPlanetResources.PlanetResourceType to;
     public float iterationTime = 1f;
 
+    private const float ResourceTakeTime = .5f;
+
     private AttachedToPlanet _planetAttachment;
 
     private void Awake()
@@ -24,21 +26,20 @@ public class ResourceConversionEffect : MonoBehaviour
     {
         while (gameObject != null)
         {
-            yield return new WaitForSeconds(iterationTime);
+            yield return new WaitForSeconds(ResourceTakeTime);
 
             var resources = _planetAttachment.GetAttachedResources();
-            var fromResources = resources.GetResource(from);
-            while (fromResources < 1f && gameObject != null)
+            while (resources.GetResource(from) < 1f && gameObject != null)
             {
                 // Wat until there is resources to take from. Then restart the iteration timer.
-                yield return new WaitForEndOfFrame();
+                yield return new WaitForSeconds(.15f);
             }
 
-            if (fromResources >= 1f)
-            {
-                resources.RemoveResource(from, 1f);
-                resources.AddResource(to, 1f);
-            }
+            resources.RemoveResource(from, 1f);
+
+            yield return new WaitForSeconds(iterationTime);
+
+            resources.AddResource(to, 1f);
         }
     }
 }
