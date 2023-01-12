@@ -26,8 +26,23 @@ public class Meteor : MonoBehaviour
         {
             yield return new WaitForSeconds(2);
 
-            var anyBlock = FindObjectsOfType<Block>();
-            var block = anyBlock[Random.Range(0, anyBlock.Length)];
+            var allBlocks = FindObjectsOfType<Block>();
+            Block block = null;
+            var runs = 0;
+            while (block == null && runs < 1000)
+            {
+                block = allBlocks[Random.Range(0, allBlocks.Length)];
+                if (block.GetComponentInChildren<Block>().IsSeeded() &&
+                    block.GetRoot().GetComponentInChildren<PortController>())
+                {
+                    block = null; // Do not target ports!
+                }
+
+                runs += 1;
+            }
+
+            if (block == null) block = allBlocks[0];
+
             var direction = (block.transform.position - transform.position).normalized;
             body.AddForce(direction * 20f, ForceMode.Impulse);
 

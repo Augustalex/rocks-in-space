@@ -1,9 +1,22 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class MeteorGenerator : MonoBehaviour
 {
     public GameObject meteorTemplate;
     private int _count;
+    private static MeteorGenerator _instance;
+
+    public static MeteorGenerator Get()
+    {
+        return _instance;
+    }
+
+    private void Awake()
+    {
+        _instance = this;
+    }
 
     void Update()
     {
@@ -15,7 +28,7 @@ public class MeteorGenerator : MonoBehaviour
         }
     }
 
-    private GameObject SpawnMeteor()
+    public GameObject SpawnMeteor()
     {
         var meteor = Instantiate(meteorTemplate);
         meteor.transform.position = (Random.insideUnitSphere).normalized * 2000f;

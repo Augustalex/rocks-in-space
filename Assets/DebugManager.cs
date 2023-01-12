@@ -50,5 +50,10 @@ public class DebugManager : MonoBehaviour
         {
             CurrentPlanetController.Get().CurrentPlanet().GetResources().AddColonists(1000);
         }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            MeteorGenerator.Get().SpawnMeteor();
+        }
     }
 }
