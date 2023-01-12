@@ -7958,6 +7958,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: MapHelperText
       objectReference: {fileID: 0}
+    - target: {fileID: 4448600646540341793, guid: 5fd7136b36e3c7449989627a83b8cd93, type: 3}
+      propertyPath: m_fontSize
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 4448600646540341793, guid: 5fd7136b36e3c7449989627a83b8cd93, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 36
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fd7136b36e3c7449989627a83b8cd93, type: 3}
 --- !u!1001 &6368282008649089503

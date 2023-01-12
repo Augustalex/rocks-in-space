@@ -30,7 +30,7 @@ public class NudgeNotifications : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         
-        Notifications.Get().Send(new TextNotification
+        Notifications.Get().Send(new MapNotification
         {
             message =
                 "With 2 Beacons active you can now setup trade routes in the Map view!"

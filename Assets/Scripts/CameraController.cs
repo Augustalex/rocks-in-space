@@ -421,6 +421,11 @@ public class CameraController : MonoBehaviour
     {
         if (IsZoomedOut()) ToggleZoomMode();
     }
+    
+    public void ZoomOut()
+    {
+        if (!IsZoomedOut()) ToggleZoomMode();
+    }
 
     public bool ControlsLocked()
     {
