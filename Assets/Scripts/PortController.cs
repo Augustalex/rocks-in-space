@@ -26,8 +26,12 @@ public class PortController : MonoBehaviour
 
     private void OnDestroy()
     {
-        ProgressManager.Get().DestroyedPort(GetConnectedBlock().GetConnectedPlanet().planetId);
-        PlanetsRegistry.Get().Remove(this);
+        var connectedBlock = GetConnectedBlock();
+        if (connectedBlock != null)
+        {
+            ProgressManager.Get().DestroyedPort(connectedBlock.GetConnectedPlanet().planetId);
+            PlanetsRegistry.Get().Remove(this);
+        }
 
         var displayController = DisplayController.Get();
         displayController.OnRenameDone -= MaybeShowPopup;
@@ -36,6 +40,7 @@ public class PortController : MonoBehaviour
     private Block GetConnectedBlock()
     {
         var blockRoot = GetComponentInParent<BlockRoot>();
+        if (blockRoot == null) return null;
 
         return blockRoot.GetBlock();
     }
