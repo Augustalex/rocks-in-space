@@ -20,6 +20,7 @@ namespace Interactors
         private ILaserInteractable _activeTargetEntity;
         private Camera _camera;
         private Vector3 _targetPosition;
+        private Vector3 _previousMousePosition;
 
         private void Start()
         {
@@ -127,13 +128,14 @@ namespace Interactors
                 }
             }
 
+
             UpdateCursorPosition();
-            laserLight.transform.LookAt(_targetPosition);
         }
 
         private void UpdateCursorPosition()
         {
-            var ray = _camera.ScreenPointToRay(Input.mousePosition);
+            var mousePosition = Input.mousePosition;
+            var ray = _camera.ScreenPointToRay(mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, MaxActivationDistance()))
@@ -141,11 +143,20 @@ namespace Interactors
                 var laserableEntity = hit.collider.GetComponent<ILaserInteractable>();
                 if (_started && laserableEntity != _activeTargetEntity)
                 {
-                    StopInteraction();
+                    var distanceChange = Vector2.Distance(mousePosition, _previousMousePosition);
+                    if (distanceChange > 2f)
+                    {
+                        StopInteraction();
+                    }
                 }
-
-                _targetPosition = hit.point;
+                else
+                {
+                    _targetPosition = hit.point;
+                    laserLight.transform.LookAt(_targetPosition);
+                }
             }
+
+            _previousMousePosition = mousePosition;
         }
 
         public override bool CanBuild(Block block)
