@@ -56,7 +56,7 @@ namespace Interactors
         public override void OnBuilt(Vector3 hitPoint)
         {
             var audioController = AudioController.Get();
-            audioController.Play(audioController.destroyBlock, audioController.destroyBlockVolume,
+            audioController.Play(audioController.build, audioController.buildVolume,
                 hitPoint);
 
             InteractorController.Get()

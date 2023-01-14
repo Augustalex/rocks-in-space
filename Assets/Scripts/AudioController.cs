@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class AudioController : MonoBehaviour
 {
-    public AudioClip destroyBlock;
-    public float destroyBlockVolume;
-    
+    public AudioClip build;
+    public float buildVolume;
+
     public AudioClip cannotBuild;
     public float cannotBuildVolume;
 

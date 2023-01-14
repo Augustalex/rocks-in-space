@@ -61,7 +61,7 @@ namespace Interactors
         {
             var audioController = AudioController.Get();
 
-            audioController.Play(audioController.destroyBlock, audioController.destroyBlockVolume,
+            audioController.Play(audioController.build, audioController.buildVolume,
                 hitPoint);
         }
 
