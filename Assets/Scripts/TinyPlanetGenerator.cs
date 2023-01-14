@@ -116,64 +116,41 @@ public class TinyPlanetGenerator : MonoBehaviour
     public void DestroyBlock(Block destroyBlock)
     {
         var position = destroyBlock.GetPosition();
-        var blockTransform = destroyBlock.transform;
-        var forward = blockTransform.forward;
-        var right = blockTransform.right;
-        var up = blockTransform.up;
-        var directions = new[]
-        {
-            new[]
-            {
-                up,
-                -up,
-            },
-            new[]
-            {
-                right,
-                -right,
-            },
-            new[]
-            {
-                forward,
-                -forward,
-            },
-        };
 
         destroyBlock.DestroySelf(); // WARNING: Note the circular dependency!
 
         StartCoroutine(
             DoSoon()); // Wait for "destroyBlock" to be destroyed, before using OverlapSphere to calculate new split networks
 
+        // Note: The previous version tried to be much smarter about when it checked for a network break. 
+        // But this lead to some corner cases where it wouldn't properly detect breaks. But it did also have the benefit of being very fast!
+        // But in the newer versions of the game - breaking rocks is a much slower process, so we can afford a less performant but more accurate check.
         IEnumerator DoSoon()
         {
             yield return new WaitForEndOfFrame();
 
-            var clearDirections = directions.Count(directionals =>
-                Physics.RaycastAll(position, directionals[0], 5f).Length == 0 &&
-                Physics.RaycastAll(position, directionals[1], 5f).Length == 0) > 1;
-            if (clearDirections)
+            var hits = Physics.OverlapBox(position,
+                Vector3.one * TinyPlanetNetworkHelper.NetworkDislodgeActivationDistance);
+            if (hits.Length > 0)
             {
-                var hits = Physics.OverlapSphere(position, TinyPlanetNetworkHelper.NetworkDislodgeActivationDistance);
-                if (hits.Length > 0)
+                var blocks = hits.Select(hit => hit.GetComponent<Block>()).Where(block => block != null);
+                List<List<GameObject>> previousNetworks = new List<List<GameObject>>();
+                foreach (var block in blocks)
                 {
-                    var blocks = hits.Select(hit => hit.GetComponent<Block>()).Where(block => block != null);
-                    List<GameObject> previousNetwork = null;
-                    foreach (var block in blocks)
-                    {
-                        if (previousNetwork != null && previousNetwork.Contains(block.GetRoot()))
-                        {
-                            continue;
-                        }
+                    var blockRoot = block.GetRoot();
 
-                        var planet = block.GetConnectedPlanet();
-                        var sampleNetwork = TinyPlanetNetworkHelper.GetNetworkFromRock(block.GetRoot());
-                        previousNetwork = sampleNetwork;
-                        if (planet.IsNetworkDislodged(sampleNetwork))
-                        {
-                            TurnNetworkIntoPlanet(sampleNetwork, block.GetRoot().transform.position);
-                            yield break;
-                            // planet.CheckDislodgement(block.GetRoot());
-                        }
+                    if (previousNetworks.Any(l => l.Contains(blockRoot)))
+                    {
+                        continue;
+                    }
+
+                    var sampleNetwork = TinyPlanetNetworkHelper.GetNetworkFromRock(blockRoot);
+                    previousNetworks.Add(sampleNetwork);
+
+                    var planet = block.GetConnectedPlanet();
+                    if (planet.IsNetworkDislodged(sampleNetwork))
+                    {
+                        TurnNetworkIntoPlanet(sampleNetwork, blockRoot.transform.position);
                     }
                 }
             }
