@@ -1,6 +1,7 @@
 ﻿using System;
 using Interactors.Digging;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Interactors
 {
@@ -21,6 +22,7 @@ namespace Interactors
         private Camera _camera;
         private Vector3 _targetPosition;
         private Vector3 _previousMousePosition;
+        private float _lastInteractionAudio;
 
         private void Start()
         {
@@ -57,6 +59,8 @@ namespace Interactors
 
         public void StopInteraction()
         {
+            AudioController.Get().Cancel();
+
             _started = false;
             _lastDig = Time.time;
 
@@ -87,12 +91,6 @@ namespace Interactors
             return _activeTargetEntity.DisintegrationTime();
         }
 
-        public void FinishInteraction()
-        {
-            _activeTargetEntity.LaserInteract();
-            StopInteraction();
-        }
-
         private void Update()
         {
             if (_started)
@@ -105,10 +103,14 @@ namespace Interactors
                 {
                     if (!laserEffect.IsActivated())
                     {
+                        var audioController = AudioController.Get();
+                        audioController.Play(audioController.laserStarted, audioController.laserStartedVolume,
+                            _activeTargetEntity.GetAudioPosition(), true);
                         laserEffect.Activate();
                     }
 
                     laserEffect.SetTarget(_targetPosition);
+
                     if (_activeTargetEntity != null)
                     {
                         if (_activeTargetEntity.CanInteract())
@@ -116,6 +118,15 @@ namespace Interactors
                             var interactionDuration = Time.time - _startedAt;
                             var completionFactor = interactionDuration / ActionLength();
                             _activeTargetEntity.GetOven().SetHeat(completionFactor);
+
+                            if (Time.time - _lastInteractionAudio > .15f && Random.value < .05)
+                            {
+                                // var audioController = AudioController.Get();
+                                // audioController.Play(audioController.laserProgress, audioController.laserProgressVolume,
+                                //     _activeTargetEntity.GetAudioPosition());
+
+                                _lastInteractionAudio = Time.time;
+                            }
                         }
                     }
                 }
@@ -130,6 +141,16 @@ namespace Interactors
 
 
             UpdateCursorPosition();
+        }
+
+        public void FinishInteraction()
+        {
+            var audioController = AudioController.Get();
+            audioController.Play(audioController.laserFinish, audioController.laserFinishVolume,
+                _activeTargetEntity.GetAudioPosition());
+            _activeTargetEntity.LaserInteract();
+
+            StopInteraction();
         }
 
         private void UpdateCursorPosition()

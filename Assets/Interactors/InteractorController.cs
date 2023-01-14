@@ -196,6 +196,7 @@ namespace Interactors
                 var interactorModule = CurrentModule();
                 if (interactorModule is DigInteractor digInteractor)
                 {
+                    AudioController.Get().Cancel();
                     digInteractor.StopInteraction();
                 }
             }

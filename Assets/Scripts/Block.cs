@@ -167,6 +167,11 @@ public class Block : MonoBehaviour, ILaserInteractable
         return _oreController.HasOre() ? balanceSettings.oreDigTime : balanceSettings.rockDigTime;
     }
 
+    public Vector3 GetAudioPosition()
+    {
+        return GetPosition();
+    }
+
     public EntityOven GetOven()
     {
         return transform.parent.GetComponentInChildren<EntityOven>();
