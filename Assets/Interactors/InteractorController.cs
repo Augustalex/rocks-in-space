@@ -99,14 +99,16 @@ namespace Interactors
             }
             else
             {
-                for (var i = 0; i < _selectKeys.Length; i++)
-                {
-                    if (Input.GetKeyDown(_selectKeys[i]) && _modules.Length > i)
-                    {
-                        _selectedInteractorBeforeWasLocked = i;
-                        _currentModule = i;
-                    }
-                }
+                // Uncomment to enable keyboard shortcuts:
+                // Note however - these have no support for progress locks. So that needs to be fixed first.
+                // for (var i = 0; i < _selectKeys.Length; i++)
+                // {
+                //     if (Input.GetKeyDown(_selectKeys[i]) && _modules.Length > i)
+                //     {
+                //         _selectedInteractorBeforeWasLocked = i;
+                //         _currentModule = i;
+                //     }
+                // }
             }
 
             if (_currentModule != _previousInteractor) InteractorSelected?.Invoke(CurrentModule());
