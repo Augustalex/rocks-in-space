@@ -133,20 +133,22 @@ public class Meteor : MonoBehaviour
             {
                 // Add a bunch of debris for dramatic effect! (even though nothing was actually broken really)
                 var blockTransform = block.transform;
+                var blockPosition = blockTransform.position;
+                var blockRotation = blockTransform.rotation;
                 Instantiate(
                     PrefabTemplateLibrary.Get().rockDebrisTemplate,
-                    blockTransform.position,
-                    blockTransform.rotation
+                    blockPosition,
+                    blockRotation
                 );
                 Instantiate(
                     PrefabTemplateLibrary.Get().rockDebrisTemplate,
-                    blockTransform.position + Random.insideUnitSphere * .25f,
-                    blockTransform.rotation
+                    blockPosition + Random.insideUnitSphere * .25f,
+                    blockRotation
                 );
                 Instantiate(
                     PrefabTemplateLibrary.Get().rockDebrisTemplate,
-                    blockTransform.position + Random.insideUnitSphere * .5f,
-                    blockTransform.rotation
+                    blockPosition + Random.insideUnitSphere * .5f,
+                    blockRotation
                 );
 
                 var oreController = block.GetRoot().GetComponentInChildren<OreController>();

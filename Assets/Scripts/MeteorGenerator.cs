@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -24,8 +23,14 @@ public class MeteorGenerator : MonoBehaviour
         {
             _count += 1;
             var meteor = SpawnMeteor();
-            meteor.GetComponent<Meteor>().BeforeDestroy += () => _count -= 1;
+            var meteorComponent = meteor.GetComponent<Meteor>();
+            meteorComponent.BeforeDestroy += BeforeMeteorDestroy;
         }
+    }
+
+    private void BeforeMeteorDestroy()
+    {
+        _count -= 1;
     }
 
     public GameObject SpawnMeteor()
