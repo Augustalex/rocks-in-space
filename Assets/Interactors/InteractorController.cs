@@ -25,13 +25,13 @@ namespace Interactors
         {
             KeyCode.Alpha1,
             KeyCode.Alpha2,
-            KeyCode.Alpha3,
-            KeyCode.Alpha4,
-            KeyCode.Alpha5,
-            KeyCode.Alpha6,
-            KeyCode.Alpha7,
-            KeyCode.Alpha8,
-            KeyCode.Alpha9,
+            // KeyCode.Alpha3,
+            // KeyCode.Alpha4,
+            // KeyCode.Alpha5,
+            // KeyCode.Alpha6,
+            // KeyCode.Alpha7,
+            // KeyCode.Alpha8,
+            // KeyCode.Alpha9,
         };
 
         private static InteractorController _instance;
@@ -101,14 +101,14 @@ namespace Interactors
             {
                 // Uncomment to enable keyboard shortcuts:
                 // Note however - these have no support for progress locks. So that needs to be fixed first.
-                // for (var i = 0; i < _selectKeys.Length; i++)
-                // {
-                //     if (Input.GetKeyDown(_selectKeys[i]) && _modules.Length > i)
-                //     {
-                //         _selectedInteractorBeforeWasLocked = i;
-                //         _currentModule = i;
-                //     }
-                // }
+                for (var i = 0; i < _selectKeys.Length; i++)
+                {
+                    if (Input.GetKeyDown(_selectKeys[i]) && _modules.Length > i)
+                    {
+                        _selectedInteractorBeforeWasLocked = i;
+                        _currentModule = i;
+                    }
+                }
             }
 
             if (_currentModule != _previousInteractor) InteractorSelected?.Invoke(CurrentModule());

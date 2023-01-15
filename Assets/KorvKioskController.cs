@@ -14,29 +14,29 @@ public class KorvKioskController : MonoBehaviour
         IEnumerator TellTale()
         {
             yield return new WaitForSeconds(2);
-            notifications.Send(new TextNotification { message = "Hello there! You sure played this demo a lot." });
+            notifications.Send(new TextNotification { Message = "Hello there! You sure played this demo a lot." });
             yield return new WaitForSeconds(6);
             notifications.Send(new TextNotification
-                { message = "In fact - you seem to have completed everything there is to do." });
+                { Message = "In fact - you seem to have completed everything there is to do." });
             yield return new WaitForSeconds(4);
-            notifications.Send(new TextNotification { message = "But there is one more thing..." });
+            notifications.Send(new TextNotification { Message = "But there is one more thing..." });
             yield return new WaitForSeconds(3);
-            notifications.Send(new TextNotification { message = "...drum roll..." });
+            notifications.Send(new TextNotification { Message = "...drum roll..." });
             yield return new WaitForSeconds(6);
-            notifications.Send(new TextNotification { message = "...You can play it again!" });
+            notifications.Send(new TextNotification { Message = "...You can play it again!" });
             yield return new WaitForSeconds(3);
             notifications.Send(
-                new TextNotification { message = "Well, you can play it again using these neat tricks:" });
+                new TextNotification { Message = "Well, you can play it again using these neat tricks:" });
             yield return new WaitForSeconds(3);
-            notifications.Send(new TextNotification { message = "Type TOOMUCHOREGANO to get 1000 ore" });
+            notifications.Send(new TextNotification { Message = "Type TOOMUCHOREGANO to get 1000 ore" });
             yield return new WaitForSeconds(2);
-            notifications.Send(new TextNotification { message = "Type SPARVAGNAR to get 1000 metals" });
+            notifications.Send(new TextNotification { Message = "Type SPARVAGNAR to get 1000 metals" });
             yield return new WaitForSeconds(2);
-            notifications.Send(new TextNotification { message = "Type INSPECTORGADGET to get 1000 gadgets" });
+            notifications.Send(new TextNotification { Message = "Type INSPECTORGADGET to get 1000 gadgets" });
             yield return new WaitForSeconds(2);
-            notifications.Send(new TextNotification { message = "Type SMALLLOAN to get 1000000 credits" });
+            notifications.Send(new TextNotification { Message = "Type SMALLLOAN to get 1000000 credits" });
             yield return new WaitForSeconds(2);
-            notifications.Send(new TextNotification { message = "Have fun and thanks for playing!" });
+            notifications.Send(new TextNotification { Message = "Have fun and thanks for playing!" });
         }
     }
 }

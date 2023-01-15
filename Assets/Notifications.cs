@@ -1,4 +1,5 @@
 ﻿using System;
+using GameNotifications;
 using UnityEngine;
 
 public class Notifications : MonoBehaviour

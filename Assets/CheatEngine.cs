@@ -88,7 +88,7 @@ public class CheatEngine : MonoBehaviour
             var input = String.Join("", _buffer);
             if (input.Contains(code))
             {
-                Notifications.Get().Send(new TextNotification { message = $"{code.ToUpper()} cheat activated" });
+                Notifications.Get().Send(new TextNotification { Message = $"{code.ToUpper()} cheat activated" });
                 action.Invoke();
                 _buffer.Clear();
                 return;

@@ -1,5 +1,4 @@
-﻿using System;
-using Interactors.Digging;
+﻿using Interactors.Digging;
 using UnityEngine;
 
 public class Block : MonoBehaviour, ILaserInteractable
@@ -26,6 +25,7 @@ public class Block : MonoBehaviour, ILaserInteractable
         if (_oreController.HasOre())
         {
             _oreController.Mine(GetConnectedPlanet());
+            MineralSounds.Get().Play();
         }
 
         if (_seed)
@@ -42,6 +42,7 @@ public class Block : MonoBehaviour, ILaserInteractable
             }
         }
 
+        RockSmash.Get().Play();
         tinyPlanetGenerator.DestroyBlock(this); // Will call "DestroySelf"
     }
 

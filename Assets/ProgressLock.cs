@@ -75,7 +75,8 @@ public class ProgressLock : MonoBehaviour
         {
             Notifications.Get().Send(new BuildingNotification
             {
-                message = $"New building \"{PowerPlantInteractor.GetName()}\" unlocked!"
+                Message = $"New building \"{PowerPlantInteractor.GetName()}\" unlocked!",
+                NotificationType = NotificationTypes.Positive
             });
             Hide();
         }
@@ -92,7 +93,8 @@ public class ProgressLock : MonoBehaviour
         {
             Notifications.Get().Send(new BuildingNotification
             {
-                message = $"New building \"{FarmDomeInteractor.GetName()}\" unlocked!"
+                Message = $"New building \"{FarmDomeInteractor.GetName()}\" unlocked!",
+                NotificationType = NotificationTypes.Positive
             });
             Hide();
         }
@@ -117,7 +119,10 @@ public class ProgressLock : MonoBehaviour
         {
             Notifications.Get().Send(new BuildingNotification
             {
-                message = $"New building \"{ResidencyInteractor.GetName()}\" unlocked!"
+                Message = $"New building \"{ResidencyInteractor.GetName()}\" unlocked!",
+                NotificationType =
+                    NotificationTypes
+                        .Silent // Farm notification is shown at the same time, so no need to ring another notification sound.
             });
             Hide();
         }
@@ -142,7 +147,8 @@ public class ProgressLock : MonoBehaviour
         {
             Notifications.Get().Send(new BuildingNotification
             {
-                message = $"New building \"{ScaffoldingInteractor.GetName()}\" unlocked!"
+                Message = $"New building \"{ScaffoldingInteractor.GetName()}\" unlocked!",
+                NotificationType = NotificationTypes.Positive
             });
             Hide();
         }
@@ -169,7 +175,8 @@ public class ProgressLock : MonoBehaviour
         {
             Notifications.Get().Send(new BuildingNotification
             {
-                message = $"Something different has been unlocked in the building menu."
+                Message = $"Something different has been unlocked in the building menu.",
+                NotificationType = NotificationTypes.Positive
             });
             Hide();
         }

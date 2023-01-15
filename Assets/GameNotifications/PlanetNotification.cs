@@ -9,12 +9,12 @@
             CurrentPlanetController.Get().ChangePlanet(location);
             CameraController.Get().FocusOnPlanet(location);
 
-            _status = NotificationStatus.Accepted;
+            Status = NotificationStatus.Accepted;
         }
 
         public override void Reject()
         {
-            _status = NotificationStatus.Rejected;
+            Status = NotificationStatus.Rejected;
         }
     }
 }

@@ -104,8 +104,8 @@ namespace Interactors
                     if (!laserEffect.IsActivated())
                     {
                         var audioController = AudioController.Get();
-                        audioController.Play(audioController.laserStarted, audioController.laserStartedVolume,
-                            _activeTargetEntity.GetAudioPosition(), true);
+                        audioController.PlayWithRandomPitch(audioController.laserStarted,
+                            audioController.laserStartedVolume, .15f);
                         laserEffect.Activate();
                     }
 
@@ -145,9 +145,6 @@ namespace Interactors
 
         public void FinishInteraction()
         {
-            var audioController = AudioController.Get();
-            audioController.Play(audioController.laserFinish, audioController.laserFinishVolume,
-                _activeTargetEntity.GetAudioPosition());
             _activeTargetEntity.LaserInteract();
 
             StopInteraction();

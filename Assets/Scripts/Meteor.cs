@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using GameNotifications;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -13,42 +12,81 @@ public class Meteor : MonoBehaviour
     public event Action BeforeDestroy;
 
     private float _createdAt;
+    private bool _targetOnlyCurrentPlanet;
+    private Rigidbody _body;
+
+    public void TargetCurrentPlanet()
+    {
+        _targetOnlyCurrentPlanet = true;
+    }
 
     void Start()
     {
         _createdAt = Time.time;
 
-        var body = GetComponentInParent<Rigidbody>();
+        _body = GetComponentInParent<Rigidbody>();
 
         StartCoroutine(DoSoon());
 
         IEnumerator DoSoon()
         {
             yield return new WaitForSeconds(2);
+            if (_targetOnlyCurrentPlanet) FindTargetOnCurrentPlanet();
+            else FindTarget();
+        }
+    }
 
-            var allBlocks = FindObjectsOfType<Block>();
-            Block block = null;
-            var runs = 0;
-            while (block == null && runs < 1000)
+    private void FindTarget()
+    {
+        var allBlocks = FindObjectsOfType<Block>();
+        Block block = null;
+        var runs = 0;
+        while (block == null && runs < 1000)
+        {
+            block = allBlocks[Random.Range(0, allBlocks.Length)];
+            if (block.IsSeeded() &&
+                block.GetRoot().GetComponentInChildren<PortController>())
             {
-                block = allBlocks[Random.Range(0, allBlocks.Length)];
-                if (block.GetComponentInChildren<Block>().IsSeeded() &&
-                    block.GetRoot().GetComponentInChildren<PortController>())
-                {
-                    block = null; // Do not target ports!
-                }
-
-                runs += 1;
+                block = null; // Do not target ports!
             }
 
-            if (block == null) block = allBlocks[0];
-
-            var direction = (block.transform.position - transform.position).normalized;
-            body.AddForce(direction * 20f, ForceMode.Impulse);
-
-            target = block;
-            targetObj = block.gameObject;
+            runs += 1;
         }
+
+        if (block == null) block = allBlocks[0];
+
+        var direction = (block.transform.position - transform.position).normalized;
+        _body.AddForce(direction * 20f, ForceMode.Impulse);
+
+        target = block;
+        targetObj = block.gameObject;
+    }
+
+    private void FindTargetOnCurrentPlanet()
+    {
+        var allBlocks = CurrentPlanetController.Get().CurrentPlanet().GetComponentsInChildren<Block>();
+
+        Block block = null;
+        var runs = 0;
+        while (block == null && runs < 1000)
+        {
+            block = allBlocks[Random.Range(0, allBlocks.Length)];
+            if (block.GetComponentInChildren<Block>().IsSeeded() &&
+                block.GetRoot().GetComponentInChildren<PortController>())
+            {
+                block = null; // Do not target ports!
+            }
+
+            runs += 1;
+        }
+
+        if (block == null) block = allBlocks[0];
+
+        var direction = (block.transform.position - transform.position).normalized;
+        _body.AddForce(direction * 20f, ForceMode.Impulse);
+
+        target = block;
+        targetObj = block.gameObject;
     }
 
     private void Update()
@@ -66,6 +104,12 @@ public class Meteor : MonoBehaviour
 
         if (block)
         {
+            if (block.GetConnectedPlanet() == CurrentPlanetController.Get().CurrentPlanet())
+            {
+                RockSmash.Get().PlayHitAndSmash(block.GetPosition());
+                MineralSounds.Get().Play();
+            }
+
             if (block.IsSeeded())
             {
                 var connectedPlanet = block.GetConnectedPlanet();
@@ -79,13 +123,32 @@ public class Meteor : MonoBehaviour
 
                 Notifications.Get().Send(new PlanetNotification
                 {
-                    location = connectedPlanet, message = message
+                    NotificationType = NotificationTypes.Negative,
+                    location = connectedPlanet, Message = message
                 });
 
                 block.DestroyedByNonPlayer();
             }
             else
             {
+                // Add a bunch of debris for dramatic effect! (even though nothing was actually broken really)
+                var blockTransform = block.transform;
+                Instantiate(
+                    PrefabTemplateLibrary.Get().rockDebrisTemplate,
+                    blockTransform.position,
+                    blockTransform.rotation
+                );
+                Instantiate(
+                    PrefabTemplateLibrary.Get().rockDebrisTemplate,
+                    blockTransform.position + Random.insideUnitSphere * .25f,
+                    blockTransform.rotation
+                );
+                Instantiate(
+                    PrefabTemplateLibrary.Get().rockDebrisTemplate,
+                    blockTransform.position + Random.insideUnitSphere * .5f,
+                    blockTransform.rotation
+                );
+
                 var oreController = block.GetRoot().GetComponentInChildren<OreController>();
                 if (oreController)
                 {

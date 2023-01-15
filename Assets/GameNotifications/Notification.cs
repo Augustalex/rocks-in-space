@@ -1,24 +1,35 @@
-﻿using UnityEngine;
-
-public abstract class Notification
+﻿namespace GameNotifications
 {
-    protected NotificationStatus _status = NotificationStatus.Open;
-
-    public enum NotificationStatus
+    public enum NotificationTypes
     {
-        Open,
-        Accepted,
-        Rejected
+        Informative,
+        Alerting,
+        Positive,
+        Negative,
+        Silent,
     }
 
-    public string message;
-
-    public abstract void Accept();
-
-    public abstract void Reject();
-
-    public bool Closed()
+    public abstract class Notification
     {
-        return _status != NotificationStatus.Open;
+        protected NotificationStatus Status = NotificationStatus.Open;
+
+        protected enum NotificationStatus
+        {
+            Open,
+            Accepted,
+            Rejected
+        }
+
+        public string Message;
+        public NotificationTypes NotificationType = NotificationTypes.Informative;
+
+        public abstract void Accept();
+
+        public abstract void Reject();
+
+        public bool Closed()
+        {
+            return Status != NotificationStatus.Open;
+        }
     }
 }

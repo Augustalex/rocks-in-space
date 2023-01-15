@@ -94,7 +94,7 @@ namespace GameNotifications
             if (_outOfOreNotification != null && !_outOfOreNotification.Closed()) return;
 
             var message = $"Refineries have nothing to work with on {_planet.planetName}!";
-            var notification = new PlanetNotification { location = _planet, message = message };
+            var notification = new PlanetNotification { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting};
             _outOfOreNotification = notification;
 
             Notifications.Get().Send(notification);
@@ -105,7 +105,7 @@ namespace GameNotifications
             if (_lowEnergyNotification != null && !_lowEnergyNotification.Closed()) return;
 
             var message = $"Not enough power on {_planet.planetName}!";
-            var lowEnergyNotification = new PlanetNotification { location = _planet, message = message };
+            var lowEnergyNotification = new PlanetNotification { location = _planet, Message = message, NotificationType = NotificationTypes.Informative};
             _lowEnergyNotification = lowEnergyNotification;
 
             Notifications.Get().Send(lowEnergyNotification);
@@ -116,7 +116,7 @@ namespace GameNotifications
             if (_freezingColonistsNotification != null && !_freezingColonistsNotification.Closed()) return;
 
             var message = $"No power as colonists are freezing to death on {_planet.planetName}!";
-            var notification = new PlanetNotification { location = _planet, message = message };
+            var notification = new PlanetNotification { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting};
             _freezingColonistsNotification = notification;
 
             Notifications.Get().Send(notification);
@@ -127,7 +127,7 @@ namespace GameNotifications
             if (_lowFoodNotification != null && !_lowFoodNotification.Closed()) return;
 
             var message = $"Starvation rampant on {_planet.planetName}!";
-            var lowFoodNotification = new PlanetNotification { location = _planet, message = message };
+            var lowFoodNotification = new PlanetNotification { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting};
             _lowFoodNotification = lowFoodNotification;
 
             Notifications.Get().Send(lowFoodNotification);

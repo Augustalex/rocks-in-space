@@ -40,8 +40,9 @@ public class GameOverScreen : MonoBehaviour
         {
             Notifications.Get().Send(new TextNotification
             {
-                message =
-                    "The company has been made aware of your struggle to turn a profit. You have been giving a warning and a small sum to turn this situation around."
+                Message =
+                    "The company has been made aware of your struggle to turn a profit. You have been giving a warning and a small sum to turn this situation around.",
+                NotificationType = NotificationTypes.Alerting
             });
             _globalResources.AddCash(500);
             _hasGotLoan = true;
@@ -49,7 +50,7 @@ public class GameOverScreen : MonoBehaviour
         else if (_hasGotLoan && !_hasRepaidLoan && _globalResources.GetCash() > 1000)
         {
             Notifications.Get().Send(new TextNotification
-                { message = "The company has taken an extra piece of your profits as recourse for their earlier aid." });
+                { Message = "The company has taken an extra piece of your profits as recourse for their earlier aid." });
             _globalResources.UseCash(500);
             _hasRepaidLoan = true;
         }
@@ -57,8 +58,9 @@ public class GameOverScreen : MonoBehaviour
         {
             Notifications.Get().Send(new TextNotification
             {
-                message =
-                    "The company has issued you a final warning. If you don't turn a profit soon, you will be fired."
+                Message =
+                    "The company has issued you a final warning. If you don't turn a profit soon, you will be fired.",
+                NotificationType = NotificationTypes.Alerting
             });
             _hasGotWarning = true;
         }

@@ -36,7 +36,7 @@ public class ColonyShip : MonoBehaviour
         CurrentPlanetController.Get().CurrentPlanetChanged += OnPlanetChanged;
 
         Notifications.Get().Send(new ConvoyNotification
-            { colonyShip = this, message = "A convoy has arrived with some colonists that wants to settle." });
+            { colonyShip = this, Message = "A convoy has arrived with some colonists that wants to settle." });
     }
 
     private void OnToggleZoom(bool zoomedOut)
@@ -56,7 +56,7 @@ public class ColonyShip : MonoBehaviour
             if (timeLeft <= 0f)
             {
                 Notifications.Get().Send(new ConvoyNotification
-                    { colonyShip = this, message = "The convoy ship has left, but another one is on it's way." });
+                    { colonyShip = this, Message = "The convoy ship has left, but another one is on it's way." });
 
                 MoveAwayNow();
             }
@@ -115,7 +115,8 @@ public class ColonyShip : MonoBehaviour
 
         Notifications.Get().Send(new PlanetNotification
         {
-            location = suitablePlanet, message = $"{colonists} colonists have moved in to {suitablePlanet.planetName}!"
+            location = suitablePlanet, Message = $"{colonists} colonists have moved in to {suitablePlanet.planetName}!",
+            NotificationType = NotificationTypes.Positive
         });
 
         MoveAway();

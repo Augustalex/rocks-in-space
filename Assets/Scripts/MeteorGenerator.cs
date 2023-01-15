@@ -35,4 +35,12 @@ public class MeteorGenerator : MonoBehaviour
 
         return meteor;
     }
+
+    public void SpawnOnCurrentPlanet()
+    {
+        var meteor = Instantiate(meteorTemplate);
+        meteor.transform.position = CurrentPlanetController.Get().CurrentPlanet().GetCenter() +
+                                    (Random.insideUnitSphere).normalized * 100f;
+        meteor.GetComponent<Meteor>().TargetCurrentPlanet();
+    }
 }

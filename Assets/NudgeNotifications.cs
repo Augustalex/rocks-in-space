@@ -32,8 +32,9 @@ public class NudgeNotifications : MonoBehaviour
         
         Notifications.Get().Send(new MapNotification
         {
-            message =
-                "With 2 Beacons active you can now setup trade routes in the Map view!"
+            Message =
+                "With 2 Beacons active you can now setup trade routes in the Map view!",
+            NotificationType = NotificationTypes.Positive
         });
     }
 }

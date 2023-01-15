@@ -42,25 +42,20 @@ public class AudioController : MonoBehaviour
         _audioSource.Stop();
     }
 
-    public void Play(AudioClip clip, float volume, Vector3 position, bool hog = false)
+    public void PlayWithRandomPitch(AudioClip clip, float volume, float delay = 0)
     {
-        if (hog)
-        {
-            _audioSource.Stop();
-            _audioSource.clip = clip;
-            _audioSource.volume = volume;
-            _audioSource.Play();
-        }
-        else
-        {
-            // _audioSource.PlayOneShot(clip, volume);
-            var cameraPosition = transform.position;
-            var direction = (position - cameraPosition).normalized;
+        _audioSource.Stop();
+        _audioSource.clip = clip;
+        _audioSource.volume = volume;
+        _audioSource.pitch = Random.Range(.65f, 1.2f);
+        _audioSource.PlayDelayed(delay);
+    }
 
-            AudioSource.PlayClipAtPoint(clip, cameraPosition + direction * 1f, volume);
-        }
-        // AudioSource.PlayClipAtPoint(clip, volume, position);
-        // _audioSource.PlayOneShot(clip, volume);
-        // AudioSource.PlayClipAtPoint(clip, position, volume);
+    public void Play(AudioClip clip, float volume, Vector3 position)
+    {
+        var cameraPosition = transform.position;
+        var direction = (position - cameraPosition).normalized;
+        var audioPosition = cameraPosition + direction * 1f;
+        AudioSource.PlayClipAtPoint(clip, audioPosition, volume);
     }
 }

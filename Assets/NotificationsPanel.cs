@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameNotifications;
 using UnityEngine;
 
 public class NotificationsPanel : MonoBehaviour
@@ -36,10 +37,13 @@ public class NotificationsPanel : MonoBehaviour
 
     private void ShowNotification(Notification notification)
     {
+        if (notification.NotificationType != NotificationTypes.Silent)
+            NotificationSounds.Get().Play(notification.NotificationType);
+
         var notificationRoot = Instantiate(notificationTemplate, transform);
         var notificationPanel = notificationRoot.GetComponent<NotificationPanel>();
 
-        notificationPanel.SetMessage(notification.message);
+        notificationPanel.SetMessage(notification.Message);
         notificationPanel.Clicked += () =>
         {
             notification.Accept();

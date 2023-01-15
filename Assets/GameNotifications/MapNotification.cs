@@ -6,12 +6,12 @@
         {
             CameraController.Get().ZoomOut();
 
-            _status = NotificationStatus.Accepted;
+            Status = NotificationStatus.Accepted;
         }
 
         public override void Reject()
         {
-            _status = NotificationStatus.Rejected;
+            Status = NotificationStatus.Rejected;
         }
     }
 }
