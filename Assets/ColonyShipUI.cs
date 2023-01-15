@@ -13,6 +13,9 @@ public class ColonyShipUI : MonoBehaviour
     public TMP_Text timerText;
     public TMP_Text colonyCountText;
     public TMP_Text requirementText;
+    private float _shown;
+
+    private const float MisclickCooldown = .5f;
 
     void Start()
     {
@@ -59,6 +62,8 @@ public class ColonyShipUI : MonoBehaviour
 
     private void Reject()
     {
+        if (Time.time - _shown < MisclickCooldown) return;
+
         var currentShip = CurrentPlanetController.Get().CurrentShip();
         if (currentShip == null) return;
 
@@ -67,6 +72,8 @@ public class ColonyShipUI : MonoBehaviour
 
     private void Accept()
     {
+        if (Time.time - _shown < MisclickCooldown) return;
+
         var currentShip = CurrentPlanetController.Get().CurrentShip();
         if (currentShip == null) return;
 
@@ -106,10 +113,11 @@ public class ColonyShipUI : MonoBehaviour
 
     private void Show(ColonyShip ship)
     {
+        _shown = Time.time;
         UpdateTimerText(ship);
 
         colonyCountText.text = $"{ship.colonists} colonists are looking for a new home";
-        
+
         requirementText.text = $"Requirements:\n{ship.colonists} housing\nPower\nFood";
 
 
