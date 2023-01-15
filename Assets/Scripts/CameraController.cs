@@ -208,13 +208,7 @@ public class CameraController : MonoBehaviour
             }
         }
 
-        var maxTilt = 80f;
-
-        var dest = _camera.transform.position - FocusPoint();
-        var reference = Vector3.up * dest.magnitude;
-        var right = Vector3.Angle(reference, dest);
-        var adjustedAngles = right - 90f;
-        if (adjustedAngles < -maxTilt || adjustedAngles > maxTilt)
+        if (RotatingOutsideLimit())
         {
             _camera.transform.position = previousPosition;
             _camera.transform.rotation = previousRotation;
@@ -225,6 +219,17 @@ public class CameraController : MonoBehaviour
         {
             HandleZoom();
         }
+    }
+
+    private bool RotatingOutsideLimit()
+    {
+        var maxTilt = 80f;
+
+        var cameraRelativePositive = _camera.transform.position - FocusPoint();
+        var upwardsAngleReference = Vector3.up * cameraRelativePositive.magnitude;
+        var right = Vector3.Angle(upwardsAngleReference, cameraRelativePositive);
+        var adjustedAngles = right - 90f;
+        return adjustedAngles < -maxTilt || adjustedAngles > maxTilt;
     }
 
     private void HandleZoom()
