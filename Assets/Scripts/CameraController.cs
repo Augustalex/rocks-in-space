@@ -17,6 +17,9 @@ public class CameraController : MonoBehaviour
 
     private const float ShipZoomedInDistance = 60f;
 
+    private const float MouseLateralSpeed = 180f;
+    private const float MouseMedialSpeed = 180f;
+
     private Transform _focus;
     private Vector3 _backupFocus = Vector3.zero;
     private Camera _camera;
@@ -148,7 +151,7 @@ public class CameraController : MonoBehaviour
         }
 
         var xDelta = Input.GetAxis("Mouse X");
-        var yDelta = Input.GetAxis("Mouse Y");
+        var yDelta = -Input.GetAxis("Mouse Y");
 
         var rightClickOn = Input.GetMouseButton(1);
         var goingLeft = rightClickOn && xDelta < 0.01f || Input.GetKey(KeyCode.A);
@@ -156,29 +159,63 @@ public class CameraController : MonoBehaviour
         var goingUp = rightClickOn && yDelta > 0.01f || Input.GetKey(KeyCode.Q);
         var goingDown = rightClickOn && yDelta < 0.01f || Input.GetKey(KeyCode.E);
 
-        if (goingLeft)
+        if (rightClickOn)
         {
-            var leftMovementSpeed = rightClickOn ? 180f * xDelta : 45f;
-            _camera.transform.RotateAround(FocusPoint(), Vector3.up, leftMovementSpeed * Time.deltaTime);
+            if (goingLeft || goingRight)
+            {
+                var lateralMovement = MouseLateralSpeed * xDelta;
+                _camera.transform.RotateAround(FocusPoint(), Vector3.up, lateralMovement * Time.deltaTime);
+            }
         }
-        else if (goingRight)
+        else
         {
-            var rightMovementSpeed = rightClickOn ? 180f * xDelta : -45f;
-            _camera.transform.RotateAround(FocusPoint(), Vector3.up, rightMovementSpeed * Time.deltaTime);
+            if (goingLeft)
+            {
+                var leftMovementSpeed = 45f;
+                _camera.transform.RotateAround(FocusPoint(), Vector3.up, leftMovementSpeed * Time.deltaTime);
+            }
+            else if (goingRight)
+            {
+                var rightMovementSpeed = -45f;
+                _camera.transform.RotateAround(FocusPoint(), Vector3.up, rightMovementSpeed * Time.deltaTime);
+            }
         }
 
-        var maxTilt = 75f;
-        var eulerAnglesX = _camera.transform.rotation.eulerAngles.x;
-        var adjustedAngles = eulerAnglesX > 180f ? (eulerAnglesX - 360f) : eulerAnglesX;
-        if (goingUp && adjustedAngles > -maxTilt)
+        var previousRotation = _camera.transform.rotation;
+        var previousPosition = _camera.transform.position;
+
+        if (rightClickOn)
         {
-            var upMovementSpeed = rightClickOn ? 120f * -yDelta : -45f;
-            _camera.transform.RotateAround(FocusPoint(), transform.right, upMovementSpeed * Time.deltaTime);
+            if (goingUp || goingDown)
+            {
+                var medialMovement = MouseMedialSpeed * yDelta;
+                _camera.transform.RotateAround(FocusPoint(), transform.right, medialMovement * Time.deltaTime);
+            }
         }
-        else if (goingDown && adjustedAngles < maxTilt)
+        else
         {
-            var downMovementSpeed = rightClickOn ? 120f * -yDelta : 45f;
-            _camera.transform.RotateAround(FocusPoint(), transform.right, downMovementSpeed * Time.deltaTime);
+            if (goingUp)
+            {
+                var upMovementSpeed = -45f;
+                _camera.transform.RotateAround(FocusPoint(), transform.right, upMovementSpeed * Time.deltaTime);
+            }
+            else if (goingDown)
+            {
+                var downMovementSpeed = 45f;
+                _camera.transform.RotateAround(FocusPoint(), transform.right, downMovementSpeed * Time.deltaTime);
+            }
+        }
+
+        var maxTilt = 80f;
+
+        var dest = _camera.transform.position - FocusPoint();
+        var reference = Vector3.up * dest.magnitude;
+        var right = Vector3.SignedAngle(reference, dest, Vector3.right);
+        var adjustedAngles = right - 90f;
+        if (adjustedAngles < -maxTilt || adjustedAngles > maxTilt)
+        {
+            _camera.transform.position = previousPosition;
+            _camera.transform.rotation = previousRotation;
         }
 
         var isPointerOverGameObject = EventSystem.current.IsPointerOverGameObject();
@@ -421,7 +458,7 @@ public class CameraController : MonoBehaviour
     {
         if (IsZoomedOut()) ToggleZoomMode();
     }
-    
+
     public void ZoomOut()
     {
         if (!IsZoomedOut()) ToggleZoomMode();
