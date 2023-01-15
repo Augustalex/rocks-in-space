@@ -212,7 +212,7 @@ public class CameraController : MonoBehaviour
 
         var dest = _camera.transform.position - FocusPoint();
         var reference = Vector3.up * dest.magnitude;
-        var right = Vector3.SignedAngle(reference, dest, Vector3.right);
+        var right = Vector3.Angle(reference, dest);
         var adjustedAngles = right - 90f;
         if (adjustedAngles < -maxTilt || adjustedAngles > maxTilt)
         {

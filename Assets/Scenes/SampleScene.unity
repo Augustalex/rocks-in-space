@@ -1130,7 +1130,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: fc613307f3225664b9a2c03c54deca7a, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.165
+  m_Volume: 0.16
   m_Pitch: 0.85
   Loop: 1
   Mute: 0
@@ -4364,9 +4364,9 @@ MonoBehaviour:
   informative: {fileID: 8300000, guid: c630b865563efe343bade64c263f1504, type: 3}
   informativeVolume: 0.9
   alert: {fileID: 8300000, guid: 0b9af553bf0f42d46928d35f16b87eff, type: 3}
-  alertVolume: 0.55
+  alertVolume: 0.5
   negative: {fileID: 8300000, guid: 0b9af553bf0f42d46928d35f16b87eff, type: 3}
-  negativeVolume: 0.55
+  negativeVolume: 0.5
   positive: {fileID: 8300000, guid: e9d323cc92597bc498a41cdad06b699b, type: 3}
   positiveVolume: 0.25
 --- !u!82 &1493741884
@@ -5927,6 +5927,18 @@ PrefabInstance:
     - target: {fileID: 4420917537751394824, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
       propertyPath: deadColor.a
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4420917537751394824, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
+      propertyPath: deadColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4420917537751394824, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
+      propertyPath: deadColor.g
+      value: 0.9607843
+      objectReference: {fileID: 0}
+    - target: {fileID: 4420917537751394824, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
+      propertyPath: deadColor.r
+      value: 0.9411765
       objectReference: {fileID: 0}
     - target: {fileID: 4420917537751394824, guid: ad38942c8d2949b418bfd4b16a11ae08, type: 3}
       propertyPath: happyColor.a

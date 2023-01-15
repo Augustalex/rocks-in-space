@@ -19,6 +19,8 @@ public class ModuleController : MonoBehaviour
     public float
         cashPerMinute; // Is most likely positive, but kept as a neutral variable to make thinking about balance easier.
 
+    public string debugStatus = "";
+
     void Start()
     {
         _powerControlled = GetComponentInChildren<PowerControlled>();
@@ -31,6 +33,8 @@ public class ModuleController : MonoBehaviour
 
     void Update()
     {
+        debugStatus = "";
+
         var cashEffect = (cashPerMinute / 60f) * Time.deltaTime;
 
         var resources = _planetAttachment.GetAttachedResources();
@@ -39,8 +43,12 @@ public class ModuleController : MonoBehaviour
         if (_occupied)
         {
             var foodEffect = (foodPerMinute / 60f) * Time.deltaTime;
+            debugStatus += "foodEffect: " + foodEffect + ", ";
             var food = resources.GetFood();
-            var hasEnoughFood = food >= foodEffect;
+            debugStatus += "food: " + food + ", ";
+            var hasEnoughFood =
+                food > .5f; // Food levels can not be below 0, so checking for 0 never happens (since a farm might always be adding just a little bit).
+            debugStatus += "hasEnoughFood: " + (hasEnoughFood ? "true" : "false");
             if (hasEnoughFood)
             {
                 resources
@@ -49,6 +57,8 @@ public class ModuleController : MonoBehaviour
             }
             else
             {
+                resources
+                    .AddFood(foodEffect); // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
                 monitor.RegisterNotEnoughFood();
             }
 
@@ -67,21 +77,27 @@ public class ModuleController : MonoBehaviour
             var status = monitor.CalculateStatus(hasEnoughEnergy, hasEnoughFood);
             if (status == PlanetColonistMonitor.ColonistStatus.MovingOut)
             {
+                Debug.Log("MOVINg OUT: " + _life);
                 _life -= LifeLossPerSecond * Time.deltaTime;
 
                 if (_life <= 0f)
                 {
+                    Debug.Log("DEATH!");
                     resources.DeregisterOccupiedResident();
                     resources.RegisterDeath();
                     _occupied = false;
                 }
                 else if (_life <= 10f)
                 {
-                    _life += Random.Range(LifeLossPerSecond * .5f, LifeLossPerSecond) * Time.deltaTime;
+                    var lifeLoss = Random.Range(LifeLossPerSecond * .5f, LifeLossPerSecond) * Time.deltaTime;
+                    Debug.Log("ALMOST DEAD... " + lifeLoss);
+                    _life += lifeLoss;
                 }
                 else
                 {
-                    _life -= LifeLossPerSecond * Time.deltaTime;
+                    var lifeLossPerSecond = LifeLossPerSecond * Time.deltaTime;
+                    Debug.Log("Dying: " + lifeLossPerSecond);
+                    _life -= lifeLossPerSecond;
                 }
             }
             else if (status == PlanetColonistMonitor.ColonistStatus.Neutral)

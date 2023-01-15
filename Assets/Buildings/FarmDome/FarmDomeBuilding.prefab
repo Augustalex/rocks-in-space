@@ -849,7 +849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25b8a655d2dbccd4db2f13e8f6352378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodPerMinute: 4
+  foodPerMinute: 40
 --- !u!114 &3104102893874871934
 MonoBehaviour:
   m_ObjectHideFlags: 0
