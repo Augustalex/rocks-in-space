@@ -1,6 +1,5 @@
 using Interactors;
 using TMPro;
-using UnityEngine;
 
 public class InteractorDisplay : Hidable
 {
@@ -26,7 +25,14 @@ public class InteractorDisplay : Hidable
 
     void Update()
     {
-        _text.text = GetText();
+        if (CurrentPlanetController.Get().IsShipSelected())
+        {
+            _text.text = "";
+        }
+        else
+        {
+            _text.text = GetText();
+        }
     }
 
     private string GetText()

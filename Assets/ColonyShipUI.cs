@@ -131,4 +131,9 @@ public class ColonyShipUI : MonoBehaviour
 
         gameObject.SetActive(true);
     }
+
+    public void Cancel()
+    {
+        CameraController.Get().ZoomOut();
+    }
 }

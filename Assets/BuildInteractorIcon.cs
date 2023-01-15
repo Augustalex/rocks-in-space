@@ -68,6 +68,10 @@ public class BuildInteractorIcon : MonoBehaviour
         {
             _buildMenuState = BuildMenuState.ForceClosed;
         }
+        else if (CurrentPlanetController.Get().IsShipSelected())
+        {
+            _buildMenuState = BuildMenuState.ForceClosed;
+        }
         else if (interactorActionCategory == InteractorCategory.Build)
         {
             _buildMenuState = BuildMenuState.Active;

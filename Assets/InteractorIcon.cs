@@ -34,7 +34,7 @@ public class InteractorIcon : MonoBehaviour
     private void OnToggle()
     {
         BuildInteractorIcon.Get().CloseBuildMenu();
-        
+
         // TODO: Break out into subclasses?
         switch (category)
         {
@@ -124,6 +124,10 @@ public class InteractorIcon : MonoBehaviour
         {
             _interactorIconState = InteractorIconState.ForceInactive;
         }
+        else if (CurrentPlanetController.Get().IsShipSelected())
+        {
+            _interactorIconState = InteractorIconState.ForceInactive;
+        }
         else if (interactor.GetInteractorType() == InteractorType.Dig)
         {
             _interactorIconState = InteractorIconState.Active;
@@ -154,6 +158,10 @@ public class InteractorIcon : MonoBehaviour
         var zoomedOut = CameraController.Get().IsZoomedOut();
 
         if (zoomedOut)
+        {
+            _interactorIconState = InteractorIconState.ForceInactive;
+        }
+        else if (CurrentPlanetController.Get().IsShipSelected())
         {
             _interactorIconState = InteractorIconState.ForceInactive;
         }
