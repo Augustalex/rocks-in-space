@@ -160,14 +160,18 @@ namespace Interactors
                     hit.collider.GetComponent<PlanetLandmark>().Hover();
                 }
 
-                var block = hit.collider.GetComponent<Block>();
-                if (block)
+                if (_cameraController
+                    .IsZoomedOut()) // Currently not using planet popup when zoomed in. Since it has been replaced by the planet info panel.
                 {
-                    var popupTarget = block.GetRoot().GetComponentInChildren<PopupTarget>();
-                    if (popupTarget)
+                    var block = hit.collider.GetComponent<Block>();
+                    if (block)
                     {
-                        if (ErrorDisplay.Get().IsVisible()) ErrorDisplay.Get().FadeOut();
-                        popupTarget.Show();
+                        var popupTarget = block.GetRoot().GetComponentInChildren<PopupTarget>();
+                        if (popupTarget)
+                        {
+                            if (ErrorDisplay.Get().IsVisible()) ErrorDisplay.Get().FadeOut();
+                            popupTarget.Show();
+                        }
                     }
                 }
 
@@ -360,15 +364,25 @@ namespace Interactors
             if (laserableEntity != null)
             {
                 var block = hit.collider.GetComponent<Block>();
-                if (block && !block.GetConnectedPlanet().HasPort())
+                if (!block.Exists()) return;
+
+                var connectedPlanet = block.GetConnectedPlanet();
+                if (!connectedPlanet.HasPort())
                 {
                     FailedToBuild?.Invoke(interactorModule, block);
                 }
-                else if (interactorModule.CanPerformInteraction(laserableEntity))
+                else if (interactorModule.IsCooledDown())
                 {
-                    if (!interactorModule.Started())
+                    if (interactorModule.CanPerformInteraction(laserableEntity))
                     {
-                        interactorModule.StartInteraction(laserableEntity);
+                        if (!interactorModule.Started())
+                        {
+                            interactorModule.StartInteraction(laserableEntity);
+                        }
+                    }
+                    else
+                    {
+                        FailedToBuild?.Invoke(interactorModule, block);
                     }
                 }
             }

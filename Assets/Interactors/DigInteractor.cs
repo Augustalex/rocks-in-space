@@ -12,7 +12,8 @@ namespace Interactors
         public GameObject laserLight;
         public LaserEffect laserEffect;
 
-        private const float Cooldown = .14f;
+        private const float
+            Cooldown = .14f; // There needs to be a cooldown - since a block exists for 1 frame between when it has been asked to be destroyed, and until it has actually been destroyed. 
 
         [NonSerialized] private float _lastDig = 1f;
 
@@ -23,6 +24,21 @@ namespace Interactors
         private Vector3 _targetPosition;
         private Vector3 _previousMousePosition;
         private float _lastInteractionAudio;
+
+        private readonly string[] _texts =
+        {
+            "It's not a good idea to laser your Beacon, leave it for now.",
+            "It's really not smart to laser your Beacon. Bad things could happen!",
+            "Okay, nothing bad would happen. It would just be messy, alright?",
+            "Imagine this. You're having a great day, mining resources, and OOPS you have lasered your Beacon!",
+            "Now without a Beacon, you wouldn't be able to dig or build anything! Not good.",
+            "AND what if you couldn't afford another one? Then what. It would all be over wouldn't it?",
+            "All for making the silly mistake of lasering your own Beacon.",
+            "You can't laser your own Beacon, sorry.",
+        };
+
+        private int _textIndex = 0;
+        private float _lastChangedIndex;
 
         private void Start()
         {
@@ -184,9 +200,14 @@ namespace Interactors
 
         public bool CanPerformInteraction(ILaserInteractable laserableEntity)
         {
+            return laserableEntity.CanInteract();
+        }
+
+        public bool IsCooledDown()
+        {
             var time = Time.time;
             var timeSinceLastBuilt = time - _lastDig;
-            return timeSinceLastBuilt > Cooldown && laserableEntity.CanInteract();
+            return timeSinceLastBuilt > Cooldown;
         }
 
         public override void Build(Block block, RaycastHit raycastHit)
@@ -197,6 +218,43 @@ namespace Interactors
         public override void OnFailedToBuild(Vector3 hitPoint)
         {
             // Do nothing
+        }
+
+        public override string GetCannotBuildHereMessage(Block block)
+        {
+            if (!block.GetConnectedPlanet().HasPort())
+            {
+                return "Asteroid needs a Beacon before anything can be done here!";
+            }
+
+            if (block.IsSeeded() && block.GetRoot().GetComponentInChildren<PortController>())
+            {
+                if (_lastChangedIndex > 0f && Time.time - _lastChangedIndex > 5f)
+                {
+                    _textIndex += 1;
+                }
+
+                if (_textIndex >= _texts.Length)
+                {
+                    if (Random.value < .5f) return "Nope.";
+                    if (Random.value < .5f) return "Sorry!";
+                    if (Random.value < .5f) return "Can't do.";
+                    if (Random.value < .5f) return "Give it up.";
+                    if (Random.value < .5f) return "Maybe if you try one more time it would work?";
+                    if (Random.value < .5f) return "It's never going to work.";
+                    if (Random.value < .5f) return "Stop trying, you are wasting time.";
+                    return "Maybe take a walk? You seem tired, not thinking straight.";
+                }
+                else
+                {
+                    var text = _texts[_textIndex];
+                    _lastChangedIndex = Time.time;
+
+                    return text;
+                }
+            }
+
+            return "Can't use your laser here.";
         }
 
         public override void OnBuilt(Vector3 hitPoint)

@@ -9,6 +9,7 @@ namespace Interactors.Digging
         bool CanInteract();
 
         float DisintegrationTime();
+        
         Vector3 GetAudioPosition();
     }
 }

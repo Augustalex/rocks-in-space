@@ -158,7 +158,7 @@ public class Block : MonoBehaviour, ILaserInteractable
 
     public bool CanInteract()
     {
-        return _laserable && gameObject != null;
+        return gameObject != null && _laserable;
     }
 
     public float DisintegrationTime()
@@ -198,5 +198,10 @@ public class Block : MonoBehaviour, ILaserInteractable
     public GameObject GetSeed()
     {
         return _seed;
+    }
+
+    public bool Exists()
+    {
+        return gameObject != null;
     }
 }
