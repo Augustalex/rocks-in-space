@@ -53,7 +53,7 @@ public class TinyPlanetResources : MonoBehaviour
         public float Gadgets;
     }
 
-    private const int InhabitantsPerResidency = 100;
+    public static readonly int InhabitantsPerResidency = 100;
 
     private int _residencies = 0;
     private int _occupiedResidencies = 0;

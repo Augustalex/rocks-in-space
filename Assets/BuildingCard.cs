@@ -176,7 +176,7 @@ public class BuildingCard : MonoBehaviour
         costsIcon.texture = UIAssetManager.Get().GetResourceTexture(TinyPlanetResources.PlanetResourceType.Gadgets);
         upkeep.text = $"Upkeep: {effect.energy} power {controller.foodPerMinute} food/min";
         description.text =
-            $"Houses 1000 colonists. Generates {controller.cashPerMinute}c/min when colonists have moved in. Only generates income when food and power needs are met.";
+            $"Houses {TinyPlanetResources.InhabitantsPerResidency} colonists. Generates {controller.cashPerMinute}c/min when colonists have moved in. Only generates income when food and power needs are met.";
     }
 
     private void Platform()
