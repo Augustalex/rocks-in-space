@@ -181,8 +181,9 @@ public class CameraController : MonoBehaviour
             }
         }
 
-        var previousRotation = _camera.transform.rotation;
-        var previousPosition = _camera.transform.position;
+        var cameraTransform = _camera.transform;
+        var previousRotation = cameraTransform.rotation;
+        var previousPosition = cameraTransform.position;
 
         if (rightClickOn)
         {
