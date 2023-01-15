@@ -15,7 +15,8 @@ public class CameraController : MonoBehaviour
     private const float MaxZoomedInDistance = 90f;
     private const float ZoomedInSpeed = 10f;
 
-    private const float ShipZoomedInDistance = 60f;
+    private const float MinShipZoomedInDistance = 75f;
+    private const float ShipZoomedInDistance = 80f;
 
     private const float MouseLateralSpeed = 180f;
     private const float MouseMedialSpeed = 180f;
@@ -228,7 +229,8 @@ public class CameraController : MonoBehaviour
 
     private void HandleZoom()
     {
-        var minZoom = _zoomedOut ? MinZoomedOutDistance : MinZoomedInDistance;
+        var minZoom = _zoomedOut ? MinZoomedOutDistance :
+            CurrentPlanetController.Get().IsShipSelected() ? MinShipZoomedInDistance : MinZoomedInDistance;
         var maxZoom = _zoomedOut ? MaxZoomedOutDistance : MaxZoomedInDistance;
         var cameraTransform = _camera.transform;
         var distance = Vector3.Distance(FocusPoint(), cameraTransform.position);
