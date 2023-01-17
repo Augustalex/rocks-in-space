@@ -6,6 +6,7 @@ public class PrefabTemplateLibrary : MonoBehaviour
     
     public GameObject mapPopup;
     public GameObject rockDebrisTemplate;
+    public GameObject iceDebrisTemplate;
     public GameObject oreDebrisTemplate;
     public GameObject routeLineTemplate;
 

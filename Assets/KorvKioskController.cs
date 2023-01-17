@@ -28,13 +28,13 @@ public class KorvKioskController : MonoBehaviour
             notifications.Send(
                 new TextNotification { Message = "Well, you can play it again using these neat tricks:" });
             yield return new WaitForSeconds(3);
-            notifications.Send(new TextNotification { Message = "Type TOOMUCHOREGANO to get 1000 ore" });
+            notifications.Send(new TextNotification { Message = "Type TOOMUCHOREGANO to get 1000 <sprite name=\"ore\">" });
             yield return new WaitForSeconds(2);
-            notifications.Send(new TextNotification { Message = "Type SPARVAGNAR to get 1000 metals" });
+            notifications.Send(new TextNotification { Message = "Type SPARVAGNAR to get 1000 <sprite name=\"metals\">" });
             yield return new WaitForSeconds(2);
-            notifications.Send(new TextNotification { Message = "Type INSPECTORGADGET to get 1000 gadgets" });
+            notifications.Send(new TextNotification { Message = "Type INSPECTORGADGET to get 1000 <sprite name=\"gadgets\">" });
             yield return new WaitForSeconds(2);
-            notifications.Send(new TextNotification { Message = "Type SMALLLOAN to get 1000000 credits" });
+            notifications.Send(new TextNotification { Message = "Type SMALLLOAN to get 1000000 <sprite name=\"coin\">" });
             yield return new WaitForSeconds(2);
             notifications.Send(new TextNotification { Message = "Have fun and thanks for playing!" });
         }

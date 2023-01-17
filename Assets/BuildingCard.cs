@@ -102,8 +102,8 @@ public class BuildingCard : MonoBehaviour
 
         costs.text = $"{cost}";
         costsIcon.texture = UIAssetManager.Get().creditsIcon;
-        upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}c/min";
-        description.text = "Converts ore into metals.";
+        upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}<sprite name=\"coin\">/min";
+        description.text = "Converts ore<sprite name=\"ore\"> into metals<sprite name=\"metals\"> every 4 seconds";
     }
 
     private void Factory()
@@ -116,8 +116,9 @@ public class BuildingCard : MonoBehaviour
 
         costs.text = $"{cost}";
         costsIcon.texture = UIAssetManager.Get().creditsIcon;
-        upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}c/min";
-        description.text = "Converts metals into gadgets.";
+        upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}<sprite name=\"coin\">/min";
+        description.text =
+            "Converts metals<sprite name=\"metals\"> into gadgets<sprite name=\"gadgets\"> every 8 seconds";
     }
 
     private void PowerPlant()
@@ -133,8 +134,8 @@ public class BuildingCard : MonoBehaviour
 
         costs.text = $"{costData.gadgets}";
         costsIcon.texture = UIAssetManager.Get().GetResourceTexture(TinyPlanetResources.PlanetResourceType.Gadgets);
-        upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}c/min";
-        description.text = $"Provides {effect.energy} power. Powers farms and residencies.";
+        upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}<sprite name=\"coin\">/min";
+        description.text = $"Provides {effect.energy} power<sprite name=\"power\">, required by farms and residencies.";
     }
 
     private void FarmDome()
@@ -154,9 +155,10 @@ public class BuildingCard : MonoBehaviour
         costs.text =
             $"{costData.gadgets}";
         costsIcon.texture = UIAssetManager.Get().GetResourceTexture(TinyPlanetResources.PlanetResourceType.Gadgets);
-        upkeep.text = $"Upkeep: {effect.energy} power {runningCosts.cashPerMinute}c/min";
+        upkeep.text =
+            $"Upkeep: {effect.energy}<sprite name=\"power\"> {runningCosts.cashPerMinute}<sprite name=\"coin\">/min";
         description.text =
-            $"Produces {controller.foodPerMinute} food/min. Food is consumed by colonists.";
+            $"Produces {controller.foodPerMinute} food<sprite name=\"food\"> every minute. Food<sprite name=\"food\"> is consumed by colonists.";
     }
 
     private void HousingModule()
@@ -174,9 +176,10 @@ public class BuildingCard : MonoBehaviour
         costs.text =
             $"{costData.gadgets}";
         costsIcon.texture = UIAssetManager.Get().GetResourceTexture(TinyPlanetResources.PlanetResourceType.Gadgets);
-        upkeep.text = $"Upkeep: {effect.energy} power {controller.foodPerMinute} food/min";
+        upkeep.text =
+            $"Upkeep: {effect.energy}<sprite name=\"power\"> {controller.foodPerMinute}<sprite name=\"food\">/min";
         description.text =
-            $"Houses {TinyPlanetResources.InhabitantsPerResidency} colonists. Generates {controller.cashPerMinute}c/min when colonists have moved in. Only generates income when food and power needs are met.";
+            $"Houses<sprite name=\"house\"> {TinyPlanetResources.InhabitantsPerResidency} colonists & generate {controller.cashPerMinute * 2}<sprite name=\"coin\"> every minute in income. Requires food & power.";
     }
 
     private void Platform()
@@ -204,8 +207,8 @@ public class BuildingCard : MonoBehaviour
         costs.text = $"{cost}";
         var uiAssetManager = UIAssetManager.Get();
         costsIcon.texture = uiAssetManager.creditsIcon;
-        upkeep.text = $"Upkeep: {effect.energy} power";
+        upkeep.text = $"Upkeep: {effect.energy}<sprite name=\"power\">";
         description.text =
-            $"A breakthrough in the cutting edge. Does nothing in particular. Requires a lot of power.";
+            $"A breakthrough in the cutting edge. Does nothing in particular. Requires a lot of power<sprite name=\"power\">.";
     }
 }

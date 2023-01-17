@@ -90,7 +90,7 @@ public class GameOverScreen : MonoBehaviour
         var colonists = PlanetsRegistry.Get().All().Sum(p => p.GetResources().GetInhabitants());
 
         var text =
-            $"You are out of credits, The Board has decided to terminate your employment.\n\nYou lead the mission for {cyclesServed} {(cyclesServed == 1 ? "cycle" : "cycles")}.";
+            $"You are out of <sprite name=\"coin\">, The Board has decided to terminate your employment.\n\nYou lead the mission for {cyclesServed} {(cyclesServed == 1 ? "cycle" : "cycles")}.";
         if (colonists > 0)
         {
             text +=

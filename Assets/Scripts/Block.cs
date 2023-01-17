@@ -7,6 +7,7 @@ public class Block : MonoBehaviour, ILaserInteractable
     private OreController _oreController;
     private bool _seedOverridable;
     private bool _laserable = true;
+    private TinyPlanet.RockType _rockType;
 
     private void Awake()
     {
@@ -42,7 +43,9 @@ public class Block : MonoBehaviour, ILaserInteractable
             }
         }
 
-        RockSmash.Get().Play();
+        if (_rockType == TinyPlanet.RockType.Ice) RockSmash.Get().PlayMelt();
+        else RockSmash.Get().Play();
+
         tinyPlanetGenerator.DestroyBlock(this); // Will call "DestroySelf"
     }
 
@@ -72,7 +75,9 @@ public class Block : MonoBehaviour, ILaserInteractable
         connectedPlanet.RemoveFromNetwork(block);
         Destroy(block);
 
-        Instantiate(PrefabTemplateLibrary.Get().rockDebrisTemplate, position, rotation);
+        if (_rockType == TinyPlanet.RockType.Ice)
+            Instantiate(PrefabTemplateLibrary.Get().iceDebrisTemplate, position, rotation);
+        else Instantiate(PrefabTemplateLibrary.Get().rockDebrisTemplate, position, rotation);
     }
 
     public Vector3 GetPosition()
@@ -165,6 +170,7 @@ public class Block : MonoBehaviour, ILaserInteractable
     {
         var balanceSettings = SettingsManager.Get().balanceSettings;
         // return .1f;
+        if (_rockType == TinyPlanet.RockType.Ice) return 2f;
         return _oreController.HasOre() ? balanceSettings.oreDigTime : balanceSettings.rockDigTime;
     }
 
@@ -203,5 +209,16 @@ public class Block : MonoBehaviour, ILaserInteractable
     public bool Exists()
     {
         return gameObject != null;
+    }
+
+    public void SetRockType(TinyPlanet.RockType rockType)
+    {
+        _rockType = rockType;
+        if (rockType == TinyPlanet.RockType.Ice) _oreController.DisableOre();
+    }
+
+    public bool IsIce()
+    {
+        return _rockType == TinyPlanet.RockType.Ice;
     }
 }

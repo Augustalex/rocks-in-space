@@ -30,14 +30,14 @@ public class TinyPlanetResources : MonoBehaviour
     {
         switch (resourceType)
         {
-            case PlanetResourceType.Ore: return "Ore";
-            case PlanetResourceType.Metals: return "Metals";
-            case PlanetResourceType.Gadgets: return "Gadgets";
-            case PlanetResourceType.Energy: return "Power";
-            case PlanetResourceType.Food: return "Food";
-            case PlanetResourceType.Inhabitants: return "Colonists";
-            case PlanetResourceType.Housing: return "Housing";
-            case PlanetResourceType.Cash: return "credits";
+            case PlanetResourceType.Ore: return "ore<sprite name=\"ore\">";
+            case PlanetResourceType.Metals: return "metals<sprite name=\"metals\">";
+            case PlanetResourceType.Gadgets: return "gadgets<sprite name=\"gadgets\">";
+            case PlanetResourceType.Energy: return "power<sprite name=\"power\">";
+            case PlanetResourceType.Food: return "food<sprite name=\"food\">";
+            case PlanetResourceType.Inhabitants: return "colonists";
+            case PlanetResourceType.Housing: return "housing<sprite name=\"house\">";
+            case PlanetResourceType.Cash: return "credits<sprite name=\"coin\">";
         }
 
         return "Unknown resource";

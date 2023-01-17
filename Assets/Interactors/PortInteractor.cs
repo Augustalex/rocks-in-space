@@ -98,7 +98,7 @@ namespace Interactors
             }
             else if (!HasEnoughResourceToBuild(block))
             {
-                return "Not enough credits to build another Beacon";
+                return "Not enough <sprite name=\"coin\"> to build another Beacon";
             }
 
             return "Can't build here";

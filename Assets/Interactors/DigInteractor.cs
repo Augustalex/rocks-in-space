@@ -229,13 +229,15 @@ namespace Interactors
 
             if (block.IsSeeded() && block.GetRoot().GetComponentInChildren<PortController>())
             {
-                if (_lastChangedIndex > 0f && Time.time - _lastChangedIndex > 5f)
+                if (_lastChangedIndex > 0f && Time.time - _lastChangedIndex > 2f)
                 {
                     _textIndex += 1;
                 }
 
                 if (_textIndex >= _texts.Length)
                 {
+                    _lastChangedIndex = Time.time;
+
                     if (Random.value < .5f) return "Nope.";
                     if (Random.value < .5f) return "Sorry!";
                     if (Random.value < .5f) return "Can't do.";

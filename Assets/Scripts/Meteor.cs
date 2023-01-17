@@ -110,7 +110,11 @@ public class Meteor : MonoBehaviour
                 MineralSounds.Get().Play();
             }
 
-            if (block.IsSeeded())
+            if (block.IsIce())
+            {
+                block.DestroyedByNonPlayer();
+            }
+            else if (block.IsSeeded())
             {
                 var connectedPlanet = block.GetConnectedPlanet();
                 var seed = block.GetSeed();

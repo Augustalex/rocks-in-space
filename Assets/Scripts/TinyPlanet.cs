@@ -41,37 +41,41 @@ public class TinyPlanet : MonoBehaviour
         Orange,
         Blue,
         Green,
+        Snow,
+        Ice,
     }
 
+    public static readonly RockType[] RockTypes = new RockType[]
+    {
+        RockType.Orange,
+        RockType.Blue,
+        RockType.Green,
+        RockType.Ice,
+    };
+
     public Material purpleRockMaterialTemplate;
-    public RockType rockType;
+    public Material iceRockMaterialTemplate;
+    public RockType rockType = RockType.Blue;
     public GameObject landmark;
 
     private Vector3 _lastCenterPosition;
     private GameObject _lastCenter;
     private int _networkCountWhenLastCalculatedCenter;
     private PortController _port;
-    private Material _purpleRockMaterial;
+    private Material _rockMaterial;
     private static readonly int CenterPropertyId = Shader.PropertyToID("_Center");
     private static readonly int RockTypePropertyId = Shader.PropertyToID("_RockType");
-
-
-    private static readonly RockType[] RockTypes = new RockType[]
-    {
-        RockType.Orange,
-        RockType.Blue,
-        RockType.Green,
-    };
-
+    
     private static readonly Color[][] ColorPairs = new Color[][]
     {
         new[] { Hsl(26, 80, 100), Hsl(305, 100, 80) },
         // new [] {Hsl(185, 80, 100), Hsl(305, 100, 80)}, Blue
         new[] { Hsl(270, 80, 100), Hsl(305, 100, 80) },
         new[] { Hsl(76, 80, 100), Hsl(305, 100, 80) },
+        new[] { Hsl(270, 10, 100), Hsl(305, 10, 90) },
     };
-
-    private int _rockTestIndex;
+    
+    private Material _iceMaterial;
 
     private static Color Hsl(float hue, float saturation, float value)
     {
@@ -80,25 +84,53 @@ public class TinyPlanet : MonoBehaviour
 
     private void Awake()
     {
-        rockType = RockTypes[Random.Range(0, RockTypes.Length)];
-        _purpleRockMaterial = new Material(purpleRockMaterialTemplate);
+        // rockType = RockTypes[Random.Range(0, RockTypes.Length)];
+        _rockMaterial = new Material(purpleRockMaterialTemplate);
+        _iceMaterial = new Material(iceRockMaterialTemplate);
     }
 
-    private void Start()
+    public void SetupType(RockType newRockType)
     {
-        _rockTestIndex = 0;
-        _purpleRockMaterial.SetInt(RockTypePropertyId, (int)rockType);
+        rockType = newRockType;
+        var blockRockType = rockType == RockType.Ice ? RockType.Snow : rockType;
 
-        var color = ColorPairs[(int)rockType];
-        _purpleRockMaterial.SetColor("_LightColor", color[0]);
-        _purpleRockMaterial.SetColor("_DarkColor", color[1]);
+        _rockMaterial.SetInt(RockTypePropertyId, (int)blockRockType);
+
+        var color = ColorPairs[(int)blockRockType];
+        _rockMaterial.SetColor("_LightColor", color[0]);
+        _rockMaterial.SetColor("_DarkColor", color[1]);
 
         var newPosition = network[0].transform.position;
-        _purpleRockMaterial.SetVector(CenterPropertyId, newPosition);
+        _rockMaterial.SetVector(CenterPropertyId, newPosition);
 
-        foreach (var networkItem in network)
+        if (rockType == RockType.Ice)
+        { 
+            _iceMaterial.SetVector(CenterPropertyId, newPosition);
+
+            foreach (var networkItem in network)
+            {
+                if (Random.value < .8f)
+                {
+                    var block = networkItem.GetComponentInChildren<Block>();
+                    block.SetRockType(RockType.Ice);
+                    block.SetMaterial(_iceMaterial);
+                }
+                else
+                {
+                    var block = networkItem.GetComponentInChildren<Block>();
+                    block.SetRockType(RockType.Blue);
+                    block.SetMaterial(_rockMaterial);
+                }
+            }
+        }
+        else
         {
-            networkItem.GetComponentInChildren<Block>().SetMaterial(_purpleRockMaterial);
+            foreach (var networkItem in network)
+            {
+                var block = networkItem.GetComponentInChildren<Block>();
+                block.SetRockType(rockType);
+                block.SetMaterial(_rockMaterial);
+            }
         }
 
         PlanetsRegistry.Get().Add(planetId, this);
@@ -108,7 +140,8 @@ public class TinyPlanet : MonoBehaviour
     {
         // var newCenter = GetCenter();
         var newPosition = network[0].transform.position;
-        _purpleRockMaterial.SetVector(CenterPropertyId, newPosition);
+        _rockMaterial.SetVector(CenterPropertyId, newPosition);
+        if(rockType == RockType.Ice) _iceMaterial.SetVector(CenterPropertyId, newPosition);
     }
 
     public List<GameObject> FindConnectedRocksNotInList(List<GameObject> dislodgedNetwork)
@@ -144,7 +177,7 @@ public class TinyPlanet : MonoBehaviour
         block.transform.SetParent(transform);
         network.Add(block);
 
-        block.GetComponentInChildren<Block>().SetMaterial(_purpleRockMaterial);
+        block.GetComponentInChildren<Block>().SetMaterial(_rockMaterial);
     }
 
     public void CheckDislodgement(GameObject rock)

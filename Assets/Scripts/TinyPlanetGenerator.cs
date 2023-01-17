@@ -48,7 +48,7 @@ public class TinyPlanetGenerator : MonoBehaviour
         }
     }
 
-    public void GenerateNewPlanetAtPosition(Vector3 position)
+    private void GenerateNewPlanetAtPosition(Vector3 position)
     {
         var networkTemplate = new TinyPlanetGeneratorHelper()
             .NewNetworkTemplate();
@@ -57,7 +57,13 @@ public class TinyPlanetGenerator : MonoBehaviour
             .Select(networkPosition => CreateRockAndRandomizeOre(networkPosition + position))
             .ToList();
 
-        NewPlanetWithNetwork(network);
+        var planetGo = NewPlanetWithNetwork(network);
+        planetGo.GetComponent<TinyPlanet>().SetupType(TinyPlanet.RockType.Ice);
+    }
+
+    private TinyPlanet.RockType RandomPlanetType()
+    {
+        return TinyPlanet.RockTypes[Random.Range(0, TinyPlanet.RockTypes.Length)];
     }
 
     private GameObject NewPlanetWithNetwork(List<GameObject> network)
@@ -74,43 +80,6 @@ public class TinyPlanetGenerator : MonoBehaviour
     {
         var planet = Instantiate(planetTemplate);
         return planet.GetComponent<TinyPlanet>();
-    }
-
-    public void TurnNetworkIntoPlanet(List<GameObject> dislodgedNetwork, Vector3 breakPoint)
-    {
-        var currentPlanet = dislodgedNetwork[0].GetComponentInParent<TinyPlanet>();
-
-        var dislodgedNetworkCount = dislodgedNetwork.Count;
-        if (dislodgedNetworkCount != currentPlanet.network.Count)
-        {
-            var connectedRocks = currentPlanet.FindConnectedRocksNotInList(dislodgedNetwork);
-            var connectedRocksCount = connectedRocks.Count;
-
-            if (dislodgedNetworkCount == 0)
-            {
-                Debug.Log("Dislodging empty network??!");
-            }
-
-            if (connectedRocksCount > 0)
-            {
-                var newPlanet = NewPlanet();
-
-                var dislodgedNetworkHasPort = dislodgedNetwork.Any(b => b.GetComponentInChildren<PortController>());
-                var connectedRocksHasPort = connectedRocks.Any(b => b.GetComponentInChildren<PortController>());
-                Debug.Log("dislodgedNetworkHasPort: " + dislodgedNetworkHasPort);
-                Debug.Log("connectedRocksHasPort: " + connectedRocksHasPort);
-                var networkThatHasThePort = dislodgedNetworkHasPort
-                    ? dislodgedNetwork
-                    : connectedRocks;
-                var networkWithoutPort = dislodgedNetworkHasPort ? connectedRocks : dislodgedNetwork;
-
-                currentPlanet.SetNetwork(networkThatHasThePort);
-                newPlanet.SetNetwork(networkWithoutPort);
-
-                var direction = (newPlanet.GetCenter() - currentPlanet.GetCenter()).normalized;
-                newPlanet.gameObject.GetComponent<Rigidbody>().AddForce(direction * 1.5f, ForceMode.Impulse);
-            }
-        }
     }
 
     public void DestroyBlock(Block destroyBlock)
@@ -153,6 +122,43 @@ public class TinyPlanetGenerator : MonoBehaviour
                         TurnNetworkIntoPlanet(sampleNetwork, blockRoot.transform.position);
                     }
                 }
+            }
+        }
+    }
+
+    private void TurnNetworkIntoPlanet(List<GameObject> dislodgedNetwork, Vector3 breakPoint)
+    {
+        var currentPlanet = dislodgedNetwork[0].GetComponentInParent<TinyPlanet>();
+
+        var dislodgedNetworkCount = dislodgedNetwork.Count;
+        if (dislodgedNetworkCount != currentPlanet.network.Count)
+        {
+            var connectedRocks = currentPlanet.FindConnectedRocksNotInList(dislodgedNetwork);
+            var connectedRocksCount = connectedRocks.Count;
+
+            if (dislodgedNetworkCount == 0)
+            {
+                Debug.Log("Dislodging empty network??!");
+            }
+
+            if (connectedRocksCount > 0)
+            {
+                var newPlanet = NewPlanet();
+
+                var dislodgedNetworkHasPort = dislodgedNetwork.Any(b => b.GetComponentInChildren<PortController>());
+                var connectedRocksHasPort = connectedRocks.Any(b => b.GetComponentInChildren<PortController>());
+                Debug.Log("dislodgedNetworkHasPort: " + dislodgedNetworkHasPort);
+                Debug.Log("connectedRocksHasPort: " + connectedRocksHasPort);
+                var networkThatHasThePort = dislodgedNetworkHasPort
+                    ? dislodgedNetwork
+                    : connectedRocks;
+                var networkWithoutPort = dislodgedNetworkHasPort ? connectedRocks : dislodgedNetwork;
+
+                currentPlanet.SetNetwork(networkThatHasThePort);
+                newPlanet.SetNetwork(networkWithoutPort);
+
+                var direction = (newPlanet.GetCenter() - currentPlanet.GetCenter()).normalized;
+                newPlanet.gameObject.GetComponent<Rigidbody>().AddForce(direction * 1.5f, ForceMode.Impulse);
             }
         }
     }

@@ -7,6 +7,7 @@ public class OreController : MonoBehaviour
     public GameObject floatingMineralsTemplate;
     private GameObject _ore;
     private OreVein _oreVein;
+    private bool _oreEnabled = true;
 
     void Start()
     {
@@ -15,16 +16,22 @@ public class OreController : MonoBehaviour
         {
             _ore = existingOreVein.gameObject;
             _oreVein = existingOreVein;
+            
+            if(!_oreEnabled) DestroyOre();
         }
     }
 
     public void MakeIntoOreVein()
     {
+        if (!_oreEnabled) return;
+
         if (_ore == null) SetupOre();
     }
 
     private void SetupOre()
     {
+        if (!_oreEnabled) return;
+
         var ore = Instantiate(oreTemplate, transform.parent, false);
         ore.transform.localPosition = Vector3.zero;
 
@@ -64,5 +71,12 @@ public class OreController : MonoBehaviour
     public void DestroyOre()
     {
         Destroy(_ore);
+    }
+
+    public void DisableOre()
+    {
+        _oreEnabled = false;
+        Debug.Log("DESTROY ORE!");
+        if (HasOre()) DestroyOre();
     }
 }

@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class RockSmash : MonoBehaviour
 {
+    public AudioClip melt;
+    public float meltVolume;
+
     public AudioClip smash;
     public float smashVolume;
 
@@ -37,6 +40,15 @@ public class RockSmash : MonoBehaviour
         _audioSource.clip = smash;
         _audioSource.volume = smashVolume;
         _audioSource.pitch = Random.Range(.5f, 1.5f);
+        _audioSource.Play();
+    }
+
+    public void PlayMelt()
+    {
+        _audioSource.Stop();
+        _audioSource.clip = melt;
+        _audioSource.volume = meltVolume;
+        _audioSource.pitch = Random.Range(.8f, 1.3f);
         _audioSource.Play();
     }
 
