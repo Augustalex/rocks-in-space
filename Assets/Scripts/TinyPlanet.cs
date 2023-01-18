@@ -65,7 +65,7 @@ public class TinyPlanet : MonoBehaviour
     private Material _rockMaterial;
     private static readonly int CenterPropertyId = Shader.PropertyToID("_Center");
     private static readonly int RockTypePropertyId = Shader.PropertyToID("_RockType");
-    
+
     private static readonly Color[][] ColorPairs = new Color[][]
     {
         new[] { Hsl(26, 80, 100), Hsl(305, 100, 80) },
@@ -74,7 +74,7 @@ public class TinyPlanet : MonoBehaviour
         new[] { Hsl(76, 80, 100), Hsl(305, 100, 80) },
         new[] { Hsl(270, 10, 100), Hsl(305, 10, 90) },
     };
-    
+
     private Material _iceMaterial;
 
     private static Color Hsl(float hue, float saturation, float value)
@@ -104,16 +104,19 @@ public class TinyPlanet : MonoBehaviour
         _rockMaterial.SetVector(CenterPropertyId, newPosition);
 
         if (rockType == RockType.Ice)
-        { 
+        {
             _iceMaterial.SetVector(CenterPropertyId, newPosition);
 
             foreach (var networkItem in network)
             {
-                if (Random.value < .8f)
+                var shouldMakeIce = Random.value < .8f;
+                if (shouldMakeIce)
                 {
                     var block = networkItem.GetComponentInChildren<Block>();
                     block.SetRockType(RockType.Ice);
                     block.SetMaterial(_iceMaterial);
+
+                    block.gameObject.AddComponent<IceResourceController>();
                 }
                 else
                 {
@@ -141,7 +144,7 @@ public class TinyPlanet : MonoBehaviour
         // var newCenter = GetCenter();
         var newPosition = network[0].transform.position;
         _rockMaterial.SetVector(CenterPropertyId, newPosition);
-        if(rockType == RockType.Ice) _iceMaterial.SetVector(CenterPropertyId, newPosition);
+        if (rockType == RockType.Ice) _iceMaterial.SetVector(CenterPropertyId, newPosition);
     }
 
     public List<GameObject> FindConnectedRocksNotInList(List<GameObject> dislodgedNetwork)
@@ -258,5 +261,10 @@ public class TinyPlanet : MonoBehaviour
     public PortController GetPort()
     {
         return _port;
+    }
+
+    public bool IsIcePlanet()
+    {
+        return rockType == RockType.Ice;
     }
 }

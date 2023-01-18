@@ -56,7 +56,7 @@ public class OreController : MonoBehaviour
         var blockTransform = blockRoot.transform;
         var position = blockTransform.position;
         var rotation = blockTransform.rotation;
-        var oreDebris = Instantiate(PrefabTemplateLibrary.Get().oreDebrisTemplate, position, rotation);
+        var oreDebris = Instantiate(PrefabTemplateLibrary.Get().oreResourceDebrisTemplate, position, rotation);
 
         var oreDebrisController = oreDebris.GetComponent<OreDebrisController>();
         oreDebrisController.SetTarget(planet.GetPort());

@@ -14,6 +14,8 @@ public class PlanetLandmark : MonoBehaviour
     private const float HoverTooltipThreshold = .8f;
     private const float HoverTooltipGracePeriod = 1f;
 
+    public MapEffect iceMapEffect;
+
     void Awake()
     {
         _planet = GetComponentInParent<TinyPlanet>();
@@ -104,13 +106,20 @@ public class PlanetLandmark : MonoBehaviour
 
     private void UpdatePosition()
     {
-        transform.position = _planet.GetCenter();
+        var newPosition = _planet.GetCenter();
+        transform.position = newPosition;
+        iceMapEffect.transform.position = newPosition;
     }
 
     private void Show()
     {
         UpdateStyle();
         gameObject.SetActive(true);
+
+        if (_planet.IsIcePlanet())
+        {
+            iceMapEffect.gameObject.SetActive(true);
+        }
     }
 
     private void UpdateStyle()
@@ -123,6 +132,7 @@ public class PlanetLandmark : MonoBehaviour
 
     private void Hide()
     {
+        iceMapEffect.gameObject.SetActive(false);
         gameObject.SetActive(false);
     }
 

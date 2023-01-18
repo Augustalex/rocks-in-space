@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PrefabTemplateLibrary : MonoBehaviour
 {
@@ -7,7 +8,8 @@ public class PrefabTemplateLibrary : MonoBehaviour
     public GameObject mapPopup;
     public GameObject rockDebrisTemplate;
     public GameObject iceDebrisTemplate;
-    public GameObject oreDebrisTemplate;
+    public GameObject iceResourceDebrisTemplate;
+    [FormerlySerializedAs("oreDebrisTemplate")] public GameObject oreResourceDebrisTemplate;
     public GameObject routeLineTemplate;
 
     public static PrefabTemplateLibrary Get()

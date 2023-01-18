@@ -15,6 +15,7 @@ public class TinyPlanetResources : MonoBehaviour
         Inhabitants,
         Housing,
         Cash, // Global, not planet specific.
+        Ice
     }
 
     public enum ResourceTrend
@@ -65,6 +66,7 @@ public class TinyPlanetResources : MonoBehaviour
     private readonly ResourceTracker _oreTracker = new();
     private readonly ResourceTracker _metalsTracker = new();
     private readonly ResourceTracker _gadgetsTracker = new();
+    private readonly ResourceTracker _iceTracker = new();
 
     private int _powerPlants;
     private int _farms;
@@ -106,6 +108,8 @@ public class TinyPlanetResources : MonoBehaviour
                 return GetOre();
             case PlanetResourceType.Housing:
                 return GetVacantHousing();
+            case PlanetResourceType.Ice:
+                return _iceTracker.Get();
         }
 
         Debug.LogError("Trying to get resource that has not getter: " + resourceType);
@@ -131,6 +135,9 @@ public class TinyPlanetResources : MonoBehaviour
             case PlanetResourceType.Ore:
                 RemoveOre(amount);
                 break;
+            case PlanetResourceType.Ice:
+                _iceTracker.Remove(amount);
+                break;
         }
     }
 
@@ -152,6 +159,9 @@ public class TinyPlanetResources : MonoBehaviour
                 break;
             case PlanetResourceType.Ore:
                 AddOre(amount);
+                break;
+            case PlanetResourceType.Ice:
+                _iceTracker.Add(amount);
                 break;
         }
     }

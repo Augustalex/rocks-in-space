@@ -201,8 +201,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.2
-      minScalar: 0.1
+      scalar: 0.6
+      minScalar: 0.3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -317,7 +317,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.9
+      scalar: 2
       minScalar: 0.05
       maxCurve:
         serializedVersion: 2
@@ -1085,28 +1085,28 @@ ParticleSystem:
     curve:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 2
+      scalar: 4
       minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.5372271
-          inSlope: 2.1148338
-          outSlope: 2.1148338
+          value: 0.17902079
+          inSlope: 1.1885062
+          outSlope: 1.1885062
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
-          outWeight: 0.02913236
+          outWeight: 0.07541899
         - serializedVersion: 3
           time: 1
-          value: 1
-          inSlope: -0
-          outSlope: -0
+          value: 0.64179105
+          inSlope: 0.59640527
+          outSlope: 0.59640527
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.032298923
+          inWeight: 0.13764054
           outWeight: 0.33333334
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -1414,7 +1414,7 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 0.8726415, g: 0.98602164, b: 1, a: 0}
-        key1: {r: 1, g: 1, b: 1, a: 0.46666667}
+        key1: {r: 1, g: 1, b: 1, a: 0.8117647}
         key2: {r: 0.8207547, g: 0.29909003, b: 0.10453009, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1430,7 +1430,7 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 3470
+        atime1: 7517
         atime2: 65535
         atime3: 65535
         atime4: 0

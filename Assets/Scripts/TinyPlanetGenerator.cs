@@ -58,7 +58,7 @@ public class TinyPlanetGenerator : MonoBehaviour
             .ToList();
 
         var planetGo = NewPlanetWithNetwork(network);
-        planetGo.GetComponent<TinyPlanet>().SetupType(TinyPlanet.RockType.Ice);
+        planetGo.GetComponent<TinyPlanet>().SetupType(RandomPlanetType());
     }
 
     private TinyPlanet.RockType RandomPlanetType()

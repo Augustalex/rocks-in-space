@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -89,12 +90,20 @@ public class CameraController : MonoBehaviour
         {
             yield return new WaitForSeconds(.5f);
 
-            var startingPlanet = FindObjectOfType<Block>().GetConnectedPlanet();
+            var startingPlanet = FindStartingPlanet();
 
             //Game start
             CurrentPlanetController.Get().ChangePlanet(startingPlanet);
             FocusOnPlanetSlowly(startingPlanet);
         }
+    }
+
+    private TinyPlanet FindStartingPlanet()
+    {
+        var planets = FindObjectsOfType<TinyPlanet>();
+        var normalPlanet = planets.First(p => !p.IsIcePlanet());
+
+        return normalPlanet;
     }
 
     public bool AvailableToUpdate()

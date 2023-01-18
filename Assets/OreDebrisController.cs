@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class OreDebrisController : MonoBehaviour
+public class OreDebrisController : MonoBehaviour // TODO: Rename to "ResourceDebrisController
 {
-    public GameObject oreParticleTemplate;
+    [FormerlySerializedAs("oreParticleTemplate")]
+    public GameObject particleTemplate;
 
     private Tuple<float, Vector3, Vector3, GameObject>[] _particles;
     private GameObject _target;
@@ -25,7 +27,7 @@ public class OreDebrisController : MonoBehaviour
 
         for (int i = 0; i < amount; i++)
         {
-            var particle = Instantiate(oreParticleTemplate, transform.position + Random.insideUnitSphere,
+            var particle = Instantiate(particleTemplate, transform.position + Random.insideUnitSphere,
                 Random.rotation);
             particle.transform.localScale *= Random.Range(.5f, 1.5f);
 

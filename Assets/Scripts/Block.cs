@@ -76,8 +76,14 @@ public class Block : MonoBehaviour, ILaserInteractable
         Destroy(block);
 
         if (_rockType == TinyPlanet.RockType.Ice)
+        {
             Instantiate(PrefabTemplateLibrary.Get().iceDebrisTemplate, position, rotation);
-        else Instantiate(PrefabTemplateLibrary.Get().rockDebrisTemplate, position, rotation);
+            GetComponent<IceResourceController>().Mine(GetConnectedPlanet());
+        }
+        else
+        {
+            Instantiate(PrefabTemplateLibrary.Get().rockDebrisTemplate, position, rotation);
+        }
     }
 
     public Vector3 GetPosition()
@@ -170,7 +176,7 @@ public class Block : MonoBehaviour, ILaserInteractable
     {
         var balanceSettings = SettingsManager.Get().balanceSettings;
         // return .1f;
-        if (_rockType == TinyPlanet.RockType.Ice) return 2f;
+        if (_rockType == TinyPlanet.RockType.Ice) return .8f;
         return _oreController.HasOre() ? balanceSettings.oreDigTime : balanceSettings.rockDigTime;
     }
 
