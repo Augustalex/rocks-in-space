@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class IceResourceController : MonoBehaviour
 {
-    private GameObject _ore;
-    private OreVein _oreVein;
+    private bool _dead;
 
     public void Mine(TinyPlanet planet)
     {
+        if (_dead) return;
+
         var planetResources = planet.GetComponent<TinyPlanetResources>();
-        var amount = Random.Range(1, 10);
+        var amount = Random.Range(1, 10) * 5;
         planetResources.AddResource(TinyPlanetResources.PlanetResourceType.Ice, amount);
         SpawnDebris(planet, Random.Range(1, 10));
 
@@ -33,6 +34,11 @@ public class IceResourceController : MonoBehaviour
 
     public void DestroyOre()
     {
-        Destroy(_ore);
+        _dead = true;
+    }
+
+    public bool IsDestroyed()
+    {
+        return _dead;
     }
 }

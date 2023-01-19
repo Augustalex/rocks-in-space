@@ -107,7 +107,7 @@ public class Meteor : MonoBehaviour
             if (block.GetConnectedPlanet() == CurrentPlanetController.Get().CurrentPlanet())
             {
                 RockSmash.Get().PlayHitAndSmash(block.GetPosition());
-                MineralSounds.Get().Play();
+                ResourceSounds.Get().Play();
             }
 
             if (block.IsIce())

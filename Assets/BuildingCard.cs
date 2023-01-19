@@ -233,20 +233,20 @@ public class BuildingCard : MonoBehaviour
         var interactor = InteractorController.Get().GetInteractorByBuildingType(BuildingType.Purifier);
         var cost = interactor.costs.metals;
         var runningCosts = interactor.template.GetComponent<RunningResourceEffect>();
-        if (runningCosts == null) Debug.LogError("Purifier is missing running costs component.");
+        if (runningCosts == null) Debug.LogError("Distillery is missing running costs component.");
 
         var effect = interactor.template.GetComponent<ResourceEffect>();
-        if (effect == null) Debug.LogError("Purifier is missing resource effects component.");
+        if (effect == null) Debug.LogError("Distillery is missing resource effects component.");
 
         var conversion = interactor.template.GetComponent<ResourceConversionEffect>();
-        if (conversion == null) Debug.LogError("Purifier is missing resource conversion component.");
+        if (conversion == null) Debug.LogError("Distillery is missing resource conversion component.");
 
         costs.text = $"{cost}";
         costsIcon.texture = UIAssetManager.Get().metalsIcon;
         upkeep.text =
             $"Upkeep: {effect.energy}<sprite name=\"power\"> {runningCosts.cashPerMinute}<sprite name=\"coin\">/min";
         description.text =
-            $"Converts {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Ice)} into {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Water)} every {(int)conversion.iterationTime} seconds";
+            $"Converts {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Water)} into {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Refreshments)} every {(int)conversion.iterationTime} seconds";
     }
 
     private void KorvKiosk()

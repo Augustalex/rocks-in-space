@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 47696288242193595}
   - component: {fileID: 3161239334321767234}
   - component: {fileID: 1389406210342210510}
+  - component: {fileID: 8608724217475473750}
   m_Layer: 0
   m_Name: FactoryBuilding
   m_TagString: Untagged
@@ -384,6 +385,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seedName: Factory
+--- !u!114 &8608724217475473750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7735039820489149926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5fbf59e246960643b466bb728cea7c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingType: 2
 --- !u!1 &8446065576420809214
 GameObject:
   m_ObjectHideFlags: 0

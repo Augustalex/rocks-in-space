@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using Interactors;
 using UnityEngine;
 
 public class TinyPlanetResources : MonoBehaviour
@@ -41,9 +43,9 @@ public class TinyPlanetResources : MonoBehaviour
             case PlanetResourceType.Inhabitants: return "colonists";
             case PlanetResourceType.Housing: return "housing<sprite name=\"house\">";
             case PlanetResourceType.Cash: return "credits<sprite name=\"coin\">";
-            case PlanetResourceType.Ice: return "Ice";
-            case PlanetResourceType.Water: return "Water";
-            case PlanetResourceType.Refreshments: return "Refreshments";
+            case PlanetResourceType.Ice: return "ice<sprite name=\"ice\">";
+            case PlanetResourceType.Water: return "water<sprite name=\"water\">";
+            case PlanetResourceType.Refreshments: return "refreshments<sprite name=\"refreshments\">";
         }
 
         return "Unknown resource";
@@ -55,6 +57,7 @@ public class TinyPlanetResources : MonoBehaviour
         public float Energy;
         public float Food;
         public int Inhabitants;
+        public float Ice;
         public float Metals;
         public float Gadgets;
         public float Refreshments;
@@ -78,9 +81,21 @@ public class TinyPlanetResources : MonoBehaviour
 
     private int _powerPlants;
     private int _farms;
+    private int _distilleries;
+    private int _purifiers;
     private bool _hasHadDeaths;
 
-    void Start()
+    private Dictionary<BuildingType, int> _buildings = new()
+    {
+        { BuildingType.Refinery, 0 },
+        { BuildingType.Factory, 0 },
+        { BuildingType.Purifier, 0 },
+        { BuildingType.Distillery, 0 },
+        { BuildingType.PowerPlant, 0 },
+        { BuildingType.FarmDome, 0 },
+    };
+
+        void Start()
     {
         StartCoroutine(RunTrends());
     }
@@ -378,30 +393,11 @@ public class TinyPlanetResources : MonoBehaviour
             Ore = GetOre(),
             Metals = GetMetals(),
             Gadgets = GetGadgets(),
+            Ice = GetResource(PlanetResourceType.Ice),
             Energy = GetEnergy(),
             Food = GetFood(),
             Inhabitants = GetInhabitants()
         };
-    }
-
-    public void RegisterFarm()
-    {
-        _farms += 1;
-    }
-
-    public void DeregisterFarm()
-    {
-        _farms -= 0;
-    }
-
-    public void RegisterPowerPlant()
-    {
-        _powerPlants += 1;
-    }
-
-    public void DeregisterPowerPlant()
-    {
-        _powerPlants -= 1;
     }
 
     public bool HasFarm()
@@ -412,5 +408,30 @@ public class TinyPlanetResources : MonoBehaviour
     public bool HasPowerPlant()
     {
         return _powerPlants > 0;
+    }
+
+    public bool HasPurifier()
+    {
+        return _purifiers > 0;
+    }
+
+    public bool HasDistillery()
+    {
+        return _distilleries > 0;
+    }
+
+    public bool HasBuilding(BuildingType buildingType)
+    {
+        return _buildings[buildingType] > 0;
+    }
+
+    public void DeregisterBuilding(BuildingType buildingType)
+    {
+        _buildings[buildingType] -= 1;
+    }
+    
+    public void RegisterBuilding(BuildingType buildingType)
+    {
+        _buildings[buildingType] += 1;
     }
 }

@@ -17,6 +17,9 @@ public class ModuleController : MonoBehaviour
         foodPerMinute; // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
 
     public float
+        refreshmentsPerMinute; // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
+
+    public float
         cashPerMinute; // Is most likely positive, but kept as a neutral variable to make thinking about balance easier.
 
     void Start()
@@ -55,6 +58,23 @@ public class ModuleController : MonoBehaviour
                     .AddFood(foodEffect); // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
                 monitor.RegisterNotEnoughFood();
             }
+            
+            var refreshmentsEffect = (refreshmentsPerMinute / 60f) * Time.deltaTime;
+            var refreshments = resources.GetResource(TinyPlanetResources.PlanetResourceType.Refreshments);
+            var hasEnoughRefreshments =
+                refreshments > .5f; // Refreshments levels can not be below 0, so checking for 0 never happens (since a farm might always be adding just a little bit).
+            if (hasEnoughRefreshments)
+            {
+                resources
+                    .AddResource(TinyPlanetResources.PlanetResourceType.Refreshments, refreshmentsEffect); // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
+                monitor.RegisterRefreshmentsSatisfied();
+            }
+            else
+            {
+                resources
+                    .AddResource(TinyPlanetResources.PlanetResourceType.Refreshments, refreshmentsEffect); // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
+                monitor.RegisterNotEnoughRefreshments();
+            }
 
             var hasEnoughEnergy = resources.GetEnergy() >= 0f;
             if (hasEnoughEnergy)
@@ -68,7 +88,7 @@ public class ModuleController : MonoBehaviour
                 monitor.RegisterNotEnoughPower();
             }
 
-            var status = monitor.CalculateStatus(hasEnoughEnergy, hasEnoughFood);
+            var status = monitor.CalculateStatus(hasEnoughEnergy, hasEnoughFood, hasEnoughRefreshments);
             if (status == PlanetColonistMonitor.ColonistStatus.MovingOut)
             {
                 _life -= LifeLossPerSecond * Time.deltaTime;
@@ -102,7 +122,7 @@ public class ModuleController : MonoBehaviour
             else if (status == PlanetColonistMonitor.ColonistStatus.Overjoyed)
             {
                 _life = Mathf.Min(TotalLife, _life + LifeLossPerSecond * 2f * Time.deltaTime);
-                GlobalResources.Get().AddCash(cashEffect * 2f);
+                GlobalResources.Get().AddCash(cashEffect * 4f);
             }
         }
         else if (resources.HasVacancy())

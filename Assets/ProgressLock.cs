@@ -55,12 +55,10 @@ public class ProgressLock : MonoBehaviour
                 Platform();
                 break;
             case BuildingType.Purifier:
-                Hide();
-                // Purifier();
+                IceMachine(BuildingType.Purifier);
                 break;
             case BuildingType.Distillery:
-                Hide();
-                // Purifier();
+                IceMachine(BuildingType.Distillery);
                 break;
             case BuildingType.KorvKiosk:
                 // Hide();
@@ -165,6 +163,35 @@ public class ProgressLock : MonoBehaviour
             if (HousingUnlocked())
             {
                 HideVeil();
+                _text.text = "Unlock with\n500 colonists";
+            }
+            else
+            {
+                ShowVeil();
+                _text.text = "???";
+            }
+        }
+    }
+
+    private void IceMachine(BuildingType buildingType)
+    {
+        if (buildingType != BuildingType.Distillery && buildingType != BuildingType.Purifier)
+            throw new Exception("Wrong building type passed to IceMachine ProgressLock method!");
+        
+        if (IceMachinesUnlocked())
+        {
+            Notifications.Get().Send(new BuildingNotification
+            {
+                Message = $"New building \"{InteractorController.Get().GetInteractorByBuildingType(buildingType).GetInteractorName()}\" unlocked!",
+                NotificationType = NotificationTypes.Positive
+            });
+            Hide();
+        }
+        else
+        {
+            if (PlatformUnlocked())
+            {
+                HideVeil();
                 _text.text = "Unlock with\n1000 colonists";
             }
             else
@@ -221,6 +248,14 @@ public class ProgressLock : MonoBehaviour
     }
 
     private bool PlatformUnlocked()
+    {
+        var progressManager = ProgressManager.Get();
+        return
+            progressManager.TotalColonistsCount() >=
+            500; // TODO: Perhaps this unlocking checks should happen outside the UI!! Perhaps in an update loop in the ProgressManager?
+    }
+
+    private bool IceMachinesUnlocked()
     {
         var progressManager = ProgressManager.Get();
         return

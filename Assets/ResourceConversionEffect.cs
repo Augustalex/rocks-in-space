@@ -11,10 +11,12 @@ public class ResourceConversionEffect : MonoBehaviour
     private const float ResourceTakeTime = .5f;
 
     private AttachedToPlanet _planetAttachment;
+    private ResourceEffect _resourceEffect;
 
     private void Awake()
     {
         _planetAttachment = GetComponent<AttachedToPlanet>();
+        _resourceEffect = GetComponent<ResourceEffect>();
     }
 
     void Start()
@@ -29,10 +31,21 @@ public class ResourceConversionEffect : MonoBehaviour
             yield return new WaitForSeconds(ResourceTakeTime);
 
             var resources = _planetAttachment.GetAttachedResources();
+
+            if (_resourceEffect && _resourceEffect.energy > 0)
+            {
+                while (resources.GetResource(TinyPlanetResources.PlanetResourceType.Energy) <= 0)
+                {
+                    Debug.Log("NO POWER!");
+                    // Wait until there is power, then continue processing.
+                    yield return new WaitForSeconds(.25f);
+                }
+            }
+
             while (resources.GetResource(from) < 1f && gameObject != null)
             {
                 // Wat until there is resources to take from. Then restart the iteration timer.
-                yield return new WaitForSeconds(.15f);
+                yield return new WaitForSeconds(.25f);
             }
 
             resources.RemoveResource(from, 1f);

@@ -26,7 +26,7 @@ public class Block : MonoBehaviour, ILaserInteractable
         if (_oreController.HasOre())
         {
             _oreController.Mine(GetConnectedPlanet());
-            MineralSounds.Get().Play();
+            ResourceSounds.Get().Play();
         }
 
         if (_seed)
@@ -43,7 +43,11 @@ public class Block : MonoBehaviour, ILaserInteractable
             }
         }
 
-        if (_rockType == TinyPlanet.RockType.Ice) RockSmash.Get().PlayMelt();
+        if (_rockType == TinyPlanet.RockType.Ice)
+        {
+            RockSmash.Get().PlayMelt();
+            ResourceSounds.Get().PlayClink();
+        }
         else RockSmash.Get().Play();
 
         tinyPlanetGenerator.DestroyBlock(this); // Will call "DestroySelf"
@@ -78,7 +82,8 @@ public class Block : MonoBehaviour, ILaserInteractable
         if (_rockType == TinyPlanet.RockType.Ice)
         {
             Instantiate(PrefabTemplateLibrary.Get().iceDebrisTemplate, position, rotation);
-            GetComponent<IceResourceController>().Mine(GetConnectedPlanet());
+            var iceResourceController = GetIceController();
+            if (!iceResourceController.IsDestroyed()) iceResourceController.Mine(GetConnectedPlanet());
         }
         else
         {
@@ -106,11 +111,26 @@ public class Block : MonoBehaviour, ILaserInteractable
         return transform.parent.GetComponentInChildren<RockMesh>();
     }
 
+    private IceResourceController
+        GetIceController() // Cannot instantiate in Awake or Start, since it is created during runtime when planets are being generated.
+    {
+        return GetComponent<IceResourceController>();
+    }
+
     public void KillOre()
     {
         if (_oreController.HasOre())
         {
             _oreController.DestroyOre();
+        }
+
+        if (IsIce())
+        {
+            var iceResourceController = GetIceController();
+            if (!iceResourceController.IsDestroyed())
+            {
+                iceResourceController.DestroyOre();
+            }
         }
     }
 
@@ -147,6 +167,10 @@ public class Block : MonoBehaviour, ILaserInteractable
         {
             var mesh = GetMesh();
             if (mesh) Destroy(mesh.gameObject);
+
+            if (IsIce())
+                _rockType = TinyPlanet.RockType
+                    .Blue; // If a rock is Ice, then we want the destroy animation to show blocks flying, not ice melting.
         }
 
         return _seed;

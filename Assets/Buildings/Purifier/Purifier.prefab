@@ -619,6 +619,7 @@ GameObject:
   - component: {fileID: 1091763718292813009}
   - component: {fileID: -3728626087985763771}
   - component: {fileID: 380498079226224336}
+  - component: {fileID: 7399114965260982144}
   m_Layer: 0
   m_Name: Purifier
   m_TagString: Untagged
@@ -680,7 +681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32daf228e43b9441b10764af06a11cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: 5
+  energy: -5
   residencyType: 0
 --- !u!114 &-1662945947870651580
 MonoBehaviour:
@@ -694,7 +695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336aaf521eb74e81bf6aa32492d5c93e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cashPerMinute: -4
+  cashPerMinute: -10
 --- !u!114 &1091763718292813009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -709,7 +710,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   from: 8
   to: 9
-  iterationTime: 12
+  iterationTime: 2
 --- !u!114 &-3728626087985763771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -735,6 +736,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seedName: Purifier
+--- !u!114 &7399114965260982144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5028280871199184891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5fbf59e246960643b466bb728cea7c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingType: 8
 --- !u!1 &5703838706049439613
 GameObject:
   m_ObjectHideFlags: 0

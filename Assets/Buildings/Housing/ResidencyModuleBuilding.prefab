@@ -1591,8 +1591,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foodPerMinute: -10
+  refreshmentsPerMinute: -10
   cashPerMinute: 1
-  debugStatus: 
 --- !u!114 &3805649913758207126
 MonoBehaviour:
   m_ObjectHideFlags: 0

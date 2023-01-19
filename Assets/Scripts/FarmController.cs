@@ -10,23 +10,6 @@ public class FarmController : MonoBehaviour
     void Awake()
     {
         _planetAttachment = GetComponent<AttachedToPlanet>();
-        _planetAttachment.AttachedTo += OnResourceEffectAttached;
-        _planetAttachment.TransferredFromTo += (from, to) =>
-        {
-            OnResourceEffectDetached(from);
-            OnResourceEffectAttached(to);
-        };
-        _planetAttachment.DetachedFrom += OnResourceEffectDetached;
-    }
-
-    private void OnResourceEffectDetached(TinyPlanetResources resources)
-    {
-        resources.DeregisterFarm();
-    }
-
-    private void OnResourceEffectAttached(TinyPlanetResources resources)
-    {
-        resources.RegisterFarm();
     }
 
     void Update()

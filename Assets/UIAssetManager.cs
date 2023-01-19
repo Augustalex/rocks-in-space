@@ -12,6 +12,9 @@ public class UIAssetManager : MonoBehaviour
     public Texture metalsIcon;
     public Texture gadgetsIcon;
     public Texture powerIcon;
+    public Texture iceIcon;
+    public Texture waterIcon;
+    public Texture refreshmentsIcon;
     public Texture foodIcon;
     public Texture housingIcon;
     public Texture creditsIcon;
@@ -47,6 +50,9 @@ public class UIAssetManager : MonoBehaviour
             TinyPlanetResources.PlanetResourceType.Ore => oreIcon,
             TinyPlanetResources.PlanetResourceType.Metals => metalsIcon,
             TinyPlanetResources.PlanetResourceType.Gadgets => gadgetsIcon,
+            TinyPlanetResources.PlanetResourceType.Ice => iceIcon,
+            TinyPlanetResources.PlanetResourceType.Water => waterIcon,
+            TinyPlanetResources.PlanetResourceType.Refreshments => refreshmentsIcon,
             TinyPlanetResources.PlanetResourceType.Energy => powerIcon,
             TinyPlanetResources.PlanetResourceType.Food => foodIcon,
             TinyPlanetResources.PlanetResourceType.Housing => housingIcon,

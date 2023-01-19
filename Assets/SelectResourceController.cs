@@ -1,5 +1,4 @@
 using System;
-using Interactors;
 using UnityEngine;
 
 public class SelectResourceController : MonoBehaviour
@@ -7,6 +6,8 @@ public class SelectResourceController : MonoBehaviour
     public TwoStateButton oreButton;
     public TwoStateButton metalsButton;
     public TwoStateButton gadgetsButton;
+    public TwoStateButton waterButton;
+    public TwoStateButton refreshmentsButton;
 
     private TinyPlanetResources.PlanetResourceType _selectedResourceType;
 
@@ -14,65 +15,54 @@ public class SelectResourceController : MonoBehaviour
 
     void Start()
     {
-        oreButton.Clicked += OreButtonClicked;
+        oreButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Ore);
         oreButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Ore));
 
-        metalsButton.Clicked += MetalsButtonClicked;
+        metalsButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Metals);
         metalsButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Metals));
 
-        gadgetsButton.Clicked += GadgetsButtonClicked;
+        gadgetsButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Gadgets);
         gadgetsButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets));
-    }
 
+        waterButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Water);
+        waterButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Water));
+
+        refreshmentsButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Refreshments);
+        refreshmentsButton.SetText(
+            TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Refreshments));
+    }
+    
     public void SetSelectedResource(TinyPlanetResources.PlanetResourceType resourceType)
     {
         switch (resourceType)
         {
             case TinyPlanetResources.PlanetResourceType.Metals:
-                SelectMetals();
+                SelectResource(TinyPlanetResources.PlanetResourceType.Metals);
                 break;
             case TinyPlanetResources.PlanetResourceType.Gadgets:
-                SelectGadgets();
+                SelectResource(TinyPlanetResources.PlanetResourceType.Gadgets);
+                break;
+            case TinyPlanetResources.PlanetResourceType.Water:
+                SelectResource(TinyPlanetResources.PlanetResourceType.Water);
+                break;
+            case TinyPlanetResources.PlanetResourceType.Refreshments:
+                SelectResource(TinyPlanetResources.PlanetResourceType.Refreshments);
                 break;
             default:
-                SelectOre();
+                SelectResource(TinyPlanetResources.PlanetResourceType.Ore);
                 break;
         }
     }
 
-    private void OreButtonClicked()
+    private void ResourceButtonClicked(TinyPlanetResources.PlanetResourceType resourceType)
     {
-        SelectOre();
+        SelectResource(resourceType);
         ResourceSelected?.Invoke(_selectedResourceType);
     }
 
-    private void MetalsButtonClicked()
+    private void SelectResource(TinyPlanetResources.PlanetResourceType resourceType)
     {
-        SelectMetals();
-        ResourceSelected?.Invoke(_selectedResourceType);
-    }
-
-    private void GadgetsButtonClicked()
-    {
-        SelectGadgets();
-        ResourceSelected?.Invoke(_selectedResourceType);
-    }
-
-    private void SelectOre()
-    {
-        _selectedResourceType = TinyPlanetResources.PlanetResourceType.Ore;
-        Render();
-    }
-
-    private void SelectMetals()
-    {
-        _selectedResourceType = TinyPlanetResources.PlanetResourceType.Metals;
-        Render();
-    }
-
-    private void SelectGadgets()
-    {
-        _selectedResourceType = TinyPlanetResources.PlanetResourceType.Gadgets;
+        _selectedResourceType = resourceType;
         Render();
     }
 
@@ -81,9 +71,7 @@ public class SelectResourceController : MonoBehaviour
         oreButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Ore);
         metalsButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Metals);
         gadgetsButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Gadgets);
-    }
-
-    void Update()
-    {
+        waterButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Water);
+        refreshmentsButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Refreshments);
     }
 }

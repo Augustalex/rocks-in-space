@@ -26,6 +26,7 @@ public class PlanetColonistMonitor : MonoBehaviour
 
     private int _power;
     private int _food;
+    private int _refreshments;
 
     void Start()
     {
@@ -71,8 +72,13 @@ public class PlanetColonistMonitor : MonoBehaviour
         return _planetStatus;
     }
 
-    public ColonistStatus CalculateStatus(bool hasEnergy, bool hasFood)
+    public ColonistStatus CalculateStatus(bool hasEnergy, bool hasFood, bool hasRefreshments)
     {
+        if (hasEnergy && hasFood && hasRefreshments)
+        {
+            return ColonistStatus.Overjoyed;
+        }
+
         if (hasEnergy && hasFood)
         {
             return ColonistStatus.Happy;
@@ -104,5 +110,15 @@ public class PlanetColonistMonitor : MonoBehaviour
     public void RegisterNotEnoughPower()
     {
         _power -= 1;
+    }
+
+    public void RegisterRefreshmentsSatisfied()
+    {
+        _refreshments += 1;
+    }
+
+    public void RegisterNotEnoughRefreshments()
+    {
+        _refreshments -= 1;
     }
 }
