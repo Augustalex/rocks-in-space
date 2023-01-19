@@ -7,22 +7,61 @@ public class OreVein : MonoBehaviour
 
     public static readonly int OrePerBlock = 1;
 
+    public GameObject[] templates;
+
+    public GameObject[] faces;
+
     private void Start()
     {
-        var pieces = GetComponentsInChildren<MeshRenderer>();
         var onCount = 0;
-        foreach (var meshRenderer in pieces)
+
+        foreach (var face in faces)
         {
-            if (Random.value < .4f) meshRenderer.gameObject.SetActive(false);
-            else onCount += 1;
+            var faceCount = Random.Range(0, Random.value < .2f ? 8 : 4);
+            for (int i = 0; i < faceCount; i++)
+            {
+                onCount += 1;
+                var template = Instantiate(templates[Random.Range(0, templates.Length)], face.transform);
+                var meshTransform = template.transform;
+                var scale = meshTransform.localScale;
+                meshTransform.localScale = new Vector3(Random.Range(1f, 1.7f), Random.Range(1f, 1.7f),
+                    Random.Range(1.5f, 2.2f));
+                meshTransform.localPosition = new Vector3(Random.Range(-.32f, .32f), Random.Range(-.32f, .32f), .48f);
+                meshTransform.localRotation = Quaternion.Euler(Random.Range(0, 8) * 45f, Random.Range(0, 8) * 45f,
+                    Random.Range(0, 8) * 45f);
+                // meshTransform.localRotation = Random.rotation;
+            }
         }
 
-        if (onCount == 0)
-        {
-            pieces[Random.Range(0, pieces.Length)].gameObject.SetActive(true);
-            onCount += 1;
-        }
 
+        // var pieces = GetComponentsInChildren<MeshRenderer>();
+        // foreach (var meshRenderer in pieces)
+        // {
+        //     if (Random.value < .4f) meshRenderer.gameObject.SetActive(false);
+        //     else
+        //     {
+        //         var meshTransform = meshRenderer.gameObject.transform;
+        //         var scale = meshTransform.localScale;
+        //         meshTransform.localScale = new Vector3(Random.Range(.2f, .25f), Random.Range(.2f, .45f), scale.z);
+        //         meshTransform.localPosition = new Vector3(Random.Range(-.15f, .15f), Random.Range(-.15f, .15f), .45f);
+        //         meshTransform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(0, 8) * 45f);
+        //         onCount += 1;
+        //     }
+        // }
+        //
+        // if (onCount == 0)
+        // {
+        //     var randomPiece = pieces[Random.Range(0, pieces.Length)].gameObject;
+        //     var meshTransform = randomPiece.transform;
+        //     var scale = meshTransform.localScale;
+        //     var uniformScale = Random.Range(.2f, .35f);
+        //     meshTransform.localScale = new Vector3(uniformScale, uniformScale, scale.z);
+        //     meshTransform.localPosition = new Vector3(Random.Range(-.15f, .15f), Random.Range(-.15f, .15f), .45f);
+        //     meshTransform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(0, 8) * 45f);
+        //     randomPiece.SetActive(true);
+        //     onCount += 1;
+        // }
+        //
         _resources += onCount * OrePerBlock;
     }
 

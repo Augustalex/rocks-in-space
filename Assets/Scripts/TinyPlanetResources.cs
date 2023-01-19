@@ -15,7 +15,9 @@ public class TinyPlanetResources : MonoBehaviour
         Inhabitants,
         Housing,
         Cash, // Global, not planet specific.
-        Ice
+        Ice,
+        Water,
+        Refreshments
     }
 
     public enum ResourceTrend
@@ -39,6 +41,9 @@ public class TinyPlanetResources : MonoBehaviour
             case PlanetResourceType.Inhabitants: return "colonists";
             case PlanetResourceType.Housing: return "housing<sprite name=\"house\">";
             case PlanetResourceType.Cash: return "credits<sprite name=\"coin\">";
+            case PlanetResourceType.Ice: return "Ice";
+            case PlanetResourceType.Water: return "Water";
+            case PlanetResourceType.Refreshments: return "Refreshments";
         }
 
         return "Unknown resource";
@@ -52,6 +57,7 @@ public class TinyPlanetResources : MonoBehaviour
         public int Inhabitants;
         public float Metals;
         public float Gadgets;
+        public float Refreshments;
     }
 
     public static readonly int InhabitantsPerResidency = 100;
@@ -67,6 +73,8 @@ public class TinyPlanetResources : MonoBehaviour
     private readonly ResourceTracker _metalsTracker = new();
     private readonly ResourceTracker _gadgetsTracker = new();
     private readonly ResourceTracker _iceTracker = new();
+    private readonly ResourceTracker _waterTracker = new();
+    private readonly ResourceTracker _refreshmentsTracker = new();
 
     private int _powerPlants;
     private int _farms;
@@ -110,6 +118,10 @@ public class TinyPlanetResources : MonoBehaviour
                 return GetVacantHousing();
             case PlanetResourceType.Ice:
                 return _iceTracker.Get();
+            case PlanetResourceType.Water:
+                return _waterTracker.Get();
+            case PlanetResourceType.Refreshments:
+                return _refreshmentsTracker.Get();
         }
 
         Debug.LogError("Trying to get resource that has not getter: " + resourceType);
@@ -138,6 +150,12 @@ public class TinyPlanetResources : MonoBehaviour
             case PlanetResourceType.Ice:
                 _iceTracker.Remove(amount);
                 break;
+            case PlanetResourceType.Water:
+                _waterTracker.Remove(amount);
+                break;
+            case PlanetResourceType.Refreshments:
+                _refreshmentsTracker.Remove(amount);
+                break;
         }
     }
 
@@ -162,6 +180,12 @@ public class TinyPlanetResources : MonoBehaviour
                 break;
             case PlanetResourceType.Ice:
                 _iceTracker.Add(amount);
+                break;
+            case PlanetResourceType.Water:
+                _waterTracker.Add(amount);
+                break;
+            case PlanetResourceType.Refreshments:
+                _refreshmentsTracker.Add(amount);
                 break;
         }
     }
@@ -188,6 +212,12 @@ public class TinyPlanetResources : MonoBehaviour
                 return _metalsTracker;
             case PlanetResourceType.Ore:
                 return _oreTracker;
+            case PlanetResourceType.Ice:
+                return _iceTracker;
+            case PlanetResourceType.Water:
+                return _waterTracker;
+            case PlanetResourceType.Refreshments:
+                return _refreshmentsTracker;
         }
 
         throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType,

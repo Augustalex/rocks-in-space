@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 
 public class OreController : MonoBehaviour
@@ -76,7 +75,6 @@ public class OreController : MonoBehaviour
     public void DisableOre()
     {
         _oreEnabled = false;
-        Debug.Log("DESTROY ORE!");
         if (HasOre()) DestroyOre();
     }
 }

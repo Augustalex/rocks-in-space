@@ -7,10 +7,10 @@ public class IceResourceController : MonoBehaviour
 
     public void Mine(TinyPlanet planet)
     {
-        // var planetResources = planet.GetComponent<TinyPlanetResources>();
-        // var amount = Random.Range(1, 10);
-        // planetResources.AddResource(TinyPlanetResources.PlanetResourceType.Ice, amount);
-        // SpawnDebris(planet, Random.Range(1, 10));
+        var planetResources = planet.GetComponent<TinyPlanetResources>();
+        var amount = Random.Range(1, 10);
+        planetResources.AddResource(TinyPlanetResources.PlanetResourceType.Ice, amount);
+        SpawnDebris(planet, Random.Range(1, 10));
 
         DestroyOre();
     }

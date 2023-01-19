@@ -24,6 +24,7 @@ namespace Interactors
         ResidentModule,
         Platform,
         KorvKiosk,
+        GeneralBuilding,
         Select,
         Misc
     }
@@ -38,7 +39,9 @@ namespace Interactors
         FarmDome,
         ResidentModule,
         Platform,
-        KorvKiosk
+        KorvKiosk,
+        Purifier,
+        Distillery
     }
 
     public abstract class InteractorModule : MonoBehaviour
@@ -132,24 +135,52 @@ namespace Interactors
             resourceSpent.costs = costs;
         }
 
-        public abstract float MaxActivationDistance();
-
         public abstract string GetInteractorName();
 
         public abstract string GetInteractorShortDescription();
 
         public abstract void Build(Block block, RaycastHit raycastHit);
 
-        public abstract void OnFailedToBuild(Vector3 hitPoint);
+        public virtual void OnFailedToBuild(Vector3 hitPoint)
+        {
+            var audioController = AudioController.Get();
 
-        public abstract void OnBuilt(Vector3 hitPoint);
+            audioController.Play(audioController.cannotBuild, audioController.cannotBuildVolume,
+                hitPoint);
+        }
+        
+        public virtual void OnBuilt(Vector3 hitPoint)
+        {
+            var audioController = AudioController.Get();
 
-        public abstract void OnSecondaryInteract(Block block, RaycastHit hit);
+            audioController.Play(audioController.build, audioController.buildVolume,
+                hitPoint);
+        }
 
-        public abstract bool Continuous();
+        public virtual void OnSecondaryInteract(Block block, RaycastHit hit)
+        {
+            // Do nothing
+        }
 
-        public abstract bool Hoverable();
 
-        public abstract void Hover(RaycastHit hit);
+        public virtual bool Continuous()
+        {
+            return false;
+        }
+
+        public virtual float MaxActivationDistance()
+        {
+            return 60f;
+        }
+
+        public virtual bool Hoverable()
+        {
+            return false;
+        }
+
+        public virtual void Hover(RaycastHit hit)
+        {
+            // Do nothing
+        }
     }
 }

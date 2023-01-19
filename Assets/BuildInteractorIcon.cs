@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Interactors;
 using UnityEngine;
 
@@ -60,9 +61,7 @@ public class BuildInteractorIcon : MonoBehaviour
 
     private void UpdateStates()
     {
-        var interactorActionCategory =
-            InteractorMenuModality.GetCategoryFromInteractorType(InteractorController.Get().CurrentModule()
-                .GetInteractorType());
+        var isBuildCategory = CurrentInteractorIsBuilding();
 
         if (CameraController.Get().IsZoomedOut())
         {
@@ -72,7 +71,7 @@ public class BuildInteractorIcon : MonoBehaviour
         {
             _buildMenuState = BuildMenuState.ForceClosed;
         }
-        else if (interactorActionCategory == InteractorCategory.Build)
+        else if (isBuildCategory)
         {
             _buildMenuState = BuildMenuState.Active;
         }
@@ -98,6 +97,24 @@ public class BuildInteractorIcon : MonoBehaviour
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private bool CurrentInteractorIsBuilding()
+    {
+        var interactorController = InteractorController.Get();
+        if (interactorController.CurrentInteractorIsGeneralBuilding())
+        {
+            return true;
+        }
+        else
+        {
+            var currentInteractor = interactorController.CurrentModule();
+            var interactorType = currentInteractor
+                .GetInteractorType();
+            var interactorActionCategory =
+                InteractorMenuModality.GetCategoryFromInteractorType(interactorType);
+            return interactorActionCategory == InteractorCategory.Build;
         }
     }
 

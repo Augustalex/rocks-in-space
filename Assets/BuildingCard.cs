@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Interactors;
 using TMPro;
 using UnityEngine;
@@ -46,6 +47,12 @@ public class BuildingCard : MonoBehaviour
             case BuildingType.Platform:
                 Platform();
                 break;
+            case BuildingType.Purifier:
+                Purifier();
+                break;
+            case BuildingType.Distillery:
+                Distillery();
+                break;
             case BuildingType.KorvKiosk:
                 KorvKiosk();
                 break;
@@ -61,7 +68,10 @@ public class BuildingCard : MonoBehaviour
 
     private void SelfClicked()
     {
-        InteractorController.Get().SetInteractorByInteractorType(FromBuildingType(buildingType));
+        if (InteractorController.GeneralBuildings.Contains(buildingType))
+            InteractorController.Get().SetInteractorByBuildingType(buildingType);
+        else InteractorController.Get().SetInteractorByInteractorType(FromBuildingType(buildingType));
+
         Clicked?.Invoke();
     }
 
@@ -193,6 +203,50 @@ public class BuildingCard : MonoBehaviour
         upkeep.gameObject.SetActive(false);
         description.text =
             $"A thin but strong metal frame used for extending building space in a settlement.";
+    }
+
+    private void Purifier()
+    {
+        header.text = "Purifier";
+        var interactor = InteractorController.Get().GetInteractorByBuildingType(BuildingType.Purifier);
+        var cost = interactor.costs.metals;
+        var runningCosts = interactor.template.GetComponent<RunningResourceEffect>();
+        if (runningCosts == null) Debug.LogError("Purifier is missing running costs component.");
+
+        var effect = interactor.template.GetComponent<ResourceEffect>();
+        if (effect == null) Debug.LogError("Purifier is missing resource effects component.");
+
+        var conversion = interactor.template.GetComponent<ResourceConversionEffect>();
+        if (conversion == null) Debug.LogError("Purifier is missing resource conversion component.");
+
+        costs.text = $"{cost}";
+        costsIcon.texture = UIAssetManager.Get().metalsIcon;
+        upkeep.text =
+            $"Upkeep: {effect.energy}<sprite name=\"power\"> {runningCosts.cashPerMinute}<sprite name=\"coin\">/min";
+        description.text =
+            $"Converts {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Ice)} into {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Water)} every {(int)conversion.iterationTime} seconds";
+    }
+
+    private void Distillery()
+    {
+        header.text = "Distillery";
+        var interactor = InteractorController.Get().GetInteractorByBuildingType(BuildingType.Purifier);
+        var cost = interactor.costs.metals;
+        var runningCosts = interactor.template.GetComponent<RunningResourceEffect>();
+        if (runningCosts == null) Debug.LogError("Purifier is missing running costs component.");
+
+        var effect = interactor.template.GetComponent<ResourceEffect>();
+        if (effect == null) Debug.LogError("Purifier is missing resource effects component.");
+
+        var conversion = interactor.template.GetComponent<ResourceConversionEffect>();
+        if (conversion == null) Debug.LogError("Purifier is missing resource conversion component.");
+
+        costs.text = $"{cost}";
+        costsIcon.texture = UIAssetManager.Get().metalsIcon;
+        upkeep.text =
+            $"Upkeep: {effect.energy}<sprite name=\"power\"> {runningCosts.cashPerMinute}<sprite name=\"coin\">/min";
+        description.text =
+            $"Converts {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Ice)} into {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Water)} every {(int)conversion.iterationTime} seconds";
     }
 
     private void KorvKiosk()

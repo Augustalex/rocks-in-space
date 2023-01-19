@@ -54,6 +54,14 @@ public class ProgressLock : MonoBehaviour
             case BuildingType.Platform:
                 Platform();
                 break;
+            case BuildingType.Purifier:
+                Hide();
+                // Purifier();
+                break;
+            case BuildingType.Distillery:
+                Hide();
+                // Purifier();
+                break;
             case BuildingType.KorvKiosk:
                 // Hide();
                 KorvKiosk();

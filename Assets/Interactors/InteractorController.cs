@@ -40,6 +40,14 @@ namespace Interactors
         private int _previousInteractor = -1;
         private CameraController _cameraController;
 
+        public static readonly BuildingType[] GeneralBuildings =
+        {
+            BuildingType.Purifier,
+            BuildingType.Distillery
+        };
+
+        private GeneralBuildingInteractor[] _generalBuildingInteractors;
+
         public static InteractorController Get()
         {
             return _instance;
@@ -50,6 +58,9 @@ namespace Interactors
             _instance = this;
 
             _defaultModule = defaultModuleContainer.GetComponent<InteractorModule>();
+
+            _generalBuildingInteractors = interactorsContainer.GetComponentsInChildren<GeneralBuildingInteractor>();
+
             _modules = new[]
             {
                 interactorsContainer.GetComponent<DigInteractor>(),
@@ -62,7 +73,7 @@ namespace Interactors
                 interactorsContainer.GetComponent<ScaffoldingInteractor>(),
                 interactorsContainer.GetComponent<KorvKioskInteractor>(),
                 _defaultModule
-            };
+            }.Concat(_generalBuildingInteractors).ToArray();
         }
 
         private void Start()
@@ -145,6 +156,30 @@ namespace Interactors
             }
 
             Debug.Log($"Tried to set interactor with type '{interactorType}' but there is no such interactor.");
+        }
+
+        public void SetInteractorByBuildingType(BuildingType buildingType)
+        {
+            if (!GeneralBuildings.Contains(buildingType))
+                throw new Exception("Cannot select buildings by type that are not in the list of General Buildings.");
+
+            var buildingInteractor = _generalBuildingInteractors.First(b => b.GetBuildingType() == buildingType);
+            var index = Array.IndexOf(_modules, buildingInteractor);
+            _selectedInteractorBeforeWasLocked = index;
+            _currentModule = index;
+        }
+
+        public GeneralBuildingInteractor GetInteractorByBuildingType(BuildingType buildingType)
+        {
+            if (!GeneralBuildings.Contains(buildingType))
+                throw new Exception("Cannot get buildings by type that are not in the list of General Buildings.");
+
+            return _generalBuildingInteractors.First(b => b.GetBuildingType() == buildingType);
+        }
+
+        public bool CurrentInteractorIsGeneralBuilding()
+        {
+            return _generalBuildingInteractors.Contains(CurrentModule());
         }
 
         private void RayCastToHover()
