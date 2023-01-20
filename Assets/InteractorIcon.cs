@@ -24,9 +24,10 @@ public class InteractorIcon : MonoBehaviour
 
     void Start()
     {
-        InteractorController.Get().InteractorSelected += (_) => UpdateStates();
         CameraController.Get().OnToggleZoom += (_) => UpdateStates();
-        InteractorController.Get().InteractorSelected += (i) => UpdateStates();
+        InteractorController.Get().InteractorSelected += (_) => UpdateStates();
+        CurrentPlanetController.Get().CurrentPlanetChanged += (_) => UpdateStates();
+        CurrentPlanetController.Get().ShipSelected += (_) => UpdateStates();
 
         UpdateStates();
     }

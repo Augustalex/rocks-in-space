@@ -42,6 +42,8 @@ public class BuildInteractorIcon : MonoBehaviour
     {
         CameraController.Get().OnToggleZoom += (_) => UpdateStates();
         InteractorController.Get().InteractorSelected += InteractorSelected;
+        CurrentPlanetController.Get().CurrentPlanetChanged += (_) => UpdateStates();
+        CurrentPlanetController.Get().ShipSelected += (_) => UpdateStates();
 
         UpdateStates();
     }

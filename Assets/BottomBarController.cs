@@ -20,7 +20,7 @@ public class BottomBarController : MonoBehaviour
 
         _animator = GetComponent<Animator>();
         _progressLocks = GetComponentsInChildren<ProgressLock>();
-        
+
         hideClickZone.SetActive(false);
     }
 
