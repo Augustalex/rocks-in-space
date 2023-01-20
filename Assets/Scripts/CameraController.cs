@@ -247,53 +247,56 @@ public class CameraController : MonoBehaviour
             CurrentPlanetController.Get().IsShipSelected() ? MinShipZoomedInDistance : MinZoomedInDistance;
         var maxZoom = _zoomedOut ? MaxZoomedOutDistance : MaxZoomedInDistance;
         var cameraTransform = _camera.transform;
-        var distance = Vector3.Distance(FocusPoint(), cameraTransform.position);
 
         var speed = _zoomedOut ? ZoomedOutSpeed : ZoomedInSpeed;
-        if (Input.GetKey(KeyCode.S) && distance < maxZoom)
-        {
-            cameraTransform.position += cameraTransform.forward * (-speed * Time.deltaTime);
-        }
-        else if (Input.GetKey(KeyCode.W) && distance > minZoom)
-        {
-            cameraTransform.position += cameraTransform.forward * (speed * Time.deltaTime);
-        }
 
         var scrollDelta = Input.mouseScrollDelta.y * .5f;
-        if (Math.Abs(scrollDelta) > 0.001f)
+        var isScrolling = Math.Abs(scrollDelta) > 0.001f;
+
+        var delta = isScrolling ? scrollDelta : Input.GetKey(KeyCode.S) ? -.02f : Input.GetKey(KeyCode.W) ? .02f : 0f;
+
+        if (delta != 0f)
         {
-            var newPosition = cameraTransform.position + cameraTransform.forward * (scrollDelta * speed);
+            var newPosition = cameraTransform.position + cameraTransform.forward * (delta * speed);
             var scrollDistance = Vector3.Distance(FocusPoint(), newPosition);
 
-            if (!_zoomedOut)
-            {
-                if (_hitLimit && scrollDistance > maxZoom)
-                {
-                    ToggleZoomMode();
-                    _hitLimit = false;
-                }
-                else
-                {
-                    _hitLimit = scrollDistance > maxZoom;
-                }
-            }
-            else
+            if (_zoomedOut)
             {
                 if (_hitLimit && scrollDistance < minZoom)
                 {
-                    ToggleZoomMode();
+                    ZoomIn();
+                    var (position, rotation) = GetCameraZoomToDistance(MaxZoomedInDistance);
+                    cameraTransform.position = position;
+                    cameraTransform.rotation = rotation;
                     _hitLimit = false;
                 }
                 else
                 {
                     _hitLimit = scrollDistance < minZoom;
+                    if (scrollDistance <= maxZoom && scrollDistance >= minZoom)
+                    {
+                        cameraTransform.position = newPosition;
+                    }
                 }
             }
-
-
-            if (scrollDistance <= maxZoom && scrollDistance >= minZoom)
+            else
             {
-                cameraTransform.position = newPosition;
+                if (_hitLimit && scrollDistance > maxZoom)
+                {
+                    ZoomOut();
+                    var (position, rotation) = GetCameraZoomToDistance(MinZoomedOutDistance);
+                    cameraTransform.position = position;
+                    cameraTransform.rotation = rotation;
+                    _hitLimit = false;
+                }
+                else
+                {
+                    _hitLimit = scrollDistance > maxZoom;
+                    if (scrollDistance <= maxZoom && scrollDistance >= minZoom)
+                    {
+                        cameraTransform.position = newPosition;
+                    }
+                }
             }
         }
     }
@@ -428,6 +431,18 @@ public class CameraController : MonoBehaviour
             return new Tuple<Vector3, Quaternion>(newPosition,
                 Quaternion.LookRotation(direction, Vector3.up));
         }
+    }
+
+    private Tuple<Vector3, Quaternion> GetCameraZoomToDistance(float distance)
+    {
+        var cameraTransform = _camera.transform;
+        var cameraPosition = cameraTransform.position;
+
+        var distanceFromCenter = Vector3.Distance(FocusPoint(), cameraPosition);
+        var distanceToMove = distance - distanceFromCenter;
+        var targetPosition = cameraPosition + cameraTransform.forward * -distanceToMove;
+
+        return new Tuple<Vector3, Quaternion>(targetPosition, cameraTransform.rotation);
     }
 
     private Tuple<Vector3, Quaternion> CameraPlanetZoomedOutPosition()
