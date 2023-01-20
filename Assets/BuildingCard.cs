@@ -24,41 +24,7 @@ public class BuildingCard : MonoBehaviour
     {
         GetComponentInChildren<GifDisplay>().frames = GifManager.Get().FramesByBuildingType(buildingType);
 
-        switch (buildingType)
-        {
-            case BuildingType.Port:
-                Port();
-                break;
-            case BuildingType.Refinery:
-                Refinery();
-                break;
-            case BuildingType.Factory:
-                Factory();
-                break;
-            case BuildingType.PowerPlant:
-                PowerPlant();
-                break;
-            case BuildingType.FarmDome:
-                FarmDome();
-                break;
-            case BuildingType.ResidentModule:
-                HousingModule();
-                break;
-            case BuildingType.Platform:
-                Platform();
-                break;
-            case BuildingType.Purifier:
-                Purifier();
-                break;
-            case BuildingType.Distillery:
-                Distillery();
-                break;
-            case BuildingType.KorvKiosk:
-                KorvKiosk();
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+        Setup();
 
         select.onClick.AddListener(SelfClicked);
 
@@ -70,199 +36,94 @@ public class BuildingCard : MonoBehaviour
     {
         if (InteractorController.GeneralBuildings.Contains(buildingType))
             InteractorController.Get().SetInteractorByBuildingType(buildingType);
-        else InteractorController.Get().SetInteractorByInteractorType(FromBuildingType(buildingType));
+        else
+            InteractorController.Get()
+                .SetInteractorByInteractorType(InteractorController.FromBuildingType(buildingType));
 
         Clicked?.Invoke();
     }
 
-    private static InteractorType FromBuildingType(BuildingType buildingType)
+    private void Setup()
     {
-        return buildingType switch
+        var interactorModule = InteractorController.Get().GetGenericInteractorByBuildingType(buildingType);
+        Header(interactorModule);
+        Cost(interactorModule);
+        costsIcon.gameObject.SetActive(false);
+        Upkeep(interactorModule.template);
+        Description(interactorModule);
+    }
+
+    private void Header(InteractorModule interactor)
+    {
+        header.text = interactor.GetInteractorName();
+    }
+
+    private void Cost(InteractorModule interactor)
+    {
+        var interactorCosts = interactor.costs;
+
+        var text = "";
+        if (interactorCosts.cash > 0)
         {
-            BuildingType.Port => InteractorType.Port,
-            BuildingType.Refinery => InteractorType.Refinery,
-            BuildingType.Factory => InteractorType.Factory,
-            BuildingType.PowerPlant => InteractorType.PowerPlant,
-            BuildingType.FarmDome => InteractorType.FarmDome,
-            BuildingType.ResidentModule => InteractorType.ResidentModule,
-            BuildingType.Platform => InteractorType.Platform,
-            BuildingType.KorvKiosk => InteractorType.KorvKiosk,
-            _ => throw new ArgumentOutOfRangeException()
-        };
+            text += $"{interactorCosts.cash}<sprite name=\"coin\"> ";
+        }
+
+        if (interactorCosts.ore > 0)
+        {
+            text += $"{interactorCosts.ore}<sprite name=\"ore\"> ";
+        }
+
+        if (interactorCosts.metals > 0)
+        {
+            text += $"{interactorCosts.metals}<sprite name=\"metals\"> ";
+        }
+
+        if (interactorCosts.gadgets > 0)
+        {
+            text += $"{interactorCosts.gadgets}<sprite name=\"gadgets\"> ";
+        }
+
+        costs.text = text;
     }
 
-    private void Port()
+    private void Upkeep(GameObject template)
     {
-        header.text = "Beacon";
-        var interactor = InteractorController.Get().GetInteractor(InteractorType.Port);
-        costs.text = $"{interactor.costs.cash}";
-        costsIcon.texture = UIAssetManager.Get().creditsIcon;
-        upkeep.gameObject.SetActive(false);
-        description.text =
-            "Establishes a settlement on an asteroid when placed. Trade routes can be created between two beacons.";
+        var text = "";
+        var effect = template.GetComponent<ResourceEffect>();
+        if (effect)
+        {
+            if (effect.energy != 0)
+            {
+                text += $"{effect.energy}<sprite name=\"power\"> ";
+            }
+        }
+
+        var runningCosts = template.GetComponent<RunningResourceEffect>();
+        if (runningCosts)
+        {
+            if (runningCosts.cashPerMinute != 0)
+            {
+                text += $"{runningCosts.cashPerMinute}<sprite name=\"coin\">/min ";
+            }
+        }
+
+        if (text == "")
+        {
+            upkeep.gameObject.SetActive(false);
+        }
+        else
+        {
+            upkeep.gameObject.SetActive(true);
+            upkeep.text = $"Upkeep: {text}";
+        }
     }
 
-    private void Refinery()
+    private void Description(InteractorModule interactorModule)
     {
-        header.text = "Refinery";
-        var interactor = InteractorController.Get().GetInteractor(InteractorType.Refinery);
-        var cost = interactor.costs.cash;
-        var runningCosts = interactor.template.GetComponent<RunningResourceEffect>();
-        if (runningCosts == null) Debug.LogError("Refinery is missing running costs component.");
-
-        costs.text = $"{cost}";
-        costsIcon.texture = UIAssetManager.Get().creditsIcon;
-        upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}<sprite name=\"coin\">/min";
-        description.text = "Converts ore<sprite name=\"ore\"> into metals<sprite name=\"metals\"> every 4 seconds";
-    }
-
-    private void Factory()
-    {
-        header.text = "Factory";
-        var interactor = InteractorController.Get().GetInteractor(InteractorType.Factory);
-        var cost = interactor.costs.cash;
-        var runningCosts = interactor.template.GetComponent<RunningResourceEffect>();
-        if (runningCosts == null) Debug.LogError("Factory is missing running costs component.");
-
-        costs.text = $"{cost}";
-        costsIcon.texture = UIAssetManager.Get().creditsIcon;
-        upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}<sprite name=\"coin\">/min";
-        description.text =
-            "Converts metals<sprite name=\"metals\"> into gadgets<sprite name=\"gadgets\"> every 8 seconds";
-    }
-
-    private void PowerPlant()
-    {
-        header.text = "Power plant";
-        var interactor = InteractorController.Get().GetInteractor(InteractorType.PowerPlant);
-        var costData = interactor.costs;
-        var runningCosts = interactor.template.GetComponent<RunningResourceEffect>();
-        if (runningCosts == null) Debug.LogError("Power plant is missing running costs component.");
-
-        var effect = interactor.template.GetComponent<ResourceEffect>();
-        if (effect == null) Debug.LogError("Power plant is missing resource effects component.");
-
-        costs.text = $"{costData.gadgets}";
-        costsIcon.texture = UIAssetManager.Get().GetResourceTexture(TinyPlanetResources.PlanetResourceType.Gadgets);
-        upkeep.text = $"Upkeep: {runningCosts.cashPerMinute}<sprite name=\"coin\">/min";
-        description.text = $"Provides {effect.energy} power<sprite name=\"power\">, required by farms and residencies.";
-    }
-
-    private void FarmDome()
-    {
-        header.text = "Farms";
-        var interactor = InteractorController.Get().GetInteractor(InteractorType.FarmDome);
-        var costData = interactor.costs;
-        var runningCosts = interactor.template.GetComponent<RunningResourceEffect>();
-        if (runningCosts == null) Debug.LogError("Farms is missing running costs component.");
-
-        var effect = interactor.template.GetComponent<ResourceEffect>();
-        if (effect == null) Debug.LogError("Farms is missing resource effects component.");
-
-        var controller = interactor.template.GetComponent<FarmController>();
-        if (controller == null) Debug.LogError("Farms is missing controller component.");
-
-        costs.text =
-            $"{costData.gadgets}";
-        costsIcon.texture = UIAssetManager.Get().GetResourceTexture(TinyPlanetResources.PlanetResourceType.Gadgets);
-        upkeep.text =
-            $"Upkeep: {effect.energy}<sprite name=\"power\"> {runningCosts.cashPerMinute}<sprite name=\"coin\">/min";
-        description.text =
-            $"Produces {controller.foodPerMinute} food<sprite name=\"food\"> every minute. Food<sprite name=\"food\"> is consumed by colonists.";
-    }
-
-    private void HousingModule()
-    {
-        header.text = "Housing";
-        var interactor = InteractorController.Get().GetInteractor(InteractorType.ResidentModule);
-        var costData = interactor.costs;
-
-        var effect = interactor.template.GetComponent<ResourceEffect>();
-        if (effect == null) Debug.LogError("Housing module is missing resource effects component.");
-
-        var controller = interactor.template.GetComponent<ModuleController>();
-        if (controller == null) Debug.LogError("Housing module is missing controller component.");
-
-        costs.text =
-            $"{costData.gadgets}";
-        costsIcon.texture = UIAssetManager.Get().GetResourceTexture(TinyPlanetResources.PlanetResourceType.Gadgets);
-        upkeep.text =
-            $"Upkeep: {effect.energy}<sprite name=\"power\"> {controller.foodPerMinute}<sprite name=\"food\">/min";
-        description.text =
-            $"Houses<sprite name=\"house\"> {TinyPlanetResources.InhabitantsPerResidency} colonists & generate {controller.cashPerMinute * 2}<sprite name=\"coin\"> every minute in income. Requires food & power.";
-    }
-
-    private void Platform()
-    {
-        header.text = "Scaffolding";
-        var interactor = InteractorController.Get().GetInteractor(InteractorType.Platform);
-        var cost = interactor.costs.metals;
-
-        costs.text = $"{cost}";
-        costsIcon.texture = UIAssetManager.Get().GetResourceTexture(TinyPlanetResources.PlanetResourceType.Metals);
-        upkeep.gameObject.SetActive(false);
-        description.text =
-            $"A thin but strong metal frame used for extending building space in a settlement.";
-    }
-
-    private void Purifier()
-    {
-        header.text = "Purifier";
-        var interactor = InteractorController.Get().GetInteractorByBuildingType(BuildingType.Purifier);
-        var cost = interactor.costs.metals;
-        var runningCosts = interactor.template.GetComponent<RunningResourceEffect>();
-        if (runningCosts == null) Debug.LogError("Purifier is missing running costs component.");
-
-        var effect = interactor.template.GetComponent<ResourceEffect>();
-        if (effect == null) Debug.LogError("Purifier is missing resource effects component.");
-
-        var conversion = interactor.template.GetComponent<ResourceConversionEffect>();
-        if (conversion == null) Debug.LogError("Purifier is missing resource conversion component.");
-
-        costs.text = $"{cost}";
-        costsIcon.texture = UIAssetManager.Get().metalsIcon;
-        upkeep.text =
-            $"Upkeep: {effect.energy}<sprite name=\"power\"> {runningCosts.cashPerMinute}<sprite name=\"coin\">/min";
-        description.text =
-            $"Converts {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Ice)} into {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Water)} every {(int)conversion.iterationTime} seconds";
-    }
-
-    private void Distillery()
-    {
-        header.text = "Distillery";
-        var interactor = InteractorController.Get().GetInteractorByBuildingType(BuildingType.Purifier);
-        var cost = interactor.costs.metals;
-        var runningCosts = interactor.template.GetComponent<RunningResourceEffect>();
-        if (runningCosts == null) Debug.LogError("Distillery is missing running costs component.");
-
-        var effect = interactor.template.GetComponent<ResourceEffect>();
-        if (effect == null) Debug.LogError("Distillery is missing resource effects component.");
-
-        var conversion = interactor.template.GetComponent<ResourceConversionEffect>();
-        if (conversion == null) Debug.LogError("Distillery is missing resource conversion component.");
-
-        costs.text = $"{cost}";
-        costsIcon.texture = UIAssetManager.Get().metalsIcon;
-        upkeep.text =
-            $"Upkeep: {effect.energy}<sprite name=\"power\"> {runningCosts.cashPerMinute}<sprite name=\"coin\">/min";
-        description.text =
-            $"Converts {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Water)} into {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Refreshments)} every {(int)conversion.iterationTime} seconds";
-    }
-
-    private void KorvKiosk()
-    {
-        header.text = "Mackapar";
-        var interactor = InteractorController.Get().GetInteractor(InteractorType.KorvKiosk);
-        var cost = interactor.costs.cash;
-
-        var effect = interactor.template.GetComponent<ResourceEffect>();
-        if (effect == null) Debug.LogError("Mackapar is missing resource effects component.");
-
-        costs.text = $"{cost}";
-        var uiAssetManager = UIAssetManager.Get();
-        costsIcon.texture = uiAssetManager.creditsIcon;
-        upkeep.text = $"Upkeep: {effect.energy}<sprite name=\"power\">";
-        description.text =
-            $"A breakthrough in the cutting edge. Does nothing in particular. Requires a lot of power<sprite name=\"power\">.";
+        var buildingDescription = interactorModule.template.GetComponent<BuildingDescription>();
+        if (!buildingDescription)
+            throw new Exception(
+                $"Interactor \"{interactorModule.GetInteractorName()}\" is missing a BuildingDescription component.");
+        description.text = buildingDescription.GetDescription();
     }
 }

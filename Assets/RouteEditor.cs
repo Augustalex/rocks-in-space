@@ -118,6 +118,10 @@ public class RouteEditor : MonoBehaviour
                 return balanceSettings.metalsTradeAmount;
             case TinyPlanetResources.PlanetResourceType.Gadgets:
                 return balanceSettings.gadgetsTradeAmount;
+            case TinyPlanetResources.PlanetResourceType.Water:
+                return balanceSettings.gadgetsTradeAmount;
+            case TinyPlanetResources.PlanetResourceType.Refreshments:
+                return balanceSettings.gadgetsTradeAmount;
             default:
                 Debug.LogError("Trying to get trade amount for a resource that is not tradable: " + resourceType);
                 return 0f;

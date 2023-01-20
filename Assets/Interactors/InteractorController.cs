@@ -169,12 +169,40 @@ namespace Interactors
             _currentModule = index;
         }
 
+        public InteractorModule GetGenericInteractorByBuildingType(BuildingType buildingType)
+        {
+            if (!GeneralBuildings.Contains(buildingType))
+            {
+                return GetInteractor(FromBuildingType(buildingType));
+            }
+
+            return _generalBuildingInteractors.First(b => b.GetBuildingType() == buildingType);
+        }
+
         public GeneralBuildingInteractor GetInteractorByBuildingType(BuildingType buildingType)
         {
             if (!GeneralBuildings.Contains(buildingType))
+            {
                 throw new Exception("Cannot get buildings by type that are not in the list of General Buildings.");
+            }
 
             return _generalBuildingInteractors.First(b => b.GetBuildingType() == buildingType);
+        }
+
+        public static InteractorType FromBuildingType(BuildingType buildingType)
+        {
+            return buildingType switch
+            {
+                BuildingType.Port => InteractorType.Port,
+                BuildingType.Refinery => InteractorType.Refinery,
+                BuildingType.Factory => InteractorType.Factory,
+                BuildingType.PowerPlant => InteractorType.PowerPlant,
+                BuildingType.FarmDome => InteractorType.FarmDome,
+                BuildingType.ResidentModule => InteractorType.ResidentModule,
+                BuildingType.Platform => InteractorType.Platform,
+                BuildingType.KorvKiosk => InteractorType.KorvKiosk,
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
         public bool CurrentInteractorIsGeneralBuilding()

@@ -32,11 +32,10 @@ public class ResourceConversionEffect : MonoBehaviour
 
             var resources = _planetAttachment.GetAttachedResources();
 
-            if (_resourceEffect && _resourceEffect.energy > 0)
+            if (_resourceEffect && _resourceEffect.energy != 0)
             {
                 while (resources.GetResource(TinyPlanetResources.PlanetResourceType.Energy) <= 0)
                 {
-                    Debug.Log("NO POWER!");
                     // Wait until there is power, then continue processing.
                     yield return new WaitForSeconds(.25f);
                 }

@@ -11,7 +11,7 @@ namespace Interactors
 
         public override string GetInteractorName()
         {
-            return "Port";
+            return "Beacon";
         }
 
         public override string GetInteractorShortDescription()

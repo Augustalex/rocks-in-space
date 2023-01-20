@@ -791,7 +791,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b00f3760a7449cf43a354385170ab60f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b00f3760a7449cf43a354385170ab60f, type: 3}
       propertyPath: m_SizeDelta.y
@@ -799,7 +799,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b00f3760a7449cf43a354385170ab60f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b00f3760a7449cf43a354385170ab60f, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1697,7 +1697,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 670211738682161330, guid: 3fc5ef3e505295f47969f582b914cbce, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 134
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 670211738682161330, guid: 3fc5ef3e505295f47969f582b914cbce, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1741,7 +1741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1050470392491534625, guid: 3fc5ef3e505295f47969f582b914cbce, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 134
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1050470392491534625, guid: 3fc5ef3e505295f47969f582b914cbce, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1781,7 +1781,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1559718640194973721, guid: 3fc5ef3e505295f47969f582b914cbce, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 134
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1559718640194973721, guid: 3fc5ef3e505295f47969f582b914cbce, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1821,7 +1821,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2122887486548404133, guid: 3fc5ef3e505295f47969f582b914cbce, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 134
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2122887486548404133, guid: 3fc5ef3e505295f47969f582b914cbce, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1949,7 +1949,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3968345102970942736, guid: 3fc5ef3e505295f47969f582b914cbce, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 134
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3968345102970942736, guid: 3fc5ef3e505295f47969f582b914cbce, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2073,7 +2073,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5908866755599321333, guid: 3fc5ef3e505295f47969f582b914cbce, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5908866755599321333, guid: 3fc5ef3e505295f47969f582b914cbce, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2134,6 +2134,7 @@ MonoBehaviour:
     ore: 0
     metals: 2
     gadgets: 0
+  longDescription: 
 --- !u!114 &719094671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2152,6 +2153,7 @@ MonoBehaviour:
     ore: 0
     metals: 0
     gadgets: 0
+  longDescription: 
 --- !u!114 &719094679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2172,6 +2174,7 @@ MonoBehaviour:
     gadgets: 0
   interactorName: Purifier
   buildingType: 8
+  longDescription: 
 --- !u!114 &719094680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2192,6 +2195,7 @@ MonoBehaviour:
     gadgets: 0
   interactorName: Destillery
   buildingType: 9
+  longDescription: 
 --- !u!224 &756781152 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 55608723812431141, guid: 6be7614b7eead2e4ab9f6ce027afc048, type: 3}
@@ -4285,7 +4289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adb77775895a7714f907f389706aa1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  on: 1
+  on: 0
 --- !u!114 &1251590341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10060,6 +10064,11 @@ PrefabInstance:
       propertyPath: costs.cash
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 7064795026180372778, guid: e785533239eac2d478978989da6d3d87, type: 3}
+      propertyPath: longDescription
+      value: Establishes a settlement on an asteroid when placed. Trade routes can
+        be created between two beacons.
+      objectReference: {fileID: 0}
     - target: {fileID: 7064795026180372779, guid: e785533239eac2d478978989da6d3d87, type: 3}
       propertyPath: costs.cash
       value: 0
@@ -10087,6 +10096,11 @@ PrefabInstance:
     - target: {fileID: 7064795026180372783, guid: e785533239eac2d478978989da6d3d87, type: 3}
       propertyPath: costs.cash
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7064795026180372783, guid: e785533239eac2d478978989da6d3d87, type: 3}
+      propertyPath: longDescription
+      value: Converts ore<sprite name=\"ore\"> into metals<sprite name=\"metals\">
+        every 4 seconds
       objectReference: {fileID: 0}
     - target: {fileID: 7064795026180372956, guid: e785533239eac2d478978989da6d3d87, type: 3}
       propertyPath: m_Name

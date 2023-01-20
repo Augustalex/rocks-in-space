@@ -6,6 +6,8 @@ public class BalanceSettings : ScriptableObject
     [Header("Trading")] public float oreTradeAmount = 12f;
     public float metalsTradeAmount = 12f;
     public float gadgetsTradeAmount = 5f;
+    public float waterTradeAmount = 1f;
+    public float refreshmentsTradeAmount = 1f;
 
     [Header("Digging")] public float rockDigTime = .5f;
     public float oreDigTime = 1f;

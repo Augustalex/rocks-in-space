@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 5231951630694293163}
   - component: {fileID: 5008209292881904089}
   - component: {fileID: 30874615343563403}
+  - component: {fileID: -3275955373580470909}
+  - component: {fileID: -6374346063131706572}
   m_Layer: 0
   m_Name: PortBuilding
   m_TagString: Untagged
@@ -153,6 +155,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seedName: Beacon
+--- !u!114 &-3275955373580470909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023215026128566752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 587369adf2fab4e499a1e1e91307d951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-6374346063131706572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023215026128566752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31b34c893acbcfa4992cd1808454d475, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Establishes a settlement on an asteroid when placed. Trade routes
+    can be created between two beacons.
 --- !u!1 &1670923640651328574
 GameObject:
   m_ObjectHideFlags: 0
