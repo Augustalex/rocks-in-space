@@ -248,12 +248,15 @@ public class CameraController : MonoBehaviour
         var maxZoom = _zoomedOut ? MaxZoomedOutDistance : MaxZoomedInDistance;
         var cameraTransform = _camera.transform;
 
-        var speed = _zoomedOut ? ZoomedOutSpeed : ZoomedInSpeed;
-
         var scrollDelta = Input.mouseScrollDelta.y * .5f;
         var isScrolling = Math.Abs(scrollDelta) > 0.001f;
 
-        var delta = isScrolling ? scrollDelta : Input.GetKey(KeyCode.S) ? -.02f : Input.GetKey(KeyCode.W) ? .02f : 0f;
+        var scrollSpeed = (_zoomedOut ? ZoomedOutSpeed : ZoomedInSpeed);
+        var keySpeed = (_zoomedOut ? ZoomedOutSpeed * .5f : ZoomedInSpeed) * 4f;
+        var speed = isScrolling ? scrollSpeed : keySpeed;
+
+        var keyDelta = (Input.GetKey(KeyCode.S) ? -1f : Input.GetKey(KeyCode.W) ? 1f : 0f) * Time.deltaTime;
+        var delta = isScrolling ? scrollDelta : keyDelta;
 
         if (delta != 0f)
         {
