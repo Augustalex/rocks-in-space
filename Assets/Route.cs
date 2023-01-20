@@ -11,9 +11,7 @@ public class Route
 
     public event Action Removed;
 
-    private float _orePerSecond = 0;
-    private float _metalsPerSecond = 0;
-    private float _gadgetsPerSecond = 0;
+    private float _resourcePerSecond = 0f;
 
     private readonly Queue<float> _transfers = new();
 
@@ -41,37 +39,13 @@ public class Route
         var startingResources = start.GetResources();
         var destinationResources = destination.GetResources();
 
-        if (_orePerSecond > 0)
+        if (_resourcePerSecond > 0)
         {
-            var preferredTake = _orePerSecond * Time.deltaTime;
-            var toTake = Mathf.Min(startingResources.GetOre(), preferredTake);
+            var preferredTake = _resourcePerSecond * Time.deltaTime;
+            var toTake = Mathf.Min(startingResources.GetResource(ResourceType), preferredTake);
 
-            startingResources.RemoveOre(toTake);
-            destinationResources.AddOre(toTake);
-
-            if (_transfers.Count >= InactiveRouteFramesThreshold()) _transfers.Dequeue();
-            _transfers.Enqueue(toTake);
-        }
-
-        if (_metalsPerSecond > 0)
-        {
-            var preferredTake = _metalsPerSecond * Time.deltaTime;
-            var toTake = Mathf.Min(startingResources.GetMetals(), preferredTake);
-
-            startingResources.RemoveMetals(toTake);
-            destinationResources.AddMetals(toTake);
-
-            if (_transfers.Count >= InactiveRouteFramesThreshold()) _transfers.Dequeue();
-            _transfers.Enqueue(toTake);
-        }
-
-        if (_gadgetsPerSecond > 0)
-        {
-            var preferredTake = _gadgetsPerSecond * Time.deltaTime;
-            var toTake = Mathf.Min(startingResources.GetGadgets(), preferredTake);
-
-            startingResources.RemoveGadgets(toTake);
-            destinationResources.AddGadgets(toTake);
+            startingResources.RemoveResource(ResourceType, toTake);
+            destinationResources.AddResource(ResourceType, toTake);
 
             if (_transfers.Count >= InactiveRouteFramesThreshold()) _transfers.Dequeue();
             _transfers.Enqueue(toTake);
@@ -87,30 +61,8 @@ public class Route
 
     public void SetTrade(TinyPlanetResources.PlanetResourceType planetResourceType, float amountPerSecond)
     {
-        if (planetResourceType == TinyPlanetResources.PlanetResourceType.Ore)
-        {
-            ResourceType = planetResourceType;
-            _orePerSecond = amountPerSecond;
-
-            _metalsPerSecond = 0;
-            _gadgetsPerSecond = 0;
-        }
-        else if (planetResourceType == TinyPlanetResources.PlanetResourceType.Metals)
-        {
-            ResourceType = planetResourceType;
-            _metalsPerSecond = amountPerSecond;
-
-            _orePerSecond = 0;
-            _gadgetsPerSecond = 0;
-        }
-        else if (planetResourceType == TinyPlanetResources.PlanetResourceType.Gadgets)
-        {
-            ResourceType = planetResourceType;
-            _gadgetsPerSecond = amountPerSecond;
-
-            _orePerSecond = 0;
-            _metalsPerSecond = 0;
-        }
+        _resourcePerSecond = amountPerSecond;
+        ResourceType = planetResourceType;
     }
 
     public bool StartsFrom(TinyPlanet planet)

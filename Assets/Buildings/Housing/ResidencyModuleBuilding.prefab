@@ -1555,6 +1555,7 @@ GameObject:
   - component: {fileID: 2417869070066682034}
   - component: {fileID: 175214339713219323}
   - component: {fileID: -4171447776758850220}
+  - component: {fileID: 4363894802846691955}
   m_Layer: 0
   m_Name: ResidencyModuleBuilding
   m_TagString: Untagged
@@ -1592,7 +1593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foodPerMinute: -10
-  refreshmentsPerMinute: -10
+  refreshmentsPerMinute: -2
   cashPerMinute: 1
 --- !u!114 &3805649913758207126
 MonoBehaviour:
@@ -1655,6 +1656,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 699c5ca49394e4849a85833414d8c188, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4363894802846691955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749449814968137031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 587369adf2fab4e499a1e1e91307d951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4913068576420846930

@@ -47,4 +47,9 @@ public class AttachedToPlanet : MonoBehaviour
     {
         return _planet.GetColonistMonitor();
     }
+
+    public PlanetCostMonitor GetAttachedCostMonitor()
+    {
+        return _planet.GetCostMonitor();
+    }
 }

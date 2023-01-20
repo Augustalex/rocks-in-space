@@ -10,21 +10,21 @@ public class RegisterBuildingOnPlanet : MonoBehaviour
     void Awake()
     {
         _planetAttachment = GetComponent<AttachedToPlanet>();
-        _planetAttachment.AttachedTo += OnResourceEffectAttached;
+        _planetAttachment.AttachedTo += Attached;
         _planetAttachment.TransferredFromTo += (from, to) =>
         {
-            OnResourceEffectDetached(from);
-            OnResourceEffectAttached(to);
+            Detached(from);
+            Attached(to);
         };
-        _planetAttachment.DetachedFrom += OnResourceEffectDetached;
+        _planetAttachment.DetachedFrom += Detached;
     }
 
-    private void OnResourceEffectDetached(TinyPlanetResources resources)
+    private void Detached(TinyPlanetResources resources)
     {
         resources.DeregisterBuilding(buildingType);
     }
 
-    private void OnResourceEffectAttached(TinyPlanetResources resources)
+    private void Attached(TinyPlanetResources resources)
     {
         resources.RegisterBuilding(buildingType);
     }

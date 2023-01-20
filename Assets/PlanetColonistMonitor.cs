@@ -28,6 +28,11 @@ public class PlanetColonistMonitor : MonoBehaviour
     private int _food;
     private int _refreshments;
 
+    private float _frameHouseIncome;
+    private float _buffer;
+    private float _bufferFrameTime;
+    private float _estimatedHouseIncome;
+
     void Start()
     {
         _planet = GetComponent<TinyPlanet>();
@@ -44,7 +49,12 @@ public class PlanetColonistMonitor : MonoBehaviour
         {
             var hasEnergy = _power >= 0;
             var hasFood = _food >= 0;
-            if (hasEnergy && hasFood)
+            var hasRefreshments = _refreshments >= 0;
+            if (hasEnergy && hasFood && hasRefreshments)
+            {
+                SetStatus(PlanetStatus.Overjoyed);
+            }
+            else if (hasEnergy && hasFood)
             {
                 SetStatus(PlanetStatus.Happy);
             }
@@ -58,8 +68,27 @@ public class PlanetColonistMonitor : MonoBehaviour
             }
         }
 
+
+        _buffer += _frameHouseIncome;
+        _bufferFrameTime += Time.deltaTime;
+
+        if (_bufferFrameTime >= 1f)
+        {
+            _estimatedHouseIncome = _buffer;
+            _buffer = 0f;
+            _bufferFrameTime = 0f;
+        }
+
+        _frameHouseIncome = 0f;
+
         _power = 0;
         _food = 0;
+        _refreshments = 0;
+    }
+
+    public float GetHouseIncomeEstimate()
+    {
+        return _estimatedHouseIncome;
     }
 
     private void SetStatus(PlanetStatus status)
@@ -120,5 +149,10 @@ public class PlanetColonistMonitor : MonoBehaviour
     public void RegisterNotEnoughRefreshments()
     {
         _refreshments -= 1;
+    }
+
+    public void RegisterHouseIncome(float cashEffectSecond)
+    {
+        _frameHouseIncome += cashEffectSecond;
     }
 }

@@ -11,8 +11,9 @@ public class HousingBuildingDescription : MonoBehaviour, IBuildingDescription
         var houseText = TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Housing);
         var energyText = TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Energy);
         var foodText = TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Food);
+        var refreshmentsText = TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Refreshments);
 
         return
-            $"{StringUtils.Capitalized(houseText)} {TinyPlanetResources.InhabitantsPerResidency} colonists & generate {controller.cashPerMinute * 2}<sprite name=\"coin\"> every minute in income. Require {energyText} & {foodText}.";
+            $"{StringUtils.Capitalized(houseText)} for {TinyPlanetResources.InhabitantsPerResidency} colonists. Provides {controller.cashPerMinute}<sprite name=\"coin\">/min for {energyText}\nx2 for {foodText} x4 for {refreshmentsText}.";
     }
 }

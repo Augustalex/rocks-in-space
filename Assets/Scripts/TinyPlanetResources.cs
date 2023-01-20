@@ -45,7 +45,7 @@ public class TinyPlanetResources : MonoBehaviour
             case PlanetResourceType.Cash: return "credits<sprite name=\"coin\">";
             case PlanetResourceType.Ice: return "ice<sprite name=\"ice\">";
             case PlanetResourceType.Water: return "water<sprite name=\"water\">";
-            case PlanetResourceType.Refreshments: return "refreshments<sprite name=\"refreshments\">";
+            case PlanetResourceType.Refreshments: return "drinks<sprite name=\"refreshments\">";
         }
 
         return "Unknown resource";
@@ -433,5 +433,10 @@ public class TinyPlanetResources : MonoBehaviour
     public void RegisterBuilding(BuildingType buildingType)
     {
         _buildings[buildingType] += 1;
+    }
+
+    public void GetBuildingCount(BuildingType buildingType)
+    {
+        
     }
 }

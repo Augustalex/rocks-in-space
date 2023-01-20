@@ -28,6 +28,8 @@ public class PlanetId
 }
 
 [RequireComponent(typeof(PlanetResourceMonitor))]
+[RequireComponent(typeof(PlanetColonistMonitor))]
+[RequireComponent(typeof(PlanetCostMonitor))]
 public class TinyPlanet : MonoBehaviour
 {
     public PlanetId planetId = new();
@@ -223,6 +225,11 @@ public class TinyPlanet : MonoBehaviour
     public PlanetColonistMonitor GetColonistMonitor()
     {
         return GetComponent<PlanetColonistMonitor>();
+    }
+
+    public PlanetCostMonitor GetCostMonitor()
+    {
+        return GetComponent<PlanetCostMonitor>();
     }
 
     public Vector3 GetCenter()

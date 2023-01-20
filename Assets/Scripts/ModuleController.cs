@@ -34,96 +34,14 @@ public class ModuleController : MonoBehaviour
 
     void Update()
     {
-        var cashEffect = (cashPerMinute / 60f) * Time.deltaTime;
-
         var resources = _planetAttachment.GetAttachedResources();
-        var monitor = _planetAttachment.GetAttachedColonistsMonitor();
 
         if (_occupied)
         {
-            var foodEffect = (foodPerMinute / 60f) * Time.deltaTime;
-            var food = resources.GetFood();
-            var hasEnoughFood =
-                food > .5f; // Food levels can not be below 0, so checking for 0 never happens (since a farm might always be adding just a little bit).
-
-            if (hasEnoughFood)
-            {
-                resources
-                    .AddFood(foodEffect); // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
-                monitor.RegisterFoodSatisfied();
-            }
-            else
-            {
-                resources
-                    .AddFood(foodEffect); // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
-                monitor.RegisterNotEnoughFood();
-            }
-            
-            var refreshmentsEffect = (refreshmentsPerMinute / 60f) * Time.deltaTime;
-            var refreshments = resources.GetResource(TinyPlanetResources.PlanetResourceType.Refreshments);
-            var hasEnoughRefreshments =
-                refreshments > .5f; // Refreshments levels can not be below 0, so checking for 0 never happens (since a farm might always be adding just a little bit).
-            if (hasEnoughRefreshments)
-            {
-                resources
-                    .AddResource(TinyPlanetResources.PlanetResourceType.Refreshments, refreshmentsEffect); // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
-                monitor.RegisterRefreshmentsSatisfied();
-            }
-            else
-            {
-                resources
-                    .AddResource(TinyPlanetResources.PlanetResourceType.Refreshments, refreshmentsEffect); // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
-                monitor.RegisterNotEnoughRefreshments();
-            }
-
-            var hasEnoughEnergy = resources.GetEnergy() >= 0f;
-            if (hasEnoughEnergy)
-            {
-                if (!_powerControlled.PowerIsOn()) _powerControlled.PowerOn();
-                monitor.RegisterPowerSatisfied();
-            }
-            else
-            {
-                if (_powerControlled.PowerIsOn()) _powerControlled.PowerOff();
-                monitor.RegisterNotEnoughPower();
-            }
-
-            var status = monitor.CalculateStatus(hasEnoughEnergy, hasEnoughFood, hasEnoughRefreshments);
-            if (status == PlanetColonistMonitor.ColonistStatus.MovingOut)
-            {
-                _life -= LifeLossPerSecond * Time.deltaTime;
-
-                if (_life <= 0f)
-                {
-                    resources.DeregisterOccupiedResident();
-                    resources.RegisterDeath();
-                    _occupied = false;
-                }
-                else if (_life <= 10f)
-                {
-                    var lifeLoss = Random.Range(LifeLossPerSecond * .5f, LifeLossPerSecond) * Time.deltaTime;
-                    _life += lifeLoss;
-                }
-                else
-                {
-                    var lifeLossPerSecond = LifeLossPerSecond * Time.deltaTime;
-                    _life -= lifeLossPerSecond;
-                }
-            }
-            else if (status == PlanetColonistMonitor.ColonistStatus.Neutral)
-            {
-                GlobalResources.Get().AddCash(cashEffect);
-            }
-            else if (status == PlanetColonistMonitor.ColonistStatus.Happy)
-            {
-                _life = Mathf.Min(TotalLife, _life + LifeLossPerSecond * Time.deltaTime);
-                GlobalResources.Get().AddCash(cashEffect * 2f);
-            }
-            else if (status == PlanetColonistMonitor.ColonistStatus.Overjoyed)
-            {
-                _life = Mathf.Min(TotalLife, _life + LifeLossPerSecond * 2f * Time.deltaTime);
-                GlobalResources.Get().AddCash(cashEffect * 4f);
-            }
+            ConsumeResources();
+            UpdateMonitor();
+            GlobalResources.Get().AddCash(CashEffectSecond());
+            UpdateLifeStatus();
         }
         else if (resources.HasVacancy())
         {
@@ -136,6 +54,137 @@ public class ModuleController : MonoBehaviour
         {
             _powerControlled.PowerOff();
         }
+    }
+
+    private PlanetColonistMonitor.ColonistStatus GetStatus()
+    {
+        if (!_occupied) return PlanetColonistMonitor.ColonistStatus.MovingOut;
+
+        return _planetAttachment.GetAttachedColonistsMonitor()
+            .CalculateStatus(HasEnoughEnergy(), HasEnoughFood(), HasEnoughRefreshments());
+    }
+
+    private float CashEffectSecond()
+    {
+        var baseCashEffect = (cashPerMinute / 60f) * Time.deltaTime;
+        return GetStatus() switch
+        {
+            PlanetColonistMonitor.ColonistStatus.Neutral => baseCashEffect,
+            PlanetColonistMonitor.ColonistStatus.Happy => baseCashEffect * 2f,
+            PlanetColonistMonitor.ColonistStatus.Overjoyed => baseCashEffect * 4f,
+            _ => 0f
+        };
+    }
+
+    private void UpdateLifeStatus()
+    {
+        var resources = _planetAttachment.GetAttachedResources();
+
+        var status = GetStatus();
+        if (status == PlanetColonistMonitor.ColonistStatus.MovingOut)
+        {
+            _life -= LifeLossPerSecond * Time.deltaTime;
+
+            if (_life <= 0f)
+            {
+                resources.DeregisterOccupiedResident();
+                resources.RegisterDeath();
+                _occupied = false;
+            }
+            else if (_life <= 10f)
+            {
+                var lifeLoss = Random.Range(LifeLossPerSecond * .5f, LifeLossPerSecond) * Time.deltaTime;
+                _life += lifeLoss;
+            }
+            else
+            {
+                var lifeLossPerSecond = LifeLossPerSecond * Time.deltaTime;
+                _life -= lifeLossPerSecond;
+            }
+        }
+        else if (status == PlanetColonistMonitor.ColonistStatus.Neutral)
+        {
+            // Do nothing
+        }
+        else if (status == PlanetColonistMonitor.ColonistStatus.Happy)
+        {
+            _life = Mathf.Min(TotalLife, _life + LifeLossPerSecond * Time.deltaTime);
+        }
+        else if (status == PlanetColonistMonitor.ColonistStatus.Overjoyed)
+        {
+            _life = Mathf.Min(TotalLife, _life + LifeLossPerSecond * 2f * Time.deltaTime);
+        }
+    }
+
+    private void ConsumeResources()
+    {
+        var resources = _planetAttachment.GetAttachedResources();
+
+        var foodEffect = (foodPerMinute / 60f) * Time.deltaTime;
+        resources
+            .AddFood(foodEffect); // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
+
+        var refreshmentsEffect = (refreshmentsPerMinute / 60f) * Time.deltaTime;
+        resources
+            .AddResource(TinyPlanetResources.PlanetResourceType.Refreshments,
+                refreshmentsEffect); // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
+    }
+
+    private void UpdateMonitor()
+    {
+        var monitor = _planetAttachment.GetAttachedColonistsMonitor();
+        var hasEnoughFood = HasEnoughFood();
+        if (hasEnoughFood)
+        {
+            monitor.RegisterFoodSatisfied();
+        }
+        else
+        {
+            monitor.RegisterNotEnoughFood();
+        }
+
+        var hasEnoughRefreshments = HasEnoughRefreshments();
+        if (hasEnoughRefreshments)
+        {
+            monitor.RegisterRefreshmentsSatisfied();
+        }
+        else
+        {
+            monitor.RegisterNotEnoughRefreshments();
+        }
+
+        var hasEnoughEnergy = HasEnoughEnergy();
+        if (hasEnoughEnergy)
+        {
+            if (!_powerControlled.PowerIsOn()) _powerControlled.PowerOn();
+            monitor.RegisterPowerSatisfied();
+        }
+        else
+        {
+            if (_powerControlled.PowerIsOn()) _powerControlled.PowerOff();
+            monitor.RegisterNotEnoughPower();
+        }
+
+        monitor.RegisterHouseIncome(CashEffectSecond());
+    }
+
+    private bool HasEnoughFood()
+    {
+        return
+            _planetAttachment.GetAttachedResources().GetFood() >=
+            .5f; // Food levels can not be below 0, so checking for 0 never happens (since a farm might always be adding just a little bit).
+    }
+
+    private bool HasEnoughRefreshments()
+    {
+        return _planetAttachment.GetAttachedResources()
+                   .GetResource(TinyPlanetResources.PlanetResourceType.Refreshments) >=
+               .5f; // Food levels can not be below 0, so checking for 0 never happens (since a farm might always be adding just a little bit).
+    }
+
+    private bool HasEnoughEnergy()
+    {
+        return _planetAttachment.GetAttachedResources().GetEnergy() >= 0f;
     }
 
     private void OnPlanetTransfer(TinyPlanetResources from, TinyPlanetResources to)
