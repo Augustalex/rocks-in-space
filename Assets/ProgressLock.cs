@@ -37,32 +37,76 @@ public class ProgressLock : MonoBehaviour
                 Hide();
                 break;
             case BuildingType.Refinery:
-                Hide();
-                break;
-            case BuildingType.Factory:
-                Hide();
-                break;
-            case BuildingType.PowerPlant:
-                PowerPlant();
-                break;
-            case BuildingType.FarmDome:
-                FarmDome();
-                break;
-            case BuildingType.ResidentModule:
-                HousingModule();
+                CheckLock(
+                    Started(),
+                    NotificationMessage(BuildingType.Refinery),
+                    StartedLockMessage(),
+                    false
+                );
                 break;
             case BuildingType.Platform:
-                Platform();
+                CheckLock(
+                    Started(),
+                    NotificationMessage(BuildingType.Platform),
+                    StartedLockMessage(),
+                    false
+                );
+                break;
+            case BuildingType.ResidentModule:
+                CheckLock(
+                    Started(),
+                    NotificationMessage(BuildingType.ResidentModule),
+                    StartedLockMessage(),
+                    false
+                );
+                break;
+            case BuildingType.Factory:
+                CheckLock(
+                    Surviving(),
+                    NotificationMessage(BuildingType.Factory),
+                    SurvivingLockMessage(),
+                    !Started()
+                );
                 break;
             case BuildingType.Purifier:
-                IceMachine(BuildingType.Purifier);
+                CheckLock(
+                    Surviving(),
+                    NotificationMessage(BuildingType.Purifier),
+                    SurvivingLockMessage(),
+                    !Started()
+                );
+                break;
+            case BuildingType.PowerPlant:
+                CheckLock(
+                    Surviving(),
+                    NotificationMessage(BuildingType.PowerPlant),
+                    SurvivingLockMessage(),
+                    !Started()
+                );
+                break;
+            case BuildingType.FarmDome:
+                CheckLock(
+                    Comfortable(),
+                    NotificationMessage(BuildingType.FarmDome),
+                    ComfortableLockMessage(),
+                    !Surviving()
+                );
                 break;
             case BuildingType.Distillery:
-                IceMachine(BuildingType.Distillery);
+                CheckLock(
+                    Comfortable(),
+                    NotificationMessage(BuildingType.Distillery),
+                    ComfortableLockMessage(),
+                    !Surviving()
+                );
                 break;
             case BuildingType.KorvKiosk:
-                // Hide();
-                KorvKiosk();
+                CheckLock(
+                    Luxurious(),
+                    "Something different has been unlocked in the building menu.",
+                    LuxuriousLockMessage(),
+                    !Comfortable()
+                );
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -75,158 +119,29 @@ public class ProgressLock : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void PowerPlant()
+    private void CheckLock(bool unlocked = false, string unlockedMessage = "", string lockMessage = "",
+        bool veiled = false)
     {
-        if (PowerPlantUnlocked())
+        if (unlocked)
         {
             Notifications.Get().Send(new BuildingNotification
             {
-                Message = $"New building \"{PowerPlantInteractor.GetName()}\" unlocked!",
+                Message = unlockedMessage,
                 NotificationType = NotificationTypes.Positive
             });
             Hide();
         }
         else
         {
-            HideVeil();
-            _text.text = "Unlock with\n1 Refinery\n1 Factory";
-        }
-    }
-
-    private void FarmDome()
-    {
-        if (HousingUnlocked())
-        {
-            Notifications.Get().Send(new BuildingNotification
+            if (veiled)
             {
-                Message = $"New building \"{FarmDomeInteractor.GetName()}\" unlocked!",
-                NotificationType = NotificationTypes.Positive
-            });
-            Hide();
-        }
-        else
-        {
-            if (PowerPlantUnlocked())
+                ShowVeil();
+                _text.text = "???";
+            }
+            else
             {
                 HideVeil();
-                _text.text = "Unlock with\nPower Plant";
-            }
-            else
-            {
-                ShowVeil();
-                _text.text = "???";
-            }
-        }
-    }
-
-    private void HousingModule()
-    {
-        if (HousingUnlocked())
-        {
-            Notifications.Get().Send(new BuildingNotification
-            {
-                Message = $"New building \"{ResidencyInteractor.GetName()}\" unlocked!",
-                NotificationType =
-                    NotificationTypes
-                        .Silent // Farm notification is shown at the same time, so no need to ring another notification sound.
-            });
-            Hide();
-        }
-        else
-        {
-            if (PowerPlantUnlocked())
-            {
-                HideVeil();
-                _text.text = "Unlock with\nPower Plant";
-            }
-            else
-            {
-                ShowVeil();
-                _text.text = "???";
-            }
-        }
-    }
-
-    private void Platform()
-    {
-        if (PlatformUnlocked())
-        {
-            Notifications.Get().Send(new BuildingNotification
-            {
-                Message = $"New building \"{ScaffoldingInteractor.GetName()}\" unlocked!",
-                NotificationType = NotificationTypes.Positive
-            });
-            Hide();
-        }
-        else
-        {
-            if (HousingUnlocked())
-            {
-                HideVeil();
-                _text.text = "Unlock with\n500 colonists";
-            }
-            else
-            {
-                ShowVeil();
-                _text.text = "???";
-            }
-        }
-    }
-
-    private void IceMachine(BuildingType buildingType)
-    {
-        if (buildingType != BuildingType.Distillery && buildingType != BuildingType.Purifier)
-            throw new Exception("Wrong building type passed to IceMachine ProgressLock method!");
-        
-        if (IceMachinesUnlocked())
-        {
-            Notifications.Get().Send(new BuildingNotification
-            {
-                Message = $"New building \"{InteractorController.Get().GetInteractorByBuildingType(buildingType).GetInteractorName()}\" unlocked!",
-                NotificationType = NotificationTypes.Positive
-            });
-            Hide();
-        }
-        else
-        {
-            if (PlatformUnlocked())
-            {
-                HideVeil();
-                _text.text = "Unlock with\n1000 colonists";
-            }
-            else
-            {
-                ShowVeil();
-                _text.text = "???";
-            }
-        }
-    }
-
-    private void KorvKiosk()
-    {
-        var progressManager = ProgressManager.Get();
-        if (progressManager.TotalColonistsCount() >=
-            10000)
-        {
-            Notifications.Get().Send(new BuildingNotification
-            {
-                Message = $"Something different has been unlocked in the building menu.",
-                NotificationType = NotificationTypes.Positive
-            });
-            Hide();
-        }
-        else
-        {
-            ShowVeil();
-
-            if (PlatformUnlocked())
-            {
-                _text.text = "Unlock with\n10000 colonists";
-            }
-            else
-            {
-                ShowVeil();
-                _text.text = "???";
+                _text.text = lockMessage;
             }
         }
     }
@@ -247,28 +162,6 @@ public class ProgressLock : MonoBehaviour
         textVeil.SetActive(true);
     }
 
-    private bool PlatformUnlocked()
-    {
-        var progressManager = ProgressManager.Get();
-        return
-            progressManager.TotalColonistsCount() >=
-            500; // TODO: Perhaps this unlocking checks should happen outside the UI!! Perhaps in an update loop in the ProgressManager?
-    }
-
-    private bool IceMachinesUnlocked()
-    {
-        var progressManager = ProgressManager.Get();
-        return
-            progressManager.TotalColonistsCount() >=
-            1000; // TODO: Perhaps this unlocking checks should happen outside the UI!! Perhaps in an update loop in the ProgressManager?
-    }
-
-    private bool HousingUnlocked()
-    {
-        var progressManager = ProgressManager.Get();
-        return progressManager.HasBuilt(BuildingType.PowerPlant);
-    }
-
     private bool PowerPlantUnlocked()
     {
         var progressManager = ProgressManager.Get();
@@ -278,5 +171,55 @@ public class ProgressLock : MonoBehaviour
     public bool Hidden()
     {
         return _hidden;
+    }
+
+    private string NotificationMessage(BuildingType buildingType)
+    {
+        return
+            $"New building \"{InteractorController.Get().GetGenericInteractorByBuildingType(buildingType).GetInteractorName()}\" unlocked!";
+    }
+
+    public bool Started()
+    {
+        var progressManager = ProgressManager.Get();
+        return progressManager.HasBuilt(BuildingType.Port);
+    }
+
+    public string StartedLockMessage()
+    {
+        return "Unlock by building\nyour first Beacon";
+    }
+
+    public bool Surviving()
+    {
+        var progressManager = ProgressManager.Get();
+        return progressManager.GetColonistCount(PlanetColonistMonitor.PlanetStatus.Neutral) >= 500;
+    }
+
+    public string SurvivingLockMessage()
+    {
+        return "Unlock with\n500 colonists";
+    }
+
+    public bool Comfortable()
+    {
+        var progressManager = ProgressManager.Get();
+        return progressManager.GetColonistCount(PlanetColonistMonitor.PlanetStatus.Happy) >= 2000;
+    }
+
+    public string ComfortableLockMessage()
+    {
+        return "Unlock with\n2000 happy colonists";
+    }
+
+    public bool Luxurious()
+    {
+        var progressManager = ProgressManager.Get();
+        return progressManager.GetColonistCount(PlanetColonistMonitor.PlanetStatus.Overjoyed) >= 10000;
+    }
+
+    public string LuxuriousLockMessage()
+    {
+        return "Unlock with\n10000 overjoyed colonists";
     }
 }

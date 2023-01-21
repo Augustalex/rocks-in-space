@@ -43,6 +43,8 @@ namespace Interactors
             {
                 displayController.StartRenamingPlanet();
             }
+
+            ProgressManager.Get().Built(BuildingType.Port);
         }
 
         public override void OnFailedToBuild(Vector3 hitPoint)

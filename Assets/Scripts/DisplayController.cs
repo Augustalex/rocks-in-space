@@ -118,10 +118,15 @@ public class DisplayController : MonoBehaviour
         }
     }
 
+    public bool IsRenaming()
+    {
+        return inputMode == InputMode.Renaming;
+    }
+
     private void DoneRenamingPlanet(string newName)
     {
         if (_currentPlanet == null) return;
-        if (inputMode != InputMode.Renaming) return;
+        if (!IsRenaming()) return;
 
         if (newName != "")
         {

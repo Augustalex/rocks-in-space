@@ -20,6 +20,8 @@ public class ProgressLocksUpdater : MonoBehaviour
     {
         while (_progressLocks.Count > 0)
         {
+            ProgressManager.Get().UpdateProgress();
+            
             var toRemove = new List<ProgressLock>();
             foreach (var progressLock in _progressLocks)
             {

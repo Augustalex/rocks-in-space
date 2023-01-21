@@ -23,6 +23,11 @@ public class NotificationsPanel : MonoBehaviour
         {
             if (_notifications.Count > 0)
             {
+                if (DisplayController.Get().IsRenaming())
+                {
+                    yield return new WaitForSeconds(0.5f);
+                }
+
                 ShowNotification(_notifications.Dequeue());
             }
 
