@@ -3,10 +3,6 @@ using UnityEngine;
 
 public class PlanetInfoResources : MonoBehaviour
 {
-    public GameObject basicResources;
-    public GameObject iceResources;
-    public GameObject colonyResources;
-
     public PlanetInfoResourceController ore;
     public PlanetInfoResourceController metals;
     public PlanetInfoResourceController gadgets;
@@ -22,18 +18,33 @@ public class PlanetInfoResources : MonoBehaviour
     void Start()
     {
         power.Set(TinyPlanetResources.PlanetResourceType.Energy);
+        power.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
+
         food.Set(TinyPlanetResources.PlanetResourceType.Food);
+        food.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
+
         housing.Set(TinyPlanetResources.PlanetResourceType.Housing);
+        housing.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
 
         ice.Set(TinyPlanetResources.PlanetResourceType.Ice);
+        ice.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
+
         water.Set(TinyPlanetResources.PlanetResourceType.Water);
+        water.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
+
         refreshment.Set(TinyPlanetResources.PlanetResourceType.Refreshments);
+        refreshment.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
 
         ore.Set(TinyPlanetResources.PlanetResourceType.Ore);
-        metals.Set(TinyPlanetResources.PlanetResourceType.Metals);
-        gadgets.Set(TinyPlanetResources.PlanetResourceType.Gadgets);
+        ore.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
 
-        colonyResources.SetActive(false);
+        metals.Set(TinyPlanetResources.PlanetResourceType.Metals);
+        metals.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
+
+        gadgets.Set(TinyPlanetResources.PlanetResourceType.Gadgets);
+        gadgets.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
+
+        DisableColonyResources();
     }
 
     void Update()
@@ -43,7 +54,8 @@ public class PlanetInfoResources : MonoBehaviour
         {
             var resources = currentPlanet.GetResources();
 
-            var hasAnyIceRelatedItems = resources.HasBuilding(BuildingType.Purifier) || resources.HasBuilding(BuildingType.Distillery);
+            var hasAnyIceRelatedItems = resources.HasBuilding(BuildingType.Purifier) ||
+                                        resources.HasBuilding(BuildingType.Distillery);
             var hasAnyIceResources = resources.GetResource(TinyPlanetResources.PlanetResourceType.Ice) > 0 ||
                                      resources.GetResource(TinyPlanetResources.PlanetResourceType.Water) > 0 ||
                                      resources.GetResource(TinyPlanetResources.PlanetResourceType.Refreshments) > 0;
@@ -51,12 +63,16 @@ public class PlanetInfoResources : MonoBehaviour
                                 hasAnyIceRelatedItems ||
                                 currentPlanet.IsIcePlanet();
 
-            var hasAnyHousingRelatedItems = resources.HasBuilding(BuildingType.FarmDome) || resources.HasBuilding(BuildingType.PowerPlant) ||
+            var hasAnyHousingRelatedItems = resources.HasBuilding(BuildingType.FarmDome) ||
+                                            resources.HasBuilding(BuildingType.PowerPlant) ||
                                             resources.HasVacancy();
 
             if (hasAnyHousingRelatedItems || hasAnyIceRelatedItems)
             {
-                colonyResources.SetActive(true);
+                power.gameObject.SetActive(true);
+                food.gameObject.SetActive(true);
+                housing.gameObject.SetActive(true);
+
                 power.Refresh(Mathf.FloorToInt(resources.GetEnergy()),
                     resources.GetTrend(TinyPlanetResources.PlanetResourceType.Energy));
                 food.Refresh(Mathf.FloorToInt(resources.GetFood()),
@@ -66,12 +82,15 @@ public class PlanetInfoResources : MonoBehaviour
             }
             else
             {
-                colonyResources.SetActive(false);
+                DisableColonyResources();
             }
 
             if (iceMenuActive)
             {
-                iceResources.SetActive(true);
+                ice.gameObject.SetActive(true);
+                water.gameObject.SetActive(true);
+                refreshment.gameObject.SetActive(true);
+
                 ice.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.Ice)),
                     resources.GetTrend(TinyPlanetResources.PlanetResourceType.Ice));
                 water.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.Water)),
@@ -82,7 +101,9 @@ public class PlanetInfoResources : MonoBehaviour
             }
             else
             {
-                iceResources.SetActive(false);
+                ice.gameObject.SetActive(false);
+                water.gameObject.SetActive(false);
+                refreshment.gameObject.SetActive(false);
             }
 
             var hasAnyBasicItems = resources.HasBuilding(BuildingType.Refinery) ||
@@ -91,13 +112,18 @@ public class PlanetInfoResources : MonoBehaviour
                                        resources.GetResource(TinyPlanetResources.PlanetResourceType.Metals) > 0 ||
                                        resources.GetResource(TinyPlanetResources.PlanetResourceType.Gadgets) > 0;
 
-            if (iceMenuActive && !hasAnyBasicItems && !hasAnyIceRelatedItems && !hasAnyHousingRelatedItems && !hasAnyBasicResources)
+            if (iceMenuActive && !hasAnyBasicItems && !hasAnyIceRelatedItems && !hasAnyHousingRelatedItems &&
+                !hasAnyBasicResources)
             {
-                basicResources.SetActive(false);
+                ore.gameObject.SetActive(false);
+                metals.gameObject.SetActive(false);
+                gadgets.gameObject.SetActive(false);
             }
             else
             {
-                basicResources.SetActive(true);
+                ore.gameObject.SetActive(true);
+                metals.gameObject.SetActive(true);
+                gadgets.gameObject.SetActive(true);
 
                 ore.Refresh(Mathf.FloorToInt(resources.GetOre()),
                     resources.GetTrend(TinyPlanetResources.PlanetResourceType.Ore));
@@ -107,5 +133,12 @@ public class PlanetInfoResources : MonoBehaviour
                     resources.GetTrend(TinyPlanetResources.PlanetResourceType.Gadgets));
             }
         }
+    }
+
+    private void DisableColonyResources()
+    {
+        power.gameObject.SetActive(false);
+        food.gameObject.SetActive(false);
+        housing.gameObject.SetActive(false);
     }
 }
