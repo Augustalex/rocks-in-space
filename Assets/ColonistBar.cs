@@ -31,7 +31,7 @@ public class ColonistBar : MonoBehaviour
         var resources = currentPlanet.GetResources();
         var inhabitants = resources.GetInhabitants();
 
-        text.text = inhabitants == 0 ? "Uninhabited" : $"{inhabitants} colonists";
+        text.text = inhabitants == 0 ? "Uninhabited" : $"{inhabitants}";
 
         var monitor = currentPlanet.GetColonistMonitor();
         var status = monitor.GetPlanetStatus();

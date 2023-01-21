@@ -35,10 +35,10 @@ public class UIAssetManager : MonoBehaviour
     {
         return trend switch
         {
-            TinyPlanetResources.ResourceTrend.doubleDown => doubleDownIcon,
-            TinyPlanetResources.ResourceTrend.down => downIcon,
-            TinyPlanetResources.ResourceTrend.up => upIcon,
-            TinyPlanetResources.ResourceTrend.doubleUp => doubleUpIcon,
+            TinyPlanetResources.ResourceTrend.DoubleDown => doubleDownIcon,
+            TinyPlanetResources.ResourceTrend.Down => downIcon,
+            TinyPlanetResources.ResourceTrend.Up => upIcon,
+            TinyPlanetResources.ResourceTrend.DoubleUp => doubleUpIcon,
             _ => throw new ArgumentOutOfRangeException(nameof(trend), trend, null)
         };
     }

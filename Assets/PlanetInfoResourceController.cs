@@ -20,7 +20,7 @@ public class PlanetInfoResourceController : MonoBehaviour
         var uiAssetManager = UIAssetManager.Get();
 
         resourceText.text = amount.ToString();
-        if (trend == TinyPlanetResources.ResourceTrend.neutral)
+        if (trend == TinyPlanetResources.ResourceTrend.Neutral)
         {
             trendIcon.gameObject.SetActive(false);
         }

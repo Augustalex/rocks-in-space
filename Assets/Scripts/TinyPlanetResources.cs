@@ -24,11 +24,11 @@ public class TinyPlanetResources : MonoBehaviour
 
     public enum ResourceTrend
     {
-        doubleDown,
-        down,
-        neutral,
-        up,
-        doubleUp,
+        DoubleDown,
+        Down,
+        Neutral,
+        Up,
+        DoubleUp,
     }
 
     public static string ResourceName(PlanetResourceType resourceType)
@@ -39,7 +39,7 @@ public class TinyPlanetResources : MonoBehaviour
             case PlanetResourceType.Metals: return "metals<sprite name=\"metals\">";
             case PlanetResourceType.Gadgets: return "gadgets<sprite name=\"gadgets\">";
             case PlanetResourceType.Energy: return "power<sprite name=\"power\">";
-            case PlanetResourceType.Food: return "food<sprite name=\"food\">";
+            case PlanetResourceType.Food: return "fresh food<sprite name=\"food\">";
             case PlanetResourceType.Inhabitants: return "colonists";
             case PlanetResourceType.Housing: return "housing<sprite name=\"house\">";
             case PlanetResourceType.Cash: return "credits<sprite name=\"coin\">";
@@ -85,7 +85,7 @@ public class TinyPlanetResources : MonoBehaviour
     private int _purifiers;
     private bool _hasHadDeaths;
 
-    private Dictionary<BuildingType, int> _buildings = new()
+    private readonly Dictionary<BuildingType, int> _buildings = new()
     {
         { BuildingType.Refinery, 0 },
         { BuildingType.Factory, 0 },
@@ -95,7 +95,7 @@ public class TinyPlanetResources : MonoBehaviour
         { BuildingType.FarmDome, 0 },
     };
 
-        void Start()
+    void Start()
     {
         StartCoroutine(RunTrends());
     }
@@ -108,8 +108,13 @@ public class TinyPlanetResources : MonoBehaviour
             _oreTracker.ProgressHistory();
             _metalsTracker.ProgressHistory();
             _gadgetsTracker.ProgressHistory();
-            _powerTracker.ProgressHistory();
+
+            // _powerTracker.ProgressHistory();
             _foodTracker.ProgressHistory();
+
+            _iceTracker.ProgressHistory();
+            _waterTracker.ProgressHistory();
+            _refreshmentsTracker.ProgressHistory();
         }
     }
 
@@ -207,8 +212,8 @@ public class TinyPlanetResources : MonoBehaviour
 
     public ResourceTrend GetTrend(PlanetResourceType resourceType)
     {
-        if (resourceType == PlanetResourceType.Housing) return ResourceTrend.neutral;
-        if (resourceType == PlanetResourceType.Energy) return ResourceTrend.neutral;
+        if (resourceType == PlanetResourceType.Housing) return ResourceTrend.Neutral;
+        if (resourceType == PlanetResourceType.Energy) return ResourceTrend.Neutral;
 
         return GetTracker(resourceType).GetTrend();
     }
@@ -429,7 +434,7 @@ public class TinyPlanetResources : MonoBehaviour
     {
         _buildings[buildingType] -= 1;
     }
-    
+
     public void RegisterBuilding(BuildingType buildingType)
     {
         _buildings[buildingType] += 1;
@@ -437,6 +442,5 @@ public class TinyPlanetResources : MonoBehaviour
 
     public void GetBuildingCount(BuildingType buildingType)
     {
-        
     }
 }

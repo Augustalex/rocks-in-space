@@ -21,7 +21,7 @@ public class ResourceDisplay : MonoBehaviour
         var cash = Math.Floor(globalResources.GetCash());
         _textComponent.text = $"{(int)cash}";
         var resourceTrend = globalResources.GetTrend();
-        if (resourceTrend == TinyPlanetResources.ResourceTrend.neutral)
+        if (resourceTrend == TinyPlanetResources.ResourceTrend.Neutral)
         {
             trendIcon.gameObject.SetActive(false);
         }

@@ -18,31 +18,31 @@ public class PlanetInfoResources : MonoBehaviour
     void Start()
     {
         power.Set(TinyPlanetResources.PlanetResourceType.Energy);
-        power.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
+        power.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
 
         food.Set(TinyPlanetResources.PlanetResourceType.Food);
-        food.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
+        food.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
 
         housing.Set(TinyPlanetResources.PlanetResourceType.Housing);
-        housing.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
+        housing.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
 
         ice.Set(TinyPlanetResources.PlanetResourceType.Ice);
-        ice.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
+        ice.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
 
         water.Set(TinyPlanetResources.PlanetResourceType.Water);
-        water.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
+        water.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
 
         refreshment.Set(TinyPlanetResources.PlanetResourceType.Refreshments);
-        refreshment.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
+        refreshment.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
 
         ore.Set(TinyPlanetResources.PlanetResourceType.Ore);
-        ore.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
+        ore.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
 
         metals.Set(TinyPlanetResources.PlanetResourceType.Metals);
-        metals.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
+        metals.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
 
         gadgets.Set(TinyPlanetResources.PlanetResourceType.Gadgets);
-        gadgets.Refresh(0, TinyPlanetResources.ResourceTrend.neutral);
+        gadgets.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
 
         DisableColonyResources();
     }

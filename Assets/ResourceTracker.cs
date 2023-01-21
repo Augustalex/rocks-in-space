@@ -57,7 +57,7 @@ public class ResourceTracker
     {
         if (_history.Count < 3)
         {
-            return TinyPlanetResources.ResourceTrend.neutral;
+            return TinyPlanetResources.ResourceTrend.Neutral;
         }
 
         var history = _history.ToArray();
@@ -80,10 +80,10 @@ public class ResourceTracker
 
         // var average = totalB - totalA;
         var average = totalB;
-        if (average < -10) return TinyPlanetResources.ResourceTrend.doubleDown;
-        if (average < 0) return TinyPlanetResources.ResourceTrend.down;
-        if (average > 10) return TinyPlanetResources.ResourceTrend.doubleUp;
-        if (average > 0) return TinyPlanetResources.ResourceTrend.up;
-        return TinyPlanetResources.ResourceTrend.neutral;
+        if (average < -10) return TinyPlanetResources.ResourceTrend.DoubleDown;
+        if (average < 0) return TinyPlanetResources.ResourceTrend.Down;
+        if (average > 10) return TinyPlanetResources.ResourceTrend.DoubleUp;
+        if (average > 0) return TinyPlanetResources.ResourceTrend.Up;
+        return TinyPlanetResources.ResourceTrend.Neutral;
     }
 }
