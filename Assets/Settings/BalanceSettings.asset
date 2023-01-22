@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: BalanceSettings
   m_EditorClassIdentifier: 
   oreTradeAmount: 1
+  ironTradeAmount: 1
+  graphiteTradeAmount: 1
+  copperTradeAmount: 1
   metalsTradeAmount: 1
   gadgetsTradeAmount: 1
   waterTradeAmount: 1

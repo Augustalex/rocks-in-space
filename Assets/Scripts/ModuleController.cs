@@ -141,7 +141,11 @@ public class ModuleController : MonoBehaviour
         {
             var foodEffect = (foodPerMinute / 60f) * Time.deltaTime;
             resources
-                .AddFood(foodEffect); // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
+                .AddResource(TinyPlanetResources.PlanetResourceType.Food,
+                    foodEffect); // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
+            resources
+                .AddResource(TinyPlanetResources.PlanetResourceType.Protein,
+                    foodEffect); // Is most likely negative, but kept as a neutral variable to make thinking about balance easier.
         }
 
         if (refreshmentsPerMinute != 0)
@@ -167,6 +171,15 @@ public class ModuleController : MonoBehaviour
             else
             {
                 monitor.RegisterNotEnoughFood();
+            }
+
+            if (HasEnoughProtein())
+            {
+                monitor.RegisterProteinSatisfied();
+            }
+            else
+            {
+                monitor.RegisterNotEnoughProtein();
             }
         }
 
@@ -198,11 +211,14 @@ public class ModuleController : MonoBehaviour
             }
         }
 
-        var status = monitor.CalculateStatus(isLander, HasEnoughEnergy(), HasEnoughFood(), HasEnoughRefreshments());
-        if (status == PlanetColonistMonitor.ColonistStatus.MovingOut) monitor.RegisterDiscontentHouse();
-        else monitor.RegisterContentHouse();
-
         monitor.RegisterHouseIncome(CashEffectSecond());
+    }
+
+    private bool HasEnoughProtein()
+    {
+        return
+            _planetAttachment.GetAttachedResources().GetResource(TinyPlanetResources.PlanetResourceType.Protein) >=
+            .5f; // Protein levels can not be below 0, so checking for 0 never happens (since a protein fabricator might always be adding just a little bit).
     }
 
     private bool HasEnoughFood()

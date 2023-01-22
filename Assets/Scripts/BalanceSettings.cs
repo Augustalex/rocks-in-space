@@ -3,9 +3,12 @@
 [CreateAssetMenu(fileName = "BalanceSettings", menuName = "BalanceSettings", order = 0)]
 public class BalanceSettings : ScriptableObject
 {
-    [Header("Trading")] public float oreTradeAmount = 12f;
-    public float metalsTradeAmount = 12f;
-    public float gadgetsTradeAmount = 5f;
+    [Header("Trading")] public float oreTradeAmount = 1f;
+    public float ironTradeAmount = 1f;
+    public float graphiteTradeAmount = 1f;
+    public float copperTradeAmount = 1f;
+    public float metalsTradeAmount = 1f;
+    public float gadgetsTradeAmount = 1f;
     public float waterTradeAmount = 1f;
     public float refreshmentsTradeAmount = 1f;
 

@@ -37,7 +37,7 @@ public class PlanetColonistMonitor : MonoBehaviour
     private float _bufferFrameTime;
     private float _estimatedHouseIncome;
     private int _contentHouse;
-    private int _houseAverageContent;
+    private int _protein;
 
     void Start()
     {
@@ -53,16 +53,15 @@ public class PlanetColonistMonitor : MonoBehaviour
         }
         else
         {
-            var overallContent = _houseAverageContent >= 0;
-
             var hasEnergy = _power > 0;
             var hasFood = _food > 0;
             var hasRefreshments = _refreshments > 0;
-            if (hasEnergy && hasFood && hasRefreshments)
+            var hasProtein = _protein > 0;
+            if (hasEnergy && hasProtein && hasFood && hasRefreshments)
             {
                 SetStatus(PlanetStatus.Overjoyed);
             }
-            else if (hasEnergy && (hasFood || hasRefreshments))
+            else if (hasEnergy && hasProtein)
             {
                 SetStatus(PlanetStatus.Happy);
             }
@@ -70,17 +69,15 @@ public class PlanetColonistMonitor : MonoBehaviour
             {
                 SetStatus(PlanetStatus.Neutral);
             }
-            else if (overallContent)
-            {
-                SetStatus(PlanetStatus.Surviving);
-            }
+            // else if (hasEnergy)
+            // {
+            //     SetStatus(PlanetStatus.Surviving);
+            // }
             else
             {
                 SetStatus(PlanetStatus.MovingOut);
             }
         }
-
-        debug_text = "status: " + _planetStatus + ", content: " + _houseAverageContent;
 
         _buffer += _frameHouseIncome;
         _bufferFrameTime += Time.deltaTime;
@@ -97,8 +94,7 @@ public class PlanetColonistMonitor : MonoBehaviour
         _power = 0;
         _food = 0;
         _refreshments = 0;
-
-        _houseAverageContent = 0;
+        _protein = 0;
     }
 
     public float GetHouseIncomeEstimate()
@@ -168,18 +164,18 @@ public class PlanetColonistMonitor : MonoBehaviour
         _refreshments -= 1;
     }
 
-    public void RegisterContentHouse()
-    {
-        _houseAverageContent += 1;
-    }
-
-    public void RegisterDiscontentHouse()
-    {
-        _houseAverageContent -= 1;
-    }
-
     public void RegisterHouseIncome(float cashEffectSecond)
     {
         _frameHouseIncome += cashEffectSecond;
+    }
+
+    public void RegisterProteinSatisfied()
+    {
+        _protein += 1;
+    }
+
+    public void RegisterNotEnoughProtein()
+    {
+        _protein -= 1;
     }
 }

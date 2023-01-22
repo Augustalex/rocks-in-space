@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class SelectResourceController : MonoBehaviour
 {
-    public TwoStateButton oreButton;
+    // public TwoStateButton oreButton;
+    public TwoStateButton ironButton;
+    public TwoStateButton graphiteButton;
+    public TwoStateButton copperButton;
     public TwoStateButton metalsButton;
     public TwoStateButton gadgetsButton;
     public TwoStateButton waterButton;
@@ -15,8 +18,17 @@ public class SelectResourceController : MonoBehaviour
 
     void Start()
     {
-        oreButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Ore);
-        oreButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Ore));
+        // oreButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Ore);
+        // oreButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Ore));
+
+        ironButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Iron);
+        ironButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Iron));
+
+        graphiteButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Graphite);
+        graphiteButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Graphite));
+
+        copperButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Copper);
+        copperButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Copper));
 
         metalsButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Metals);
         metalsButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Metals));
@@ -31,27 +43,10 @@ public class SelectResourceController : MonoBehaviour
         refreshmentsButton.SetText(
             TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Refreshments));
     }
-    
+
     public void SetSelectedResource(TinyPlanetResources.PlanetResourceType resourceType)
     {
-        switch (resourceType)
-        {
-            case TinyPlanetResources.PlanetResourceType.Metals:
-                SelectResource(TinyPlanetResources.PlanetResourceType.Metals);
-                break;
-            case TinyPlanetResources.PlanetResourceType.Gadgets:
-                SelectResource(TinyPlanetResources.PlanetResourceType.Gadgets);
-                break;
-            case TinyPlanetResources.PlanetResourceType.Water:
-                SelectResource(TinyPlanetResources.PlanetResourceType.Water);
-                break;
-            case TinyPlanetResources.PlanetResourceType.Refreshments:
-                SelectResource(TinyPlanetResources.PlanetResourceType.Refreshments);
-                break;
-            default:
-                SelectResource(TinyPlanetResources.PlanetResourceType.Ore);
-                break;
-        }
+        SelectResource(resourceType);
     }
 
     private void ResourceButtonClicked(TinyPlanetResources.PlanetResourceType resourceType)
@@ -68,7 +63,10 @@ public class SelectResourceController : MonoBehaviour
 
     private void Render()
     {
-        oreButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Ore);
+        // oreButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Ore);
+        ironButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Iron);
+        graphiteButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Graphite);
+        copperButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Copper);
         metalsButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Metals);
         gadgetsButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Gadgets);
         waterButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Water);
