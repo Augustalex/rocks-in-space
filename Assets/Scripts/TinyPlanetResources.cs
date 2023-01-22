@@ -108,12 +108,14 @@ public class TinyPlanetResources : MonoBehaviour
         { BuildingType.PowerPlant, 0 },
         { BuildingType.SolarPanels, 0 },
         { BuildingType.FarmDome, 0 },
+        { BuildingType.ProteinFabricator, 0 },
     };
 
     private void Awake()
     {
         _resourceTrackers = new Dictionary<PlanetResourceType, ResourceTracker>()
         {
+            { PlanetResourceType.Ore, _oreTracker },
             { PlanetResourceType.Iron, _ironTracker },
             { PlanetResourceType.Graphite, _graphiteTracker },
             { PlanetResourceType.Copper, _copperTracker },
@@ -149,7 +151,7 @@ public class TinyPlanetResources : MonoBehaviour
             _iceTracker.ProgressHistory();
             _waterTracker.ProgressHistory();
             _refreshmentsTracker.ProgressHistory();
-            
+
             _ironTracker.ProgressHistory();
             _graphiteTracker.ProgressHistory();
             _copperTracker.ProgressHistory();

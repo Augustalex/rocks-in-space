@@ -4,16 +4,16 @@ using UnityEngine;
 public class PlanetInfoResources : MonoBehaviour
 {
     public PlanetInfoResourceController ore;
+    public PlanetInfoResourceController iron;
+    public PlanetInfoResourceController graphite;
+    public PlanetInfoResourceController copper;
+
     public PlanetInfoResourceController metals;
     public PlanetInfoResourceController gadgets;
 
     public PlanetInfoResourceController ice;
     public PlanetInfoResourceController water;
     public PlanetInfoResourceController refreshment;
-
-    public PlanetInfoResourceController iron;
-    public PlanetInfoResourceController graphite;
-    public PlanetInfoResourceController copper;
 
     public PlanetInfoResourceController power;
     public PlanetInfoResourceController protein;
@@ -40,14 +40,27 @@ public class PlanetInfoResources : MonoBehaviour
         refreshment.Set(TinyPlanetResources.PlanetResourceType.Refreshments);
         refreshment.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
 
-        ore.Set(TinyPlanetResources.PlanetResourceType.Ore);
-        ore.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+        ore.gameObject.SetActive(false);
+        // ore.Set(TinyPlanetResources.PlanetResourceType.Ore);
+        // ore.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
 
         metals.Set(TinyPlanetResources.PlanetResourceType.Metals);
         metals.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
 
         gadgets.Set(TinyPlanetResources.PlanetResourceType.Gadgets);
         gadgets.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+
+        iron.Set(TinyPlanetResources.PlanetResourceType.Iron);
+        iron.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+
+        graphite.Set(TinyPlanetResources.PlanetResourceType.Graphite);
+        graphite.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+
+        copper.Set(TinyPlanetResources.PlanetResourceType.Copper);
+        copper.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+
+        protein.Set(TinyPlanetResources.PlanetResourceType.Protein);
+        protein.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
 
         DisableColonyResources();
     }
@@ -154,27 +167,25 @@ public class PlanetInfoResources : MonoBehaviour
             {
                 protein.gameObject.SetActive(false);
             }
-            
-            var hasAnyBasicItems = resources.HasBuilding(BuildingType.Refinery) ||
-                                   resources.HasBuilding(BuildingType.Factory);
-            var hasAnyBasicResources = resources.GetResource(TinyPlanetResources.PlanetResourceType.Ore) > 0 ||
-                                       resources.GetResource(TinyPlanetResources.PlanetResourceType.Metals) > 0 ||
-                                       resources.GetResource(TinyPlanetResources.PlanetResourceType.Gadgets) > 0;
 
-            var showOnlyIceRelatedThings = iceMenuActive && !hasAnyBasicItems && !hasAnyIceRelatedItems &&
-                                           !hasAnyHousingRelatedItems &&
-                                           !hasAnyBasicResources;
-            
-            if (!showOnlyIceRelatedThings)
-            {
-                ore.Refresh(Mathf.FloorToInt(resources.GetOre()),
-                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Ore));
-                ore.gameObject.SetActive(true);
-            }
-            else
-            {
-                ore.gameObject.SetActive(false);
-            }
+            // var hasAnyBasicItems = resources.HasBuilding(BuildingType.Refinery) ||
+            //                        resources.HasBuilding(BuildingType.Factory);
+            // var hasAnyBasicResources = resources.GetResource(TinyPlanetResources.PlanetResourceType.Ore) > 0 ||
+            //                            resources.GetResource(TinyPlanetResources.PlanetResourceType.Metals) > 0 ||
+            //                            resources.GetResource(TinyPlanetResources.PlanetResourceType.Gadgets) > 0;
+            // var showOnlyIceRelatedThings = iceMenuActive && !hasAnyBasicItems && !hasAnyIceRelatedItems &&
+            //                                !hasAnyHousingRelatedItems &&
+            //                                !hasAnyBasicResources;
+            // if (!showOnlyIceRelatedThings)
+            // {
+            //     ore.Refresh(Mathf.FloorToInt(resources.GetOre()),
+            //         resources.GetTrend(TinyPlanetResources.PlanetResourceType.Ore));
+            //     ore.gameObject.SetActive(true);
+            // }
+            // else
+            // {
+            //     ore.gameObject.SetActive(false);
+            // }
 
             if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Iron) > 0 ||
                 resources.HasBuilding(BuildingType.Refinery))
