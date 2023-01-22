@@ -9,17 +9,20 @@ public class TinyPlanetResources : MonoBehaviour
     public enum
         PlanetResourceType // Remake to global resource type? Since it includes both planet resource as well as cash (which is global).
     {
-        Ore,
-        Metals,
-        Gadgets,
-        Energy,
-        Food,
-        Inhabitants,
-        Housing,
-        Cash, // Global, not planet specific.
-        Ice,
-        Water,
-        Refreshments
+        Ore = 0,
+        Metals = 1,
+        Gadgets = 2,
+        Energy = 3,
+        Food = 4,
+        Inhabitants = 5,
+        Housing = 6,
+        Cash = 7, // Global, not planet specific.
+        Ice = 8,
+        Water = 9,
+        Refreshments = 10,
+        Iron = 11,
+        Graphite = 12,
+        Copper = 13,
     }
 
     public enum ResourceTrend

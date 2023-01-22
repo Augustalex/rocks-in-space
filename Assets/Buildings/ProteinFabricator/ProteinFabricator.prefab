@@ -232,7 +232,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b5e5f56ee62f8a5499125c064f52133b, type: 2}
+  - {fileID: 2100000, guid: 6dc4304bbff1b5e4a877387a0aa881d6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -263,7 +263,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2858820151496458405}
-  - component: {fileID: 4698494087844819948}
+  - component: {fileID: 6229025480612774677}
   - component: {fileID: 2010489536246280805}
   - component: {fileID: 7389719006413941051}
   - component: {fileID: 2742887319779652494}
@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: 4640671587525194301}
   - component: {fileID: 594781369030925891}
   m_Layer: 0
-  m_Name: FactoryBuilding
+  m_Name: ProteinFabricator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -296,7 +296,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4698494087844819948
+--- !u!114 &6229025480612774677
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -305,7 +305,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7735039820489149926}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0803f681fbf050e4fa09038e6084b5d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 5fcc43009f82d4c428eb14e19eca6401, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2010489536246280805
@@ -332,7 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32daf228e43b9441b10764af06a11cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: 0
+  energy: -5
   residencyType: 0
 --- !u!114 &2742887319779652494
 MonoBehaviour:
@@ -371,11 +371,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a12f799d044d24741805337d08ef27b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  from: 1
+  from: 12
   fromAmount: 1
-  fromSecondary: 13
-  fromSecondaryAmount: 2
-  to: 2
+  fromSecondary: 0
+  fromSecondaryAmount: 0
+  to: 4
   toAmount: 1
   iterationTime: 8
 --- !u!114 &1389406210342210510
@@ -390,7 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 122d53f2549fed44cb33a03c329a73aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seedName: Factory
+  seedName: Protein Fabricator
 --- !u!114 &8608724217475473750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,7 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5fbf59e246960643b466bb728cea7c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingType: 2
+  buildingType: 12
 --- !u!114 &4640671587525194301
 MonoBehaviour:
   m_ObjectHideFlags: 0

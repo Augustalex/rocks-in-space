@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,12 +8,21 @@ public class OreVein : MonoBehaviour
 
     public static readonly int OrePerBlock = 1;
 
-    public GameObject[] templates;
-
     public GameObject[] faces;
+    private TinyPlanetResources.PlanetResourceType _resourceType;
 
-    private void Start()
+    public void Setup(TinyPlanetResources.PlanetResourceType resourceType)
     {
+        _resourceType = resourceType;
+        var template = resourceType switch
+        {
+            TinyPlanetResources.PlanetResourceType.Ore => PrefabTemplateLibrary.Get().ironOre,
+            TinyPlanetResources.PlanetResourceType.Iron => PrefabTemplateLibrary.Get().ironOre,
+            TinyPlanetResources.PlanetResourceType.Graphite => PrefabTemplateLibrary.Get().graphiteOre,
+            TinyPlanetResources.PlanetResourceType.Copper => PrefabTemplateLibrary.Get().copperOre,
+            _ => throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType, null)
+        };
+
         var onCount = 0;
 
         foreach (var face in faces)
@@ -21,8 +31,8 @@ public class OreVein : MonoBehaviour
             for (int i = 0; i < faceCount; i++)
             {
                 onCount += 1;
-                var template = Instantiate(templates[Random.Range(0, templates.Length)], face.transform);
-                var meshTransform = template.transform;
+                var ore = Instantiate(template, face.transform);
+                var meshTransform = ore.transform;
                 var scale = meshTransform.localScale;
                 meshTransform.localScale = new Vector3(Random.Range(1f, 1.7f), Random.Range(1f, 1.7f),
                     Random.Range(1.5f, 2.2f));
@@ -65,11 +75,18 @@ public class OreVein : MonoBehaviour
         _resources += onCount * OrePerBlock;
     }
 
-    public int Collect()
+    public int Collect(TinyPlanetResources planetResources)
     {
-        var resources = _resources;
+        var amount = _resources;
+
+        planetResources.AddResource(_resourceType, _resources);
         _resources = 0;
 
-        return resources;
+        return amount;
+    }
+
+    public TinyPlanetResources.PlanetResourceType GetResourceType()
+    {
+        return _resourceType;
     }
 }

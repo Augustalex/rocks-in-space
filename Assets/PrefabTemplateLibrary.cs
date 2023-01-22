@@ -6,6 +6,12 @@ public class PrefabTemplateLibrary : MonoBehaviour
     private static PrefabTemplateLibrary _instance;
     
     public GameObject mapPopup;
+    public GameObject ironOre;
+    public GameObject ironOreDebrisTemplate;
+    public GameObject graphiteOre;
+    public GameObject graphiteOreDebrisTemplate;
+    public GameObject copperOre;
+    public GameObject copperOreDebrisTemplate;
     public GameObject rockDebrisTemplate;
     public GameObject iceDebrisTemplate;
     public GameObject iceResourceDebrisTemplate;

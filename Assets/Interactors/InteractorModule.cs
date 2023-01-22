@@ -43,7 +43,8 @@ namespace Interactors
         KorvKiosk = 8,
         Purifier = 9,
         Distillery = 10,
-        SolarPanels
+        SolarPanels = 11,
+        ProteinFabricator = 12
     }
 
     public abstract class InteractorModule : MonoBehaviour

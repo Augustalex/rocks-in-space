@@ -5,7 +5,13 @@ using UnityEngine;
 public class ResourceConversionEffect : MonoBehaviour
 {
     public TinyPlanetResources.PlanetResourceType from;
+    public int fromAmount = 1;
+    public TinyPlanetResources.PlanetResourceType fromSecondary;
+    public int fromSecondaryAmount = 0;
+
     public TinyPlanetResources.PlanetResourceType to;
+    public int toAmount = 1;
+
     public float iterationTime = 1f;
 
     private const float ResourceTakeTime = .5f;
@@ -32,7 +38,8 @@ public class ResourceConversionEffect : MonoBehaviour
 
             var resources = _planetAttachment.GetAttachedResources();
 
-            if (_resourceEffect && _resourceEffect.energy != 0)
+            var requiresPower = _resourceEffect && _resourceEffect.energy != 0;
+            if (requiresPower)
             {
                 while (resources.GetResource(TinyPlanetResources.PlanetResourceType.Energy) < 0)
                 {
@@ -41,17 +48,30 @@ public class ResourceConversionEffect : MonoBehaviour
                 }
             }
 
-            while (resources.GetResource(from) < 1f && gameObject != null)
+            while (gameObject != null &&
+                   (HasEnoughOfPrimaryFromResource(resources) || HasEnoughOfSecondaryFromResource(resources)))
             {
                 // Wat until there is resources to take from. Then restart the iteration timer.
                 yield return new WaitForSeconds(.25f);
             }
 
-            resources.RemoveResource(from, 1f);
+            resources.RemoveResource(from, fromAmount);
+            resources.RemoveResource(fromSecondary, fromSecondaryAmount);
 
             yield return new WaitForSeconds(iterationTime);
 
             resources.AddResource(to, 1f);
         }
+    }
+
+    private bool HasEnoughOfPrimaryFromResource(TinyPlanetResources resources)
+    {
+        return resources.GetResource(from) < fromAmount;
+    }
+
+    private bool HasEnoughOfSecondaryFromResource(TinyPlanetResources resources)
+    {
+        if (fromSecondaryAmount == 0) return true;
+        return resources.GetResource(fromSecondary) < fromSecondaryAmount;
     }
 }

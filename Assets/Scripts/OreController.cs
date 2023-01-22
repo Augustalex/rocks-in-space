@@ -1,33 +1,22 @@
+using System;
 using UnityEngine;
 
 public class OreController : MonoBehaviour
 {
     public GameObject oreTemplate;
-    public GameObject floatingMineralsTemplate;
+
     private GameObject _ore;
     private OreVein _oreVein;
     private bool _oreEnabled = true;
 
-    void Start()
-    {
-        var existingOreVein = transform.parent.gameObject.GetComponentInChildren<OreVein>();
-        if (existingOreVein)
-        {
-            _ore = existingOreVein.gameObject;
-            _oreVein = existingOreVein;
-            
-            if(!_oreEnabled) DestroyOre();
-        }
-    }
-
-    public void MakeIntoOreVein()
+    public void MakeIntoOreVein(TinyPlanetResources.PlanetResourceType planetResourceType)
     {
         if (!_oreEnabled) return;
 
-        if (_ore == null) SetupOre();
+        if (_ore == null) SetupOre(planetResourceType);
     }
 
-    private void SetupOre()
+    private void SetupOre(TinyPlanetResources.PlanetResourceType planetResourceType)
     {
         if (!_oreEnabled) return;
 
@@ -36,26 +25,35 @@ public class OreController : MonoBehaviour
 
         _ore = ore;
         _oreVein = ore.GetComponentInChildren<OreVein>();
+        _oreVein.Setup(planetResourceType);
     }
 
     public void Mine(TinyPlanet planet)
     {
         var planetResources = planet.GetComponent<TinyPlanetResources>();
-        var oreAmount = _oreVein.Collect();
-        planetResources.AddOre(oreAmount);
+        var oreAmount = _oreVein.Collect(planetResources);
 
-        SpawnOreDebris(planet, oreAmount / OreVein.OrePerBlock);
+        var resourceType = _oreVein.GetResourceType();
+        var debris = resourceType switch
+        {
+            TinyPlanetResources.PlanetResourceType.Ore => PrefabTemplateLibrary.Get().oreResourceDebrisTemplate,
+            TinyPlanetResources.PlanetResourceType.Iron => PrefabTemplateLibrary.Get().ironOreDebrisTemplate,
+            TinyPlanetResources.PlanetResourceType.Graphite => PrefabTemplateLibrary.Get().graphiteOreDebrisTemplate,
+            TinyPlanetResources.PlanetResourceType.Copper => PrefabTemplateLibrary.Get().copperOreDebrisTemplate,
+            _ => throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType, null)
+        };
+        SpawnOreDebris(planet, debris, oreAmount / OreVein.OrePerBlock);
 
         DestroyOre();
     }
 
-    private void SpawnOreDebris(TinyPlanet planet, int oreAmount)
+    private void SpawnOreDebris(TinyPlanet planet, GameObject debrisTemplate, int oreAmount)
     {
         var blockRoot = GetComponentInParent<BlockRoot>();
         var blockTransform = blockRoot.transform;
         var position = blockTransform.position;
         var rotation = blockTransform.rotation;
-        var oreDebris = Instantiate(PrefabTemplateLibrary.Get().oreResourceDebrisTemplate, position, rotation);
+        var oreDebris = Instantiate(debrisTemplate, position, rotation);
 
         var oreDebrisController = oreDebris.GetComponent<OreDebrisController>();
         oreDebrisController.SetTarget(planet.GetPort());

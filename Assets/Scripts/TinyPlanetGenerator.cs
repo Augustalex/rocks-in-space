@@ -166,7 +166,16 @@ public class TinyPlanetGenerator : MonoBehaviour
     private GameObject CreateRockAndRandomizeOre(Vector3 position)
     {
         var rock = CreateRock(position);
-        if (Random.value < .2f) rock.GetComponentInChildren<OreController>().MakeIntoOreVein();
+        if (Random.value < .2f)
+        {
+            var resources = new[]
+            {
+                TinyPlanetResources.PlanetResourceType.Iron, TinyPlanetResources.PlanetResourceType.Graphite,
+                TinyPlanetResources.PlanetResourceType.Copper
+            };
+            var resource = resources[Random.Range(0, resources.Length)];
+            rock.GetComponentInChildren<OreController>().MakeIntoOreVein(resource);
+        }
 
         return rock;
     }

@@ -217,7 +217,7 @@ namespace Interactors
                 BuildingType.ResidentModule => InteractorType.ResidentModule,
                 BuildingType.Platform => InteractorType.Platform,
                 BuildingType.KorvKiosk => InteractorType.KorvKiosk,
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new ArgumentOutOfRangeException(nameof(buildingType), buildingType, null)
             };
         }
 
