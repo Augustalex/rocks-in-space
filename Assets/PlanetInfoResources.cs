@@ -1,3 +1,4 @@
+using System.Collections;
 using Interactors;
 using UnityEngine;
 
@@ -63,9 +64,20 @@ public class PlanetInfoResources : MonoBehaviour
         protein.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
 
         DisableColonyResources();
+
+        StartCoroutine(StartUpdateLoop());
     }
 
-    void Update()
+    IEnumerator StartUpdateLoop()
+    {
+        while (gameObject != null)
+        {
+            DoUpdate();
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    void DoUpdate()
     {
         var currentPlanet = CurrentPlanetController.Get().CurrentPlanet();
         if (currentPlanet != null)

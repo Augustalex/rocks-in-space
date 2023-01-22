@@ -374,7 +374,7 @@ MonoBehaviour:
   from: 1
   fromAmount: 1
   fromSecondary: 13
-  fromSecondaryAmount: 2
+  fromSecondaryAmount: 1
   to: 2
   toAmount: 1
   iterationTime: 8

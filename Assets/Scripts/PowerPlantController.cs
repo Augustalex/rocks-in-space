@@ -33,7 +33,8 @@ public class PowerPlantController : MonoBehaviour
 
             if (_resourceEffect.Paused()) _resourceEffect.Resume();
 
-            yield return new WaitForSeconds(1f);
+            resources.RemoveResource(TinyPlanetResources.PlanetResourceType.Water, 1f);
+            yield return new WaitForSeconds(2f);
         }
     }
 }
