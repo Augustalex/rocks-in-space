@@ -143,7 +143,7 @@ public class TinyPlanetResources : MonoBehaviour
     {
         while (gameObject != null)
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(.5f);
             _oreTracker.ProgressHistory();
             _metalsTracker.ProgressHistory();
             _gadgetsTracker.ProgressHistory();

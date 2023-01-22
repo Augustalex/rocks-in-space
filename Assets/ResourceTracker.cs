@@ -6,7 +6,7 @@ public class ResourceTracker
     private float _amount;
     private readonly Queue<float> _history = new();
     private readonly bool _signed;
-    private const int HistorySize = 9;
+    private const int HistorySize = 24;
 
     public ResourceTracker(bool signed = false)
     {

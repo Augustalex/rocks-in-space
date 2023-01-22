@@ -171,7 +171,7 @@ public class TinyPlanetGenerator : MonoBehaviour
 
         if (planetType == TinyPlanet.RockType.Blue)
         {
-            if (Random.value < .2f)
+            if (Random.value < .3f)
             {
                 var resource = RandomResourceTypeForBlueRock();
                 rock.GetComponentInChildren<OreController>().MakeIntoOreVein(resource);
@@ -179,7 +179,7 @@ public class TinyPlanetGenerator : MonoBehaviour
         }
         else if (planetType == TinyPlanet.RockType.Orange)
         {
-            if (Random.value < .25f)
+            if (Random.value < .4f)
             {
                 var resource = Random.value < .7
                     ? TinyPlanetResources.PlanetResourceType.Copper
@@ -189,7 +189,7 @@ public class TinyPlanetGenerator : MonoBehaviour
         }
         else if (planetType == TinyPlanet.RockType.Green)
         {
-            if (Random.value < .25f)
+            if (Random.value < .4f)
             {
                 var resource = Random.value < .7
                     ? TinyPlanetResources.PlanetResourceType.Iron

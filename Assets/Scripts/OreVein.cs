@@ -72,7 +72,16 @@ public class OreVein : MonoBehaviour
         //     onCount += 1;
         // }
         //
-        _resources += onCount * OrePerBlock;
+
+        var orePerBlock = _resourceType switch
+        {
+            TinyPlanetResources.PlanetResourceType.Iron => 1,
+            TinyPlanetResources.PlanetResourceType.Graphite => 5,
+            TinyPlanetResources.PlanetResourceType.Copper => 1,
+            _ => throw new ArgumentOutOfRangeException(nameof(_resourceType), _resourceType, null)
+        };
+
+        _resources += onCount * orePerBlock;
     }
 
     public int Collect(TinyPlanetResources planetResources)

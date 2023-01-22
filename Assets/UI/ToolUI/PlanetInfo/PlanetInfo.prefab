@@ -938,8 +938,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ore: {fileID: 9050950357584929685}
-  iron: {fileID: 989689537691023780}
-  graphite: {fileID: 103136688295602397}
+  iron: {fileID: 103136688295602397}
+  graphite: {fileID: 989689537691023780}
   copper: {fileID: 1094907143198078975}
   metals: {fileID: 7899222693347330998}
   gadgets: {fileID: 5679139391481343439}

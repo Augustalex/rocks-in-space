@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   oreTradeAmount: 1
   ironTradeAmount: 1
-  graphiteTradeAmount: 1
+  graphiteTradeAmount: 5
   copperTradeAmount: 1
   metalsTradeAmount: 1
   gadgetsTradeAmount: 1
