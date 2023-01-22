@@ -239,20 +239,21 @@ namespace Interactors
                     hit.collider.GetComponent<PlanetLandmark>().Hover();
                 }
 
-                if (_cameraController
-                    .IsZoomedOut()) // Currently not using planet popup when zoomed in. Since it has been replaced by the planet info panel.
-                {
-                    var block = hit.collider.GetComponent<Block>();
-                    if (block)
-                    {
-                        var popupTarget = block.GetRoot().GetComponentInChildren<PopupTarget>();
-                        if (popupTarget)
-                        {
-                            if (ErrorDisplay.Get().IsVisible()) ErrorDisplay.Get().FadeOut();
-                            popupTarget.Show();
-                        }
-                    }
-                }
+                // Comment out to enable Planet Info popup
+                // if (_cameraController
+                //     .IsZoomedOut()) // Currently not using planet popup when zoomed in. Since it has been replaced by the planet info panel.
+                // {
+                //     var block = hit.collider.GetComponent<Block>();
+                //     if (block)
+                //     {
+                //         var popupTarget = block.GetRoot().GetComponentInChildren<PopupTarget>();
+                //         if (popupTarget)
+                //         {
+                //             if (ErrorDisplay.Get().IsVisible()) ErrorDisplay.Get().FadeOut();
+                //             popupTarget.Show();
+                //         }
+                //     }
+                // }
 
                 if (CurrentModule().Hoverable())
                 {
