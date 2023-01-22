@@ -11,7 +11,12 @@ public class PlanetInfoResources : MonoBehaviour
     public PlanetInfoResourceController water;
     public PlanetInfoResourceController refreshment;
 
+    public PlanetInfoResourceController iron;
+    public PlanetInfoResourceController graphite;
+    public PlanetInfoResourceController copper;
+
     public PlanetInfoResourceController power;
+    public PlanetInfoResourceController protein;
     public PlanetInfoResourceController food;
     public PlanetInfoResourceController housing;
 
@@ -138,6 +143,18 @@ public class PlanetInfoResources : MonoBehaviour
                 refreshment.gameObject.SetActive(false);
             }
 
+            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Protein) > 0 ||
+                resources.HasBuilding(BuildingType.ProteinFabricator))
+            {
+                protein.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.Protein)),
+                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Protein));
+                protein.gameObject.SetActive(true);
+            }
+            else
+            {
+                protein.gameObject.SetActive(false);
+            }
+            
             var hasAnyBasicItems = resources.HasBuilding(BuildingType.Refinery) ||
                                    resources.HasBuilding(BuildingType.Factory);
             var hasAnyBasicResources = resources.GetResource(TinyPlanetResources.PlanetResourceType.Ore) > 0 ||
@@ -147,7 +164,7 @@ public class PlanetInfoResources : MonoBehaviour
             var showOnlyIceRelatedThings = iceMenuActive && !hasAnyBasicItems && !hasAnyIceRelatedItems &&
                                            !hasAnyHousingRelatedItems &&
                                            !hasAnyBasicResources;
-
+            
             if (!showOnlyIceRelatedThings)
             {
                 ore.Refresh(Mathf.FloorToInt(resources.GetOre()),
@@ -157,6 +174,43 @@ public class PlanetInfoResources : MonoBehaviour
             else
             {
                 ore.gameObject.SetActive(false);
+            }
+
+            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Iron) > 0 ||
+                resources.HasBuilding(BuildingType.Refinery))
+            {
+                iron.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.Iron)),
+                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Iron));
+                iron.gameObject.SetActive(true);
+            }
+            else
+            {
+                iron.gameObject.SetActive(false);
+            }
+
+            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Graphite) > 0 ||
+                resources.HasBuilding(BuildingType.Refinery))
+            {
+                graphite.Refresh(
+                    Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.Graphite)),
+                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Graphite));
+                graphite.gameObject.SetActive(true);
+            }
+            else
+            {
+                graphite.gameObject.SetActive(false);
+            }
+
+            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Copper) > 0 ||
+                resources.HasBuilding(BuildingType.Factory))
+            {
+                copper.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.Copper)),
+                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Copper));
+                copper.gameObject.SetActive(true);
+            }
+            else
+            {
+                copper.gameObject.SetActive(false);
             }
 
             if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Metals) > 0 ||

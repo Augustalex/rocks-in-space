@@ -23,6 +23,7 @@ public class TinyPlanetResources : MonoBehaviour
         Iron = 11,
         Graphite = 12,
         Copper = 13,
+        Protein = 14,
     }
 
     public enum ResourceTrend
@@ -49,6 +50,10 @@ public class TinyPlanetResources : MonoBehaviour
             case PlanetResourceType.Ice: return "ice<sprite name=\"ice\">";
             case PlanetResourceType.Water: return "water<sprite name=\"water\">";
             case PlanetResourceType.Refreshments: return "drinks<sprite name=\"refreshments\">";
+            case PlanetResourceType.Iron: return "iron<sprite name=\"iron\">";
+            case PlanetResourceType.Graphite: return "graphite<sprite name=\"graphite\">";
+            case PlanetResourceType.Copper: return "copper<sprite name=\"copper\">";
+            case PlanetResourceType.Protein: return "protein chunks<sprite name=\"protein\">";
         }
 
         return "Unknown resource";
@@ -81,6 +86,12 @@ public class TinyPlanetResources : MonoBehaviour
     private readonly ResourceTracker _iceTracker = new();
     private readonly ResourceTracker _waterTracker = new();
     private readonly ResourceTracker _refreshmentsTracker = new();
+    private readonly ResourceTracker _ironTracker = new();
+    private readonly ResourceTracker _graphiteTracker = new();
+    private readonly ResourceTracker _copperTracker = new();
+    private readonly ResourceTracker _proteinTracker = new();
+
+    private Dictionary<PlanetResourceType, ResourceTracker> _resourceTrackers;
 
     private int _powerPlants;
     private int _farms;
@@ -99,6 +110,24 @@ public class TinyPlanetResources : MonoBehaviour
         { BuildingType.FarmDome, 0 },
     };
 
+    private void Awake()
+    {
+        _resourceTrackers = new Dictionary<PlanetResourceType, ResourceTracker>()
+        {
+            { PlanetResourceType.Iron, _ironTracker },
+            { PlanetResourceType.Graphite, _graphiteTracker },
+            { PlanetResourceType.Copper, _copperTracker },
+            { PlanetResourceType.Metals, _metalsTracker },
+            { PlanetResourceType.Gadgets, _gadgetsTracker },
+            { PlanetResourceType.Energy, _powerTracker },
+            { PlanetResourceType.Ice, _iceTracker },
+            { PlanetResourceType.Water, _waterTracker },
+            { PlanetResourceType.Refreshments, _refreshmentsTracker },
+            { PlanetResourceType.Protein, _proteinTracker },
+            { PlanetResourceType.Food, _foodTracker },
+        };
+    }
+
     void Start()
     {
         StartCoroutine(RunTrends());
@@ -114,104 +143,34 @@ public class TinyPlanetResources : MonoBehaviour
             _gadgetsTracker.ProgressHistory();
 
             // _powerTracker.ProgressHistory();
+            _proteinTracker.ProgressHistory();
             _foodTracker.ProgressHistory();
 
             _iceTracker.ProgressHistory();
             _waterTracker.ProgressHistory();
             _refreshmentsTracker.ProgressHistory();
+            
+            _ironTracker.ProgressHistory();
+            _graphiteTracker.ProgressHistory();
+            _copperTracker.ProgressHistory();
         }
     }
 
     public float GetResource(PlanetResourceType resourceType)
     {
-        switch (resourceType)
-        {
-            case PlanetResourceType.Energy:
-                return GetEnergy();
-            case PlanetResourceType.Food:
-                return GetFood();
-            case PlanetResourceType.Gadgets:
-                return GetGadgets();
-            case PlanetResourceType.Inhabitants:
-                return GetInhabitants();
-            case PlanetResourceType.Metals:
-                return GetMetals();
-            case PlanetResourceType.Ore:
-                return GetOre();
-            case PlanetResourceType.Housing:
-                return GetVacantHousing();
-            case PlanetResourceType.Ice:
-                return _iceTracker.Get();
-            case PlanetResourceType.Water:
-                return _waterTracker.Get();
-            case PlanetResourceType.Refreshments:
-                return _refreshmentsTracker.Get();
-        }
-
-        Debug.LogError("Trying to get resource that has not getter: " + resourceType);
-        return 0f;
+        if (resourceType == PlanetResourceType.Inhabitants) return GetInhabitants();
+        if (resourceType == PlanetResourceType.Housing) return GetVacantHousing();
+        return GetTracker(resourceType).Get();
     }
 
     public void RemoveResource(PlanetResourceType resourceType, float amount)
     {
-        switch (resourceType)
-        {
-            case PlanetResourceType.Energy:
-                RemoveEnergy(amount);
-                break;
-            case PlanetResourceType.Food:
-                UseFood(amount);
-                break;
-            case PlanetResourceType.Gadgets:
-                RemoveGadgets(amount);
-                break;
-            case PlanetResourceType.Metals:
-                RemoveMetals(amount);
-                break;
-            case PlanetResourceType.Ore:
-                RemoveOre(amount);
-                break;
-            case PlanetResourceType.Ice:
-                _iceTracker.Remove(amount);
-                break;
-            case PlanetResourceType.Water:
-                _waterTracker.Remove(amount);
-                break;
-            case PlanetResourceType.Refreshments:
-                _refreshmentsTracker.Remove(amount);
-                break;
-        }
+        GetTracker(resourceType).Remove(amount);
     }
 
     public void AddResource(PlanetResourceType resourceType, float amount)
     {
-        switch (resourceType)
-        {
-            case PlanetResourceType.Energy:
-                AddEnergy(amount);
-                break;
-            case PlanetResourceType.Food:
-                AddFood(amount);
-                break;
-            case PlanetResourceType.Gadgets:
-                AddGadgets(amount);
-                break;
-            case PlanetResourceType.Metals:
-                AddMetals(amount);
-                break;
-            case PlanetResourceType.Ore:
-                AddOre(amount);
-                break;
-            case PlanetResourceType.Ice:
-                _iceTracker.Add(amount);
-                break;
-            case PlanetResourceType.Water:
-                _waterTracker.Add(amount);
-                break;
-            case PlanetResourceType.Refreshments:
-                _refreshmentsTracker.Add(amount);
-                break;
-        }
+        GetTracker(resourceType).Add(amount);
     }
 
     public ResourceTrend GetTrend(PlanetResourceType resourceType)
@@ -224,28 +183,13 @@ public class TinyPlanetResources : MonoBehaviour
 
     private ResourceTracker GetTracker(PlanetResourceType resourceType)
     {
-        switch (resourceType)
+        if (!_resourceTrackers.ContainsKey(resourceType))
         {
-            case PlanetResourceType.Energy:
-                return _powerTracker;
-            case PlanetResourceType.Food:
-                return _foodTracker;
-            case PlanetResourceType.Gadgets:
-                return _gadgetsTracker;
-            case PlanetResourceType.Metals:
-                return _metalsTracker;
-            case PlanetResourceType.Ore:
-                return _oreTracker;
-            case PlanetResourceType.Ice:
-                return _iceTracker;
-            case PlanetResourceType.Water:
-                return _waterTracker;
-            case PlanetResourceType.Refreshments:
-                return _refreshmentsTracker;
+            throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType,
+                "Trying to get tracker for resources that doesnt have any");
         }
 
-        throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType,
-            "Trying to get tracker for resources that doesnt have any");
+        return _resourceTrackers[resourceType];
     }
 
     public float GetOre()
