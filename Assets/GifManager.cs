@@ -37,6 +37,7 @@ public class GifManager : MonoBehaviour
             BuildingType.PowerPlant => powerPlantFrames,
             BuildingType.FarmDome => farmDomeFrames,
             BuildingType.ResidentModule => housingModuleFrames,
+            BuildingType.Lander => korvKioskFrames,
             BuildingType.Platform => platformFrames,
             BuildingType.Purifier => purifierFrames,
             BuildingType.Distillery => distilleryFrames,

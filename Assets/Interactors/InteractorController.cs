@@ -42,6 +42,7 @@ namespace Interactors
 
         public static readonly BuildingType[] GeneralBuildings =
         {
+            BuildingType.Lander,
             BuildingType.Purifier,
             BuildingType.Distillery
         };
@@ -175,8 +176,16 @@ namespace Interactors
             {
                 return GetInteractor(FromBuildingType(buildingType));
             }
-
-            return _generalBuildingInteractors.First(b => b.GetBuildingType() == buildingType);
+            
+            try
+            {
+                return _generalBuildingInteractors.First(b => b.GetBuildingType() == buildingType);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(
+                    $"Could not find building: {buildingType}, in the list of general building interactors.");
+            }
         }
 
         public GeneralBuildingInteractor GetInteractorByBuildingType(BuildingType buildingType)
@@ -186,11 +195,20 @@ namespace Interactors
                 throw new Exception("Cannot get buildings by type that are not in the list of General Buildings.");
             }
 
-            return _generalBuildingInteractors.First(b => b.GetBuildingType() == buildingType);
+            try
+            {
+                return _generalBuildingInteractors.First(b => b.GetBuildingType() == buildingType);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(
+                    $"Could not find building: {buildingType}, in the list of general building interactors.");
+            }
         }
 
         public static InteractorType FromBuildingType(BuildingType buildingType)
         {
+            // General buildings should NOT be in here
             return buildingType switch
             {
                 BuildingType.Port => InteractorType.Port,

@@ -52,6 +52,8 @@ public class PlanetInfoResources : MonoBehaviour
         var currentPlanet = CurrentPlanetController.Get().CurrentPlanet();
         if (currentPlanet != null)
         {
+            var progressManager = ProgressManager.Get();
+
             var resources = currentPlanet.GetResources();
 
             var hasAnyIceRelatedItems = resources.HasBuilding(BuildingType.Purifier) ||
@@ -65,44 +67,75 @@ public class PlanetInfoResources : MonoBehaviour
 
             var hasAnyHousingRelatedItems = resources.HasBuilding(BuildingType.FarmDome) ||
                                             resources.HasBuilding(BuildingType.PowerPlant) ||
-                                            resources.HasVacancy();
+                                            resources.HasVacantHousing();
 
-            if (hasAnyHousingRelatedItems || hasAnyIceRelatedItems)
+            var shouldShowColonyResources = hasAnyHousingRelatedItems || hasAnyIceRelatedItems;
+
+            if (shouldShowColonyResources && progressManager.Surviving())
             {
-                power.gameObject.SetActive(true);
-                food.gameObject.SetActive(true);
-                housing.gameObject.SetActive(true);
-
                 power.Refresh(Mathf.FloorToInt(resources.GetEnergy()),
                     resources.GetTrend(TinyPlanetResources.PlanetResourceType.Energy));
-                food.Refresh(Mathf.FloorToInt(resources.GetFood()),
-                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Food));
-                housing.Refresh(Mathf.FloorToInt(resources.GetVacantHousing()),
-                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Housing));
+                power.gameObject.SetActive(true);
             }
             else
             {
-                DisableColonyResources();
+                power.gameObject.SetActive(false);
             }
 
-            if (iceMenuActive)
+            if (shouldShowColonyResources && progressManager.Comfortable())
             {
-                ice.gameObject.SetActive(true);
-                water.gameObject.SetActive(true);
-                refreshment.gameObject.SetActive(true);
+                food.Refresh(Mathf.FloorToInt(resources.GetFood()),
+                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Food));
+                food.gameObject.SetActive(true);
+            }
+            else
+            {
+                food.gameObject.SetActive(false);
+            }
 
+            if (shouldShowColonyResources)
+            {
+                var vacantHousing = Mathf.FloorToInt(resources.GetVacantHousing());
+                housing.Refresh(vacantHousing,
+                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Housing));
+                housing.gameObject.SetActive(true);
+            }
+            else
+            {
+                housing.gameObject.SetActive(false);
+            }
+
+            if (iceMenuActive && progressManager.Surviving() && currentPlanet.IsIcePlanet())
+            {
                 ice.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.Ice)),
                     resources.GetTrend(TinyPlanetResources.PlanetResourceType.Ice));
-                water.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.Water)),
-                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Water));
-                refreshment.Refresh(
-                    Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.Refreshments)),
-                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Refreshments));
+                ice.gameObject.SetActive(true);
             }
             else
             {
                 ice.gameObject.SetActive(false);
+            }
+
+            if (iceMenuActive && progressManager.Surviving())
+            {
+                water.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.Water)),
+                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Water));
+                water.gameObject.SetActive(true);
+            }
+            else
+            {
                 water.gameObject.SetActive(false);
+            }
+
+            if (iceMenuActive && progressManager.Comfortable())
+            {
+                refreshment.Refresh(
+                    Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.Refreshments)),
+                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Refreshments));
+                refreshment.gameObject.SetActive(true);
+            }
+            else
+            {
                 refreshment.gameObject.SetActive(false);
             }
 
@@ -112,25 +145,34 @@ public class PlanetInfoResources : MonoBehaviour
                                        resources.GetResource(TinyPlanetResources.PlanetResourceType.Metals) > 0 ||
                                        resources.GetResource(TinyPlanetResources.PlanetResourceType.Gadgets) > 0;
 
-            if (iceMenuActive && !hasAnyBasicItems && !hasAnyIceRelatedItems && !hasAnyHousingRelatedItems &&
-                !hasAnyBasicResources)
+            var showOnlyIceRelatedThings = iceMenuActive && !hasAnyBasicItems && !hasAnyIceRelatedItems &&
+                                           !hasAnyHousingRelatedItems &&
+                                           !hasAnyBasicResources;
+
+            if (!showOnlyIceRelatedThings)
             {
-                ore.gameObject.SetActive(false);
-                metals.gameObject.SetActive(false);
-                gadgets.gameObject.SetActive(false);
+                ore.Refresh(Mathf.FloorToInt(resources.GetOre()),
+                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Ore));
+                ore.gameObject.SetActive(true);
+
+                metals.Refresh(Mathf.FloorToInt(resources.GetMetals()),
+                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Metals));
+                metals.gameObject.SetActive(true);
             }
             else
             {
-                ore.gameObject.SetActive(true);
-                metals.gameObject.SetActive(true);
-                gadgets.gameObject.SetActive(true);
+                ore.gameObject.SetActive(false);
+            }
 
-                ore.Refresh(Mathf.FloorToInt(resources.GetOre()),
-                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Ore));
-                metals.Refresh(Mathf.FloorToInt(resources.GetMetals()),
-                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Metals));
+            if (!showOnlyIceRelatedThings && progressManager.Comfortable())
+            {
+                gadgets.gameObject.SetActive(true);
                 gadgets.Refresh(Mathf.FloorToInt(resources.GetGadgets()),
                     resources.GetTrend(TinyPlanetResources.PlanetResourceType.Gadgets));
+            }
+            else
+            {
+                gadgets.gameObject.SetActive(false);
             }
         }
     }

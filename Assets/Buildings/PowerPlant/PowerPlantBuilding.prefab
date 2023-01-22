@@ -273,6 +273,7 @@ GameObject:
   - component: {fileID: 3170199669742957492}
   - component: {fileID: -5058257334959263249}
   - component: {fileID: -5027874835660653288}
+  - component: {fileID: 6996587451602562292}
   m_Layer: 0
   m_Name: PowerPlantBuilding
   m_TagString: Untagged
@@ -332,7 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32daf228e43b9441b10764af06a11cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: 10
+  energy: 15
   residencyType: 0
 --- !u!114 &-1646605259869712026
 MonoBehaviour:
@@ -346,7 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336aaf521eb74e81bf6aa32492d5c93e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cashPerMinute: -2
+  cashPerMinute: -5
 --- !u!114 &8340817556601631518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,6 +396,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 346dd0c4802d565419e8a7fd89d245b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6996587451602562292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5977357871203673727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 587369adf2fab4e499a1e1e91307d951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6392800098331943009

@@ -38,7 +38,7 @@ public class ProgressLock : MonoBehaviour
                 break;
             case BuildingType.Refinery:
                 CheckLock(
-                    Started(),
+                    ProgressManager.Get().Started(),
                     NotificationMessage(BuildingType.Refinery),
                     StartedLockMessage(),
                     false
@@ -46,15 +46,23 @@ public class ProgressLock : MonoBehaviour
                 break;
             case BuildingType.Platform:
                 CheckLock(
-                    Started(),
+                    ProgressManager.Get().Started(),
                     NotificationMessage(BuildingType.Platform),
+                    StartedLockMessage(),
+                    false
+                );
+                break;
+            case BuildingType.Lander:
+                CheckLock(
+                    ProgressManager.Get().Started(),
+                    NotificationMessage(BuildingType.Lander),
                     StartedLockMessage(),
                     false
                 );
                 break;
             case BuildingType.ResidentModule:
                 CheckLock(
-                    Started(),
+                    ProgressManager.Get().Started(),
                     NotificationMessage(BuildingType.ResidentModule),
                     StartedLockMessage(),
                     false
@@ -62,50 +70,50 @@ public class ProgressLock : MonoBehaviour
                 break;
             case BuildingType.Factory:
                 CheckLock(
-                    Surviving(),
+                    ProgressManager.Get().Surviving(),
                     NotificationMessage(BuildingType.Factory),
                     SurvivingLockMessage(),
-                    !Started()
+                    !ProgressManager.Get().Started()
                 );
                 break;
             case BuildingType.Purifier:
                 CheckLock(
-                    Surviving(),
+                    ProgressManager.Get().Surviving(),
                     NotificationMessage(BuildingType.Purifier),
                     SurvivingLockMessage(),
-                    !Started()
+                    !ProgressManager.Get().Started()
                 );
                 break;
             case BuildingType.PowerPlant:
                 CheckLock(
-                    Surviving(),
+                    ProgressManager.Get().Surviving(),
                     NotificationMessage(BuildingType.PowerPlant),
                     SurvivingLockMessage(),
-                    !Started()
+                    !ProgressManager.Get().Started()
                 );
                 break;
             case BuildingType.FarmDome:
                 CheckLock(
-                    Comfortable(),
+                    ProgressManager.Get().Comfortable(),
                     NotificationMessage(BuildingType.FarmDome),
                     ComfortableLockMessage(),
-                    !Surviving()
+                    !ProgressManager.Get().Surviving()
                 );
                 break;
             case BuildingType.Distillery:
                 CheckLock(
-                    Comfortable(),
+                    ProgressManager.Get().Comfortable(),
                     NotificationMessage(BuildingType.Distillery),
                     ComfortableLockMessage(),
-                    !Surviving()
+                    !ProgressManager.Get().Surviving()
                 );
                 break;
             case BuildingType.KorvKiosk:
                 CheckLock(
-                    Luxurious(),
+                    ProgressManager.Get().Luxurious(),
                     "Something different has been unlocked in the building menu.",
                     LuxuriousLockMessage(),
-                    !Comfortable()
+                    !ProgressManager.Get().Comfortable()
                 );
                 break;
             default:
@@ -162,12 +170,6 @@ public class ProgressLock : MonoBehaviour
         textVeil.SetActive(true);
     }
 
-    private bool PowerPlantUnlocked()
-    {
-        var progressManager = ProgressManager.Get();
-        return progressManager.HasBuilt(BuildingType.Refinery) && progressManager.HasBuilt(BuildingType.Factory);
-    }
-
     public bool Hidden()
     {
         return _hidden;
@@ -179,21 +181,9 @@ public class ProgressLock : MonoBehaviour
             $"New building \"{InteractorController.Get().GetGenericInteractorByBuildingType(buildingType).GetInteractorName()}\" unlocked!";
     }
 
-    public bool Started()
-    {
-        var progressManager = ProgressManager.Get();
-        return progressManager.HasBuilt(BuildingType.Port);
-    }
-
     public string StartedLockMessage()
     {
         return "Unlock by building\nyour first Beacon";
-    }
-
-    public bool Surviving()
-    {
-        var progressManager = ProgressManager.Get();
-        return progressManager.GetColonistCount(PlanetColonistMonitor.PlanetStatus.Neutral) >= 500;
     }
 
     public string SurvivingLockMessage()
@@ -201,21 +191,9 @@ public class ProgressLock : MonoBehaviour
         return "Unlock with\n500 colonists";
     }
 
-    public bool Comfortable()
-    {
-        var progressManager = ProgressManager.Get();
-        return progressManager.GetColonistCount(PlanetColonistMonitor.PlanetStatus.Happy) >= 2000;
-    }
-
     public string ComfortableLockMessage()
     {
-        return "Unlock with\n2000 happy colonists";
-    }
-
-    public bool Luxurious()
-    {
-        var progressManager = ProgressManager.Get();
-        return progressManager.GetColonistCount(PlanetColonistMonitor.PlanetStatus.Overjoyed) >= 10000;
+        return "Unlock with\n2000 housed colonists";
     }
 
     public string LuxuriousLockMessage()

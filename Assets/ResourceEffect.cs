@@ -15,6 +15,7 @@ public class ResourceEffect : MonoBehaviour
     public ResidencyType residencyType;
 
     private AttachedToPlanet _planetAttachment;
+    private bool _attached;
 
     private void Awake()
     {
@@ -31,6 +32,8 @@ public class ResourceEffect : MonoBehaviour
 
     private void AttachTo(TinyPlanetResources resources)
     {
+        if (_attached) return;
+
         resources.AddEnergy(energy);
 
         switch (residencyType)
@@ -38,15 +41,20 @@ public class ResourceEffect : MonoBehaviour
             case ResidencyType.Nothing:
                 break;
             case ResidencyType.Module:
+                Debug.Log("ADD RESIDENCY!");
                 resources.AddResidency();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
+
+        _attached = true;
     }
 
     private void DetachFrom(TinyPlanetResources resources)
     {
+        if (!_attached) return;
+
         resources.RemoveEnergy(energy);
 
         switch (residencyType)
@@ -54,10 +62,28 @@ public class ResourceEffect : MonoBehaviour
             case ResidencyType.Nothing:
                 break;
             case ResidencyType.Module:
+                Debug.Log("REMOVE RESIDENCY!");
                 resources.RemoveResidency();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
+
+        _attached = false;
+    }
+
+    public void Pause()
+    {
+        DetachFrom(_planetAttachment.GetAttachedResources());
+    }
+
+    public bool Paused()
+    {
+        return !_attached;
+    }
+
+    public void Resume()
+    {
+        AttachTo(_planetAttachment.GetAttachedResources());
     }
 }

@@ -367,7 +367,7 @@ public class TinyPlanetResources : MonoBehaviour
         _residencies -= 1;
     }
 
-    public bool HasVacancy()
+    public bool HasUnallocatedInhabitants()
     {
         var occupiedInhabitants = _occupiedResidencies * InhabitantsPerResidency;
         return occupiedInhabitants < _inhabitants;
@@ -381,6 +381,11 @@ public class TinyPlanetResources : MonoBehaviour
     public void OccupyResidency()
     {
         _occupiedResidencies += 1;
+    }
+
+    public bool HasVacantHousing()
+    {
+        return _residencies > 0;
     }
 
     public int GetVacantHousing()

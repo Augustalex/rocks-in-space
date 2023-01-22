@@ -117,8 +117,7 @@ public class ColonyShipUI : MonoBehaviour
         UpdateTimerText(ship);
 
         colonyCountText.text = $"{ship.colonists} colonists are looking for a new home";
-
-        requirementText.text = $"Requirements:\n{ship.colonists} housing\nPower\nFood";
+        requirementText.text = RequirementText(ship);
 
 
         var suitablePlanets = GetSuitablePlanets(ship);
@@ -130,6 +129,22 @@ public class ColonyShipUI : MonoBehaviour
         acceptErrorText.text = "";
 
         gameObject.SetActive(true);
+    }
+
+    private string RequirementText(ColonyShip ship)
+    {
+        var text = $"Requirements:\n{ship.colonists} housing";
+        if (ProgressManager.Get().Surviving())
+        {
+            text += "\nPower";
+        }
+
+        if (ProgressManager.Get().Comfortable())
+        {
+            text += "\nFood";
+        }
+
+        return text;
     }
 
     public void Cancel()

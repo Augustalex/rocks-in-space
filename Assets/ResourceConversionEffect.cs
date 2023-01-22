@@ -34,7 +34,7 @@ public class ResourceConversionEffect : MonoBehaviour
 
             if (_resourceEffect && _resourceEffect.energy != 0)
             {
-                while (resources.GetResource(TinyPlanetResources.PlanetResourceType.Energy) <= 0)
+                while (resources.GetResource(TinyPlanetResources.PlanetResourceType.Energy) < 0)
                 {
                     // Wait until there is power, then continue processing.
                     yield return new WaitForSeconds(.25f);

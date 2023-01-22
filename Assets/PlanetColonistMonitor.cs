@@ -5,19 +5,23 @@ public class PlanetColonistMonitor : MonoBehaviour
 {
     private TinyPlanet _planet;
 
+    public string debug_text = "";
+
     public enum PlanetStatus
     {
         Uninhabited,
         MovingOut, // Death
-        Neutral, // No income
-        Happy, // Income
-        Overjoyed // Double income
+        Surviving,
+        Neutral,
+        Happy,
+        Overjoyed
     }
 
     public enum ColonistStatus
     {
         MovingOut, // Death
         Neutral, // No income
+        Surviving,
         Happy, // Income
         Overjoyed // Double income
     }
@@ -32,6 +36,8 @@ public class PlanetColonistMonitor : MonoBehaviour
     private float _buffer;
     private float _bufferFrameTime;
     private float _estimatedHouseIncome;
+    private int _contentHouse;
+    private int _houseAverageContent;
 
     void Start()
     {
@@ -47,20 +53,26 @@ public class PlanetColonistMonitor : MonoBehaviour
         }
         else
         {
-            var hasEnergy = _power >= 0;
-            var hasFood = _food >= 0;
-            var hasRefreshments = _refreshments >= 0;
+            var overallContent = _houseAverageContent >= 0;
+
+            var hasEnergy = _power > 0;
+            var hasFood = _food > 0;
+            var hasRefreshments = _refreshments > 0;
             if (hasEnergy && hasFood && hasRefreshments)
             {
                 SetStatus(PlanetStatus.Overjoyed);
             }
-            else if (hasEnergy && hasFood)
+            else if (hasEnergy && (hasFood || hasRefreshments))
             {
                 SetStatus(PlanetStatus.Happy);
             }
-            else if (hasEnergy || hasFood)
+            else if (hasEnergy)
             {
                 SetStatus(PlanetStatus.Neutral);
+            }
+            else if (overallContent)
+            {
+                SetStatus(PlanetStatus.Surviving);
             }
             else
             {
@@ -68,6 +80,7 @@ public class PlanetColonistMonitor : MonoBehaviour
             }
         }
 
+        debug_text = "status: " + _planetStatus + ", content: " + _houseAverageContent;
 
         _buffer += _frameHouseIncome;
         _bufferFrameTime += Time.deltaTime;
@@ -84,6 +97,8 @@ public class PlanetColonistMonitor : MonoBehaviour
         _power = 0;
         _food = 0;
         _refreshments = 0;
+
+        _houseAverageContent = 0;
     }
 
     public float GetHouseIncomeEstimate()
@@ -101,19 +116,21 @@ public class PlanetColonistMonitor : MonoBehaviour
         return _planetStatus;
     }
 
-    public ColonistStatus CalculateStatus(bool hasEnergy, bool hasFood, bool hasRefreshments)
+    public ColonistStatus CalculateStatus(bool isLander = false, bool hasEnergy = false, bool hasFood = false,
+        bool hasRefreshments = false)
     {
+        if (isLander) return ColonistStatus.Surviving;
         if (hasEnergy && hasFood && hasRefreshments)
         {
             return ColonistStatus.Overjoyed;
         }
 
-        if (hasEnergy && hasFood)
+        if (hasEnergy && (hasFood || hasRefreshments))
         {
             return ColonistStatus.Happy;
         }
 
-        if (hasEnergy || hasFood)
+        if (hasEnergy)
         {
             return ColonistStatus.Neutral;
         }
@@ -149,6 +166,16 @@ public class PlanetColonistMonitor : MonoBehaviour
     public void RegisterNotEnoughRefreshments()
     {
         _refreshments -= 1;
+    }
+
+    public void RegisterContentHouse()
+    {
+        _houseAverageContent += 1;
+    }
+
+    public void RegisterDiscontentHouse()
+    {
+        _houseAverageContent -= 1;
     }
 
     public void RegisterHouseIncome(float cashEffectSecond)

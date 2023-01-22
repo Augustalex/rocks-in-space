@@ -10,9 +10,17 @@ public class ProgressManager : MonoBehaviour
 
     private readonly HashSet<BuildingType> _builtBuildings = new();
     private readonly HashSet<PlanetId> _ports = new();
-    private int _neutralColonists;
-    private int _happyColonists;
-    private int _overjoyedColonists;
+
+    public enum ColonyProgress
+    {
+        Zero = 0,
+        Started = 1,
+        Surviving = 2,
+        Comfortable = 3,
+        Luxurious = 4
+    };
+
+    private ColonyProgress _colonyProgress = ColonyProgress.Zero;
 
     public static ProgressManager Get()
     {
@@ -22,10 +30,6 @@ public class ProgressManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-    }
-
-    private void Update()
-    {
     }
 
     public void Built(BuildingType buildingType)
@@ -60,9 +64,9 @@ public class ProgressManager : MonoBehaviour
 
     public void UpdateProgress()
     {
-        _neutralColonists = 0;
-        _happyColonists = 0;
-        _overjoyedColonists = 0;
+        var survivingColonists = 0;
+        var neutralColonists = 0;
+        var overjoyedColonists = 0;
 
         foreach (var tinyPlanet in PlanetsRegistry.Get().All())
         {
@@ -70,31 +74,61 @@ public class ProgressManager : MonoBehaviour
             var status = colonistsMonitor.GetPlanetStatus();
             var colonists = tinyPlanet.GetResources().GetInhabitants();
 
-            if (status == PlanetColonistMonitor.PlanetStatus.Neutral)
+            if (status == PlanetColonistMonitor.PlanetStatus.Surviving)
             {
-                _neutralColonists += colonists;
+                survivingColonists += colonists;
             }
-            else if (status == PlanetColonistMonitor.PlanetStatus.Happy)
+            else if (status == PlanetColonistMonitor.PlanetStatus.Neutral)
             {
-                _happyColonists += colonists;
+                neutralColonists += colonists;
             }
             else if (status == PlanetColonistMonitor.PlanetStatus.Overjoyed)
             {
-                _overjoyedColonists += colonists;
+                overjoyedColonists += colonists;
             }
+        }
+
+        if (_colonyProgress < ColonyProgress.Started && HasBuilt(BuildingType.Port))
+        {
+            _colonyProgress = ColonyProgress.Started;
+        }
+
+        if (_colonyProgress < ColonyProgress.Surviving &&
+            survivingColonists >= 500)
+        {
+            _colonyProgress = ColonyProgress.Surviving;
+        }
+
+        if (_colonyProgress < ColonyProgress.Comfortable &&
+            neutralColonists >= 2000)
+        {
+            _colonyProgress = ColonyProgress.Comfortable;
+        }
+
+        if (_colonyProgress < ColonyProgress.Luxurious &&
+            overjoyedColonists >= 10000)
+        {
+            _colonyProgress = ColonyProgress.Luxurious;
         }
     }
 
-    public int GetColonistCount(PlanetColonistMonitor.PlanetStatus status)
+    public bool Started()
     {
-        return status switch
-        {
-            PlanetColonistMonitor.PlanetStatus.Uninhabited => 0,
-            PlanetColonistMonitor.PlanetStatus.MovingOut => 0,
-            PlanetColonistMonitor.PlanetStatus.Neutral => _neutralColonists,
-            PlanetColonistMonitor.PlanetStatus.Happy => _happyColonists,
-            PlanetColonistMonitor.PlanetStatus.Overjoyed => _overjoyedColonists,
-            _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
-        };
+        return HasBuilt(BuildingType.Port);
+    }
+
+    public bool Surviving()
+    {
+        return _colonyProgress >= ColonyProgress.Surviving;
+    }
+
+    public bool Comfortable()
+    {
+        return _colonyProgress >= ColonyProgress.Comfortable;
+    }
+
+    public bool Luxurious()
+    {
+        return _colonyProgress >= ColonyProgress.Luxurious;
     }
 }

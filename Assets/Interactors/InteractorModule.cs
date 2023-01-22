@@ -38,10 +38,11 @@ namespace Interactors
         PowerPlant,
         FarmDome,
         ResidentModule,
+        Lander,
         Platform,
         KorvKiosk,
         Purifier,
-        Distillery
+        Distillery,
     }
 
     public abstract class InteractorModule : MonoBehaviour

@@ -48,6 +48,10 @@ public class ColonistBar : MonoBehaviour
         {
             SetIcon(sad, sadColor);
         }
+        else if (status == PlanetColonistMonitor.PlanetStatus.Surviving)
+        {
+            SetIcon(neutral, sadColor);
+        }
         else if (status == PlanetColonistMonitor.PlanetStatus.Neutral)
         {
             SetIcon(neutral, neutralColor);

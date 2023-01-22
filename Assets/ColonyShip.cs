@@ -102,9 +102,20 @@ public class ColonyShip : MonoBehaviour
 
     public bool PlanetMeetRequirements(TinyPlanet planet)
     {
-        return planet.GetResources().HasSpaceForInhabitants(colonists)
-               && planet.GetResources().GetEnergy() >= 0
-               && planet.GetResources().GetFood() > 0;
+        if (ProgressManager.Get().Comfortable())
+        {
+            return planet.GetResources().HasSpaceForInhabitants(colonists)
+                   && planet.GetResources().GetEnergy() >= 0
+                   && planet.GetResources().GetFood() > 0;
+        }
+
+        if (ProgressManager.Get().Surviving())
+        {
+            return planet.GetResources().HasSpaceForInhabitants(colonists)
+                   && planet.GetResources().GetEnergy() >= 0;
+        }
+
+        return planet.GetResources().HasSpaceForInhabitants(colonists);
     }
 
     public void MoveInTo(TinyPlanet suitablePlanet)
