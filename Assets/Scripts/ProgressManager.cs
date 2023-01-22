@@ -15,7 +15,7 @@ public class ProgressManager : MonoBehaviour
     {
         Zero = 0,
         Started = 1,
-        Surviving = 2,
+        Surviving = 2, // Skipped
         Comfortable = 3,
         Luxurious = 4
     };
@@ -64,7 +64,7 @@ public class ProgressManager : MonoBehaviour
 
     public void UpdateProgress()
     {
-        var survivingColonists = 0;
+        var happyColonists = 0;
         var neutralColonists = 0;
         var overjoyedColonists = 0;
 
@@ -74,13 +74,9 @@ public class ProgressManager : MonoBehaviour
             var status = colonistsMonitor.GetPlanetStatus();
             var colonists = tinyPlanet.GetResources().GetInhabitants();
 
-            if (status == PlanetColonistMonitor.PlanetStatus.Surviving)
+            if (status == PlanetColonistMonitor.PlanetStatus.Happy)
             {
-                survivingColonists += colonists;
-            }
-            else if (status == PlanetColonistMonitor.PlanetStatus.Neutral)
-            {
-                neutralColonists += colonists;
+                happyColonists += colonists;
             }
             else if (status == PlanetColonistMonitor.PlanetStatus.Overjoyed)
             {
@@ -93,19 +89,13 @@ public class ProgressManager : MonoBehaviour
             _colonyProgress = ColonyProgress.Started;
         }
 
-        if (_colonyProgress < ColonyProgress.Surviving &&
-            survivingColonists >= 500)
-        {
-            _colonyProgress = ColonyProgress.Surviving;
-        }
-
         if (_colonyProgress < ColonyProgress.Comfortable &&
-            neutralColonists >= 2000)
+            happyColonists >= 2000)
         {
             _colonyProgress = ColonyProgress.Comfortable;
         }
 
-        if (_colonyProgress < ColonyProgress.Luxurious &&
+        if (_colonyProgress < ColonyProgress.Comfortable &&
             overjoyedColonists >= 10000)
         {
             _colonyProgress = ColonyProgress.Luxurious;

@@ -34,10 +34,11 @@ public class BuildingCard : MonoBehaviour
 
     private void SelfClicked()
     {
-        if (InteractorController.GeneralBuildings.Contains(buildingType))
-            InteractorController.Get().SetInteractorByBuildingType(buildingType);
+        var interactorController = InteractorController.Get();
+        if (InteractorController.GeneralBuildings().Contains(buildingType))
+            interactorController.SetInteractorByBuildingType(buildingType);
         else
-            InteractorController.Get()
+            interactorController
                 .SetInteractorByInteractorType(InteractorController.FromBuildingType(buildingType));
 
         Clicked?.Invoke();

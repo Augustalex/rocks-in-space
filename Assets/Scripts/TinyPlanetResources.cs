@@ -92,6 +92,7 @@ public class TinyPlanetResources : MonoBehaviour
         { BuildingType.Purifier, 0 },
         { BuildingType.Distillery, 0 },
         { BuildingType.PowerPlant, 0 },
+        { BuildingType.SolarPanels, 0 },
         { BuildingType.FarmDome, 0 },
     };
 
@@ -433,6 +434,11 @@ public class TinyPlanetResources : MonoBehaviour
     public bool HasBuilding(BuildingType buildingType)
     {
         return _buildings[buildingType] > 0;
+    }
+
+    public bool HasPowerBuilding()
+    {
+        return _buildings[BuildingType.SolarPanels] > 0 || _buildings[BuildingType.PowerPlant] > 0;
     }
 
     public void DeregisterBuilding(BuildingType buildingType)

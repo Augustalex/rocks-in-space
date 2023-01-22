@@ -42,6 +42,7 @@ public class GifManager : MonoBehaviour
             BuildingType.Purifier => purifierFrames,
             BuildingType.Distillery => distilleryFrames,
             BuildingType.KorvKiosk => korvKioskFrames,
+            BuildingType.SolarPanels => korvKioskFrames,
             _ => throw new ArgumentOutOfRangeException(nameof(buildingType), buildingType, null)
         };
     }

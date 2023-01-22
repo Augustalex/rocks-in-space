@@ -66,12 +66,11 @@ public class PlanetInfoResources : MonoBehaviour
                                 currentPlanet.IsIcePlanet();
 
             var hasAnyHousingRelatedItems = resources.HasBuilding(BuildingType.FarmDome) ||
-                                            resources.HasBuilding(BuildingType.PowerPlant) ||
+                                            resources.HasPowerBuilding() ||
                                             resources.HasVacantHousing();
-
             var shouldShowColonyResources = hasAnyHousingRelatedItems || hasAnyIceRelatedItems;
 
-            if (shouldShowColonyResources && progressManager.Surviving())
+            if (resources.HasPowerBuilding() || resources.GetEnergy() < 0)
             {
                 power.Refresh(Mathf.FloorToInt(resources.GetEnergy()),
                     resources.GetTrend(TinyPlanetResources.PlanetResourceType.Energy));
@@ -154,17 +153,26 @@ public class PlanetInfoResources : MonoBehaviour
                 ore.Refresh(Mathf.FloorToInt(resources.GetOre()),
                     resources.GetTrend(TinyPlanetResources.PlanetResourceType.Ore));
                 ore.gameObject.SetActive(true);
-
-                metals.Refresh(Mathf.FloorToInt(resources.GetMetals()),
-                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Metals));
-                metals.gameObject.SetActive(true);
             }
             else
             {
                 ore.gameObject.SetActive(false);
             }
 
-            if (!showOnlyIceRelatedThings && progressManager.Comfortable())
+            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Metals) > 0 ||
+                resources.HasBuilding(BuildingType.Refinery))
+            {
+                metals.Refresh(Mathf.FloorToInt(resources.GetMetals()),
+                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Metals));
+                metals.gameObject.SetActive(true);
+            }
+            else
+            {
+                metals.gameObject.SetActive(false);
+            }
+
+            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Gadgets) > 0 ||
+                resources.HasBuilding(BuildingType.Factory))
             {
                 gadgets.gameObject.SetActive(true);
                 gadgets.Refresh(Mathf.FloorToInt(resources.GetGadgets()),

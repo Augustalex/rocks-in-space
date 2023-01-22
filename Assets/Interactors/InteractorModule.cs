@@ -32,17 +32,18 @@ namespace Interactors
     [Serializable]
     public enum BuildingType
     {
-        Port,
-        Refinery,
-        Factory,
-        PowerPlant,
-        FarmDome,
-        ResidentModule,
-        Lander,
-        Platform,
-        KorvKiosk,
-        Purifier,
-        Distillery,
+        Port = 0,
+        Refinery = 1,
+        Factory = 2,
+        PowerPlant = 3,
+        FarmDome = 4,
+        ResidentModule = 5,
+        Lander = 6,
+        Platform = 7,
+        KorvKiosk = 8,
+        Purifier = 9,
+        Distillery = 10,
+        SolarPanels
     }
 
     public abstract class InteractorModule : MonoBehaviour

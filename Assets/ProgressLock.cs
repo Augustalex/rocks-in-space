@@ -117,7 +117,8 @@ public class ProgressLock : MonoBehaviour
                 );
                 break;
             default:
-                throw new ArgumentOutOfRangeException();
+                Hide();
+                break;
         }
     }
 

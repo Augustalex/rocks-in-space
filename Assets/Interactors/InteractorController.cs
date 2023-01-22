@@ -40,12 +40,9 @@ namespace Interactors
         private int _previousInteractor = -1;
         private CameraController _cameraController;
 
-        public static readonly BuildingType[] GeneralBuildings =
-        {
-            BuildingType.Lander,
-            BuildingType.Purifier,
-            BuildingType.Distillery
-        };
+        private BuildingType[] _generalBuildings;
+
+        public static BuildingType[] GeneralBuildings() => Get()._generalBuildings;
 
         private GeneralBuildingInteractor[] _generalBuildingInteractors;
 
@@ -61,7 +58,8 @@ namespace Interactors
             _defaultModule = defaultModuleContainer.GetComponent<InteractorModule>();
 
             _generalBuildingInteractors = interactorsContainer.GetComponentsInChildren<GeneralBuildingInteractor>();
-
+            _generalBuildings = _generalBuildingInteractors.Select(g => g.GetBuildingType()).ToArray();
+            
             _modules = new[]
             {
                 interactorsContainer.GetComponent<DigInteractor>(),
@@ -161,7 +159,7 @@ namespace Interactors
 
         public void SetInteractorByBuildingType(BuildingType buildingType)
         {
-            if (!GeneralBuildings.Contains(buildingType))
+            if (!_generalBuildings.Contains(buildingType))
                 throw new Exception("Cannot select buildings by type that are not in the list of General Buildings.");
 
             var buildingInteractor = _generalBuildingInteractors.First(b => b.GetBuildingType() == buildingType);
@@ -172,11 +170,11 @@ namespace Interactors
 
         public InteractorModule GetGenericInteractorByBuildingType(BuildingType buildingType)
         {
-            if (!GeneralBuildings.Contains(buildingType))
+            if (!_generalBuildings.Contains(buildingType))
             {
                 return GetInteractor(FromBuildingType(buildingType));
             }
-            
+
             try
             {
                 return _generalBuildingInteractors.First(b => b.GetBuildingType() == buildingType);
@@ -190,7 +188,7 @@ namespace Interactors
 
         public GeneralBuildingInteractor GetInteractorByBuildingType(BuildingType buildingType)
         {
-            if (!GeneralBuildings.Contains(buildingType))
+            if (!_generalBuildings.Contains(buildingType))
             {
                 throw new Exception("Cannot get buildings by type that are not in the list of General Buildings.");
             }
