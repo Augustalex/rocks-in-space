@@ -81,7 +81,7 @@ public class ProgressLock : MonoBehaviour
                     ProgressManager.Get().IceProductionUnlocked(),
                     NotificationMessage(BuildingType.Purifier),
                     $"Unlock with\n2000 happy colonists",
-                    !ProgressManager.Get().ColonyBasicsProductionUnlocked()
+                    !ProgressManager.Get().HousingUnlocked()
                 );
                 break;
             case BuildingType.FarmDome:
