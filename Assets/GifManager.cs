@@ -6,6 +6,8 @@ public class GifManager : MonoBehaviour
 {
     public Texture[] refineryFrames;
     public Texture[] factoryFrames;
+    public Texture[] solarPanelsFrames;
+    public Texture[] proteinFabricatorFrames;
     public Texture[] powerPlantFrames;
     public Texture[] farmDomeFrames;
     public Texture[] housingModuleFrames;
@@ -37,13 +39,12 @@ public class GifManager : MonoBehaviour
             BuildingType.PowerPlant => powerPlantFrames,
             BuildingType.FarmDome => farmDomeFrames,
             BuildingType.ResidentModule => housingModuleFrames,
-            BuildingType.Lander => korvKioskFrames,
             BuildingType.Platform => platformFrames,
             BuildingType.Purifier => purifierFrames,
             BuildingType.Distillery => distilleryFrames,
             BuildingType.KorvKiosk => korvKioskFrames,
-            BuildingType.SolarPanels => korvKioskFrames,
-            BuildingType.ProteinFabricator => korvKioskFrames,
+            BuildingType.SolarPanels => solarPanelsFrames,
+            BuildingType.ProteinFabricator => proteinFabricatorFrames,
             _ => throw new ArgumentOutOfRangeException(nameof(buildingType), buildingType, null)
         };
     }

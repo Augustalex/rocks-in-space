@@ -316,7 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32daf228e43b9441b10764af06a11cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: -5
+  energy: -10
   residencyType: 0
 --- !u!114 &-1662945947870651580
 MonoBehaviour:
@@ -330,7 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336aaf521eb74e81bf6aa32492d5c93e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cashPerMinute: -20
+  cashPerMinute: -100
 --- !u!114 &1091763718292813009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,8 +344,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   from: 9
+  fromAmount: 2
+  fromSecondary: 11
+  fromSecondaryAmount: 1
   to: 10
-  iterationTime: 1
+  toAmount: 2
+  iterationTime: 2
 --- !u!114 &-3728626087985763771
 MonoBehaviour:
   m_ObjectHideFlags: 0

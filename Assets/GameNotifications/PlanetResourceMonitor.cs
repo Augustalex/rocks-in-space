@@ -9,11 +9,13 @@ namespace GameNotifications
         private TinyPlanet _planet;
         private TinyPlanetResources _resources;
         private TinyPlanetResources.ResourcesData _previousResources;
-        private PlanetNotification _outOfOreNotification;
+        private PlanetNotification _outOfIron;
         private PlanetNotification _noIceNotification;
         private PlanetNotification _freezingColonistsNotification;
         private PlanetNotification _lowEnergyNotification;
         private PlanetNotification _lowFoodNotification;
+        private PlanetNotification _outOfGraphite;
+        private PlanetNotification _outOfCopper;
 
         private void Awake()
         {
@@ -56,22 +58,38 @@ namespace GameNotifications
                 }
             }
 
-            if (Math.Abs(newData.Food - _previousResources.Food) > .5f)
+            if (Math.Abs(newData.Protein - _previousResources.Protein) > .5f)
             {
                 if (newData.Inhabitants > 0)
                 {
-                    if (newData.Food <= 0f)
+                    if (newData.Protein <= 0f)
                     {
-                        GenerateLowFoodAlert();
+                        GenerateLowProteinAlert();
                     }
                 }
             }
 
-            if (Math.Abs(newData.Ore - _previousResources.Ore) > .5f)
+            if (Math.Abs(newData.Iron - _previousResources.Iron) > .5f)
             {
-                if (newData.Ore <= 0.5f)
+                if (newData.Iron <= 0.5f)
                 {
-                    GenerateNoMoreOreAlert();
+                    GenerateNoMoreIronAlert();
+                }
+            }
+
+            if (Math.Abs(newData.Graphite - _previousResources.Graphite) > .5f)
+            {
+                if (newData.Graphite <= 0.5f)
+                {
+                    GenerateNoMoreGraphiteAlert();
+                }
+            }
+
+            if (Math.Abs(newData.Copper - _previousResources.Copper) > .5f)
+            {
+                if (newData.Copper <= 0.5f)
+                {
+                    GenerateNoMoreCopperAlert();
                 }
             }
 
@@ -89,22 +107,50 @@ namespace GameNotifications
                 {
                     GenerateFreezingColonistsAlert();
                 }
-                else if (newData.Food <= 0f)
+                else if (newData.Protein <= 0f)
                 {
-                    GenerateLowFoodAlert();
+                    GenerateLowProteinAlert();
                 }
             }
 
             _previousResources = newData;
         }
 
-        private void GenerateNoMoreOreAlert()
+        private void GenerateNoMoreIronAlert()
         {
-            if (_outOfOreNotification != null && !_outOfOreNotification.Closed()) return;
+            if (_outOfIron != null && !_outOfIron.Closed()) return;
 
-            var message = $"Refineries have no {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Ore)} to work with on {_planet.planetName}!";
-            var notification = new PlanetNotification { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting};
-            _outOfOreNotification = notification;
+            var message =
+                $"Refineries have no {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Iron)} to work with on {_planet.planetName}!";
+            var notification = new PlanetNotification
+                { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
+            _outOfIron = notification;
+
+            Notifications.Get().Send(notification);
+        }
+
+        private void GenerateNoMoreGraphiteAlert()
+        {
+            if (_outOfGraphite != null && !_outOfGraphite.Closed()) return;
+
+            var message =
+                $"Refineries have no {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Graphite)} to work with on {_planet.planetName}!";
+            var notification = new PlanetNotification
+                { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
+            _outOfGraphite = notification;
+
+            Notifications.Get().Send(notification);
+        }
+
+        private void GenerateNoMoreCopperAlert()
+        {
+            if (_outOfCopper != null && !_outOfCopper.Closed()) return;
+
+            var message =
+                $"Refineries have no {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Copper)} to work with on {_planet.planetName}!";
+            var notification = new PlanetNotification
+                { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
+            _outOfCopper = notification;
 
             Notifications.Get().Send(notification);
         }
@@ -113,8 +159,10 @@ namespace GameNotifications
         {
             if (_noIceNotification != null && !_noIceNotification.Closed()) return;
 
-            var message = $"Purifiers have no {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Ice)} to work with on {_planet.planetName}!";
-            var notification = new PlanetNotification { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting};
+            var message =
+                $"Purifiers have no {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Ice)} to work with on {_planet.planetName}!";
+            var notification = new PlanetNotification
+                { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
             _noIceNotification = notification;
 
             Notifications.Get().Send(notification);
@@ -124,8 +172,10 @@ namespace GameNotifications
         {
             if (_lowEnergyNotification != null && !_lowEnergyNotification.Closed()) return;
 
-            var message = $"Not enough {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Energy)} on {_planet.planetName}!";
-            var lowEnergyNotification = new PlanetNotification { location = _planet, Message = message, NotificationType = NotificationTypes.Informative};
+            var message =
+                $"Not enough {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Energy)} on {_planet.planetName}!";
+            var lowEnergyNotification = new PlanetNotification
+                { location = _planet, Message = message, NotificationType = NotificationTypes.Informative };
             _lowEnergyNotification = lowEnergyNotification;
 
             Notifications.Get().Send(lowEnergyNotification);
@@ -135,19 +185,22 @@ namespace GameNotifications
         {
             if (_freezingColonistsNotification != null && !_freezingColonistsNotification.Closed()) return;
 
-            var message = $"No {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Energy)} as colonists are freezing to death on {_planet.planetName}!";
-            var notification = new PlanetNotification { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting};
+            var message =
+                $"No {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Energy)} as colonists are freezing to death on {_planet.planetName}!";
+            var notification = new PlanetNotification
+                { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
             _freezingColonistsNotification = notification;
 
             Notifications.Get().Send(notification);
         }
 
-        private void GenerateLowFoodAlert()
+        private void GenerateLowProteinAlert()
         {
             if (_lowFoodNotification != null && !_lowFoodNotification.Closed()) return;
 
             var message = $"Starvation rampant on {_planet.planetName}!";
-            var lowFoodNotification = new PlanetNotification { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting};
+            var lowFoodNotification = new PlanetNotification
+                { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
             _lowFoodNotification = lowFoodNotification;
 
             Notifications.Get().Send(lowFoodNotification);

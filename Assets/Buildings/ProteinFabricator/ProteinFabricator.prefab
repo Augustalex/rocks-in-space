@@ -46,7 +46,7 @@ Animator:
   m_GameObject: {fileID: 490864409445287909}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9a364e25de849af4f808cdfae435976b, type: 2}
+  m_Controller: {fileID: 9100000, guid: f7066bf5e90ba1840a82474afe6ef648, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -149,7 +149,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5a159a108ac899243b5a09ea5ad3b327, type: 2}
+  - {fileID: 2100000, guid: 984bcbc5099a0a84ab4999ddeaa2c906, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -376,7 +376,7 @@ MonoBehaviour:
   fromSecondary: 0
   fromSecondaryAmount: 0
   to: 14
-  toAmount: 1
+  toAmount: 2
   iterationTime: 4
 --- !u!114 &1389406210342210510
 MonoBehaviour:

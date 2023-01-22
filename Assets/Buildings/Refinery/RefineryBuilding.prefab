@@ -2162,7 +2162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 122d53f2549fed44cb33a03c329a73aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seedName: Refinery
+  seedName: Metal refinery
 --- !u!114 &-7115552247633345944
 MonoBehaviour:
   m_ObjectHideFlags: 0

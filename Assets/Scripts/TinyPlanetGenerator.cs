@@ -50,15 +50,17 @@ public class TinyPlanetGenerator : MonoBehaviour
 
     private void GenerateNewPlanetAtPosition(Vector3 position)
     {
+        var planetType = RandomPlanetType();
+
         var networkTemplate = new TinyPlanetGeneratorHelper()
             .NewNetworkTemplate();
 
         var network = networkTemplate
-            .Select(networkPosition => CreateRockAndRandomizeOre(networkPosition + position))
+            .Select(networkPosition => CreateRockAndRandomizeOre(networkPosition + position, planetType))
             .ToList();
 
         var planetGo = NewPlanetWithNetwork(network);
-        planetGo.GetComponent<TinyPlanet>().SetupType(RandomPlanetType());
+        planetGo.GetComponent<TinyPlanet>().SetupType(planetType);
     }
 
     private TinyPlanet.RockType RandomPlanetType()
@@ -163,21 +165,58 @@ public class TinyPlanetGenerator : MonoBehaviour
         }
     }
 
-    private GameObject CreateRockAndRandomizeOre(Vector3 position)
+    private GameObject CreateRockAndRandomizeOre(Vector3 position, TinyPlanet.RockType planetType)
     {
         var rock = CreateRock(position);
-        if (Random.value < .2f)
+
+        if (planetType == TinyPlanet.RockType.Blue)
         {
-            var resources = new[]
+            if (Random.value < .2f)
             {
-                TinyPlanetResources.PlanetResourceType.Iron, TinyPlanetResources.PlanetResourceType.Graphite,
-                TinyPlanetResources.PlanetResourceType.Copper
-            };
-            var resource = resources[Random.Range(0, resources.Length)];
-            rock.GetComponentInChildren<OreController>().MakeIntoOreVein(resource);
+                var resource = RandomResourceTypeForBlueRock();
+                rock.GetComponentInChildren<OreController>().MakeIntoOreVein(resource);
+            }
+        }
+        else if (planetType == TinyPlanet.RockType.Orange)
+        {
+            if (Random.value < .25f)
+            {
+                var resource = Random.value < .7
+                    ? TinyPlanetResources.PlanetResourceType.Copper
+                    : TinyPlanetResources.PlanetResourceType.Graphite;
+                rock.GetComponentInChildren<OreController>().MakeIntoOreVein(resource);
+            }
+        }
+        else if (planetType == TinyPlanet.RockType.Green)
+        {
+            if (Random.value < .25f)
+            {
+                var resource = Random.value < .7
+                    ? TinyPlanetResources.PlanetResourceType.Iron
+                    : TinyPlanetResources.PlanetResourceType.Graphite;
+                rock.GetComponentInChildren<OreController>().MakeIntoOreVein(resource);
+            }
+        }
+        else if (planetType == TinyPlanet.RockType.Ice)
+        {
+            if (Random.value < .4f)
+            {
+                var resource = Random.value < .5
+                    ? TinyPlanetResources.PlanetResourceType.Iron
+                    : TinyPlanetResources.PlanetResourceType.Graphite;
+                rock.GetComponentInChildren<OreController>().MakeIntoOreVein(resource);
+            }
         }
 
         return rock;
+    }
+
+    private TinyPlanetResources.PlanetResourceType RandomResourceTypeForBlueRock()
+    {
+        var value = Random.value;
+        if (value < .3f) return TinyPlanetResources.PlanetResourceType.Iron;
+        if (value < .7f) return TinyPlanetResources.PlanetResourceType.Graphite;
+        return TinyPlanetResources.PlanetResourceType.Copper;
     }
 
     private GameObject CreateRock(Vector3 position)

@@ -333,7 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32daf228e43b9441b10764af06a11cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: 15
+  energy: 100
   residencyType: 0
 --- !u!114 &-1646605259869712026
 MonoBehaviour:
@@ -347,7 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336aaf521eb74e81bf6aa32492d5c93e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cashPerMinute: -5
+  cashPerMinute: -10
 --- !u!114 &8340817556601631518
 MonoBehaviour:
   m_ObjectHideFlags: 0

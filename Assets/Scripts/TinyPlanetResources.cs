@@ -61,8 +61,11 @@ public class TinyPlanetResources : MonoBehaviour
 
     public struct ResourcesData
     {
-        public float Ore;
+        public float Iron;
+        public float Graphite;
+        public float Copper;
         public float Energy;
+        public float Protein;
         public float Food;
         public int Inhabitants;
         public float Ice;
@@ -351,11 +354,14 @@ public class TinyPlanetResources : MonoBehaviour
     {
         return new ResourcesData
         {
-            Ore = GetOre(),
+            Iron = GetResource(PlanetResourceType.Iron),
+            Graphite = GetResource(PlanetResourceType.Graphite),
+            Copper = GetResource(PlanetResourceType.Copper),
             Metals = GetMetals(),
             Gadgets = GetGadgets(),
             Ice = GetResource(PlanetResourceType.Ice),
             Energy = GetEnergy(),
+            Protein = GetResource(PlanetResourceType.Protein),
             Food = GetFood(),
             Inhabitants = GetInhabitants()
         };

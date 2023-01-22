@@ -43,7 +43,7 @@ public class TinyPlanet : MonoBehaviour
         Orange,
         Blue,
         Green,
-        Snow,
+        Snow, // Only used on Ice planets, now set as a planet type
         Ice,
     }
 
@@ -93,17 +93,10 @@ public class TinyPlanet : MonoBehaviour
 
     public void SetupType(RockType newRockType)
     {
+        // Note: newRockType is never Snow
         rockType = newRockType;
-        var blockRockType = rockType == RockType.Ice ? RockType.Snow : rockType;
-
-        _rockMaterial.SetInt(RockTypePropertyId, (int)blockRockType);
-
-        var color = ColorPairs[(int)blockRockType];
-        _rockMaterial.SetColor("_LightColor", color[0]);
-        _rockMaterial.SetColor("_DarkColor", color[1]);
 
         var newPosition = network[0].transform.position;
-        _rockMaterial.SetVector(CenterPropertyId, newPosition);
 
         if (rockType == RockType.Ice)
         {
@@ -123,7 +116,16 @@ public class TinyPlanet : MonoBehaviour
                 else
                 {
                     var block = networkItem.GetComponentInChildren<Block>();
-                    block.SetRockType(RockType.Blue);
+                    block.SetRockType(RockType.Snow);
+
+                    _rockMaterial.SetInt(RockTypePropertyId, (int)RockType.Snow);
+
+                    var color = ColorPairs[(int)RockType.Snow];
+                    _rockMaterial.SetColor("_LightColor", color[0]);
+                    _rockMaterial.SetColor("_DarkColor", color[1]);
+
+                    _rockMaterial.SetVector(CenterPropertyId, newPosition);
+
                     block.SetMaterial(_rockMaterial);
                 }
             }
@@ -134,6 +136,16 @@ public class TinyPlanet : MonoBehaviour
             {
                 var block = networkItem.GetComponentInChildren<Block>();
                 block.SetRockType(rockType);
+
+
+                _rockMaterial.SetInt(RockTypePropertyId, (int)rockType);
+
+                var color = ColorPairs[(int)rockType];
+                _rockMaterial.SetColor("_LightColor", color[0]);
+                _rockMaterial.SetColor("_DarkColor", color[1]);
+
+                _rockMaterial.SetVector(CenterPropertyId, newPosition);
+
                 block.SetMaterial(_rockMaterial);
             }
         }

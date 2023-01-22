@@ -60,6 +60,14 @@ public class ProgressLock : MonoBehaviour
                     !ProgressManager.Get().FactoryUnlocked()
                 );
                 break;
+            case BuildingType.ProteinFabricator:
+                CheckLock(
+                    ProgressManager.Get().ColonyBasicsProductionUnlocked(),
+                    NotificationMessage(_buildingType),
+                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Factory).GetInteractorName()}",
+                    !ProgressManager.Get().FactoryUnlocked()
+                );
+                break;
             case BuildingType.ResidentModule:
                 CheckLock(
                     ProgressManager.Get().HousingUnlocked(),

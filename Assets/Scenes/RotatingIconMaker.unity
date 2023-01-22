@@ -279,8 +279,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   images: 24
   targetTemplates:
-  - {fileID: 5028280871199184891, guid: 348008908df43414c9229e6406bb6e81, type: 3}
-  - {fileID: 5028280871199184891, guid: b1d133c3358b53e4a8a7563cebac3ad5, type: 3}
+  - {fileID: 7735039820489149926, guid: 464657d5a6d6ef8448240270733c0a0d, type: 3}
+  - {fileID: 5977357871203673727, guid: a05f0e3a9f0d81f408b3820d77825cbd, type: 3}
   dryRun: 0
 --- !u!1 &2114862323
 GameObject:

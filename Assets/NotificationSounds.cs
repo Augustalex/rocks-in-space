@@ -33,6 +33,7 @@ public class NotificationSounds : MonoBehaviour
 
     public void Play(NotificationTypes notificationTypes)
     {
+        Debug.Log("PLAY NOTIFICATION SOUND: " + notificationTypes);
         // _audioSource.Stop();
 
         var clip = notificationTypes switch

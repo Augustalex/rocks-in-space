@@ -11,7 +11,7 @@ namespace Interactors
 
         public override string GetInteractorName()
         {
-            return "Ore refinery";
+            return "Metal refinery";
         }
         
         public override string GetInteractorShortDescription()

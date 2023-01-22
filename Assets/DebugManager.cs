@@ -1,5 +1,3 @@
-using GameNotifications;
-using Interactors;
 using UnityEngine;
 
 public class DebugManager : MonoBehaviour
@@ -64,24 +62,24 @@ public class DebugManager : MonoBehaviour
             MeteorGenerator.Get().SpawnOnCurrentPlanet();
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            NotificationSounds.Get().Play(NotificationTypes.Alerting);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            NotificationSounds.Get().Play(NotificationTypes.Informative);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            NotificationSounds.Get().Play(NotificationTypes.Positive);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            NotificationSounds.Get().Play(NotificationTypes.Negative);
-        }
+        // if (Input.GetKeyDown(KeyCode.Alpha1))
+        // {
+        //     NotificationSounds.Get().Play(NotificationTypes.Alerting);
+        // }
+        //
+        // if (Input.GetKeyDown(KeyCode.Alpha2))
+        // {
+        //     NotificationSounds.Get().Play(NotificationTypes.Informative);
+        // }
+        //
+        // if (Input.GetKeyDown(KeyCode.Alpha3))
+        // {
+        //     NotificationSounds.Get().Play(NotificationTypes.Positive);
+        // }
+        //
+        // if (Input.GetKeyDown(KeyCode.Alpha4))
+        // {
+        //     NotificationSounds.Get().Play(NotificationTypes.Negative);
+        // }
     }
 }

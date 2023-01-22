@@ -811,6 +811,7 @@ GameObject:
   - component: {fileID: 6584636720791171353}
   - component: {fileID: 3104102893874871934}
   - component: {fileID: -6125573926813975838}
+  - component: {fileID: 7655387691998313433}
   - component: {fileID: 2252861517128830687}
   - component: {fileID: 4305766060919539564}
   - component: {fileID: 2432672066532335419}
@@ -877,8 +878,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32daf228e43b9441b10764af06a11cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: -5
+  energy: -10
   residencyType: 0
+--- !u!114 &7655387691998313433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2957951342149841532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a12f799d044d24741805337d08ef27b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  from: 9
+  fromAmount: 2
+  fromSecondary: 12
+  fromSecondaryAmount: 1
+  to: 4
+  toAmount: 200
+  iterationTime: 4
 --- !u!114 &2252861517128830687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -891,7 +911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336aaf521eb74e81bf6aa32492d5c93e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cashPerMinute: -20
+  cashPerMinute: -100
 --- !u!114 &4305766060919539564
 MonoBehaviour:
   m_ObjectHideFlags: 0
