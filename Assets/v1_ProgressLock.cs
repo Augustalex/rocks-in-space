@@ -182,7 +182,7 @@ public class V1ProgressLock : MonoBehaviour
         {
             Notifications.Get().Send(new BuildingNotification
             {
-                Message = $"New building \"{InteractorController.Get().GetInteractorByBuildingType(buildingType).GetInteractorName()}\" unlocked!",
+                Message = $"New building \"{InteractorController.Get().GetSpecificallyGeneralBuildingInteractor(buildingType).GetInteractorName()}\" unlocked!",
                 NotificationType = NotificationTypes.Positive
             });
             Hide();

@@ -49,7 +49,7 @@ public class ResourceConversionEffect : MonoBehaviour
             }
 
             while (gameObject != null &&
-                   (HasEnoughOfPrimaryFromResource(resources) || HasEnoughOfSecondaryFromResource(resources)))
+                   (!HasEnoughOfPrimaryFromResource(resources) || !HasEnoughOfSecondaryFromResource(resources)))
             {
                 // Wat until there is resources to take from. Then restart the iteration timer.
                 yield return new WaitForSeconds(.25f);
@@ -60,18 +60,18 @@ public class ResourceConversionEffect : MonoBehaviour
 
             yield return new WaitForSeconds(iterationTime);
 
-            resources.AddResource(to, 1f);
+            resources.AddResource(to, toAmount);
         }
     }
 
     private bool HasEnoughOfPrimaryFromResource(TinyPlanetResources resources)
     {
-        return resources.GetResource(from) < fromAmount;
+        return resources.GetResource(from) >= fromAmount;
     }
 
     private bool HasEnoughOfSecondaryFromResource(TinyPlanetResources resources)
     {
         if (fromSecondaryAmount == 0) return true;
-        return resources.GetResource(fromSecondary) < fromSecondaryAmount;
+        return resources.GetResource(fromSecondary) >= fromSecondaryAmount;
     }
 }

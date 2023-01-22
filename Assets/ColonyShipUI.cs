@@ -133,18 +133,8 @@ public class ColonyShipUI : MonoBehaviour
 
     private string RequirementText(ColonyShip ship)
     {
-        var text = $"Requirements:\n{ship.colonists} housing";
-        if (ProgressManager.Get().Surviving())
-        {
-            text += "\nPower";
-        }
-
-        if (ProgressManager.Get().Comfortable())
-        {
-            text += "\nFood";
-        }
-
-        return text;
+        return
+            $"Requirements:\n{ship.colonists} {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Housing)}\n{TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Energy)}\n{TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Protein)}";
     }
 
     public void Cancel()

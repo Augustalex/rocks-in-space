@@ -26,6 +26,7 @@ public class RegisterBuildingOnPlanet : MonoBehaviour
 
     private void Attached(TinyPlanetResources resources)
     {
+        ProgressManager.Get().Built(buildingType);
         resources.RegisterBuilding(buildingType);
     }
 }

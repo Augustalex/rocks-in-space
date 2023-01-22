@@ -70,23 +70,7 @@ public class PlanetInfoResources : MonoBehaviour
         var currentPlanet = CurrentPlanetController.Get().CurrentPlanet();
         if (currentPlanet != null)
         {
-            var progressManager = ProgressManager.Get();
-
             var resources = currentPlanet.GetResources();
-
-            var hasAnyIceRelatedItems = resources.HasBuilding(BuildingType.Purifier) ||
-                                        resources.HasBuilding(BuildingType.Distillery);
-            var hasAnyIceResources = resources.GetResource(TinyPlanetResources.PlanetResourceType.Ice) > 0 ||
-                                     resources.GetResource(TinyPlanetResources.PlanetResourceType.Water) > 0 ||
-                                     resources.GetResource(TinyPlanetResources.PlanetResourceType.Refreshments) > 0;
-            var iceMenuActive = hasAnyIceResources ||
-                                hasAnyIceRelatedItems ||
-                                currentPlanet.IsIcePlanet();
-
-            var hasAnyHousingRelatedItems = resources.HasBuilding(BuildingType.FarmDome) ||
-                                            resources.HasPowerBuilding() ||
-                                            resources.HasVacantHousing();
-            var shouldShowColonyResources = hasAnyHousingRelatedItems || hasAnyIceRelatedItems;
 
             if (resources.HasPowerBuilding() || resources.GetEnergy() < 0)
             {
@@ -99,7 +83,8 @@ public class PlanetInfoResources : MonoBehaviour
                 power.gameObject.SetActive(false);
             }
 
-            if (shouldShowColonyResources && progressManager.Comfortable())
+            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Food) > 0 ||
+                resources.HasBuilding(BuildingType.FarmDome))
             {
                 food.Refresh(Mathf.FloorToInt(resources.GetFood()),
                     resources.GetTrend(TinyPlanetResources.PlanetResourceType.Food));
@@ -110,7 +95,7 @@ public class PlanetInfoResources : MonoBehaviour
                 food.gameObject.SetActive(false);
             }
 
-            if (shouldShowColonyResources)
+            if (resources.GetVacantHousing() > 0 || resources.HasBuilding(BuildingType.ResidentModule))
             {
                 var vacantHousing = Mathf.FloorToInt(resources.GetVacantHousing());
                 housing.Refresh(vacantHousing,
@@ -122,7 +107,8 @@ public class PlanetInfoResources : MonoBehaviour
                 housing.gameObject.SetActive(false);
             }
 
-            if (iceMenuActive && progressManager.Surviving() && currentPlanet.IsIcePlanet())
+            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Ice) > 0 ||
+                resources.HasBuilding(BuildingType.Purifier) || resources.HasBuilding(BuildingType.Distillery))
             {
                 ice.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.Ice)),
                     resources.GetTrend(TinyPlanetResources.PlanetResourceType.Ice));
@@ -133,7 +119,8 @@ public class PlanetInfoResources : MonoBehaviour
                 ice.gameObject.SetActive(false);
             }
 
-            if (iceMenuActive && progressManager.Surviving())
+            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Water) > 0 ||
+                resources.HasBuilding(BuildingType.Purifier) || resources.HasBuilding(BuildingType.Distillery))
             {
                 water.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.Water)),
                     resources.GetTrend(TinyPlanetResources.PlanetResourceType.Water));
@@ -144,7 +131,8 @@ public class PlanetInfoResources : MonoBehaviour
                 water.gameObject.SetActive(false);
             }
 
-            if (iceMenuActive && progressManager.Comfortable())
+            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Refreshments) > 0 ||
+                resources.HasBuilding(BuildingType.Purifier) || resources.HasBuilding(BuildingType.Distillery))
             {
                 refreshment.Refresh(
                     Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.Refreshments)),

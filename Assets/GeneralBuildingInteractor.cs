@@ -33,6 +33,6 @@ public class GeneralBuildingInteractor : InteractorModule
         var seed = block.Seed(template);
         SetSeedRefund(seed);
 
-        ProgressManager.Get().Built(BuildingType.Refinery);
+        ProgressManager.Get().Built(buildingType);
     }
 }

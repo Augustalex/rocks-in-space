@@ -65,7 +65,6 @@ public class ProgressManager : MonoBehaviour
     public void UpdateProgress()
     {
         var happyColonists = 0;
-        var neutralColonists = 0;
         var overjoyedColonists = 0;
 
         foreach (var tinyPlanet in PlanetsRegistry.Get().All())
@@ -102,14 +101,39 @@ public class ProgressManager : MonoBehaviour
         }
     }
 
-    public bool Started()
+    public bool RefineryUnlocked()
     {
         return HasBuilt(BuildingType.Port);
     }
 
-    public bool Surviving()
+    public bool FactoryUnlocked()
     {
-        return _colonyProgress >= ColonyProgress.Surviving;
+        return HasBuilt(BuildingType.Refinery);
+    }
+
+    public bool ColonyBasicsProductionUnlocked()
+    {
+        return HasBuilt(BuildingType.Factory);
+    }
+
+    public bool HousingUnlocked()
+    {
+        return HasBuilt(BuildingType.SolarPanels) && HasBuilt(BuildingType.ProteinFabricator);
+    }
+
+    public bool IceProductionUnlocked()
+    {
+        return Comfortable();
+    }
+
+    public bool LuxuryProductionUnlocked()
+    {
+        return IceProductionUnlocked() && HasBuilt(BuildingType.Purifier);
+    }
+
+    public bool EndGameReached()
+    {
+        return Luxurious();
     }
 
     public bool Comfortable()

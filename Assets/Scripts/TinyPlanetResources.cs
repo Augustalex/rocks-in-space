@@ -109,6 +109,7 @@ public class TinyPlanetResources : MonoBehaviour
         { BuildingType.SolarPanels, 0 },
         { BuildingType.FarmDome, 0 },
         { BuildingType.ProteinFabricator, 0 },
+        { BuildingType.ResidentModule, 0 },
     };
 
     private void Awake()

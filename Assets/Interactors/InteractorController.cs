@@ -59,7 +59,7 @@ namespace Interactors
 
             _generalBuildingInteractors = interactorsContainer.GetComponentsInChildren<GeneralBuildingInteractor>();
             _generalBuildings = _generalBuildingInteractors.Select(g => g.GetBuildingType()).ToArray();
-            
+
             _modules = new[]
             {
                 interactorsContainer.GetComponent<DigInteractor>(),
@@ -186,7 +186,7 @@ namespace Interactors
             }
         }
 
-        public GeneralBuildingInteractor GetInteractorByBuildingType(BuildingType buildingType)
+        public GeneralBuildingInteractor GetSpecificallyGeneralBuildingInteractor(BuildingType buildingType)
         {
             if (!_generalBuildings.Contains(buildingType))
             {

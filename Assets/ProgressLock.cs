@@ -38,82 +38,82 @@ public class ProgressLock : MonoBehaviour
                 break;
             case BuildingType.Refinery:
                 CheckLock(
-                    ProgressManager.Get().Started(),
+                    ProgressManager.Get().RefineryUnlocked(),
                     NotificationMessage(BuildingType.Refinery),
-                    StartedLockMessage(),
-                    false
-                );
-                break;
-            case BuildingType.Platform:
-                CheckLock(
-                    ProgressManager.Get().Started(),
-                    NotificationMessage(BuildingType.Platform),
-                    StartedLockMessage(),
-                    false
-                );
-                break;
-            case BuildingType.Lander:
-                CheckLock(
-                    ProgressManager.Get().Started(),
-                    NotificationMessage(BuildingType.Lander),
-                    StartedLockMessage(),
-                    false
-                );
-                break;
-            case BuildingType.ResidentModule:
-                CheckLock(
-                    ProgressManager.Get().Started(),
-                    NotificationMessage(BuildingType.ResidentModule),
                     StartedLockMessage(),
                     false
                 );
                 break;
             case BuildingType.Factory:
                 CheckLock(
-                    ProgressManager.Get().Surviving(),
+                    ProgressManager.Get().FactoryUnlocked(),
                     NotificationMessage(BuildingType.Factory),
-                    SurvivingLockMessage(),
-                    !ProgressManager.Get().Started()
+                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Refinery).GetInteractorName()}",
+                    !ProgressManager.Get().RefineryUnlocked()
+                );
+                break;
+            case BuildingType.SolarPanels:
+                CheckLock(
+                    ProgressManager.Get().ColonyBasicsProductionUnlocked(),
+                    NotificationMessage(BuildingType.Factory),
+                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Factory).GetInteractorName()}",
+                    !ProgressManager.Get().FactoryUnlocked()
+                );
+                break;
+            case BuildingType.ResidentModule:
+                CheckLock(
+                    ProgressManager.Get().HousingUnlocked(),
+                    NotificationMessage(BuildingType.ResidentModule),
+                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.SolarPanels).GetInteractorName()}&\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.ProteinFabricator).GetInteractorName()}",
+                    !ProgressManager.Get().ColonyBasicsProductionUnlocked()
+                );
+                break;
+            case BuildingType.Platform:
+                CheckLock(
+                    ProgressManager.Get().HousingUnlocked(),
+                    NotificationMessage(BuildingType.Platform),
+                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.SolarPanels).GetInteractorName()}&\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.ProteinFabricator).GetInteractorName()}",
+                    !ProgressManager.Get().ColonyBasicsProductionUnlocked()
                 );
                 break;
             case BuildingType.Purifier:
                 CheckLock(
-                    ProgressManager.Get().Surviving(),
+                    ProgressManager.Get().IceProductionUnlocked(),
                     NotificationMessage(BuildingType.Purifier),
-                    SurvivingLockMessage(),
-                    !ProgressManager.Get().Started()
-                );
-                break;
-            case BuildingType.PowerPlant:
-                CheckLock(
-                    ProgressManager.Get().Surviving(),
-                    NotificationMessage(BuildingType.PowerPlant),
-                    SurvivingLockMessage(),
-                    !ProgressManager.Get().Started()
+                    $"Unlock with\n2000 happy colonists",
+                    !ProgressManager.Get().ColonyBasicsProductionUnlocked()
                 );
                 break;
             case BuildingType.FarmDome:
                 CheckLock(
-                    ProgressManager.Get().Comfortable(),
+                    ProgressManager.Get().LuxuryProductionUnlocked(),
                     NotificationMessage(BuildingType.FarmDome),
-                    ComfortableLockMessage(),
-                    !ProgressManager.Get().Surviving()
+                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Purifier).GetInteractorName()}",
+                    !ProgressManager.Get().IceProductionUnlocked()
                 );
                 break;
             case BuildingType.Distillery:
                 CheckLock(
-                    ProgressManager.Get().Comfortable(),
+                    ProgressManager.Get().LuxuryProductionUnlocked(),
                     NotificationMessage(BuildingType.Distillery),
-                    ComfortableLockMessage(),
-                    !ProgressManager.Get().Surviving()
+                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Purifier).GetInteractorName()}",
+                    !ProgressManager.Get().IceProductionUnlocked()
+                );
+                break;
+            case BuildingType.PowerPlant:
+                CheckLock(
+                    ProgressManager.Get().LuxuryProductionUnlocked(),
+                    NotificationMessage(BuildingType.PowerPlant),
+                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Purifier).GetInteractorName()}",
+                    !ProgressManager.Get().IceProductionUnlocked()
                 );
                 break;
             case BuildingType.KorvKiosk:
                 CheckLock(
-                    ProgressManager.Get().Luxurious(),
+                    ProgressManager.Get().EndGameReached(),
                     "Something different has been unlocked in the building menu.",
                     LuxuriousLockMessage(),
-                    !ProgressManager.Get().Comfortable()
+                    !ProgressManager.Get().LuxuryProductionUnlocked()
                 );
                 break;
             default:
@@ -185,16 +185,6 @@ public class ProgressLock : MonoBehaviour
     public string StartedLockMessage()
     {
         return "Unlock by building\nyour first Beacon";
-    }
-
-    public string SurvivingLockMessage()
-    {
-        return "Unlock with\n500 colonists";
-    }
-
-    public string ComfortableLockMessage()
-    {
-        return "Unlock with\n2000 housed colonists";
     }
 
     public string LuxuriousLockMessage()
