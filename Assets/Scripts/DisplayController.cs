@@ -26,7 +26,7 @@ public class DisplayController : MonoBehaviour
         Modal
     }
 
-    private bool _hiding;
+    private bool _hidablesHidden;
 
     public static DisplayController Get()
     {
@@ -87,10 +87,7 @@ public class DisplayController : MonoBehaviour
         }
         else
         {
-            if (_hiding)
-            {
-                ShowAll();
-            }
+            ShowAll();
         }
     }
 
@@ -104,17 +101,33 @@ public class DisplayController : MonoBehaviour
 
     private void CinematicModeUpdate()
     {
+        HideAllHidables();
+    }
+
+    private void ModalModeUpdate()
+    {
+        HideAllHidables();
+    }
+
+    private void HideAllHidables()
+    {
+        if (_hidablesHidden) return;
+        _hidablesHidden = true;
+
         foreach (var hidable in _miscHidable)
         {
             hidable.SetActive(false);
         }
     }
 
-    private void ModalModeUpdate()
+    private void ShowAllHidables()
     {
+        if (!_hidablesHidden) return;
+        _hidablesHidden = false;
+
         foreach (var hidable in _miscHidable)
         {
-            hidable.SetActive(false);
+            hidable.SetActive(true);
         }
     }
 
@@ -177,22 +190,12 @@ public class DisplayController : MonoBehaviour
 
     private void HideAll()
     {
-        foreach (var hidable in _miscHidable)
-        {
-            hidable.SetActive(false);
-        }
-
-        _hiding = true;
+        HideAllHidables();
     }
 
     private void ShowAll()
     {
-        foreach (var hidable in _miscHidable)
-        {
-            hidable.SetActive(true);
-        }
-
-        _hiding = false;
+        ShowAllHidables();
     }
 
     protected virtual void OnModeChange(InputMode mode)

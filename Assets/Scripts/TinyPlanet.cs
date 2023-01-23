@@ -137,7 +137,6 @@ public class TinyPlanet : MonoBehaviour
                 var block = networkItem.GetComponentInChildren<Block>();
                 block.SetRockType(rockType);
 
-
                 _rockMaterial.SetInt(RockTypePropertyId, (int)rockType);
 
                 var color = ColorPairs[(int)rockType];
@@ -157,6 +156,7 @@ public class TinyPlanet : MonoBehaviour
     {
         // var newCenter = GetCenter();
         var newPosition = network[0].transform.position;
+        
         _rockMaterial.SetVector(CenterPropertyId, newPosition);
         if (rockType == RockType.Ice) _iceMaterial.SetVector(CenterPropertyId, newPosition);
     }

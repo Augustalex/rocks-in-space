@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Block : MonoBehaviour, ILaserInteractable
 {
+    private const float DebrisCullingDistance = 250f;
+
     private GameObject _seed;
     private OreController _oreController;
     private bool _seedOverridable;
@@ -79,15 +81,19 @@ public class Block : MonoBehaviour, ILaserInteractable
         connectedPlanet.RemoveFromNetwork(block);
         Destroy(block);
 
-        if (_rockType == TinyPlanet.RockType.Ice)
+        if (Vector3.Distance(transform.position, CameraController.GetCamera().transform.position) <
+            DebrisCullingDistance)
         {
-            Instantiate(PrefabTemplateLibrary.Get().iceDebrisTemplate, position, rotation);
-            var iceResourceController = GetIceController();
-            if (!iceResourceController.IsDestroyed()) iceResourceController.Mine(GetConnectedPlanet());
-        }
-        else
-        {
-            Instantiate(PrefabTemplateLibrary.Get().rockDebrisTemplate, position, rotation);
+            if (_rockType == TinyPlanet.RockType.Ice)
+            {
+                Instantiate(PrefabTemplateLibrary.Get().iceDebrisTemplate, position, rotation);
+                var iceResourceController = GetIceController();
+                if (!iceResourceController.IsDestroyed()) iceResourceController.Mine(GetConnectedPlanet());
+            }
+            else
+            {
+                Instantiate(PrefabTemplateLibrary.Get().rockDebrisTemplate, position, rotation);
+            }
         }
     }
 

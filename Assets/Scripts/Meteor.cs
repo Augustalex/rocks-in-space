@@ -38,7 +38,9 @@ public class Meteor : MonoBehaviour
 
     private void FindTarget()
     {
-        var allBlocks = FindObjectsOfType<Block>();
+        var planet = PlanetsRegistry.Get().RandomPlanet();
+        var allBlocks = planet.GetComponentsInChildren<Block>();
+        
         Block block = null;
         var runs = 0;
         while (block == null && runs < 1000)

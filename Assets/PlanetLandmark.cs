@@ -87,11 +87,19 @@ public class PlanetLandmark : MonoBehaviour
 
     public void MouseUp()
     {
-        var routeEditor = RouteEditor.Get();
+        if (!_cameraController.IsZoomedOut()) return;
 
-        if (_cameraController.IsZoomedOut() && routeEditor.IsValidDestination(_planet))
+        var routeEditor = RouteEditor.Get();
+        if (routeEditor.IsEditing())
         {
-            routeEditor.SelectRouteDestination(_planet);
+            if (routeEditor.IsValidDestination(_planet))
+            {
+                routeEditor.SelectRouteDestination(_planet);
+            }
+            else
+            {
+                routeEditor.CancelEditing();
+            }
         }
         else
         {
