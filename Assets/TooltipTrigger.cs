@@ -22,7 +22,6 @@ public class TooltipTrigger : MonoBehaviour
 
     public void SetMessage(string newMessage)
     {
-        Debug.Log("SET MESSAGE: " + newMessage);
         _message = newMessage;
     }
 }

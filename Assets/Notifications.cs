@@ -20,7 +20,6 @@ public class Notifications : MonoBehaviour
 
     public void Send(Notification notification)
     {
-        Debug.Log("NOTIFICATION SENT: " + notification.Message + ", type: " + notification.NotificationType);
         NotificationSent?.Invoke(notification);
     }
 }

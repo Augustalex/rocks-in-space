@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(AttachedToPlanet))]
 public class ResourceConversionEffect : MonoBehaviour
 {
+    public event Action OnStarted;
+    public event Action OnStopped;
+
     public TinyPlanetResources.PlanetResourceType from;
     public int fromAmount = 1;
     public TinyPlanetResources.PlanetResourceType fromSecondary;
@@ -18,6 +22,7 @@ public class ResourceConversionEffect : MonoBehaviour
 
     private AttachedToPlanet _planetAttachment;
     private ResourceEffect _resourceEffect;
+    private bool _started = true; // It is true, since the animation controller starts of as true.
 
     private void Awake()
     {
@@ -51,17 +56,37 @@ public class ResourceConversionEffect : MonoBehaviour
             while (gameObject != null &&
                    (!HasEnoughOfPrimaryFromResource(resources) || !HasEnoughOfSecondaryFromResource(resources)))
             {
-                // Wat until there is resources to take from. Then restart the iteration timer.
+                Stopped();
+
+                // Wait until there is resources to take from. Then restart the iteration timer.
                 yield return new WaitForSeconds(.25f);
             }
 
             resources.RemoveResource(from, fromAmount);
             resources.RemoveResource(fromSecondary, fromSecondaryAmount);
 
+            Started();
+
             yield return new WaitForSeconds(iterationTime);
 
             resources.AddResource(to, toAmount);
         }
+    }
+
+    private void Started()
+    {
+        if (_started) return;
+        _started = true;
+
+        OnStarted?.Invoke();
+    }
+
+    private void Stopped()
+    {
+        if (!_started) return;
+        _started = false;
+
+        OnStopped?.Invoke();
     }
 
     private bool HasEnoughOfPrimaryFromResource(TinyPlanetResources resources)

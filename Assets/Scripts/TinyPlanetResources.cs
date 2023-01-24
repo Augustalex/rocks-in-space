@@ -146,7 +146,9 @@ public class TinyPlanetResources : MonoBehaviour
             yield return new WaitForSeconds(.5f);
             _oreTracker.ProgressHistory();
             _metalsTracker.ProgressHistory();
+            
             _gadgetsTracker.ProgressHistory();
+            _gadgetsTracker.OnFirstPositiveChange += () => ProgressManager.Get().GotFirstGadgets();
 
             // _powerTracker.ProgressHistory();
             _proteinTracker.ProgressHistory();

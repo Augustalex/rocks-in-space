@@ -41,7 +41,6 @@ public class ResourceEffect : MonoBehaviour
             case ResidencyType.Nothing:
                 break;
             case ResidencyType.Module:
-                Debug.Log("ADD RESIDENCY!");
                 resources.AddResidency();
                 break;
             default:
@@ -62,7 +61,6 @@ public class ResourceEffect : MonoBehaviour
             case ResidencyType.Nothing:
                 break;
             case ResidencyType.Module:
-                Debug.Log("REMOVE RESIDENCY!");
                 resources.RemoveResidency();
                 break;
             default:

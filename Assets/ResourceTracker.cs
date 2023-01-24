@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ResourceTracker
@@ -6,7 +7,10 @@ public class ResourceTracker
     private float _amount;
     private readonly Queue<float> _history = new();
     private readonly bool _signed;
+    private bool _hasGotFirstPositiveChange;
     private const int HistorySize = 24;
+
+    public event Action OnFirstPositiveChange;
 
     public ResourceTracker(bool signed = false)
     {
@@ -41,8 +45,14 @@ public class ResourceTracker
         else Set(Mathf.Max(0f, _amount - x));
     }
 
-    public void Set(float x)
+    private void Set(float x)
     {
+        if (!_hasGotFirstPositiveChange && x > 0)
+        {
+            _hasGotFirstPositiveChange = true;
+            OnFirstPositiveChange?.Invoke();
+        }
+
         _amount = x;
         UpdateHistory(_amount);
     }

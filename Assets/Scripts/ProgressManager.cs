@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Interactors;
 using UnityEngine;
@@ -21,6 +20,7 @@ public class ProgressManager : MonoBehaviour
     };
 
     private ColonyProgress _colonyProgress = ColonyProgress.Zero;
+    private bool _gotFirstGadgets;
 
     public static ProgressManager Get()
     {
@@ -113,7 +113,7 @@ public class ProgressManager : MonoBehaviour
 
     public bool ColonyBasicsProductionUnlocked()
     {
-        return HasBuilt(BuildingType.Factory);
+        return _gotFirstGadgets;
     }
 
     public bool HousingUnlocked()
@@ -144,5 +144,10 @@ public class ProgressManager : MonoBehaviour
     public bool Luxurious()
     {
         return _colonyProgress >= ColonyProgress.Luxurious;
+    }
+
+    public void GotFirstGadgets()
+    {
+        _gotFirstGadgets = true;
     }
 }

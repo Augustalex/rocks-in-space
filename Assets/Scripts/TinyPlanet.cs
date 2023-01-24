@@ -155,8 +155,14 @@ public class TinyPlanet : MonoBehaviour
     void FixedUpdate()
     {
         // var newCenter = GetCenter();
+        if (network.Count == 0)
+        {
+            DestroySelf();
+            return;
+        }
+
         var newPosition = network[0].transform.position;
-        
+
         _rockMaterial.SetVector(CenterPropertyId, newPosition);
         if (rockType == RockType.Ice) _iceMaterial.SetVector(CenterPropertyId, newPosition);
     }
@@ -215,6 +221,7 @@ public class TinyPlanet : MonoBehaviour
 
     public void DestroySelf()
     {
+        PlanetsRegistry.Get().RemovePlanet(this);
         Destroy(gameObject);
     }
 

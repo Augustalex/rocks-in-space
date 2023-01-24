@@ -53,4 +53,10 @@ public class PlanetsRegistry : MonoBehaviour
     {
         return _allPlanets[Random.Range(0, _allPlanets.Count)];
     }
+
+    public void RemovePlanet(TinyPlanet tinyPlanet)
+    {
+        _planetRegistry.Remove(tinyPlanet.planetId);
+        _allPlanets.Remove(tinyPlanet);
+    }
 }

@@ -273,6 +273,7 @@ GameObject:
   - component: {fileID: 8608724217475473750}
   - component: {fileID: 4640671587525194301}
   - component: {fileID: 594781369030925891}
+  - component: {fileID: -3320273867334172305}
   m_Layer: 0
   m_Name: ProteinFabricator
   m_TagString: Untagged
@@ -426,6 +427,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3de1d0c9058992e4caaeafa0dcc53323, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3320273867334172305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7735039820489149926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b15cca301b53e04d97446a47840fbce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8446065576420809214

@@ -121,7 +121,7 @@ namespace GameNotifications
             if (_outOfIron != null && !_outOfIron.Closed()) return;
 
             var message =
-                $"Refineries have no {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Iron)} to work with on {_planet.planetName}!";
+                $"No more {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Iron)} to work with on {_planet.planetName}!";
             var notification = new PlanetNotification
                 { Location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
             _outOfIron = notification;
@@ -134,7 +134,7 @@ namespace GameNotifications
             if (_outOfGraphite != null && !_outOfGraphite.Closed()) return;
 
             var message =
-                $"Refineries have no {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Graphite)} to work with on {_planet.planetName}!";
+                $"No more {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Graphite)} available at {_planet.planetName}!";
             var notification = new PlanetNotification
                 { Location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
             _outOfGraphite = notification;
@@ -147,7 +147,7 @@ namespace GameNotifications
             if (_outOfCopper != null && !_outOfCopper.Closed()) return;
 
             var message =
-                $"Refineries have no {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Copper)} to work with on {_planet.planetName}!";
+                $"Factories have no {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Copper)} to work with on {_planet.planetName}!";
             var notification = new PlanetNotification
                 { Location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
             _outOfCopper = notification;

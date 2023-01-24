@@ -9,7 +9,7 @@ public class GlobalResources : MonoBehaviour
 
     private void Awake()
     {
-        _cashTracker.Set(SettingsManager.Get().balanceSettings.startingCredits);
+        _cashTracker.Add(SettingsManager.Get().balanceSettings.startingCredits);
         _instance = this;
     }
 

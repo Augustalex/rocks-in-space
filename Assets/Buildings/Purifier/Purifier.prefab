@@ -622,6 +622,7 @@ GameObject:
   - component: {fileID: 7399114965260982144}
   - component: {fileID: -803154704943048606}
   - component: {fileID: -312264784793696862}
+  - component: {fileID: -6753600850294132441}
   m_Layer: 0
   m_Name: Purifier
   m_TagString: Untagged
@@ -711,7 +712,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   from: 8
+  fromAmount: 1
+  fromSecondary: 0
+  fromSecondaryAmount: 0
   to: 9
+  toAmount: 1
   iterationTime: 2
 --- !u!114 &-3728626087985763771
 MonoBehaviour:
@@ -773,6 +778,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3de1d0c9058992e4caaeafa0dcc53323, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-6753600850294132441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5028280871199184891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b15cca301b53e04d97446a47840fbce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5703838706049439613
