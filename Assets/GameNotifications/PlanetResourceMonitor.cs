@@ -123,7 +123,7 @@ namespace GameNotifications
             var message =
                 $"Refineries have no {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Iron)} to work with on {_planet.planetName}!";
             var notification = new PlanetNotification
-                { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
+                { Location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
             _outOfIron = notification;
 
             Notifications.Get().Send(notification);
@@ -136,7 +136,7 @@ namespace GameNotifications
             var message =
                 $"Refineries have no {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Graphite)} to work with on {_planet.planetName}!";
             var notification = new PlanetNotification
-                { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
+                { Location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
             _outOfGraphite = notification;
 
             Notifications.Get().Send(notification);
@@ -149,7 +149,7 @@ namespace GameNotifications
             var message =
                 $"Refineries have no {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Copper)} to work with on {_planet.planetName}!";
             var notification = new PlanetNotification
-                { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
+                { Location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
             _outOfCopper = notification;
 
             Notifications.Get().Send(notification);
@@ -162,7 +162,7 @@ namespace GameNotifications
             var message =
                 $"Purifiers have no {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Ice)} to work with on {_planet.planetName}!";
             var notification = new PlanetNotification
-                { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
+                { Location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
             _noIceNotification = notification;
 
             Notifications.Get().Send(notification);
@@ -175,7 +175,7 @@ namespace GameNotifications
             var message =
                 $"Not enough {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Energy)} on {_planet.planetName}!";
             var lowEnergyNotification = new PlanetNotification
-                { location = _planet, Message = message, NotificationType = NotificationTypes.Informative };
+                { Location = _planet, Message = message, NotificationType = NotificationTypes.Informative };
             _lowEnergyNotification = lowEnergyNotification;
 
             Notifications.Get().Send(lowEnergyNotification);
@@ -188,7 +188,7 @@ namespace GameNotifications
             var message =
                 $"No {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Energy)} as colonists are freezing to death on {_planet.planetName}!";
             var notification = new PlanetNotification
-                { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
+                { Location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
             _freezingColonistsNotification = notification;
 
             Notifications.Get().Send(notification);
@@ -200,7 +200,7 @@ namespace GameNotifications
 
             var message = $"Starvation rampant on {_planet.planetName}!";
             var lowFoodNotification = new PlanetNotification
-                { location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
+                { Location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
             _lowFoodNotification = lowFoodNotification;
 
             Notifications.Get().Send(lowFoodNotification);

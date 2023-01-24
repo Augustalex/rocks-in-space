@@ -115,7 +115,7 @@ public class ColonyShip : MonoBehaviour
 
         Notifications.Get().Send(new PlanetNotification
         {
-            location = suitablePlanet, Message = $"{colonists} colonists have moved in to {suitablePlanet.planetName}!",
+            Location = suitablePlanet, Message = $"{colonists} colonists have moved in to {suitablePlanet.planetName}!",
             NotificationType = NotificationTypes.Positive
         });
 

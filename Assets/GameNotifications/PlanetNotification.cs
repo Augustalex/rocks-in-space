@@ -2,12 +2,12 @@
 {
     public class PlanetNotification : Notification
     {
-        public TinyPlanet location;
+        public TinyPlanet Location;
 
         public override void Accept()
         {
-            CurrentPlanetController.Get().ChangePlanet(location);
-            CameraController.Get().FocusOnPlanet(location);
+            CurrentPlanetController.Get().ChangePlanet(Location);
+            CameraController.Get().FocusOnPlanet(Location);
 
             Status = NotificationStatus.Accepted;
         }

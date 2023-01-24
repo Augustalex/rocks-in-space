@@ -130,7 +130,7 @@ public class Meteor : MonoBehaviour
                 Notifications.Get().Send(new PlanetNotification
                 {
                     NotificationType = NotificationTypes.Negative,
-                    location = connectedPlanet, Message = message
+                    Location = connectedPlanet, Message = message
                 });
 
                 block.DestroyedByNonPlayer();
