@@ -15,6 +15,15 @@ public class RouteEditor : MonoBehaviour
     public event Action RouteDestinationSelected;
     public event Action<TinyPlanet, TinyPlanet> RouteFinished;
 
+    public enum RouteEditorState
+    {
+        Creating,
+        Editing,
+        Idle
+    };
+
+    private RouteEditorState _state = RouteEditorState.Idle;
+
     public static RouteEditor Get()
     {
         return _instance;
@@ -27,69 +36,20 @@ public class RouteEditor : MonoBehaviour
 
     private void Start()
     {
-        CameraController.Get().OnNavigationStarted += CancelEditing;
-        CameraController.Get().OnToggleZoom += (bool zoomedOut) => CancelEditing();
+        CameraController.Get().OnNavigationStarted += Cancel;
+        CameraController.Get().OnToggleZoom += (bool zoomedOut) => Cancel();
         InteractorController.Get().UnhandledMouseUp += OnUnhandledMouseUp;
     }
 
     private void OnUnhandledMouseUp()
     {
-        CancelEditing();
+        Cancel();
     }
 
-    public void CancelEditing()
+    public void Cancel()
     {
         Reset();
         RouteCancelled?.Invoke();
-    }
-
-    public void SelectRouteStart(TinyPlanet start)
-    {
-        if (!start.HasPort())
-        {
-            CancelEditing();
-        }
-        else
-        {
-            _started = Time.time;
-            _start = start;
-
-            RouteStarted?.Invoke(_start);
-        }
-    }
-
-    public TinyPlanet GetRouteStart()
-    {
-        return _start;
-    }
-
-    public void SetResourceType(TinyPlanetResources.PlanetResourceType resourceType)
-    {
-        _resourceType = resourceType;
-    }
-
-    public bool IsRouting()
-    {
-        return _start != null;
-    }
-
-    public void EditRoute(TinyPlanet start, TinyPlanet end)
-    {
-        SelectRouteStart(start);
-        SelectRouteDestination(end);
-    }
-
-    public void SelectRouteDestination(TinyPlanet end)
-    {
-        if (!IsValidDestination(end))
-        {
-            CancelEditing();
-        }
-        else
-        {
-            _end = end;
-            RouteDestinationSelected?.Invoke();
-        }
     }
 
     public void ConfirmRoute()
@@ -104,6 +64,105 @@ public class RouteEditor : MonoBehaviour
 
         RouteFinished?.Invoke(_start, _end);
         Reset();
+    }
+
+    public void StartCreatingRouteFrom(TinyPlanet start)
+    {
+        if (_state != RouteEditorState.Idle) Cancel();
+
+        _state = RouteEditorState.Creating;
+        SelectRouteStart(start);
+    }
+
+    public void EditRoute(TinyPlanet start, TinyPlanet end)
+    {
+        if (_state != RouteEditorState.Idle) Cancel();
+
+        _state = RouteEditorState.Editing;
+        SelectRouteStart(start);
+        SelectRouteDestination(end);
+    }
+
+    public TinyPlanet GetRouteStart()
+    {
+        return _start;
+    }
+
+    public void SetResourceType(TinyPlanetResources.PlanetResourceType resourceType)
+    {
+        _resourceType = resourceType;
+    }
+
+    public void SelectRouteDestination(TinyPlanet end)
+    {
+        if (!IsValidDestination(end))
+        {
+            Cancel();
+        }
+        else
+        {
+            _end = end;
+            RouteDestinationSelected?.Invoke();
+        }
+    }
+
+    public bool IsValidDestination(TinyPlanet tinyPlanet)
+    {
+        if (_start == null) return false;
+
+        return !_start.planetId.Is(tinyPlanet.planetId) && tinyPlanet.HasPort();
+    }
+
+    public bool IsEditing()
+    {
+        return _state == RouteEditorState.Editing && HasLoadedARoute();
+    }
+
+    public bool IsCreating()
+    {
+        return _state == RouteEditorState.Creating && HasLoadedARoute();
+    }
+
+    public bool IsIdle()
+    {
+        return _state == RouteEditorState.Idle;
+    }
+
+    public bool HasLoadedARoute()
+    {
+        return _start != null || _end != null;
+    }
+
+    public TinyPlanetResources.PlanetResourceType GetSelectedResourceType()
+    {
+        return _resourceType;
+    }
+
+    public TinyPlanet GetRouteDestination()
+    {
+        return _end;
+    }
+
+    private void SelectRouteStart(TinyPlanet start)
+    {
+        if (!start.HasPort())
+        {
+            Cancel();
+        }
+        else
+        {
+            _started = Time.time;
+            _start = start;
+
+            RouteStarted?.Invoke(_start);
+        }
+    }
+
+    private void Reset()
+    {
+        _start = null;
+        _end = null;
+        _state = RouteEditorState.Idle;
     }
 
     private float TradeAmountForResource(TinyPlanetResources.PlanetResourceType resourceType)
@@ -132,33 +191,5 @@ public class RouteEditor : MonoBehaviour
                 Debug.LogError("Trying to get trade amount for a resource that is not tradable: " + resourceType);
                 return 0f;
         }
-    }
-
-    private void Reset()
-    {
-        _start = null;
-        _end = null;
-    }
-
-    public bool IsValidDestination(TinyPlanet tinyPlanet)
-    {
-        if (_start == null) return false;
-
-        return !_start.planetId.Is(tinyPlanet.planetId) && tinyPlanet.HasPort();
-    }
-
-    public bool IsEditing()
-    {
-        return _start != null || _end != null;
-    }
-
-    public TinyPlanetResources.PlanetResourceType GetSelectedResourceType()
-    {
-        return _resourceType;
-    }
-
-    public TinyPlanet GetRouteDestination()
-    {
-        return _end;
     }
 }

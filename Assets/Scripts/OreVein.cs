@@ -6,10 +6,10 @@ public class OreVein : MonoBehaviour
 {
     private int _resources = 0;
 
-    public static readonly int OrePerBlock = 1;
-
     public GameObject[] faces;
     private TinyPlanetResources.PlanetResourceType _resourceType;
+    private int _orePerBlock;
+    private int _debrisMultiplier;
 
     public void Setup(TinyPlanetResources.PlanetResourceType resourceType)
     {
@@ -34,8 +34,17 @@ public class OreVein : MonoBehaviour
                 var ore = Instantiate(template, face.transform);
                 var meshTransform = ore.transform;
                 var scale = meshTransform.localScale;
-                meshTransform.localScale = new Vector3(Random.Range(1f, 1.7f), Random.Range(1f, 1.7f),
-                    Random.Range(1.5f, 2.2f));
+                if (resourceType == TinyPlanetResources.PlanetResourceType.Graphite)
+                {
+                    var newScale = Random.Range(1f, 1.1f);
+                    meshTransform.localScale = new Vector3(newScale, newScale, newScale);
+                }
+                else
+                {
+                    meshTransform.localScale = new Vector3(Random.Range(1f, 1.7f), Random.Range(1f, 1.7f),
+                        Random.Range(1.5f, 2.2f));
+                }
+
                 meshTransform.localPosition = new Vector3(Random.Range(-.32f, .32f), Random.Range(-.32f, .32f), .48f);
                 meshTransform.localRotation = Quaternion.Euler(Random.Range(0, 8) * 45f, Random.Range(0, 8) * 45f,
                     Random.Range(0, 8) * 45f);
@@ -43,45 +52,22 @@ public class OreVein : MonoBehaviour
             }
         }
 
-
-        // var pieces = GetComponentsInChildren<MeshRenderer>();
-        // foreach (var meshRenderer in pieces)
-        // {
-        //     if (Random.value < .4f) meshRenderer.gameObject.SetActive(false);
-        //     else
-        //     {
-        //         var meshTransform = meshRenderer.gameObject.transform;
-        //         var scale = meshTransform.localScale;
-        //         meshTransform.localScale = new Vector3(Random.Range(.2f, .25f), Random.Range(.2f, .45f), scale.z);
-        //         meshTransform.localPosition = new Vector3(Random.Range(-.15f, .15f), Random.Range(-.15f, .15f), .45f);
-        //         meshTransform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(0, 8) * 45f);
-        //         onCount += 1;
-        //     }
-        // }
-        //
-        // if (onCount == 0)
-        // {
-        //     var randomPiece = pieces[Random.Range(0, pieces.Length)].gameObject;
-        //     var meshTransform = randomPiece.transform;
-        //     var scale = meshTransform.localScale;
-        //     var uniformScale = Random.Range(.2f, .35f);
-        //     meshTransform.localScale = new Vector3(uniformScale, uniformScale, scale.z);
-        //     meshTransform.localPosition = new Vector3(Random.Range(-.15f, .15f), Random.Range(-.15f, .15f), .45f);
-        //     meshTransform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(0, 8) * 45f);
-        //     randomPiece.SetActive(true);
-        //     onCount += 1;
-        // }
-        //
-
-        var orePerBlock = _resourceType switch
+        _orePerBlock = _resourceType switch
         {
             TinyPlanetResources.PlanetResourceType.Iron => 1,
             TinyPlanetResources.PlanetResourceType.Graphite => 5,
             TinyPlanetResources.PlanetResourceType.Copper => 1,
             _ => throw new ArgumentOutOfRangeException(nameof(_resourceType), _resourceType, null)
         };
+        _debrisMultiplier = _resourceType switch
+        {
+            TinyPlanetResources.PlanetResourceType.Iron => 1,
+            TinyPlanetResources.PlanetResourceType.Graphite => 2,
+            TinyPlanetResources.PlanetResourceType.Copper => 1,
+            _ => throw new ArgumentOutOfRangeException(nameof(_resourceType), _resourceType, null)
+        };
 
-        _resources += onCount * orePerBlock;
+        _resources += onCount * _orePerBlock;
     }
 
     public int Collect(TinyPlanetResources planetResources)
@@ -91,7 +77,7 @@ public class OreVein : MonoBehaviour
         planetResources.AddResource(_resourceType, _resources);
         _resources = 0;
 
-        return amount;
+        return (amount / _orePerBlock) * _debrisMultiplier;
     }
 
     public TinyPlanetResources.PlanetResourceType GetResourceType()

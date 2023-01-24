@@ -63,6 +63,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 36df118ed59391844add0e9cc7c36bf5, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 2612828a4cc5eec4aa2ff150082d4152, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4711208715938537054, guid: df5878ea56be46e409902f1111034566, type: 3}
     - target: {fileID: 919132149155446097, guid: 2612828a4cc5eec4aa2ff150082d4152, type: 3}
       propertyPath: m_Name
       value: Copper_Ore

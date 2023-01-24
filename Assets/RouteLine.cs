@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RouteLine : MonoBehaviour
@@ -13,8 +14,22 @@ public class RouteLine : MonoBehaviour
     private Material _lineMaterial;
     private Material _arrowMaterial;
     private static readonly int Active = Shader.PropertyToID("_IsActive");
-    private static readonly int ResourceType = Shader.PropertyToID("_ResourceType");
+    private static readonly int ColorType = Shader.PropertyToID("_Color");
     private Route _route;
+
+    private static readonly Dictionary<TinyPlanetResources.PlanetResourceType, Color> Colors =
+        new()
+        {
+            { TinyPlanetResources.PlanetResourceType.Ore, new Color(1f, 0.845528f, 0f) },
+            { TinyPlanetResources.PlanetResourceType.Iron, new Color(1f, 1f, 1f) },
+            { TinyPlanetResources.PlanetResourceType.Graphite, new Color(.05f, 0.05f, .2f) },
+            { TinyPlanetResources.PlanetResourceType.Copper, new Color(1f, .4f, .2f) },
+            { TinyPlanetResources.PlanetResourceType.Metals, new Color(.5f, 0.5f, .5f) },
+            { TinyPlanetResources.PlanetResourceType.Gadgets, new Color(0.7359977f, 0f, 1f) },
+            { TinyPlanetResources.PlanetResourceType.Ice, new Color(.75f, .75f, 1f) },
+            { TinyPlanetResources.PlanetResourceType.Water, new Color(.2f, .2f, 1f) },
+            { TinyPlanetResources.PlanetResourceType.Refreshments, new Color(0f, 0f, 1f) },
+        };
 
     private void Awake()
     {
@@ -34,12 +49,6 @@ public class RouteLine : MonoBehaviour
             1); // Always setting this to 1 let's the arrow be a UI element to always show what resource a line is trading
     }
 
-    private void SetResourceType(TinyPlanetResources.PlanetResourceType routeResourceType)
-    {
-        _lineMaterial.SetFloat(ResourceType, (int)routeResourceType);
-        _arrowMaterial.SetFloat(ResourceType, (int)routeResourceType);
-    }
-
     public void LinkBetween(Route route)
     {
         _route = route;
@@ -53,7 +62,14 @@ public class RouteLine : MonoBehaviour
         var (inboundOrNull, outboundOrNull) = RouteManager.Get().GetRoutesBetween(start, destination);
         LinkBetween(start, destination, inboundOrNull != null, HasPriority(inboundOrNull, outboundOrNull));
         SetIsActive(route.IsActive());
+
         SetResourceType(route.ResourceType);
+    }
+
+    private void SetResourceType(TinyPlanetResources.PlanetResourceType routeResourceType)
+    {
+        _lineMaterial.SetColor(ColorType, Colors[routeResourceType]);
+        _arrowMaterial.SetColor(ColorType, Colors[routeResourceType]);
     }
 
     public void LinkBetween(TinyPlanet start, TinyPlanet end, bool planetHasInboundFromSource, bool planetHasPriority)
@@ -62,10 +78,11 @@ public class RouteLine : MonoBehaviour
         transform.position = startPosition;
 
         var endPosition = end.GetCenter();
-        var targetVector = endPosition - startPosition;
-        var distance = targetVector.magnitude - 25f;
-
         linePivot.transform.LookAt(endPosition);
+        var startOffset = 12f;
+        linePivot.transform.position +=
+            linePivot.transform.forward *
+            startOffset; // Move the line slightly away from the planet (so it is not confused with the planets hitbox)
 
         if (planetHasInboundFromSource)
         {
@@ -74,10 +91,17 @@ public class RouteLine : MonoBehaviour
         }
 
         var scale = linePivot.transform.localScale;
+        var targetVector = endPosition - startPosition;
+        var arrowHeadLineEndOffset =
+            25f; // This ensures the line ends inside the arrow head mesh, but doesn't pass through it
+        var distance = targetVector.magnitude - (arrowHeadLineEndOffset + startOffset);
         linePivot.transform.localScale = new Vector3(scale.x, scale.y, distance * .5f);
 
         arrowPivot.transform.rotation = linePivot.transform.rotation;
-        arrowPivot.transform.position = endPosition - arrowPivot.transform.forward * 26f;
+        var
+            arrowHeadOffset =
+                26f; // This offset ensures the arrowhead ends at an appropriate distance away from the planet, so it looks like it is pointing towards it.
+        arrowPivot.transform.position = endPosition - arrowPivot.transform.forward * arrowHeadOffset;
     }
 
     private bool HasPriority(Route inboundOrNull, Route outboundOrNull)

@@ -57,7 +57,7 @@ namespace Interactors
 
         public override string GetInteractorShortDescription()
         {
-            return "Laser active";
+            return "";
         }
 
         public bool Started()

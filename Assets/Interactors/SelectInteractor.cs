@@ -29,7 +29,7 @@ namespace Interactors
 
         public override string GetInteractorShortDescription()
         {
-            return $"Click on another asteroid to go there";
+            return $"";
         }
 
         public override bool CanBuild(Block block)

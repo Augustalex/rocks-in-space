@@ -82,7 +82,8 @@ public class PlanetLandmark : MonoBehaviour
 
     public void MouseDown()
     {
-        if (_cameraController.IsZoomedOut()) RouteEditor.Get().SelectRouteStart(_planet);
+        if (_cameraController.IsZoomedOut() && !RouteEditor.Get().IsEditing())
+            RouteEditor.Get().StartCreatingRouteFrom(_planet);
     }
 
     public void MouseUp()
@@ -90,7 +91,11 @@ public class PlanetLandmark : MonoBehaviour
         if (!_cameraController.IsZoomedOut()) return;
 
         var routeEditor = RouteEditor.Get();
-        if (routeEditor.IsEditing())
+        if (routeEditor.IsIdle())
+        {
+            NavigateToPlanet(_planet);
+        }
+        else if (routeEditor.IsCreating())
         {
             if (routeEditor.IsValidDestination(_planet))
             {
@@ -98,12 +103,9 @@ public class PlanetLandmark : MonoBehaviour
             }
             else
             {
-                routeEditor.CancelEditing();
+                routeEditor.Cancel();
+                NavigateToPlanet(_planet);
             }
-        }
-        else
-        {
-            NavigateToPlanet(_planet);
         }
     }
 

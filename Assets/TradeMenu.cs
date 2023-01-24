@@ -45,14 +45,14 @@ public class TradeMenu : MonoBehaviour
         var start = _routeEditor.GetRouteStart();
         if (start == null)
         {
-            _routeEditor.CancelEditing();
+            _routeEditor.Cancel();
             return;
         }
 
         var end = _routeEditor.GetRouteDestination();
         if (end == null)
         {
-            _routeEditor.CancelEditing();
+            _routeEditor.Cancel();
             return;
         }
 
@@ -92,13 +92,13 @@ public class TradeMenu : MonoBehaviour
             _routeManager.RemoveRoute(start, end);
         }
 
-        _routeEditor.CancelEditing();
+        _routeEditor.Cancel();
         Hide();
     }
 
     public void Dismiss()
     {
-        _routeEditor.CancelEditing();
+        _routeEditor.Cancel();
         Hide();
     }
 

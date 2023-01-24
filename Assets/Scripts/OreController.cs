@@ -31,7 +31,7 @@ public class OreController : MonoBehaviour
     public void Mine(TinyPlanet planet)
     {
         var planetResources = planet.GetComponent<TinyPlanetResources>();
-        var oreAmount = _oreVein.Collect(planetResources);
+        var debrisCount = _oreVein.Collect(planetResources);
 
         var resourceType = _oreVein.GetResourceType();
         var debris = resourceType switch
@@ -42,7 +42,7 @@ public class OreController : MonoBehaviour
             TinyPlanetResources.PlanetResourceType.Copper => PrefabTemplateLibrary.Get().copperOreDebrisTemplate,
             _ => throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType, null)
         };
-        SpawnOreDebris(planet, debris, oreAmount / OreVein.OrePerBlock);
+        SpawnOreDebris(planet, debris, debrisCount);
 
         DestroyOre();
     }
