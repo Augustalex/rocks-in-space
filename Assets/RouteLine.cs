@@ -45,8 +45,8 @@ public class RouteLine : MonoBehaviour
     public void SetIsActive(bool isActive)
     {
         _lineMaterial.SetInt(Active, isActive ? 1 : 0);
-        _arrowMaterial.SetInt(Active,
-            1); // Always setting this to 1 let's the arrow be a UI element to always show what resource a line is trading
+        _arrowMaterial.SetInt(Active, isActive ? 1 : 0);
+        // 1); // Always setting this to 1 let's the arrow be a UI element to always show what resource a line is trading
     }
 
     public void LinkBetween(Route route)

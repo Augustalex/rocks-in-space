@@ -64,20 +64,19 @@ public class PlanetLandmark : MonoBehaviour
 
     private void HandleHoverPopup()
     {
-        // Uncomment to enable Planet popup Info
-        // var timeSinceLastHovered = Time.time - _lastHovered;
-        // if (timeSinceLastHovered > HoverTooltipThreshold)
-        // {
-        //     if (timeSinceLastHovered > (HoverTooltipThreshold + HoverTooltipGracePeriod))
-        //     {
-        //         _lastHovered = Time.time;
-        //     }
-        //     else
-        //     {
-        //         _planet.GetPort().GetPopupTarget().Show();
-        //         _lastHovered = Time.time;
-        //     }
-        // }
+        var timeSinceLastHovered = Time.time - _lastHovered;
+        if (timeSinceLastHovered > HoverTooltipThreshold)
+        {
+            if (timeSinceLastHovered > (HoverTooltipThreshold + HoverTooltipGracePeriod))
+            {
+                _lastHovered = Time.time;
+            }
+            else
+            {
+                _planet.GetPort().GetPopupTarget().Show();
+                _lastHovered = Time.time;
+            }
+        }
     }
 
     public void MouseDown()

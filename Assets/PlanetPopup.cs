@@ -94,7 +94,6 @@ public class PlanetPopup : MonoBehaviour
     public void StartHide()
     {
         // Triggers FadeOut animation that eventually calls Hide().
-
         _animator.SetBool(Visible, false);
     }
 
@@ -120,36 +119,36 @@ public class PlanetPopup : MonoBehaviour
     private void UpdateTexts(TinyPlanet planet)
     {
         // Disable all texts (except header) - then enable only those needed further down.
-        for (var i = ResourceTextsStartingIndex; i < _texts.Length; i++)
-        {
-            _texts[i].gameObject.SetActive(false);
-        }
-
-        var resources = planet.GetResources();
+        // for (var i = ResourceTextsStartingIndex; i < _texts.Length; i++)
+        // {
+        //     _texts[i].gameObject.SetActive(false);
+        // }
+        //
+        // var resources = planet.GetResources();
 
         var header = _texts[0];
         if (!header.gameObject.activeSelf) header.gameObject.SetActive(true);
         header.text = planet.planetName;
 
-        var resourceToShow = new List<TinyPlanetResources.PlanetResourceType>();
-        foreach (var resource in _resources)
-        {
-            var amount = Mathf.FloorToInt(resources.GetResource(resource));
-            if (amount > 0 || _tutorialItems.Contains(resource))
-            {
-                resourceToShow.Add(resource);
-            }
-            else if (resource == TinyPlanetResources.PlanetResourceType.Food && resources.HasFarm())
-            {
-                resourceToShow.Add(resource);
-            }
-            else if (resource == TinyPlanetResources.PlanetResourceType.Energy && resources.HasPowerPlant())
-            {
-                resourceToShow.Add(resource);
-            }
-        }
-
-        ShowResources(resources, resourceToShow);
+        // var resourceToShow = new List<TinyPlanetResources.PlanetResourceType>();
+        // foreach (var resource in _resources)
+        // {
+        //     var amount = Mathf.FloorToInt(resources.GetResource(resource));
+        //     if (amount > 0 || _tutorialItems.Contains(resource))
+        //     {
+        //         resourceToShow.Add(resource);
+        //     }
+        //     else if (resource == TinyPlanetResources.PlanetResourceType.Food && resources.HasFarm())
+        //     {
+        //         resourceToShow.Add(resource);
+        //     }
+        //     else if (resource == TinyPlanetResources.PlanetResourceType.Energy && resources.HasPowerPlant())
+        //     {
+        //         resourceToShow.Add(resource);
+        //     }
+        // }
+        //
+        // ShowResources(resources, resourceToShow);
     }
 
     private void ShowResources(TinyPlanetResources resources,

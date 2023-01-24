@@ -7,7 +7,7 @@ public class Route
 {
     public readonly PlanetId StartPlanetId;
     public readonly PlanetId DestinationPlanetId;
-    public TinyPlanetResources.PlanetResourceType ResourceType = TinyPlanetResources.PlanetResourceType.Ore;
+    public TinyPlanetResources.PlanetResourceType ResourceType = TinyPlanetResources.PlanetResourceType.Iron;
 
     public event Action Removed;
 
