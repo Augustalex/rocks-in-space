@@ -975,6 +975,8 @@ GameObject:
   - component: {fileID: 8735151769192264088}
   - component: {fileID: 2627567727297764231}
   - component: {fileID: 4540542563604581370}
+  - component: {fileID: 5202236152339670404}
+  - component: {fileID: 1365616962059716592}
   m_Layer: 5
   m_Name: ColonistsInfo
   m_TagString: Untagged
@@ -1055,6 +1057,32 @@ MonoBehaviour:
   overjoyedColor: {r: 0.56078434, g: 0.2509804, b: 1, a: 1}
   text: {fileID: 2376130971100597177}
   icon: {fileID: 5480855057337300899}
+--- !u!114 &5202236152339670404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6040383324769854303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb31ed360eb94a1386122aeabb1905ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+--- !u!114 &1365616962059716592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6040383324769854303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b07ab4644536a33479e56cbd0201b45a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: Inhabitants
 --- !u!1 &6489107386949229496
 GameObject:
   m_ObjectHideFlags: 0
@@ -1294,6 +1322,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5426768365747176907}
   - component: {fileID: 655363695018154775}
+  - component: {fileID: 2825717824048502797}
+  - component: {fileID: 6932521668647605794}
   m_Layer: 5
   m_Name: IncomeDisplay
   m_TagString: Untagged
@@ -1349,6 +1379,32 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &2825717824048502797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6887896887584263024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb31ed360eb94a1386122aeabb1905ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+--- !u!114 &6932521668647605794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6887896887584263024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b07ab4644536a33479e56cbd0201b45a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: Asteroid income/min
 --- !u!1 &7435085551473750472
 GameObject:
   m_ObjectHideFlags: 0

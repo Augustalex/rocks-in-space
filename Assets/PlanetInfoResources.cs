@@ -26,21 +26,27 @@ public class PlanetInfoResources : MonoBehaviour
     {
         power.Set(TinyPlanetResources.PlanetResourceType.Energy);
         power.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+        power.GetComponent<TooltipTrigger>().SetMessage("Power");
 
         food.Set(TinyPlanetResources.PlanetResourceType.Food);
         food.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+        food.GetComponent<TooltipTrigger>().SetMessage("Fresh food");
 
         housing.Set(TinyPlanetResources.PlanetResourceType.Housing);
         housing.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+        housing.GetComponent<TooltipTrigger>().SetMessage("Vacant housing");
 
         ice.Set(TinyPlanetResources.PlanetResourceType.Ice);
         ice.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+        ice.GetComponent<TooltipTrigger>().SetMessage("Ice");
 
         water.Set(TinyPlanetResources.PlanetResourceType.Water);
         water.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+        water.GetComponent<TooltipTrigger>().SetMessage("Water");
 
         refreshment.Set(TinyPlanetResources.PlanetResourceType.Refreshments);
         refreshment.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+        refreshment.GetComponent<TooltipTrigger>().SetMessage("Drinks");
 
         ore.gameObject.SetActive(false);
         // ore.Set(TinyPlanetResources.PlanetResourceType.Ore);
@@ -48,21 +54,27 @@ public class PlanetInfoResources : MonoBehaviour
 
         metals.Set(TinyPlanetResources.PlanetResourceType.Metals);
         metals.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+        metals.GetComponent<TooltipTrigger>().SetMessage("Metals");
 
         gadgets.Set(TinyPlanetResources.PlanetResourceType.Gadgets);
         gadgets.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+        gadgets.GetComponent<TooltipTrigger>().SetMessage("Gadgets");
 
         iron.Set(TinyPlanetResources.PlanetResourceType.Iron);
         iron.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+        iron.GetComponent<TooltipTrigger>().SetMessage("Iron");
 
         graphite.Set(TinyPlanetResources.PlanetResourceType.Graphite);
         graphite.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+        graphite.GetComponent<TooltipTrigger>().SetMessage("Graphite");
 
         copper.Set(TinyPlanetResources.PlanetResourceType.Copper);
         copper.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+        copper.GetComponent<TooltipTrigger>().SetMessage("Copper");
 
         protein.Set(TinyPlanetResources.PlanetResourceType.Protein);
         protein.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+        protein.GetComponent<TooltipTrigger>().SetMessage("Protein chunks");
 
         DisableColonyResources();
 
