@@ -56,18 +56,15 @@ public class PlanetLandmark : MonoBehaviour
 
         if (zoomedOut)
         {
-            Debug.Log("SHOW ZOOMED OUT");
             ShowAndUpdatePosition(true);
         }
         else if (gotoModeOn)
         {
-            Debug.Log("GOTO MODE");
             if (IsCurrentPlanet(_planet)) Hide();
             else ShowAndUpdatePosition(ShowInGotoMode && _planet.HasPort());
         }
         else
         {
-            Debug.Log("HIDE");
             Hide();
         }
     }
@@ -159,7 +156,6 @@ public class PlanetLandmark : MonoBehaviour
     {
         _material.SetInt(HasPort, _planet.HasPort() ? 1 : 0);
         _material.SetInt(IsSelected, IsCurrentPlanet(_planet) ? 1 : 0);
-        Debug.Log("SHOW MARKER: " + showMarker);
         _material.SetInt(InMapView, showMarker ? 1 : 0);
     }
 
