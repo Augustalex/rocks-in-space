@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GameNotifications;
 using Interactors;
 using UnityEngine;
 
@@ -22,6 +23,10 @@ public class ProgressManager : MonoBehaviour
     private ColonyProgress _colonyProgress = ColonyProgress.Zero;
     private bool _gotFirstGadgets;
 
+    private const float ShowCopperHintAfterTime = 45;
+    private float _builtFirstFactoryAt;
+    private bool _hasSentCopperHint;
+
     public static ProgressManager Get()
     {
         return _instance;
@@ -34,6 +39,11 @@ public class ProgressManager : MonoBehaviour
 
     public void Built(BuildingType buildingType)
     {
+        if (buildingType == BuildingType.Factory && !HasBuilt(BuildingType.Factory))
+        {
+            _builtFirstFactoryAt = Time.time;
+        }
+
         _builtBuildings.Add(buildingType);
     }
 
@@ -64,6 +74,8 @@ public class ProgressManager : MonoBehaviour
 
     public void UpdateProgress()
     {
+        ManageCopperHint();
+
         var happyColonists = 0;
         var overjoyedColonists = 0;
 
@@ -99,6 +111,25 @@ public class ProgressManager : MonoBehaviour
         {
             _colonyProgress = ColonyProgress.Luxurious;
         }
+    }
+
+    private void ManageCopperHint()
+    {
+        if (_hasSentCopperHint || !(_builtFirstFactoryAt > 0) || _gotFirstGadgets) return;
+
+        var duration = Time.time - _builtFirstFactoryAt;
+        if (!(duration > ShowCopperHintAfterTime)) return;
+
+        var gadgetsText =
+            TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets);
+        var copperText =
+            TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Copper);
+        Notifications.Get().Send(new TextNotification
+        {
+            Message =
+                $"Factories need {copperText} to produce {gadgetsText}. There is a specific kind of asteroid where {copperText} is abundant."
+        });
+        _hasSentCopperHint = true;
     }
 
     public bool LanderUnlocked()

@@ -165,7 +165,6 @@ namespace Interactors
             // Do nothing
         }
 
-
         public virtual bool Continuous()
         {
             return false;

@@ -555,6 +555,7 @@ GameObject:
   - component: {fileID: 175214339713219323}
   - component: {fileID: 4363894802846691955}
   - component: {fileID: -6475074023693509270}
+  - component: {fileID: 3553966510199222441}
   m_Layer: 0
   m_Name: Lander
   m_TagString: Untagged
@@ -620,6 +621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   energy: 0
+  workersNeeded: 0
   residencyType: 2
 --- !u!114 &2417869070066682034
 MonoBehaviour:
@@ -672,6 +674,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: A place for your founding members to settle. Provides 500 workers,
     with all their needs provided.
+--- !u!114 &3553966510199222441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749449814968137031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5fbf59e246960643b466bb728cea7c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingType: 6
 --- !u!1 &5516577680643173383
 GameObject:
   m_ObjectHideFlags: 0

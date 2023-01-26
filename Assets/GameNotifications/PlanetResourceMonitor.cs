@@ -6,6 +6,9 @@ namespace GameNotifications
 {
     public class PlanetResourceMonitor : MonoBehaviour
     {
+        private bool _hasHadCopper;
+        private bool _hasSentCopperHint;
+
         private TinyPlanet _planet;
         private TinyPlanetResources _resources;
         private TinyPlanetResources.ResourcesData _previousResources;
@@ -41,8 +44,8 @@ namespace GameNotifications
         private void Check()
         {
             var newData = _resources.CopyData();
-            var noEnergy = newData.Energy < 0f;
 
+            var noEnergy = newData.Energy < 0f;
             var currentAmountOfInhabitants = newData.Inhabitants - newData.Landers;
             var previousAmountOfInhabitants = _previousResources.Inhabitants - _previousResources.Landers;
 
