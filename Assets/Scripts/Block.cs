@@ -23,26 +23,18 @@ public class Block : MonoBehaviour, ILaserInteractable
 
     public void Dig()
     {
-        var tinyPlanetGenerator = TinyPlanetGenerator.Get();
+        Mine();
 
+        var tinyPlanetGenerator = TinyPlanetGenerator.Get();
+        tinyPlanetGenerator.DestroyBlock(this); // Will call "DestroySelf"
+    }
+
+    private void Mine()
+    {
         if (_oreController.HasOre())
         {
             _oreController.Mine(GetConnectedPlanet());
             ResourceSounds.Get().Play();
-        }
-
-        if (_seed)
-        {
-            var resourceSpent = _seed.GetComponentInChildren<ResourceSpent>();
-            if (resourceSpent)
-            {
-                var costs = resourceSpent.costs;
-                var resources = GetConnectedPlanet().GetResources();
-                GlobalResources.Get().AddCash(costs.cash);
-                resources.AddOre(costs.ore);
-                resources.AddMetals(costs.metals);
-                resources.AddGadgets(costs.gadgets);
-            }
         }
 
         if (_rockType == TinyPlanet.RockType.Ice)
@@ -51,8 +43,6 @@ public class Block : MonoBehaviour, ILaserInteractable
             ResourceSounds.Get().PlayClink();
         }
         else RockSmash.Get().Play();
-
-        tinyPlanetGenerator.DestroyBlock(this); // Will call "DestroySelf"
     }
 
     public void DestroyedByNonPlayer()
@@ -71,6 +61,17 @@ public class Block : MonoBehaviour, ILaserInteractable
             if (planetAttachment)
             {
                 planetAttachment.DetachFrom(GetConnectedPlanet());
+            }
+
+            var resourceSpent = _seed.GetComponentInChildren<ResourceSpent>();
+            if (resourceSpent)
+            {
+                var costs = resourceSpent.costs;
+                var resources = GetConnectedPlanet().GetResources();
+                GlobalResources.Get().AddCash(costs.cash);
+                resources.AddOre(costs.ore);
+                resources.AddMetals(costs.metals);
+                resources.AddGadgets(costs.gadgets);
             }
         }
 
@@ -157,7 +158,9 @@ public class Block : MonoBehaviour, ILaserInteractable
             }
         }
 
-        KillOre();
+
+        Mine();
+        // KillOre();
 
         _seed = Instantiate(seedTemplate, transform.parent, true);
         _seed.transform.position = transform.position;
@@ -173,7 +176,7 @@ public class Block : MonoBehaviour, ILaserInteractable
         {
             var mesh = GetMesh();
             if (mesh) Destroy(mesh.gameObject);
-
+        
             if (IsIce())
                 _rockType = TinyPlanet.RockType
                     .Blue; // If a rock is Ice, then we want the destroy animation to show blocks flying, not ice melting.
