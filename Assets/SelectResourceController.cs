@@ -1,8 +1,11 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SelectResourceController : MonoBehaviour
 {
+    public RectTransform container;
+    
     // public TwoStateButton oreButton;
     public TwoStateButton ironButton;
     public TwoStateButton graphiteButton;
@@ -63,13 +66,59 @@ public class SelectResourceController : MonoBehaviour
 
     private void Render()
     {
-        // oreButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Ore);
-        ironButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Iron);
-        graphiteButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Graphite);
-        copperButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Copper);
-        metalsButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Metals);
-        gadgetsButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Gadgets);
-        waterButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Water);
-        refreshmentsButton.Set(_selectedResourceType == TinyPlanetResources.PlanetResourceType.Refreshments);
+        var progressManager = ProgressManager.Get();
+        RenderButton(
+            ironButton,
+            true,
+            _selectedResourceType == TinyPlanetResources.PlanetResourceType.Iron
+        );
+
+        RenderButton(
+            graphiteButton,
+            true,
+            _selectedResourceType == TinyPlanetResources.PlanetResourceType.Graphite
+        );
+
+        RenderButton(
+            copperButton,
+            true,
+            _selectedResourceType == TinyPlanetResources.PlanetResourceType.Copper
+        );
+
+        RenderButton(
+            metalsButton,
+            progressManager.GotResource(TinyPlanetResources.PlanetResourceType.Metals),
+            _selectedResourceType == TinyPlanetResources.PlanetResourceType.Metals
+        );
+
+        RenderButton(
+            gadgetsButton,
+            progressManager.GotResource(TinyPlanetResources.PlanetResourceType.Gadgets),
+            _selectedResourceType == TinyPlanetResources.PlanetResourceType.Gadgets
+        );
+
+        RenderButton(
+            waterButton,
+            progressManager.GotResource(TinyPlanetResources.PlanetResourceType.Water),
+            _selectedResourceType == TinyPlanetResources.PlanetResourceType.Water
+        );
+
+        RenderButton(
+            refreshmentsButton,
+            progressManager.GotResource(TinyPlanetResources.PlanetResourceType.Refreshments),
+            _selectedResourceType == TinyPlanetResources.PlanetResourceType.Refreshments
+        );
+        
+        LayoutRebuilder.ForceRebuildLayoutImmediate(container);
+    }
+
+    private void RenderButton(TwoStateButton button, bool shouldRender, bool shouldSelect)
+    {
+        if (!shouldRender) button.Hide();
+        else
+        {
+            button.Show();
+            button.Set(shouldSelect);
+        }
     }
 }

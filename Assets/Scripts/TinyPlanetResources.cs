@@ -149,22 +149,50 @@ public class TinyPlanetResources : MonoBehaviour
         {
             yield return new WaitForSeconds(.5f);
             _oreTracker.ProgressHistory();
+            _oreTracker.OnFirstPositiveChange +=
+                () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Ore);
+
+            _ironTracker.ProgressHistory();
+            _ironTracker.OnFirstPositiveChange +=
+                () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Iron);
+
+            _graphiteTracker.ProgressHistory();
+            _graphiteTracker.OnFirstPositiveChange +=
+                () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Graphite);
+
+            _copperTracker.ProgressHistory();
+            _copperTracker.OnFirstPositiveChange +=
+                () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Copper);
+
             _metalsTracker.ProgressHistory();
+            _metalsTracker.OnFirstPositiveChange +=
+                () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Metals);
 
             _gadgetsTracker.ProgressHistory();
             _gadgetsTracker.OnFirstPositiveChange += () => ProgressManager.Get().GotFirstGadgets();
+            _gadgetsTracker.OnFirstPositiveChange +=
+                () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Gadgets);
 
             // _powerTracker.ProgressHistory();
             _proteinTracker.ProgressHistory();
+            _proteinTracker.OnFirstPositiveChange +=
+                () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Protein);
+            
             _foodTracker.ProgressHistory();
+            _foodTracker.OnFirstPositiveChange +=
+                () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Food);
 
             _iceTracker.ProgressHistory();
+            _iceTracker.OnFirstPositiveChange +=
+                () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Ice);
+            
             _waterTracker.ProgressHistory();
+            _waterTracker.OnFirstPositiveChange +=
+                () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Water);
+            
             _refreshmentsTracker.ProgressHistory();
-
-            _ironTracker.ProgressHistory();
-            _graphiteTracker.ProgressHistory();
-            _copperTracker.ProgressHistory();
+            _refreshmentsTracker.OnFirstPositiveChange +=
+                () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Refreshments);
         }
     }
 
@@ -338,7 +366,7 @@ public class TinyPlanetResources : MonoBehaviour
         DeregisterOccupiedResident();
         DeregisterOccupiedResident();
         DeregisterOccupiedResident();
-        
+
         _landers -= InhabitantsPerResidency * 5;
     }
 

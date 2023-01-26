@@ -40,4 +40,14 @@ public class TwoStateButton : MonoBehaviour
         onButton.gameObject.SetActive(_isOn);
         offButton.gameObject.SetActive(!_isOn);
     }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
 }

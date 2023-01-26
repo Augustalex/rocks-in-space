@@ -8,6 +8,7 @@ public class ProgressManager : MonoBehaviour
 {
     private static ProgressManager _instance;
 
+    private readonly HashSet<TinyPlanetResources.PlanetResourceType> _gotResources = new();
     private readonly HashSet<BuildingType> _builtBuildings = new();
     private readonly HashSet<PlanetId> _ports = new();
 
@@ -115,7 +116,10 @@ public class ProgressManager : MonoBehaviour
 
     private void ManageCopperHint()
     {
-        if (_hasSentCopperHint || !(_builtFirstFactoryAt > 0) || _gotFirstGadgets) return;
+        var hasGotFirstGadget = _gotResources.Contains(TinyPlanetResources.PlanetResourceType.Gadgets);
+
+        if (_hasSentCopperHint || !(_builtFirstFactoryAt > 0) ||
+            hasGotFirstGadget) return;
 
         var duration = Time.time - _builtFirstFactoryAt;
         if (!(duration > ShowCopperHintAfterTime)) return;
@@ -184,6 +188,16 @@ public class ProgressManager : MonoBehaviour
 
     public void GotFirstGadgets()
     {
-        _gotFirstGadgets = true;
+        _gotFirstGadgets = true; // Replace with RegisterGotResource
+    }
+
+    public void RegisterGotResource(TinyPlanetResources.PlanetResourceType resourceType)
+    {
+        _gotResources.Add(resourceType);
+    }
+
+    public bool GotResource(TinyPlanetResources.PlanetResourceType resourceType)
+    {
+        return _gotResources.Contains(resourceType);
     }
 }
