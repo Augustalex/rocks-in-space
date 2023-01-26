@@ -78,7 +78,7 @@ public class Block : MonoBehaviour, ILaserInteractable
         var position = block.transform.position;
         var rotation = block.transform.rotation;
 
-        connectedPlanet.RemoveFromNetwork(block);
+        connectedPlanet.Network().RemoveFromNetwork(block);
         Destroy(block);
 
         if (Vector3.Distance(transform.position, CameraController.GetCamera().transform.position) <
@@ -112,7 +112,7 @@ public class Block : MonoBehaviour, ILaserInteractable
         return transform.parent.gameObject;
     }
 
-    private RockMesh GetMesh()
+    public RockMesh GetMesh()
     {
         return transform.parent.GetComponentInChildren<RockMesh>();
     }

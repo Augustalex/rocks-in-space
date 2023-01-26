@@ -112,7 +112,7 @@ public class PlanetInfoResources : MonoBehaviour
             }
 
             if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Ice) > 0 ||
-                resources.HasBuilding(BuildingType.Purifier) || resources.HasBuilding(BuildingType.Distillery))
+                resources.HasBuilding(BuildingType.Purifier))
             {
                 ice.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.Ice)),
                     resources.GetTrend(TinyPlanetResources.PlanetResourceType.Ice));

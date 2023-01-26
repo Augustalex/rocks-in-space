@@ -1595,8 +1595,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLander: 0
   foodPerMinute: -10
-  refreshmentsPerMinute: -2
-  cashPerMinute: 1
+  refreshmentsPerMinute: -1
+  cashPerMinute: 2
 --- !u!114 &3805649913758207126
 MonoBehaviour:
   m_ObjectHideFlags: 0

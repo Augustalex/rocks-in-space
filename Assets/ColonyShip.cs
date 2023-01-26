@@ -161,27 +161,27 @@ public class ColonyShip : MonoBehaviour
         }
         else if (level == 2)
         {
-            colonists = 1000;
+            colonists = 500;
         }
         else if (level == 3)
         {
-            colonists = 2000;
+            colonists = 1000;
         }
         else if (level == 4)
         {
-            colonists = 2000;
+            colonists = 1000;
         }
         else if (level == 5)
         {
-            colonists = 2000;
+            colonists = 1000;
         }
         else if (level == 6)
         {
-            colonists = 3000;
+            colonists = 1000;
         }
         else
         {
-            colonists = Random.Range(10, 30) * 100;
+            colonists = Random.value < .5f ? 1000 : 2000;
         }
     }
 }

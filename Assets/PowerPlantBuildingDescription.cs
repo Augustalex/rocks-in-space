@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BuildingDescription))]
@@ -11,6 +8,6 @@ public class PowerPlantBuildingDescription : MonoBehaviour, IBuildingDescription
     {
         var effect = GetComponent<ResourceEffect>();
         return
-            $"Provides {effect.energy} {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Energy)}, required by farms and residencies.";
+            $"Takes: 1 {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Water)} every 2 seconds\nProvides: {effect.energy} {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Energy)}\n";
     }
 }

@@ -77,9 +77,9 @@ public class PortConvoyManager : MonoBehaviour
         var planet = GetComponentInParent<TinyPlanet>();
         var convoys = new[]
         {
-            new Convoy { PlanetId = planet.planetId, Colonists = 1000, CashReward = 1000 },
-            new Convoy { PlanetId = planet.planetId, Colonists = 2000, CashReward = 5000 },
-            new Convoy { PlanetId = planet.planetId, Colonists = 5000, CashReward = 25000 }
+            new Convoy { PlanetId = planet.PlanetId, Colonists = 1000, CashReward = 1000 },
+            new Convoy { PlanetId = planet.PlanetId, Colonists = 2000, CashReward = 5000 },
+            new Convoy { PlanetId = planet.PlanetId, Colonists = 5000, CashReward = 25000 }
         };
         _convoyChoiceScreen.Set(convoys);
     }

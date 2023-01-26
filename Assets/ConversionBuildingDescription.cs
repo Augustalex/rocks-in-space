@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(ResourceConversionEffect))]
-[RequireComponent(typeof(BuildingDescription))]
+[RequireComponent(typeof(BuildingDescription))] 
 public class ConversionBuildingDescription : MonoBehaviour, IBuildingDescription
 {
     public string Get()
@@ -10,7 +10,7 @@ public class ConversionBuildingDescription : MonoBehaviour, IBuildingDescription
         if (conversion.fromSecondaryAmount > 0)
         {
             return
-                $"Takes: {conversion.fromAmount} {TinyPlanetResources.ResourceName(conversion.from)} + {conversion.fromSecondaryAmount} {TinyPlanetResources.ResourceName(conversion.fromSecondary)}\n Produce: {conversion.toAmount} {TinyPlanetResources.ResourceName(conversion.to)}\nevery {conversion.iterationTime} seconds";
+                $"Takes: {conversion.fromAmount} {TinyPlanetResources.ResourceName(conversion.from)} + {conversion.fromSecondaryAmount} {TinyPlanetResources.ResourceName(conversion.fromSecondary)}\n Produces: {conversion.toAmount} {TinyPlanetResources.ResourceName(conversion.to)}\nevery {conversion.iterationTime} seconds";
         }
 
         return

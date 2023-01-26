@@ -142,6 +142,22 @@ public class CameraController : MonoBehaviour
                 ToggleZoomMode();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (CurrentPlanetController.Get().IsShipSelected())
+            {
+                FocusOnShip(CurrentPlanetController.Get().CurrentShip());
+            }
+            else
+            {
+                var currentPlanet = CurrentPlanetController.Get().CurrentPlanet();
+                if (currentPlanet)
+                {
+                    FocusOnPlanet(currentPlanet);
+                }
+            }
+        }
     }
 
     private void HandleStaticMovement()
@@ -397,7 +413,7 @@ public class CameraController : MonoBehaviour
 
         _displayController.SetPlanetInFocus(planet);
 
-        var center = TinyPlanetCenterPointHelper.GetMostCentralBlock(planet.network);
+        var center = TinyPlanetCenterPointHelper.GetMostCentralBlock(planet.Network().network);
         var previousFocusPoint = _focus ? _focus.position : _backupFocus;
         _focus = center.transform;
 

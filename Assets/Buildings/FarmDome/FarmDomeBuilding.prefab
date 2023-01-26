@@ -816,8 +816,8 @@ GameObject:
   - component: {fileID: 4305766060919539564}
   - component: {fileID: 2432672066532335419}
   - component: {fileID: -354642016939969695}
-  - component: {fileID: 8671693006919342000}
   - component: {fileID: 2343019241806798139}
+  - component: {fileID: 8926448631247968092}
   m_Layer: 0
   m_Name: FarmDomeBuilding
   m_TagString: Untagged
@@ -853,7 +853,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25b8a655d2dbccd4db2f13e8f6352378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodPerMinute: 100
 --- !u!114 &3104102893874871934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -879,6 +878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   energy: -10
+  workersNeeded: 200
   residencyType: 0
 --- !u!114 &7655387691998313433
 MonoBehaviour:
@@ -893,12 +893,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   from: 9
-  fromAmount: 2
+  fromAmount: 1
   fromSecondary: 12
   fromSecondaryAmount: 1
   to: 4
-  toAmount: 200
-  iterationTime: 4
+  toAmount: 4
+  iterationTime: 1
 --- !u!114 &2252861517128830687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -950,18 +950,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingType: 4
---- !u!114 &8671693006919342000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2957951342149841532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d104185ee110e79459d61215db2bd59f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2343019241806798139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -972,6 +960,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 587369adf2fab4e499a1e1e91307d951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8926448631247968092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2957951342149841532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3de1d0c9058992e4caaeafa0dcc53323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3959108442111318734

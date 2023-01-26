@@ -83,6 +83,6 @@ public class ColonistManager : MonoBehaviour
 
     public int ConvoyCount(TinyPlanet planet)
     {
-        return _convoys.Count(convoy => convoy.PlanetId.Is(planet.planetId));
+        return _convoys.Count(convoy => convoy.PlanetId.Is(planet.PlanetId));
     }
 }

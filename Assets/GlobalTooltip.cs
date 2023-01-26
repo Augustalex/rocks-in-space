@@ -26,7 +26,7 @@ public class GlobalTooltip : MonoBehaviour
     private void Update()
     {
         var timeAlive = Time.time - _showedAt;
-        if (timeAlive > 2f)
+        if (timeAlive > 3f)
         {
             Kill();
         }

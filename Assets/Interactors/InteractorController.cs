@@ -399,7 +399,8 @@ namespace Interactors
             {
                 if (hit.collider.CompareTag("TradeLine"))
                 {
-                    hit.collider.GetComponentInParent<RouteLine>().RemoveLine();
+                    // todo: remove?
+                    // hit.collider.GetComponentInParent<RouteLine>().RemoveLine();
                     return;
                 }
             }

@@ -7,6 +7,8 @@ public class ResourceConversionEffect : MonoBehaviour
 {
     public event Action OnStarted;
     public event Action OnStopped;
+    public event Action OnSlowedDown;
+    public event Action OnResumedSpeed;
 
     public TinyPlanetResources.PlanetResourceType from;
     public int fromAmount = 1;
@@ -20,14 +22,22 @@ public class ResourceConversionEffect : MonoBehaviour
 
     private const float ResourceTakeTime = .5f;
 
+    private const float
+        SlowDownFactor =
+            2f; // This means that process times will be doubled, if it is 2. Sync this number with the animation slow down in the ConversionAnimationController.
+
     private AttachedToPlanet _planetAttachment;
     private ResourceEffect _resourceEffect;
-    private bool _started = true; // It is true, since the animation controller starts of as true.
+    private bool _started = false;
+    private bool _slowedDown = false;
+
+    private RegisterBuildingOnPlanet _buildingRegister; // Might be null
 
     private void Awake()
     {
         _planetAttachment = GetComponent<AttachedToPlanet>();
         _resourceEffect = GetComponent<ResourceEffect>();
+        _buildingRegister = GetComponent<RegisterBuildingOnPlanet>();
     }
 
     void Start()
@@ -39,17 +49,35 @@ public class ResourceConversionEffect : MonoBehaviour
     {
         while (gameObject != null)
         {
-            yield return new WaitForSeconds(ResourceTakeTime);
+            yield return new WaitForSeconds(_slowedDown ? ResourceTakeTime * SlowDownFactor : ResourceTakeTime);
 
             var resources = _planetAttachment.GetAttachedResources();
 
-            var requiresPower = _resourceEffect && _resourceEffect.energy != 0;
-            if (requiresPower)
+            if (_resourceEffect)
             {
-                while (resources.GetResource(TinyPlanetResources.PlanetResourceType.Energy) < 0)
+                var requiresPower = _resourceEffect.energy < 0;
+                if (requiresPower)
                 {
-                    // Wait until there is power, then continue processing.
-                    yield return new WaitForSeconds(.25f);
+                    while (resources.GetResource(TinyPlanetResources.PlanetResourceType.Energy) < 0)
+                    {
+                        Stopped();
+
+                        // Wait until there is power, then continue processing.
+                        yield return new WaitForSeconds(.25f);
+                    }
+                }
+
+                var requiresWorkers = _resourceEffect.workersNeeded > 0;
+                if (requiresWorkers)
+                {
+                    if (resources.GetWorkers() < 0)
+                    {
+                        SlowedDown();
+                    }
+                    else
+                    {
+                        ResumeSpeed();
+                    }
                 }
             }
 
@@ -67,16 +95,53 @@ public class ResourceConversionEffect : MonoBehaviour
 
             Started();
 
-            yield return new WaitForSeconds(iterationTime);
+            yield return new WaitForSeconds(_slowedDown ? iterationTime * SlowDownFactor : iterationTime);
 
             resources.AddResource(to, toAmount);
         }
+    }
+
+    private void ResumeSpeed()
+    {
+        if (!_slowedDown) return;
+        _slowedDown = false;
+
+        if (_buildingRegister)
+        {
+            var buildingType = _buildingRegister.GetBuildingType();
+            _planetAttachment.GetAttachedProductionMonitor()
+                .RegisterProductionResumeSpeed(buildingType);
+        }
+
+        OnResumedSpeed?.Invoke();
+    }
+
+    private void SlowedDown()
+    {
+        if (_slowedDown) return;
+        _slowedDown = true;
+
+        if (_buildingRegister)
+        {
+            var buildingType = _buildingRegister.GetBuildingType();
+            _planetAttachment.GetAttachedProductionMonitor()
+                .RegisterProductionSlowDown(buildingType);
+        }
+
+        OnSlowedDown?.Invoke();
     }
 
     private void Started()
     {
         if (_started) return;
         _started = true;
+
+        if (_buildingRegister)
+        {
+            var buildingType = _buildingRegister.GetBuildingType();
+            _planetAttachment.GetAttachedProductionMonitor()
+                .RegisterProductionStart(buildingType);
+        }
 
         OnStarted?.Invoke();
     }
@@ -85,6 +150,13 @@ public class ResourceConversionEffect : MonoBehaviour
     {
         if (!_started) return;
         _started = false;
+
+        if (_buildingRegister)
+        {
+            var buildingType = _buildingRegister.GetBuildingType();
+            _planetAttachment.GetAttachedProductionMonitor()
+                .RegisterProductionStop(buildingType);
+        }
 
         OnStopped?.Invoke();
     }

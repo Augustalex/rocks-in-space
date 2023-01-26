@@ -18,6 +18,8 @@ public class TooltipController : MonoBehaviour
     {
         _instance = this;
         _text = GetComponentInChildren<TMP_Text>();
+
+        Kill();
     }
 
     public void Show(string text, Vector3 mousePosition)

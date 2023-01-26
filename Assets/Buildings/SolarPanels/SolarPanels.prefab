@@ -418,7 +418,7 @@ GameObject:
   - component: {fileID: 3170199669742957492}
   - component: {fileID: -5058257334959263249}
   - component: {fileID: 6996587451602562292}
-  - component: {fileID: -928563282054530050}
+  - component: {fileID: 3987634260338921406}
   m_Layer: 0
   m_Name: SolarPanels
   m_TagString: Untagged
@@ -467,6 +467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   energy: 10
+  workersNeeded: 50
   residencyType: 0
 --- !u!114 &-1646605259869712026
 MonoBehaviour:
@@ -531,7 +532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 587369adf2fab4e499a1e1e91307d951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-928563282054530050
+--- !u!114 &3987634260338921406
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -540,10 +541,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5977357871203673727}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31b34c893acbcfa4992cd1808454d475, type: 3}
+  m_Script: {fileID: 11500000, guid: 9813846dfdf10fa4db83d8e26aba7c4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Solar panels generate power.
 --- !u!1 &6551228825624174627
 GameObject:
   m_ObjectHideFlags: 0

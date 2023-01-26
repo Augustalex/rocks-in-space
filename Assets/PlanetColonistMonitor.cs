@@ -1,12 +1,8 @@
 using UnityEngine;
 
-[RequireComponent(typeof(TinyPlanet))]
+[RequireComponent(typeof(TinyPlanetResources))]
 public class PlanetColonistMonitor : MonoBehaviour
 {
-    private TinyPlanet _planet;
-
-    public string debug_text = "";
-
     public enum PlanetStatus
     {
         Uninhabited,
@@ -20,8 +16,8 @@ public class PlanetColonistMonitor : MonoBehaviour
     public enum ColonistStatus
     {
         MovingOut, // Death
+        Surviving, // Half income
         Neutral, // No income
-        Surviving,
         Happy, // Income
         Overjoyed // Double income
     }
@@ -38,16 +34,18 @@ public class PlanetColonistMonitor : MonoBehaviour
     private float _estimatedHouseIncome;
     private int _contentHouse;
     private int _protein;
+    private TinyPlanetResources _resources;
+    private bool _hasLander;
+    private bool _hasRegularHouse;
 
     void Start()
     {
-        _planet = GetComponent<TinyPlanet>();
+        _resources = GetComponent<TinyPlanetResources>();
     }
 
     void Update()
     {
-        var resources = _planet.GetResources();
-        if (resources.GetInhabitants() == 0)
+        if (_resources.GetInhabitants() == 0)
         {
             SetStatus(PlanetStatus.Uninhabited);
         }
@@ -69,10 +67,10 @@ public class PlanetColonistMonitor : MonoBehaviour
             {
                 SetStatus(PlanetStatus.Neutral);
             }
-            // else if (hasEnergy)
-            // {
-            //     SetStatus(PlanetStatus.Surviving);
-            // }
+            else if (_hasLander && !_hasRegularHouse)
+            {
+                SetStatus(PlanetStatus.Surviving);
+            }
             else
             {
                 SetStatus(PlanetStatus.MovingOut);
@@ -90,6 +88,8 @@ public class PlanetColonistMonitor : MonoBehaviour
         }
 
         _frameHouseIncome = 0f;
+        _hasLander = false;
+        _hasRegularHouse = false;
 
         _power = 0;
         _food = 0;
@@ -162,6 +162,16 @@ public class PlanetColonistMonitor : MonoBehaviour
     public void RegisterNotEnoughRefreshments()
     {
         _refreshments -= 1;
+    }
+
+    public void RegisterHasLander()
+    {
+        _hasLander = true;
+    }
+
+    public void RegisterHasHouse()
+    {
+        _hasRegularHouse = true;
     }
 
     public void RegisterHouseIncome(float cashEffectSecond)

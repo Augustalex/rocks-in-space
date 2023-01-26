@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(TinyPlanet))]
 public class PlanetCostMonitor : MonoBehaviour
 {
     private int _power;

@@ -4841,6 +4841,7 @@ GameObject:
   - component: {fileID: 8496944420010234114}
   - component: {fileID: 2867698203999572624}
   - component: {fileID: 1005815737090250685}
+  - component: {fileID: 7041614556669928252}
   m_Layer: 0
   m_Name: TinyPlanet
   m_TagString: Untagged
@@ -4879,10 +4880,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetName: Unnamed
   network: []
-  purpleRockMaterialTemplate: {fileID: 2100000, guid: b7e0734bbd9a27b4fb037627acd04b08, type: 2}
-  iceRockMaterialTemplate: {fileID: 2100000, guid: 28cc675e7c21d494e835ae670f48718b, type: 2}
   rockType: 0
-  landmark: {fileID: 6227045055698196259}
 --- !u!54 &6203254793432954223
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4960,6 +4958,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be415d8e418d4f62aaea900e8b49fea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7041614556669928252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5159183553568185527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42df06b71a3cac4408cc6bcf006f6dd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  network: []
+  purpleRockMaterialTemplate: {fileID: 2100000, guid: b7e0734bbd9a27b4fb037627acd04b08, type: 2}
+  iceRockMaterialTemplate: {fileID: 2100000, guid: 28cc675e7c21d494e835ae670f48718b, type: 2}
+  rockType: 1
 --- !u!1 &6227045055698196259
 GameObject:
   m_ObjectHideFlags: 0

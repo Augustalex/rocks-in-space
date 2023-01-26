@@ -25,7 +25,10 @@ public class OreVein : MonoBehaviour
 
         var onCount = 0;
 
-        foreach (var face in faces)
+        var horizontalFaces = faces[..4];
+        var verticalFaces = faces[4..6];
+
+        foreach (var face in horizontalFaces)
         {
             var faceCount = Random.Range(0, Random.value < .2f ? 8 : 4);
             for (int i = 0; i < faceCount; i++)
@@ -48,7 +51,32 @@ public class OreVein : MonoBehaviour
                 meshTransform.localPosition = new Vector3(Random.Range(-.32f, .32f), Random.Range(-.32f, .32f), .48f);
                 meshTransform.localRotation = Quaternion.Euler(Random.Range(0, 8) * 45f, Random.Range(0, 8) * 45f,
                     Random.Range(0, 8) * 45f);
-                // meshTransform.localRotation = Random.rotation;
+            }
+        }
+
+        foreach (var face in verticalFaces)
+        {
+            var oreCount = Random.value < .5f ? 0 : Random.Range(1, 4);
+            for (int i = 0; i < oreCount; i++)
+            {
+                onCount += 1;
+                var ore = Instantiate(template, face.transform);
+                var meshTransform = ore.transform;
+                var scale = meshTransform.localScale;
+                if (resourceType == TinyPlanetResources.PlanetResourceType.Graphite)
+                {
+                    var newScale = Random.Range(1f, 1.1f);
+                    meshTransform.localScale = new Vector3(newScale, newScale, newScale);
+                }
+                else
+                {
+                    meshTransform.localScale = new Vector3(Random.Range(1f, 1.7f), Random.Range(1f, 1.7f),
+                        Random.Range(1.5f, 2.2f));
+                }
+
+                meshTransform.localPosition = new Vector3(Random.Range(-.32f, .32f), Random.Range(-.32f, .32f), .48f);
+                meshTransform.localRotation = Quaternion.Euler(Random.Range(0, 8) * 45f, Random.Range(0, 8) * 45f,
+                    Random.Range(0, 8) * 45f);
             }
         }
 

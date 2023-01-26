@@ -36,6 +36,7 @@ public class RouteEditor : MonoBehaviour
 
     private void Start()
     {
+        // TODO: Put these listeners in a "RouteEditorController" that can live in root on Canvas. Since this is more UI related.
         CameraController.Get().OnNavigationStarted += Cancel;
         CameraController.Get().OnToggleZoom += (bool zoomedOut) => Cancel();
         InteractorController.Get().UnhandledMouseUp += OnUnhandledMouseUp;
@@ -110,7 +111,7 @@ public class RouteEditor : MonoBehaviour
     {
         if (_start == null) return false;
 
-        return !_start.planetId.Is(tinyPlanet.planetId) && tinyPlanet.HasPort();
+        return !_start.PlanetId.Is(tinyPlanet.PlanetId) && tinyPlanet.HasPort();
     }
 
     public bool IsEditing()

@@ -68,6 +68,7 @@ public class TinyPlanetResources : MonoBehaviour
         public float Protein;
         public float Food;
         public int Inhabitants;
+        public int Landers;
         public float Ice;
         public float Metals;
         public float Gadgets;
@@ -115,6 +116,9 @@ public class TinyPlanetResources : MonoBehaviour
         { BuildingType.ResidentModule, 0 },
     };
 
+    private int _landers;
+    private int _hiredWorkers;
+
     private void Awake()
     {
         _resourceTrackers = new Dictionary<PlanetResourceType, ResourceTracker>()
@@ -146,7 +150,7 @@ public class TinyPlanetResources : MonoBehaviour
             yield return new WaitForSeconds(.5f);
             _oreTracker.ProgressHistory();
             _metalsTracker.ProgressHistory();
-            
+
             _gadgetsTracker.ProgressHistory();
             _gadgetsTracker.OnFirstPositiveChange += () => ProgressManager.Get().GotFirstGadgets();
 
@@ -294,7 +298,9 @@ public class TinyPlanetResources : MonoBehaviour
     {
         var toRemove = InhabitantsPerResidency;
         _inhabitants -= toRemove;
+
         _occupiedResidencies -= 1;
+        _residencies -= 1;
 
         return toRemove;
     }
@@ -309,8 +315,31 @@ public class TinyPlanetResources : MonoBehaviour
         var toAdd = InhabitantsPerResidency;
         _inhabitants += toAdd;
         _occupiedResidencies += 1;
+        _residencies += 1;
 
         return toAdd;
+    }
+
+    public void RegisterLander()
+    {
+        RegisterOccupiedResident();
+        RegisterOccupiedResident();
+        RegisterOccupiedResident();
+        RegisterOccupiedResident();
+        RegisterOccupiedResident();
+
+        _landers += InhabitantsPerResidency * 5;
+    }
+
+    public void DeregisterLander()
+    {
+        DeregisterOccupiedResident();
+        DeregisterOccupiedResident();
+        DeregisterOccupiedResident();
+        DeregisterOccupiedResident();
+        DeregisterOccupiedResident();
+        
+        _landers -= InhabitantsPerResidency * 5;
     }
 
     public void AddResidency()
@@ -365,8 +394,14 @@ public class TinyPlanetResources : MonoBehaviour
             Energy = GetEnergy(),
             Protein = GetResource(PlanetResourceType.Protein),
             Food = GetFood(),
-            Inhabitants = GetInhabitants()
+            Inhabitants = GetInhabitants(),
+            Landers = GetLanders()
         };
+    }
+
+    private int GetLanders()
+    {
+        return _landers;
     }
 
     public bool HasFarm()
@@ -411,5 +446,20 @@ public class TinyPlanetResources : MonoBehaviour
 
     public void GetBuildingCount(BuildingType buildingType)
     {
+    }
+
+    public int GetWorkers()
+    {
+        return _inhabitants - _hiredWorkers;
+    }
+
+    public void HireWorkers(int workers)
+    {
+        _hiredWorkers += workers;
+    }
+
+    public void FireWorkers(int workers)
+    {
+        _hiredWorkers -= workers;
     }
 }

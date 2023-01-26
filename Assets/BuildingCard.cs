@@ -11,7 +11,6 @@ public class BuildingCard : MonoBehaviour
 
     public TMP_Text header;
     public TMP_Text costs;
-    public RawImage costsIcon;
     public TMP_Text upkeep;
     public TMP_Text description;
 
@@ -93,16 +92,21 @@ public class BuildingCard : MonoBehaviour
         var effect = template.GetComponent<ResourceEffect>();
         if (effect)
         {
-            if (effect.energy != 0)
+            if (effect.energy < 0)
             {
-                text += $"{effect.energy}<sprite name=\"power\"> ";
+                text += $"{effect.energy}<sprite name=\"power\">  ";
+            }
+
+            if (effect.workersNeeded > 0)
+            {
+                text += $"{effect.workersNeeded} workers  ";
             }
         }
 
         var runningCosts = template.GetComponent<RunningResourceEffect>();
         if (runningCosts)
         {
-            if (runningCosts.cashPerMinute != 0)
+            if (runningCosts.cashPerMinute < 0)
             {
                 text += $"{runningCosts.cashPerMinute}<sprite name=\"coin\">/min ";
             }
@@ -115,7 +119,7 @@ public class BuildingCard : MonoBehaviour
         else
         {
             upkeep.gameObject.SetActive(true);
-            upkeep.text = $"Upkeep: {text}";
+            upkeep.text = $"{text}";
         }
     }
 

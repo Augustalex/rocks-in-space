@@ -36,27 +36,36 @@ public class ProgressLock : MonoBehaviour
             case BuildingType.Port:
                 Hide();
                 break;
+            case BuildingType.Lander:
+                CheckLock(
+                    ProgressManager.Get().LanderUnlocked(),
+                    NotificationMessage(_buildingType),
+                    StartedLockMessage(),
+                    false
+                );
+                break;
             case BuildingType.Refinery:
                 CheckLock(
                     ProgressManager.Get().RefineryUnlocked(),
                     NotificationMessage(_buildingType),
-                    StartedLockMessage(),
-                    false
+                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Lander).GetInteractorName()}",
+                    !ProgressManager.Get().LanderUnlocked()
                 );
                 break;
             case BuildingType.Factory:
                 CheckLock(
                     ProgressManager.Get().FactoryUnlocked(),
                     NotificationMessage(_buildingType),
-                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Refinery).GetInteractorName()}",
-                    !ProgressManager.Get().RefineryUnlocked()
+                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Lander).GetInteractorName()}",
+                    !ProgressManager.Get().LanderUnlocked(),
+                    true
                 );
                 break;
             case BuildingType.SolarPanels:
                 CheckLock(
                     ProgressManager.Get().ColonyBasicsProductionUnlocked(),
                     NotificationMessage(_buildingType),
-                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Factory).GetInteractorName()}",
+                    $"Unlock by producing\n{TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets)}",
                     !ProgressManager.Get().FactoryUnlocked()
                 );
                 break;
@@ -64,8 +73,9 @@ public class ProgressLock : MonoBehaviour
                 CheckLock(
                     ProgressManager.Get().ColonyBasicsProductionUnlocked(),
                     NotificationMessage(_buildingType),
-                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Factory).GetInteractorName()}",
-                    !ProgressManager.Get().FactoryUnlocked()
+                    $"Unlock by producing\n{TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets)}",
+                    !ProgressManager.Get().FactoryUnlocked(),
+                    true
                 );
                 break;
             case BuildingType.ResidentModule:
@@ -81,7 +91,8 @@ public class ProgressLock : MonoBehaviour
                     ProgressManager.Get().HousingUnlocked(),
                     NotificationMessage(_buildingType),
                     $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.SolarPanels).GetInteractorName()}&\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.ProteinFabricator).GetInteractorName()}",
-                    !ProgressManager.Get().ColonyBasicsProductionUnlocked()
+                    !ProgressManager.Get().ColonyBasicsProductionUnlocked(),
+                    true
                 );
                 break;
             case BuildingType.Purifier:
@@ -105,7 +116,8 @@ public class ProgressLock : MonoBehaviour
                     ProgressManager.Get().LuxuryProductionUnlocked(),
                     NotificationMessage(_buildingType),
                     $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Purifier).GetInteractorName()}",
-                    !ProgressManager.Get().IceProductionUnlocked()
+                    !ProgressManager.Get().IceProductionUnlocked(),
+                    true
                 );
                 break;
             case BuildingType.PowerPlant:
@@ -113,7 +125,8 @@ public class ProgressLock : MonoBehaviour
                     ProgressManager.Get().LuxuryProductionUnlocked(),
                     NotificationMessage(_buildingType),
                     $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Purifier).GetInteractorName()}",
-                    !ProgressManager.Get().IceProductionUnlocked()
+                    !ProgressManager.Get().IceProductionUnlocked(),
+                    true
                 );
                 break;
             case BuildingType.KorvKiosk:
@@ -137,14 +150,14 @@ public class ProgressLock : MonoBehaviour
     }
 
     private void CheckLock(bool unlocked = false, string unlockedMessage = "", string lockMessage = "",
-        bool veiled = false)
+        bool veiled = false, bool silent = false)
     {
         if (unlocked)
         {
             Notifications.Get().Send(new BuildingNotification
             {
                 Message = unlockedMessage,
-                NotificationType = NotificationTypes.Positive
+                NotificationType = silent ? NotificationTypes.Silent : NotificationTypes.Positive
             });
             Hide();
         }

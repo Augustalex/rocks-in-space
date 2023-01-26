@@ -92,7 +92,7 @@ namespace Interactors
             return block.GetConnectedPlanet().HasPort()
                    && HasEnoughResourceToBuild(block)
                    && block.CanSeed()
-                   && block.GetConnectedPlanet().planetId.Is(CurrentPlanetController.Get().CurrentPlanet().planetId);
+                   && block.GetConnectedPlanet().PlanetId.Is(CurrentPlanetController.Get().CurrentPlanet().PlanetId);
         }
 
         protected bool HasEnoughResourceToBuild(Block block)

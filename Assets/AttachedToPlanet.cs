@@ -28,6 +28,19 @@ public class AttachedToPlanet : MonoBehaviour
         DetachedFrom?.Invoke(planet.GetResources());
     }
 
+    public void TransferTo(PlanetId targetPlanetId)
+    {
+        var planet = PlanetsRegistry.Get().GetPlanet(targetPlanetId);
+        if (!planet)
+        {
+            throw new Exception(
+                "Trying to transfer attachment to planet, but cannot find planet in registry. Planet ID: " +
+                targetPlanetId);
+        }
+
+        TransferTo(planet);
+    }
+
     public void TransferTo(TinyPlanet target)
     {
         var original = _planet;
@@ -51,5 +64,10 @@ public class AttachedToPlanet : MonoBehaviour
     public PlanetCostMonitor GetAttachedCostMonitor()
     {
         return _planet.GetCostMonitor();
+    }
+
+    public PlanetProductionMonitor GetAttachedProductionMonitor()
+    {
+        return _planet.GetProductionMonitor();
     }
 }

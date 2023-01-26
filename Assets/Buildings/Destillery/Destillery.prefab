@@ -330,7 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336aaf521eb74e81bf6aa32492d5c93e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cashPerMinute: -100
+  cashPerMinute: -20
 --- !u!114 &1091763718292813009
 MonoBehaviour:
   m_ObjectHideFlags: 0

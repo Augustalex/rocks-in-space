@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Interactors;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,8 +9,17 @@ public class TinyPlanetGenerator : MonoBehaviour
 {
     public GameObject rockTemplate;
     public GameObject planetTemplate;
+    [SerializeField] public PlanetGenerationMapping settingsMap;
 
     private static TinyPlanetGenerator _instance;
+
+    private static readonly TinyPlanet.RockType[] RockTypes =
+    {
+        TinyPlanet.RockType.Orange,
+        TinyPlanet.RockType.Blue,
+        TinyPlanet.RockType.Green,
+        TinyPlanet.RockType.Ice,
+    };
 
     private void Awake()
     {
@@ -27,8 +35,8 @@ public class TinyPlanetGenerator : MonoBehaviour
     {
         var area = 1000;
         var center = new Vector3(-(area / 2f), -(area / 2f), -(area / 2f));
-        var max = 50;
-        for (int i = 0; i < max; i++)
+        var numberOfPlanets = 25;
+        for (int i = 0; i < numberOfPlanets; i++)
         {
             var point = new Vector3(
                 Random.Range(0, -area),
@@ -39,7 +47,7 @@ public class TinyPlanetGenerator : MonoBehaviour
             var distanceToCenter = Vector3.Distance(point, center);
             if (distanceToCenter < 50f || Physics.OverlapSphere(point, 15f).Any())
             {
-                max += 1;
+                numberOfPlanets += 1;
             }
             else
             {
@@ -51,29 +59,58 @@ public class TinyPlanetGenerator : MonoBehaviour
     private void GenerateNewPlanetAtPosition(Vector3 position)
     {
         var planetType = RandomPlanetType();
+        var settings = settingsMap.Get(planetType);
 
         var networkTemplate = new TinyPlanetGeneratorHelper()
-            .NewNetworkTemplate();
+            .NewNetworkTemplate(planetType, settings);
 
         var network = networkTemplate
             .Select(networkPosition => CreateRockAndRandomizeOre(networkPosition + position, planetType))
             .ToList();
 
         var planetGo = NewPlanetWithNetwork(network);
-        planetGo.GetComponent<TinyPlanet>().SetupType(planetType);
+        planetGo.GetComponent<TinyPlanetRocks>().SetupType(planetType);
     }
+
+    // private PlanetGenerationSettings GetGenerationSettings(TinyPlanet.RockType planetType)
+    // {
+    //     var depth = planetType switch
+    //     {
+    //         TinyPlanet.RockType.Orange => Random.Range(6, 8),
+    //         TinyPlanet.RockType.Blue => 30,
+    //         TinyPlanet.RockType.Green => Random.Range(10, 12),
+    //         TinyPlanet.RockType.Ice => Random.Range(11, 15),
+    //         _ => throw new ArgumentOutOfRangeException(nameof(planetType), planetType, null)
+    //     };
+    //     var holeChance = planetType switch
+    //     {
+    //         TinyPlanet.RockType.Orange => .1f,
+    //         TinyPlanet.RockType.Blue => .1f,
+    //         TinyPlanet.RockType.Green => 1f,
+    //         TinyPlanet.RockType.Ice => .8f,
+    //         _ => throw new ArgumentOutOfRangeException(nameof(planetType), planetType, null)
+    //     };
+    //
+    //     return new PlanetGenerationSettings()
+    //     {
+    //         maxDepth = depth,
+    //         emptySpaceChance = holeChance,
+    //         baseFillChance = .2f,
+    //         maxDistance = 20f
+    //     };
+    // }
 
     private TinyPlanet.RockType RandomPlanetType()
     {
-        return TinyPlanet.RockTypes[Random.Range(0, TinyPlanet.RockTypes.Length)];
+        return RockTypes[Random.Range(0, RockTypes.Length)];
     }
 
     private GameObject NewPlanetWithNetwork(List<GameObject> network)
     {
         var planet = Instantiate(planetTemplate);
 
-        var tinyPlanet = planet.GetComponent<TinyPlanet>();
-        tinyPlanet.SetNetwork(network);
+        var planetNetwork = planet.GetComponent<TinyPlanetRocks>();
+        planetNetwork.SetNetwork(network);
 
         return planet;
     }
@@ -118,8 +155,8 @@ public class TinyPlanetGenerator : MonoBehaviour
                     var sampleNetwork = TinyPlanetNetworkHelper.GetNetworkFromRock(blockRoot);
                     previousNetworks.Add(sampleNetwork);
 
-                    var planet = block.GetConnectedPlanet();
-                    if (planet.IsNetworkDislodged(sampleNetwork))
+                    var planetNetwork = block.GetConnectedPlanet().Network();
+                    if (planetNetwork.IsNetworkDislodged(sampleNetwork))
                     {
                         TurnNetworkIntoPlanet(sampleNetwork, blockRoot.transform.position);
                     }
@@ -131,11 +168,12 @@ public class TinyPlanetGenerator : MonoBehaviour
     private void TurnNetworkIntoPlanet(List<GameObject> dislodgedNetwork, Vector3 breakPoint)
     {
         var currentPlanet = dislodgedNetwork[0].GetComponentInParent<TinyPlanet>();
+        var currentPlanetNetwork = currentPlanet.Network();
 
         var dislodgedNetworkCount = dislodgedNetwork.Count;
-        if (dislodgedNetworkCount != currentPlanet.network.Count)
+        if (dislodgedNetworkCount != currentPlanetNetwork.network.Count)
         {
-            var connectedRocks = currentPlanet.FindConnectedRocksNotInList(dislodgedNetwork);
+            var connectedRocks = currentPlanetNetwork.FindConnectedRocksNotInList(dislodgedNetwork);
             var connectedRocksCount = connectedRocks.Count;
 
             if (dislodgedNetworkCount == 0)
@@ -156,10 +194,10 @@ public class TinyPlanetGenerator : MonoBehaviour
                     : connectedRocks;
                 var networkWithoutPort = dislodgedNetworkHasPort ? connectedRocks : dislodgedNetwork;
 
-                currentPlanet.SetNetwork(networkThatHasThePort);
-                newPlanet.SetNetwork(networkWithoutPort);
+                currentPlanetNetwork.SetNetwork(networkThatHasThePort);
+                newPlanet.Network().SetNetwork(networkWithoutPort);
 
-                var direction = (newPlanet.GetCenter() - currentPlanet.GetCenter()).normalized;
+                var direction = (newPlanet.Network().GetCenter() - currentPlanetNetwork.GetCenter()).normalized;
                 newPlanet.gameObject.GetComponent<Rigidbody>().AddForce(direction * 1.5f, ForceMode.Impulse);
             }
         }
@@ -171,7 +209,7 @@ public class TinyPlanetGenerator : MonoBehaviour
 
         if (planetType == TinyPlanet.RockType.Blue)
         {
-            if (Random.value < .4f)
+            if (Random.value < .2f)
             {
                 var resource = RandomResourceTypeForBlueRock();
                 rock.GetComponentInChildren<OreController>().MakeIntoOreVein(resource);
@@ -181,17 +219,20 @@ public class TinyPlanetGenerator : MonoBehaviour
         {
             if (Random.value < .4f)
             {
-                var resource = Random.value < .7
+                var roll = Random.value;
+                var resource = roll < .7
                     ? TinyPlanetResources.PlanetResourceType.Copper
-                    : TinyPlanetResources.PlanetResourceType.Graphite;
+                    : roll < .9
+                        ? TinyPlanetResources.PlanetResourceType.Graphite
+                        : TinyPlanetResources.PlanetResourceType.Iron;
                 rock.GetComponentInChildren<OreController>().MakeIntoOreVein(resource);
             }
         }
         else if (planetType == TinyPlanet.RockType.Green)
         {
-            if (Random.value < .4f)
+            if (Random.value < .35f)
             {
-                var resource = Random.value < .7
+                var resource = Random.value < .8
                     ? TinyPlanetResources.PlanetResourceType.Iron
                     : TinyPlanetResources.PlanetResourceType.Graphite;
                 rock.GetComponentInChildren<OreController>().MakeIntoOreVein(resource);
@@ -232,7 +273,7 @@ public class TinyPlanetGenerator : MonoBehaviour
         if (nearbyRock != null)
         {
             var rock = CreateRock(position);
-            nearbyRock.GetComponent<Block>().GetConnectedPlanet().AddToPlanet(rock);
+            nearbyRock.GetComponent<Block>().GetConnectedPlanet().Network().AddToPlanet(rock);
 
             return rock.GetComponentInChildren<Block>();
         }

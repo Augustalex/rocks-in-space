@@ -15,13 +15,13 @@ public class PortController : MonoBehaviour
 
     private void Start()
     {
-        RegisterPort();
         MarkNonLaserable();
 
         DisplayController.Get().OnRenameDone += MaybeShowPopup;
 
-        var planetId = GetConnectedBlock().GetConnectedPlanet().planetId;
+        var planetId = GetConnectedBlock().GetConnectedPlanet().PlanetId;
         ProgressManager.Get().BuiltPort(planetId);
+        PlanetsRegistry.Get().Add(this, planetId);
     }
 
     private void OnDestroy()
@@ -29,8 +29,9 @@ public class PortController : MonoBehaviour
         var connectedBlock = GetConnectedBlock();
         if (connectedBlock != null)
         {
-            ProgressManager.Get().DestroyedPort(connectedBlock.GetConnectedPlanet().planetId);
-            PlanetsRegistry.Get().Remove(this);
+            var planetId = connectedBlock.GetConnectedPlanet().PlanetId;
+            ProgressManager.Get().DestroyedPort(planetId);
+            PlanetsRegistry.Get().Remove(this, planetId);
         }
 
         var displayController = DisplayController.Get();
@@ -48,11 +49,6 @@ public class PortController : MonoBehaviour
     private void MarkNonLaserable()
     {
         GetConnectedBlock().MarkNonLaserable();
-    }
-
-    private void RegisterPort()
-    {
-        PlanetsRegistry.Get().Add(this);
     }
 
     private void MaybeShowPopup()

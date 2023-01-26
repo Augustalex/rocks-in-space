@@ -52,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d119036291abcbc4eae063b7d3548f9e, type: 2}
+  - {fileID: 2100000, guid: c9d92d8dac802754dbf845cb1c46b26d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -131,6 +131,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 061f996046131f447a343234f6a3acea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  billboardRenderer: {fileID: 4004943984065284519}
+  orange: {fileID: 2100000, guid: 273caf428b516874c9d4815fdc933d97, type: 2}
+  blue: {fileID: 2100000, guid: c9d92d8dac802754dbf845cb1c46b26d, type: 2}
+  green: {fileID: 2100000, guid: baf2fba8c8383d249b8a558bbd33faac, type: 2}
+  ice: {fileID: 2100000, guid: 87c64e18c5283734e98374bdc5baf6e6, type: 2}
 --- !u!205 &1996481617791315363
 LODGroup:
   m_ObjectHideFlags: 0

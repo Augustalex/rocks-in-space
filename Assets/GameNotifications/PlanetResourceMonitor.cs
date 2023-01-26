@@ -9,13 +9,13 @@ namespace GameNotifications
         private TinyPlanet _planet;
         private TinyPlanetResources _resources;
         private TinyPlanetResources.ResourcesData _previousResources;
-        private PlanetNotification _outOfIron;
-        private PlanetNotification _noIceNotification;
-        private PlanetNotification _freezingColonistsNotification;
-        private PlanetNotification _lowEnergyNotification;
-        private PlanetNotification _lowFoodNotification;
-        private PlanetNotification _outOfGraphite;
-        private PlanetNotification _outOfCopper;
+        private readonly NotificationThrottler _outOfIron = new();
+        private readonly NotificationThrottler _noIceNotification = new();
+        private readonly NotificationThrottler _freezingColonistsNotification = new();
+        private readonly NotificationThrottler _lowEnergyNotification = new();
+        private readonly NotificationThrottler _lowFoodNotification = new();
+        private readonly NotificationThrottler _outOfGraphite = new();
+        private readonly NotificationThrottler _outOfCopper = new();
 
         private void Awake()
         {
@@ -43,11 +43,14 @@ namespace GameNotifications
             var newData = _resources.CopyData();
             var noEnergy = newData.Energy < 0f;
 
+            var currentAmountOfInhabitants = newData.Inhabitants - newData.Landers;
+            var previousAmountOfInhabitants = _previousResources.Inhabitants - _previousResources.Landers;
+
             if (Math.Abs(newData.Energy - _previousResources.Energy) > .5f)
             {
                 if (noEnergy)
                 {
-                    if (newData.Inhabitants > 0)
+                    if (currentAmountOfInhabitants > 0)
                     {
                         GenerateFreezingColonistsAlert();
                     }
@@ -60,7 +63,7 @@ namespace GameNotifications
 
             if (Math.Abs(newData.Protein - _previousResources.Protein) > .5f)
             {
-                if (newData.Inhabitants > 0)
+                if (currentAmountOfInhabitants > 0)
                 {
                     if (newData.Protein <= 0f)
                     {
@@ -73,7 +76,11 @@ namespace GameNotifications
             {
                 if (newData.Iron <= 0.5f)
                 {
-                    GenerateNoMoreIronAlert();
+                    _outOfIron.SendIfCanPost(
+                        CreatePlanetNotification(
+                            $"{_planet.planetName} has run out of {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Iron)}!"
+                        )
+                    );
                 }
             }
 
@@ -81,7 +88,11 @@ namespace GameNotifications
             {
                 if (newData.Graphite <= 0.5f)
                 {
-                    GenerateNoMoreGraphiteAlert();
+                    _outOfGraphite.SendIfCanPost(
+                        CreatePlanetNotification(
+                            $"{_planet.planetName} has run out of {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Graphite)}!"
+                        )
+                    );
                 }
             }
 
@@ -89,7 +100,11 @@ namespace GameNotifications
             {
                 if (newData.Copper <= 0.5f)
                 {
-                    GenerateNoMoreCopperAlert();
+                    _outOfCopper.SendIfCanPost(
+                        CreatePlanetNotification(
+                            $"{_planet.planetName} has run out of {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Copper)}!"
+                        )
+                    );
                 }
             }
 
@@ -97,11 +112,16 @@ namespace GameNotifications
             {
                 if (newData.Ice <= .5f)
                 {
-                    GenerateNoMoreIceAlert();
+                    _noIceNotification.SendIfCanPost(
+                        CreatePlanetNotification(
+                            $"Purifiers have no {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Ice)} to work with on {_planet.planetName}!"
+                        )
+                    );
                 }
             }
 
-            if (Math.Abs(newData.Inhabitants - _previousResources.Inhabitants) > .5f)
+            var amountOfInhabitantsChanged = Math.Abs(currentAmountOfInhabitants - previousAmountOfInhabitants);
+            if (amountOfInhabitantsChanged > .5f)
             {
                 if (noEnergy)
                 {
@@ -116,94 +136,42 @@ namespace GameNotifications
             _previousResources = newData;
         }
 
-        private void GenerateNoMoreIronAlert()
+        private PlanetNotification CreatePlanetNotification(string message,
+            NotificationTypes notificationType = NotificationTypes.Alerting)
         {
-            if (_outOfIron != null && !_outOfIron.Closed()) return;
-
-            var message =
-                $"{_planet.planetName} has run out of {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Iron)}!";
-            var notification = new PlanetNotification
-                { Location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
-            _outOfIron = notification;
-
-            Notifications.Get().Send(notification);
-        }
-
-        private void GenerateNoMoreGraphiteAlert()
-        {
-            if (_outOfGraphite != null && !_outOfGraphite.Closed()) return;
-
-            var message =
-                $"{_planet.planetName} has run out of {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Graphite)}!";
-            var notification = new PlanetNotification
-                { Location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
-            _outOfGraphite = notification;
-
-            Notifications.Get().Send(notification);
-        }
-
-        private void GenerateNoMoreCopperAlert()
-        {
-            if (_outOfCopper != null && !_outOfCopper.Closed()) return;
-
-            var message =
-                $"{_planet.planetName} has run out of {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Copper)}!";
-            var notification = new PlanetNotification
-                { Location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
-            _outOfCopper = notification;
-
-            Notifications.Get().Send(notification);
-        }
-
-        private void GenerateNoMoreIceAlert()
-        {
-            if (_noIceNotification != null && !_noIceNotification.Closed()) return;
-
-            var message =
-                $"Purifiers have no {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Ice)} to work with on {_planet.planetName}!";
-            var notification = new PlanetNotification
-                { Location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
-            _noIceNotification = notification;
-
-            Notifications.Get().Send(notification);
+            return new PlanetNotification
+            {
+                Location = _planet,
+                NotificationType = notificationType,
+                Message = message
+            };
         }
 
         private void GenerateLowEnergyAlert()
         {
-            if (_lowEnergyNotification != null && !_lowEnergyNotification.Closed()) return;
-
-            var message =
-                $"Not enough {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Energy)} on {_planet.planetName}!";
-            var lowEnergyNotification = new PlanetNotification
-                { Location = _planet, Message = message, NotificationType = NotificationTypes.Informative };
-            _lowEnergyNotification = lowEnergyNotification;
-
-            Notifications.Get().Send(lowEnergyNotification);
+            _lowEnergyNotification.SendIfCanPost(
+                CreatePlanetNotification(
+                    $"Not enough {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Energy)} on {_planet.planetName}!"
+                )
+            );
         }
 
         private void GenerateFreezingColonistsAlert()
         {
-            if (_freezingColonistsNotification != null && !_freezingColonistsNotification.Closed()) return;
-
-            var message =
-                $"No {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Energy)} as colonists are freezing to death on {_planet.planetName}!";
-            var notification = new PlanetNotification
-                { Location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
-            _freezingColonistsNotification = notification;
-
-            Notifications.Get().Send(notification);
+            _freezingColonistsNotification.SendIfCanPost(
+                CreatePlanetNotification(
+                    $"No {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Energy)} as colonists are freezing to death on {_planet.planetName}!"
+                )
+            );
         }
 
         private void GenerateLowProteinAlert()
         {
-            if (_lowFoodNotification != null && !_lowFoodNotification.Closed()) return;
-
-            var message = $"Starvation rampant on {_planet.planetName}!";
-            var lowFoodNotification = new PlanetNotification
-                { Location = _planet, Message = message, NotificationType = NotificationTypes.Alerting };
-            _lowFoodNotification = lowFoodNotification;
-
-            Notifications.Get().Send(lowFoodNotification);
+            _lowFoodNotification.SendIfCanPost(
+                CreatePlanetNotification(
+                    $"Starvation rampant on {_planet.planetName}!"
+                )
+            );
         }
     }
 }

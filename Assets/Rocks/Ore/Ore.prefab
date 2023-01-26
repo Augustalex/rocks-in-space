@@ -65,6 +65,8 @@ Transform:
   - {fileID: 6961727705959624667}
   - {fileID: 8952928498941090500}
   - {fileID: 3179980685120213234}
+  - {fileID: 874765614607557842}
+  - {fileID: 7500705488966786333}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -85,6 +87,8 @@ MonoBehaviour:
   - {fileID: 2631250933944034576}
   - {fileID: 5448172719948083400}
   - {fileID: 356695808566395274}
+  - {fileID: 2495289840879244511}
+  - {fileID: 8914345623397448627}
 --- !u!205 &8537955803659189541
 LODGroup:
   m_ObjectHideFlags: 0
@@ -106,6 +110,37 @@ LODGroup:
     - renderer: {fileID: 0}
     - renderer: {fileID: 0}
   m_Enabled: 0
+--- !u!1 &2495289840879244511
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 874765614607557842}
+  m_Layer: 7
+  m_Name: OreFace (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &874765614607557842
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2495289840879244511}
+  m_LocalRotation: {x: -0.70710576, y: -0, z: -0, w: 0.70710784}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8329182661420145650}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &2631250933944034576
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,6 +203,37 @@ Transform:
   m_Father: {fileID: 8329182661420145650}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1 &8914345623397448627
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7500705488966786333}
+  m_Layer: 7
+  m_Name: OreFace (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7500705488966786333
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8914345623397448627}
+  m_LocalRotation: {x: -0.7071099, y: -0, z: -0, w: -0.7071037}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8329182661420145650}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: -270, y: 0, z: 0}
 --- !u!1 &9083545512072566705
 GameObject:
   m_ObjectHideFlags: 0

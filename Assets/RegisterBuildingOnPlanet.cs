@@ -29,4 +29,9 @@ public class RegisterBuildingOnPlanet : MonoBehaviour
         ProgressManager.Get().Built(buildingType);
         resources.RegisterBuilding(buildingType);
     }
+
+    public BuildingType GetBuildingType()
+    {
+        return buildingType;
+    }
 }

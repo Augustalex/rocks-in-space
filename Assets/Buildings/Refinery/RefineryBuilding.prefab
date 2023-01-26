@@ -2106,6 +2106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   energy: 0
+  workersNeeded: 50
   residencyType: 0
 --- !u!114 &-1662945947870651580
 MonoBehaviour:
@@ -2133,12 +2134,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   from: 11
-  fromAmount: 1
+  fromAmount: 2
   fromSecondary: 12
   fromSecondaryAmount: 1
   to: 1
-  toAmount: 1
-  iterationTime: 4
+  toAmount: 2
+  iterationTime: 6
 --- !u!114 &-3728626087985763771
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,13 +5,15 @@ using UnityEngine;
 public enum ResidencyType
 {
     Nothing,
-    Module
+    Module,
+    Lander,
 }
 
 [RequireComponent(typeof(AttachedToPlanet))]
 public class ResourceEffect : MonoBehaviour
 {
     public float energy;
+    public int workersNeeded;
     public ResidencyType residencyType;
 
     private AttachedToPlanet _planetAttachment;
@@ -35,6 +37,7 @@ public class ResourceEffect : MonoBehaviour
         if (_attached) return;
 
         resources.AddEnergy(energy);
+        resources.HireWorkers(workersNeeded);
 
         switch (residencyType)
         {
@@ -42,6 +45,9 @@ public class ResourceEffect : MonoBehaviour
                 break;
             case ResidencyType.Module:
                 resources.AddResidency();
+                break;
+            case ResidencyType.Lander:
+                resources.RegisterLander();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -55,6 +61,7 @@ public class ResourceEffect : MonoBehaviour
         if (!_attached) return;
 
         resources.RemoveEnergy(energy);
+        resources.FireWorkers(workersNeeded);
 
         switch (residencyType)
         {
@@ -62,6 +69,11 @@ public class ResourceEffect : MonoBehaviour
                 break;
             case ResidencyType.Module:
                 resources.RemoveResidency();
+                break;
+            case ResidencyType.Lander:
+                resources.DeregisterLander();
+
+                resources.RegisterDeath();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

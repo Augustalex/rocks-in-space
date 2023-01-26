@@ -101,14 +101,19 @@ public class ProgressManager : MonoBehaviour
         }
     }
 
-    public bool RefineryUnlocked()
+    public bool LanderUnlocked()
     {
         return HasBuilt(BuildingType.Port);
     }
 
+    public bool RefineryUnlocked()
+    {
+        return HasBuilt(BuildingType.Lander);
+    }
+
     public bool FactoryUnlocked()
     {
-        return HasBuilt(BuildingType.Refinery);
+        return HasBuilt(BuildingType.Lander);
     }
 
     public bool ColonyBasicsProductionUnlocked()

@@ -23,7 +23,7 @@ public class ColonistMeterTooltip : MonoBehaviour
         {
             PlanetColonistMonitor.PlanetStatus.Uninhabited => "There are no colonists here.",
             PlanetColonistMonitor.PlanetStatus.MovingOut => "Colonists are Dying from having no Power!",
-            PlanetColonistMonitor.PlanetStatus.Surviving => "Colonists are Surviving but lack Food.",
+            PlanetColonistMonitor.PlanetStatus.Surviving => "It's not an easy life, but it's a fresh start.",
             PlanetColonistMonitor.PlanetStatus.Neutral =>
                 "Colonists are Surviving but lack Food.",
             PlanetColonistMonitor.PlanetStatus.Happy =>

@@ -43,7 +43,12 @@ public class ModuleController : MonoBehaviour
     {
         var resources = _planetAttachment.GetAttachedResources();
 
-        if (_occupied)
+        if (isLander)
+        {
+            _planetAttachment.GetAttachedColonistsMonitor().RegisterHasLander();
+            GlobalResources.Get().AddCash(CashEffectSecond());
+        }
+        else if (_occupied || isLander)
         {
             ConsumeResources();
             UpdateMonitor();
@@ -69,9 +74,9 @@ public class ModuleController : MonoBehaviour
         var baseCashEffect = (cashPerMinute / 60f) * Time.deltaTime;
         return GetStatus() switch
         {
-            PlanetColonistMonitor.ColonistStatus.Surviving => baseCashEffect,
-            PlanetColonistMonitor.ColonistStatus.Neutral => baseCashEffect * 2f,
-            PlanetColonistMonitor.ColonistStatus.Happy => baseCashEffect * 3f,
+            PlanetColonistMonitor.ColonistStatus.Surviving => baseCashEffect * .5f,
+            PlanetColonistMonitor.ColonistStatus.Neutral => baseCashEffect * 1f,
+            PlanetColonistMonitor.ColonistStatus.Happy => baseCashEffect * 2f,
             PlanetColonistMonitor.ColonistStatus.Overjoyed => baseCashEffect * 4f,
             _ => 0f
         };
@@ -123,6 +128,8 @@ public class ModuleController : MonoBehaviour
 
     private PlanetColonistMonitor.ColonistStatus GetStatus()
     {
+        if (isLander) return PlanetColonistMonitor.ColonistStatus.Surviving;
+
         if (!_occupied)
         {
             Debug.LogError("Trying to get status of house, even though it is NOT occupied.");
@@ -211,6 +218,7 @@ public class ModuleController : MonoBehaviour
             }
         }
 
+        monitor.RegisterHasHouse();
         monitor.RegisterHouseIncome(CashEffectSecond());
     }
 

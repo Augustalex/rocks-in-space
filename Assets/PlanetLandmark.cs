@@ -110,13 +110,13 @@ public class PlanetLandmark : MonoBehaviour
 
     private void ShowAndUpdatePosition()
     {
-        transform.position = _planet.GetCenter();
+        transform.position = _planet.Network().GetCenter();
         Show();
     }
 
     private void UpdatePosition()
     {
-        var newPosition = _planet.GetCenter();
+        var newPosition = _planet.Network().GetCenter();
         transform.position = newPosition;
         iceMapEffect.transform.position = newPosition;
     }

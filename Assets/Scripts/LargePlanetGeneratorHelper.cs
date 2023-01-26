@@ -4,20 +4,22 @@ using UnityEngine;
 
 public class LargePlanetGeneratorHelper
 {
-    public enum RockType
+    // TODO: Remove this file and the LargePlanetGenerator class
+    
+    public enum GeneratorRockType
     {
         Rock,
         Empty
     }
 
-    private readonly Dictionary<Vector3, RockType> _rocks = new Dictionary<Vector3, RockType>();
+    private readonly Dictionary<Vector3, GeneratorRockType> _rocks = new Dictionary<Vector3, GeneratorRockType>();
 
     public Vector3[] NewNetworkTemplate()
     {
         var generationOrigin = Vector3.zero;
         GeneratePlanet(generationOrigin, 50, generationOrigin);
         return _rocks
-            .Where(entry => entry.Value != RockType.Empty)
+            .Where(entry => entry.Value != GeneratorRockType.Empty)
             .Select(entry => entry.Key)
             .ToArray();
     }
@@ -56,12 +58,12 @@ public class LargePlanetGeneratorHelper
     
     private void CreateRock(Vector3 position)
     {
-        _rocks[position] = RockType.Rock;
+        _rocks[position] = GeneratorRockType.Rock;
     }
 
     private void OccupySpace(Vector3 position)
     {
-        _rocks[position] = RockType.Empty;
+        _rocks[position] = GeneratorRockType.Empty;
     }
 
 }

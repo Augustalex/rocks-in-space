@@ -59,7 +59,7 @@ public class PlanetRouteLines : MonoBehaviour
     {
         foreach (var planetRoute in RouteManager.Get().GetPlanetRoutes(_planet))
         {
-            var planetIsSameAsStart = _planet.planetId.Is(planetRoute.StartPlanetId);
+            var planetIsSameAsStart = _planet.PlanetId.Is(planetRoute.StartPlanetId);
             if (!planetIsSameAsStart) continue;
 
             TryAddLine(planetRoute, _planet);
@@ -68,7 +68,7 @@ public class PlanetRouteLines : MonoBehaviour
 
     private void TryAddLine(Route planetRoute, TinyPlanet start)
     {
-        var planetIsSameAsStart = _planet.planetId.Is(start.planetId);
+        var planetIsSameAsStart = _planet.PlanetId.Is(start.PlanetId);
         if (!planetIsSameAsStart) return;
 
         var line = Instantiate(PrefabTemplateLibrary.Get().routeLineTemplate);

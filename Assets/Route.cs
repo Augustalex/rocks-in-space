@@ -56,7 +56,7 @@ public class Route
 
     public bool Is(TinyPlanet start, TinyPlanet end)
     {
-        return start.planetId.Is(StartPlanetId) && end.planetId.Is(DestinationPlanetId);
+        return start.PlanetId.Is(StartPlanetId) && end.PlanetId.Is(DestinationPlanetId);
     }
 
     public void SetTrade(TinyPlanetResources.PlanetResourceType planetResourceType, float amountPerSecond)
@@ -67,12 +67,12 @@ public class Route
 
     public bool StartsFrom(TinyPlanet planet)
     {
-        return StartPlanetId.Is(planet.planetId);
+        return StartPlanetId.Is(planet.PlanetId);
     }
 
     public bool FromTo(TinyPlanet start, TinyPlanet end)
     {
-        return start.planetId.Is(StartPlanetId) && end.planetId.Is(DestinationPlanetId);
+        return start.PlanetId.Is(StartPlanetId) && end.PlanetId.Is(DestinationPlanetId);
     }
 
     public int Order()
