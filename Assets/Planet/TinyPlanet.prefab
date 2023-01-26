@@ -4842,6 +4842,9 @@ GameObject:
   - component: {fileID: 2867698203999572624}
   - component: {fileID: 1005815737090250685}
   - component: {fileID: 7041614556669928252}
+  - component: {fileID: 3921845053084026624}
+  - component: {fileID: 2341438657482584920}
+  - component: {fileID: 6184758027542490073}
   m_Layer: 0
   m_Name: TinyPlanet
   m_TagString: Untagged
@@ -4879,8 +4882,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planetName: Unnamed
-  network: []
-  rockType: 0
 --- !u!54 &6203254793432954223
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4945,7 +4946,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3390f3c7bc5cd47b0e2cd7d2cf7e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug_text: 
 --- !u!114 &1005815737090250685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4973,7 +4973,42 @@ MonoBehaviour:
   network: []
   purpleRockMaterialTemplate: {fileID: 2100000, guid: b7e0734bbd9a27b4fb037627acd04b08, type: 2}
   iceRockMaterialTemplate: {fileID: 2100000, guid: 28cc675e7c21d494e835ae670f48718b, type: 2}
-  rockType: 1
+--- !u!114 &3921845053084026624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5159183553568185527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 040421411416402f9e3c6b8a1818863d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2341438657482584920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5159183553568185527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55229e1cf124fe19c843158f7f88148, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6184758027542490073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5159183553568185527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 450dd6c789cc447b85c83c6179f5d72c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6227045055698196259
 GameObject:
   m_ObjectHideFlags: 0
@@ -5070,7 +5105,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.65
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &771678397649998822
 MonoBehaviour:

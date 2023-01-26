@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PopupTarget : MonoBehaviour
 {
-    private const bool EnableInZoomedInMore = false;
+    private const bool EnableInZoomedInMore = true;
 
     private float _showUntil = 0f;
     private Block _block;

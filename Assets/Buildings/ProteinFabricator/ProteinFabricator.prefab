@@ -377,6 +377,7 @@ MonoBehaviour:
   fromAmount: 1
   fromSecondary: 0
   fromSecondaryAmount: 0
+  bufferSize: 3
   to: 14
   toAmount: 10
   iterationTime: 8

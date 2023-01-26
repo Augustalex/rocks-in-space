@@ -893,12 +893,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   from: 9
-  fromAmount: 1
+  fromAmount: 4
   fromSecondary: 12
-  fromSecondaryAmount: 1
+  fromSecondaryAmount: 2
+  bufferSize: 4
   to: 4
-  toAmount: 4
-  iterationTime: 1
+  toAmount: 20
+  iterationTime: 5
 --- !u!114 &2252861517128830687
 MonoBehaviour:
   m_ObjectHideFlags: 0

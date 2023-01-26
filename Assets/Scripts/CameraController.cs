@@ -46,6 +46,7 @@ public class CameraController : MonoBehaviour
 
     public event Action<bool> OnToggleZoom;
     public event Action OnNavigationStarted;
+    public event Action OnNavigationFinished;
 
     void Awake()
     {
@@ -344,9 +345,11 @@ public class CameraController : MonoBehaviour
         var cameraTransform = transform;
         cameraTransform.rotation = _targetRotation;
         cameraTransform.position = _targetPosition;
-        _moving = false;
+
         if (_displayController.inputMode == DisplayController.InputMode.Cinematic)
             _displayController.ExitCinematicMode();
+
+        SetMoveFinished();
     }
 
     public void ToggleZoomMode()
@@ -384,9 +387,7 @@ public class CameraController : MonoBehaviour
 
     public void FocusOnShip(ColonyShip colonyShip)
     {
-        _moving = true;
         _following = false;
-
         _displayController.SetShipInFocus(colonyShip);
 
         var center = colonyShip.GetCenterGo();
@@ -403,12 +404,11 @@ public class CameraController : MonoBehaviour
         _moveLength = Mathf.Max(.25f, distance / 500f);
         _moveTime = 0f;
 
-        OnNavigationStarted?.Invoke();
+        SetMoveStarted();
     }
 
     public void FocusOnPlanet(TinyPlanet planet)
     {
-        _moving = true;
         _following = false;
 
         _displayController.SetPlanetInFocus(planet);
@@ -427,8 +427,21 @@ public class CameraController : MonoBehaviour
         _moveLength = Mathf.Max(.25f, distance / 500f);
         _moveTime = 0f;
 
+        SetMoveStarted();
+    }
+
+    private void SetMoveStarted()
+    {
+        _moving = true;
         OnNavigationStarted?.Invoke();
     }
+
+    private void SetMoveFinished()
+    {
+        _moving = false;
+        OnNavigationFinished?.Invoke();
+    }
+
 
     private Vector3 FocusPoint()
     {

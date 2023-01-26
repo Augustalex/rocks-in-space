@@ -14,6 +14,7 @@ public class ResourceConversionEffect : MonoBehaviour
     public int fromAmount = 1;
     public TinyPlanetResources.PlanetResourceType fromSecondary;
     public int fromSecondaryAmount = 0;
+    public int bufferSize = 1;
 
     public TinyPlanetResources.PlanetResourceType to;
     public int toAmount = 1;
@@ -33,6 +34,9 @@ public class ResourceConversionEffect : MonoBehaviour
 
     private RegisterBuildingOnPlanet _buildingRegister; // Might be null
 
+    // Buffer
+    private int _bufferedSets = 0;
+
     private void Awake()
     {
         _planetAttachment = GetComponent<AttachedToPlanet>();
@@ -49,8 +53,6 @@ public class ResourceConversionEffect : MonoBehaviour
     {
         while (gameObject != null)
         {
-            yield return new WaitForSeconds(_slowedDown ? ResourceTakeTime * SlowDownFactor : ResourceTakeTime);
-
             var resources = _planetAttachment.GetAttachedResources();
 
             if (_resourceEffect)
@@ -90,14 +92,25 @@ public class ResourceConversionEffect : MonoBehaviour
                 yield return new WaitForSeconds(.25f);
             }
 
-            resources.RemoveResource(from, fromAmount);
-            resources.RemoveResource(fromSecondary, fromSecondaryAmount);
+            while (_bufferedSets < bufferSize &&
+                   HasEnoughOfPrimaryFromResource(resources) &&
+                   HasEnoughOfSecondaryFromResource(resources))
+            {
+                resources.RemoveResource(from, fromAmount);
+                resources.RemoveResource(fromSecondary, fromSecondaryAmount);
+                _bufferedSets += 1;
+
+                yield return new WaitForSeconds(_slowedDown ? ResourceTakeTime * SlowDownFactor : ResourceTakeTime);
+            }
 
             Started();
 
-            yield return new WaitForSeconds(_slowedDown ? iterationTime * SlowDownFactor : iterationTime);
-
-            resources.AddResource(to, toAmount);
+            while (_bufferedSets > 0)
+            {
+                _bufferedSets -= 1;
+                yield return new WaitForSeconds(_slowedDown ? iterationTime * SlowDownFactor : iterationTime);
+                resources.AddResource(to, toAmount);
+            }
         }
     }
 

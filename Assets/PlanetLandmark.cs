@@ -1,7 +1,10 @@
+using Interactors;
 using UnityEngine;
 
 public class PlanetLandmark : MonoBehaviour
 {
+    private const bool ShowInGotoMode = false;
+
     private TinyPlanet _planet;
     private float _lastHovered;
     private Material _material;
@@ -25,41 +28,56 @@ public class PlanetLandmark : MonoBehaviour
     private void Start()
     {
         _cameraController = CameraController.Get();
-        _cameraController.OnToggleZoom += OnToggleZoom;
+        _cameraController.OnToggleZoom += (_) => UpdateDisplayState();
+        _cameraController.OnNavigationStarted += OnCameraStartedMoving;
+        _cameraController.OnNavigationFinished += UpdateDisplayState;
 
         _currentPlanetController = CurrentPlanetController.Get();
-        _currentPlanetController.CurrentPlanetChanged += PlanetChanged;
-        _currentPlanetController.ShipSelected += OnShipSelected;
+        _currentPlanetController.CurrentPlanetChanged += (_) => UpdateDisplayState();
+        _currentPlanetController.ShipSelected += (_) => UpdateDisplayState();
+
+        InteractorController.Get().InteractorSelected += (_) => UpdateDisplayState();
 
         UpdatePosition();
         Hide();
     }
 
-    private void PlanetChanged(PlanetChangedInfo info)
+    private void OnCameraStartedMoving()
     {
-        UpdateStyle();
+        // While moving between planets when not zoomed in, we don't want the landmarks bubble to appear
+        // while the players camera is still on that planet. Since it looks bad!
+        if (!_cameraController.IsZoomedOut()) Hide();
     }
 
-    private void OnShipSelected(ColonyShip ship)
+    private void UpdateDisplayState()
     {
-        Show();
-    }
+        var gotoModeOn = InteractorController.Get().CurrentModule().GetInteractorType() == InteractorType.Select;
+        var zoomedOut = _cameraController.IsZoomedOut();
 
-    private void OnToggleZoom(bool zoomOn)
-    {
-        if (zoomOn)
+        if (zoomedOut)
         {
-            ShowAndUpdatePosition();
+            Debug.Log("SHOW ZOOMED OUT");
+            ShowAndUpdatePosition(true);
+        }
+        else if (gotoModeOn)
+        {
+            Debug.Log("GOTO MODE");
+            if (IsCurrentPlanet(_planet)) Hide();
+            else ShowAndUpdatePosition(ShowInGotoMode && _planet.HasPort());
         }
         else
         {
+            Debug.Log("HIDE");
             Hide();
         }
     }
 
     public void Hover()
     {
-        if (_planet.HasPort() && !RouteEditor.Get().IsEditing()) HandleHoverPopup();
+        if (_planet.HasPort() && !RouteEditor.Get().IsEditing())
+        {
+            HandleHoverPopup();
+        }
     }
 
     private void HandleHoverPopup()
@@ -87,31 +105,47 @@ public class PlanetLandmark : MonoBehaviour
 
     public void MouseUp()
     {
-        if (!_cameraController.IsZoomedOut()) return;
-
-        var routeEditor = RouteEditor.Get();
-        if (routeEditor.IsIdle())
+        if (_cameraController.IsZoomedOut())
+        {
+            var routeEditor = RouteEditor.Get();
+            if (routeEditor.IsIdle())
+            {
+                NavigateToPlanet(_planet);
+            }
+            else if (routeEditor.IsCreating())
+            {
+                if (routeEditor.IsValidDestination(_planet))
+                {
+                    routeEditor.SelectRouteDestination(_planet);
+                }
+                else
+                {
+                    routeEditor.Cancel();
+                    NavigateToPlanet(_planet);
+                }
+            }
+        }
+        else if (InteractorController.Get().CurrentModule().GetInteractorType() == InteractorType.Select)
         {
             NavigateToPlanet(_planet);
         }
-        else if (routeEditor.IsCreating())
-        {
-            if (routeEditor.IsValidDestination(_planet))
-            {
-                routeEditor.SelectRouteDestination(_planet);
-            }
-            else
-            {
-                routeEditor.Cancel();
-                NavigateToPlanet(_planet);
-            }
-        }
     }
 
-    private void ShowAndUpdatePosition()
+    private void ShowAndUpdatePosition(bool showMarker)
     {
         transform.position = _planet.Network().GetCenter();
-        Show();
+
+        if (showMarker)
+        {
+            if (_planet.IsIcePlanet())
+            {
+                iceMapEffect.gameObject.SetActive(true);
+            }
+        }
+
+        gameObject.SetActive(true);
+
+        UpdateStyle(showMarker);
     }
 
     private void UpdatePosition()
@@ -121,23 +155,12 @@ public class PlanetLandmark : MonoBehaviour
         iceMapEffect.transform.position = newPosition;
     }
 
-    private void Show()
-    {
-        UpdateStyle();
-        gameObject.SetActive(true);
-
-        if (_planet.IsIcePlanet())
-        {
-            iceMapEffect.gameObject.SetActive(true);
-        }
-    }
-
-    private void UpdateStyle()
+    private void UpdateStyle(bool showMarker)
     {
         _material.SetInt(HasPort, _planet.HasPort() ? 1 : 0);
         _material.SetInt(IsSelected, IsCurrentPlanet(_planet) ? 1 : 0);
-        var inMapView = _cameraController.IsZoomedOut();
-        _material.SetInt(InMapView, inMapView ? 1 : 0);
+        Debug.Log("SHOW MARKER: " + showMarker);
+        _material.SetInt(InMapView, showMarker ? 1 : 0);
     }
 
     private void Hide()
