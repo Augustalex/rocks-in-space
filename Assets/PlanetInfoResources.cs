@@ -159,6 +159,30 @@ public class PlanetInfoResources : MonoBehaviour
             {
                 copper.gameObject.SetActive(false);
             }
+            
+            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Metals) > 0 ||
+                resources.HasBuilding(BuildingType.Refinery))
+            {
+                metals.Refresh(Mathf.FloorToInt(resources.GetMetals()),
+                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Metals));
+                metals.gameObject.SetActive(true);
+            }
+            else
+            {
+                metals.gameObject.SetActive(false);
+            }
+
+            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Gadgets) > 0 ||
+                resources.HasBuilding(BuildingType.Factory))
+            {
+                gadgets.gameObject.SetActive(true);
+                gadgets.Refresh(Mathf.FloorToInt(resources.GetGadgets()),
+                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Gadgets));
+            }
+            else
+            {
+                gadgets.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -225,30 +249,6 @@ public class PlanetInfoResources : MonoBehaviour
             else
             {
                 protein.gameObject.SetActive(false);
-            }
-
-            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Metals) > 0 ||
-                resources.HasBuilding(BuildingType.Refinery))
-            {
-                metals.Refresh(Mathf.FloorToInt(resources.GetMetals()),
-                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Metals));
-                metals.gameObject.SetActive(true);
-            }
-            else
-            {
-                metals.gameObject.SetActive(false);
-            }
-
-            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Gadgets) > 0 ||
-                resources.HasBuilding(BuildingType.Factory))
-            {
-                gadgets.gameObject.SetActive(true);
-                gadgets.Refresh(Mathf.FloorToInt(resources.GetGadgets()),
-                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Gadgets));
-            }
-            else
-            {
-                gadgets.gameObject.SetActive(false);
             }
         }
     }

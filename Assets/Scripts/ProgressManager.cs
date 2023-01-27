@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GameNotifications;
 using Interactors;
@@ -28,6 +29,8 @@ public class ProgressManager : MonoBehaviour
     private float _builtFirstFactoryAt;
     private bool _hasSentCopperHint;
 
+    public event Action LanderBuilt;
+    
     public static ProgressManager Get()
     {
         return _instance;
@@ -43,6 +46,11 @@ public class ProgressManager : MonoBehaviour
         if (buildingType == BuildingType.Factory && !HasBuilt(BuildingType.Factory))
         {
             _builtFirstFactoryAt = Time.time;
+        }
+
+        if (buildingType == BuildingType.Lander)
+        {
+            LanderBuilt?.Invoke();
         }
 
         _builtBuildings.Add(buildingType);

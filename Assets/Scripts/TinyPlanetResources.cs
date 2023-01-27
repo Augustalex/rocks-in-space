@@ -105,6 +105,7 @@ public class TinyPlanetResources : MonoBehaviour
 
     private readonly Dictionary<BuildingType, int> _buildings = new()
     {
+        { BuildingType.Lander, 0 },
         { BuildingType.Refinery, 0 },
         { BuildingType.Factory, 0 },
         { BuildingType.Purifier, 0 },
@@ -177,7 +178,7 @@ public class TinyPlanetResources : MonoBehaviour
             _proteinTracker.ProgressHistory();
             _proteinTracker.OnFirstPositiveChange +=
                 () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Protein);
-            
+
             _foodTracker.ProgressHistory();
             _foodTracker.OnFirstPositiveChange +=
                 () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Food);
@@ -185,11 +186,11 @@ public class TinyPlanetResources : MonoBehaviour
             _iceTracker.ProgressHistory();
             _iceTracker.OnFirstPositiveChange +=
                 () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Ice);
-            
+
             _waterTracker.ProgressHistory();
             _waterTracker.OnFirstPositiveChange +=
                 () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Water);
-            
+
             _refreshmentsTracker.ProgressHistory();
             _refreshmentsTracker.OnFirstPositiveChange +=
                 () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Refreshments);

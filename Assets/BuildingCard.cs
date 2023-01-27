@@ -52,7 +52,6 @@ public class BuildingCard : MonoBehaviour
         var interactorModule = InteractorController.Get().GetGenericInteractorByBuildingType(buildingType);
         Header(interactorModule);
         Cost(interactorModule);
-        // costsIcon.gameObject.SetActive(false);
         Upkeep(interactorModule.template);
         Description(interactorModule);
     }

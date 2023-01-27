@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GifManager : MonoBehaviour
 {
+    public Texture[] landerFrames;
     public Texture[] refineryFrames;
     public Texture[] factoryFrames;
     public Texture[] solarPanelsFrames;
@@ -45,7 +46,7 @@ public class GifManager : MonoBehaviour
             BuildingType.KorvKiosk => korvKioskFrames,
             BuildingType.SolarPanels => solarPanelsFrames,
             BuildingType.ProteinFabricator => proteinFabricatorFrames,
-            BuildingType.Lander => korvKioskFrames,
+            BuildingType.Lander => landerFrames,
             _ => throw new ArgumentOutOfRangeException(nameof(buildingType), buildingType, null)
         };
     }
