@@ -35,10 +35,14 @@ public class BuildingCard : MonoBehaviour
     {
         var interactorController = InteractorController.Get();
         if (InteractorController.GeneralBuildings().Contains(buildingType))
+        {
             interactorController.SetInteractorByBuildingType(buildingType);
+        }
         else
+        {
             interactorController
                 .SetInteractorByInteractorType(InteractorController.FromBuildingType(buildingType));
+        }
 
         Clicked?.Invoke();
     }

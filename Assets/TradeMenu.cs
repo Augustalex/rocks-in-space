@@ -56,6 +56,8 @@ public class TradeMenu : MonoBehaviour
             return;
         }
 
+        PopupManager.Get().CancelAllPopups();
+
         tradeRouteText.text = $"{start.planetName} <b>to</b> {end.planetName}";
 
         var existingRoute = _routeManager.RouteExists(start, end) ? _routeManager.GetRoute(start, end) : null;

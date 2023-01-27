@@ -4,6 +4,8 @@
     {
         public override void Accept()
         {
+            var cameraController = CameraController.Get();
+            if (cameraController.IsZoomedOut()) cameraController.ZoomIn();
             BuildInteractorIcon.Get().OpenBuildMenu();
         }
 

@@ -93,11 +93,10 @@ namespace Interactors
         private void Update()
         {
             UpdateInteractorSelection();
-
-            // if (CurrentModule().Hoverable())
-            // {
-            RayCastToHover();
-            // }
+            if (WorldInteractionLock.Get().CanInteract())
+            {
+                RayCastToHover();
+            }
         }
 
         private void UpdateInteractorSelection()

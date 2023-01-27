@@ -29,22 +29,6 @@ public class Block : MonoBehaviour, ILaserInteractable
         tinyPlanetGenerator.DestroyBlock(this); // Will call "DestroySelf"
     }
 
-    private void Mine()
-    {
-        if (_oreController.HasOre())
-        {
-            _oreController.Mine(GetConnectedPlanet());
-            ResourceSounds.Get().Play();
-        }
-
-        if (_rockType == TinyPlanet.RockType.Ice)
-        {
-            RockSmash.Get().PlayMelt();
-            ResourceSounds.Get().PlayClink();
-        }
-        else RockSmash.Get().Play();
-    }
-
     public void DestroyedByNonPlayer()
     {
         var tinyPlanetGenerator = TinyPlanetGenerator.Get();
@@ -76,26 +60,93 @@ public class Block : MonoBehaviour, ILaserInteractable
         }
 
         var block = GetRoot();
-        var position = block.transform.position;
-        var rotation = block.transform.rotation;
-
         connectedPlanet.Network().RemoveFromNetwork(block);
         Destroy(block);
 
-        if (Vector3.Distance(transform.position, CameraController.GetCamera().transform.position) <
-            DebrisCullingDistance)
+        if (!HasIce())
         {
-            if (_rockType == TinyPlanet.RockType.Ice)
+            GenerateRockDebris();
+        }
+        else
+        {
+            GenerateIceDebris();
+        }
+    }
+
+    private void Mine()
+    {
+        if (HasOre())
+        {
+            MineOre();
+        }
+        else if (HasIce())
+        {
+            MineIce();
+        }
+    }
+
+    private void MineIce()
+    {
+        if (!IsDebrisCulled())
+        {
+            var iceResourceController = GetIceController();
+            if (!iceResourceController.IsDestroyed())
             {
-                Instantiate(PrefabTemplateLibrary.Get().iceDebrisTemplate, position, rotation);
-                var iceResourceController = GetIceController();
-                if (!iceResourceController.IsDestroyed()) iceResourceController.Mine(GetConnectedPlanet());
-            }
-            else
-            {
-                Instantiate(PrefabTemplateLibrary.Get().rockDebrisTemplate, position, rotation);
+                var connectedPlanet = GetConnectedPlanet();
+                if (connectedPlanet.HasPort())
+                {
+                    iceResourceController.Mine(connectedPlanet);
+                    ResourceSounds.Get().PlayClink();
+                }
             }
         }
+    }
+
+    private void MineOre()
+    {
+        var connectedPlanet = GetConnectedPlanet();
+        if (connectedPlanet.HasPort())
+        {
+            _oreController.Mine(connectedPlanet);
+            ResourceSounds.Get().Play();
+        }
+    }
+
+    private bool HasOre()
+    {
+        return _oreController.HasOre();
+    }
+
+    private bool IsDebrisCulled()
+    {
+        var blockDistanceToCamera =
+            Vector3.Distance(transform.position, CameraController.GetCamera().transform.position);
+
+        return blockDistanceToCamera >= DebrisCullingDistance;
+    }
+
+    private void GenerateRockDebris()
+    {
+        var block = GetRoot();
+        var position = block.transform.position;
+        var rotation = block.transform.rotation;
+
+        Instantiate(PrefabTemplateLibrary.Get().rockDebrisTemplate, position, rotation);
+        RockSmash.Get().Play();
+    }
+
+    private void GenerateIceDebris()
+    {
+        var block = GetRoot();
+        var position = block.transform.position;
+        var rotation = block.transform.rotation;
+
+        Instantiate(PrefabTemplateLibrary.Get().iceDebrisTemplate, position, rotation);
+    }
+
+    private bool HasIce()
+    {
+        return _rockType == TinyPlanet.RockType.Ice && GetIceController();
     }
 
     public Vector3 GetPosition()
@@ -176,7 +227,7 @@ public class Block : MonoBehaviour, ILaserInteractable
         {
             var mesh = GetMesh();
             if (mesh) Destroy(mesh.gameObject);
-        
+
             if (IsIce())
                 _rockType = TinyPlanet.RockType
                     .Blue; // If a rock is Ice, then we want the destroy animation to show blocks flying, not ice melting.

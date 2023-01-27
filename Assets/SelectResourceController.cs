@@ -108,8 +108,6 @@ public class SelectResourceController : MonoBehaviour
             progressManager.GotResource(TinyPlanetResources.PlanetResourceType.Refreshments),
             _selectedResourceType == TinyPlanetResources.PlanetResourceType.Refreshments
         );
-        
-        LayoutRebuilder.ForceRebuildLayoutImmediate(container);
     }
 
     private void RenderButton(TwoStateButton button, bool shouldRender, bool shouldSelect)

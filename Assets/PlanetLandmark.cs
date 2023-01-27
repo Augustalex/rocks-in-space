@@ -88,8 +88,11 @@ public class PlanetLandmark : MonoBehaviour
             }
             else
             {
-                _planet.GetPort().GetPopupTarget().Show();
-                _lastHovered = Time.time;
+                if (_planet.HasPort())
+                {
+                    _planet.GetPort().GetPopupTarget().Show();
+                    _lastHovered = Time.time;
+                }
             }
         }
     }

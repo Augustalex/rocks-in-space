@@ -673,7 +673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: A place for your founding members to settle. Provides 500 workers,
-    with all their needs provided.
+    with all their needs provided. Can only be built once.
 --- !u!114 &3553966510199222441
 MonoBehaviour:
   m_ObjectHideFlags: 0

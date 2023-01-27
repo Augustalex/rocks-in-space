@@ -9,8 +9,10 @@ public class TwoStateButton : MonoBehaviour
 
     [SerializeField] private Button onButton;
     [SerializeField] private Button offButton;
+    [SerializeField] private GameObject hiddenDisplay;
 
     private bool _isOn = false;
+    private bool _isHidden;
 
     private void Awake()
     {
@@ -35,15 +37,26 @@ public class TwoStateButton : MonoBehaviour
         Render();
     }
 
-    private void Render()
-    {
-        onButton.gameObject.SetActive(_isOn);
-        offButton.gameObject.SetActive(!_isOn);
-    }
-
     public void Hide()
     {
-        gameObject.SetActive(false);
+        _isHidden = true;
+        Render();
+    }
+
+    private void Render()
+    {
+        if (_isHidden)
+        {
+            onButton.gameObject.SetActive(false);
+            offButton.gameObject.SetActive(false);
+            hiddenDisplay.SetActive(true);
+        }
+        else
+        {
+            hiddenDisplay.SetActive(false);
+            onButton.gameObject.SetActive(_isOn);
+            offButton.gameObject.SetActive(!_isOn);
+        }
     }
 
     public void Show()
