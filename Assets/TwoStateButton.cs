@@ -43,6 +43,12 @@ public class TwoStateButton : MonoBehaviour
         Render();
     }
 
+    public void Show()
+    {
+        _isHidden = false;
+        Render();
+    }
+
     private void Render()
     {
         if (_isHidden)
@@ -57,10 +63,5 @@ public class TwoStateButton : MonoBehaviour
             onButton.gameObject.SetActive(_isOn);
             offButton.gameObject.SetActive(!_isOn);
         }
-    }
-
-    public void Show()
-    {
-        gameObject.SetActive(true);
     }
 }

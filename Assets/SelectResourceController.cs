@@ -1,12 +1,8 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class SelectResourceController : MonoBehaviour
 {
-    public RectTransform container;
-    
-    // public TwoStateButton oreButton;
     public TwoStateButton ironButton;
     public TwoStateButton graphiteButton;
     public TwoStateButton copperButton;
@@ -21,8 +17,7 @@ public class SelectResourceController : MonoBehaviour
 
     void Start()
     {
-        // oreButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Ore);
-        // oreButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Ore));
+        ProgressManager.Get().OnResourceGot += (_) => Render();
 
         ironButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Iron);
         ironButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Iron));

@@ -32,6 +32,7 @@ public class ProgressManager : MonoBehaviour
     private bool _hasSentCopperHint;
 
     public event Action LanderBuilt;
+    public event Action<TinyPlanetResources.PlanetResourceType> OnResourceGot;
 
     public static ProgressManager Get()
     {
@@ -242,6 +243,7 @@ public class ProgressManager : MonoBehaviour
     public void RegisterGotResource(TinyPlanetResources.PlanetResourceType resourceType)
     {
         _gotResources.Add(resourceType);
+        OnResourceGot?.Invoke(resourceType);
     }
 
     public bool GotResource(TinyPlanetResources.PlanetResourceType resourceType)

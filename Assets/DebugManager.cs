@@ -40,6 +40,12 @@ public class DebugManager : MonoBehaviour
                 .AddResource(TinyPlanetResources.PlanetResourceType.Metals, 1000);
             CurrentPlanetController.Get().CurrentPlanet().GetResources()
                 .AddResource(TinyPlanetResources.PlanetResourceType.Gadgets, 1000);
+            CurrentPlanetController.Get().CurrentPlanet().GetResources()
+                .AddResource(TinyPlanetResources.PlanetResourceType.Ice, 1000);
+            CurrentPlanetController.Get().CurrentPlanet().GetResources()
+                .AddResource(TinyPlanetResources.PlanetResourceType.Water, 1000);
+            CurrentPlanetController.Get().CurrentPlanet().GetResources()
+                .AddResource(TinyPlanetResources.PlanetResourceType.Refreshments, 1000);
         }
 
         if (Input.GetKeyDown(KeyCode.M))
