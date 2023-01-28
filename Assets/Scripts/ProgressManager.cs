@@ -26,11 +26,13 @@ public class ProgressManager : MonoBehaviour
     private bool _gotFirstGadgets;
 
     private const float ShowCopperHintAfterTime = 45;
-    private float _builtFirstFactoryAt;
+    private float _builtFirstRefineryAt = -1f;
+    private bool _hasSentIronHint;
+    private float _builtFirstFactoryAt = -1f;
     private bool _hasSentCopperHint;
 
     public event Action LanderBuilt;
-    
+
     public static ProgressManager Get()
     {
         return _instance;
@@ -43,6 +45,11 @@ public class ProgressManager : MonoBehaviour
 
     public void Built(BuildingType buildingType)
     {
+        if (buildingType == BuildingType.Refinery && !HasBuilt(BuildingType.Refinery))
+        {
+            _builtFirstRefineryAt = Time.time;
+        }
+
         if (buildingType == BuildingType.Factory && !HasBuilt(BuildingType.Factory))
         {
             _builtFirstFactoryAt = Time.time;
@@ -83,6 +90,7 @@ public class ProgressManager : MonoBehaviour
 
     public void UpdateProgress()
     {
+        ManageIronHint();
         ManageCopperHint();
 
         var happyColonists = 0;
@@ -122,15 +130,48 @@ public class ProgressManager : MonoBehaviour
         }
     }
 
+    private void ManageIronHint()
+    {
+        if (_hasSentIronHint) return;
+
+        var alreadyGotIron = _gotResources.Contains(TinyPlanetResources.PlanetResourceType.Iron);
+        if (alreadyGotIron) return;
+
+        var hasBuiltRefinery = _builtFirstRefineryAt >= 0;
+        if (!hasBuiltRefinery) return;
+
+        var duration = Time.time - _builtFirstRefineryAt;
+        var timeToShowHint = duration > ShowCopperHintAfterTime;
+        if (!timeToShowHint) return;
+
+        _hasSentIronHint = true;
+
+        var metalsText =
+            TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Metals);
+        var ironText =
+            TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Iron);
+        Notifications.Get().Send(new TextNotification
+        {
+            Message =
+                $"One of the materials needed to make {metalsText} is {ironText}, on some asteroids it is more abundant than on others."
+        });
+    }
+
     private void ManageCopperHint()
     {
-        var hasGotFirstGadget = _gotResources.Contains(TinyPlanetResources.PlanetResourceType.Gadgets);
+        if (_hasSentCopperHint) return;
 
-        if (_hasSentCopperHint || !(_builtFirstFactoryAt > 0) ||
-            hasGotFirstGadget) return;
+        var hasAlreadyGotGadgets = _gotResources.Contains(TinyPlanetResources.PlanetResourceType.Copper);
+        if (hasAlreadyGotGadgets) return;
+
+        var hasBuiltFactory = _builtFirstFactoryAt >= 0;
+        if (!hasBuiltFactory) return;
 
         var duration = Time.time - _builtFirstFactoryAt;
-        if (!(duration > ShowCopperHintAfterTime)) return;
+        var timeToShowHint = duration > ShowCopperHintAfterTime;
+        if (!timeToShowHint) return;
+
+        _hasSentCopperHint = true;
 
         var gadgetsText =
             TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets);
@@ -139,9 +180,8 @@ public class ProgressManager : MonoBehaviour
         Notifications.Get().Send(new TextNotification
         {
             Message =
-                $"Factories need {copperText} to produce {gadgetsText}. There is a specific kind of asteroid where {copperText} is abundant."
+                $"Factories need {copperText} to produce {gadgetsText}, on some asteroids it is more abundant than on others."
         });
-        _hasSentCopperHint = true;
     }
 
     public bool LanderUnlocked()

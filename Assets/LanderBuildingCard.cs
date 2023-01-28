@@ -1,3 +1,4 @@
+using Interactors;
 using UnityEngine;
 
 public class LanderBuildingCard : MonoBehaviour
@@ -9,6 +10,7 @@ public class LanderBuildingCard : MonoBehaviour
 
     private void LanderBuilt()
     {
+        InteractorController.Get().SetInteractorByInteractorType(InteractorType.Dig);
         Destroy(gameObject);
     }
 }

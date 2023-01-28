@@ -39,7 +39,7 @@ public class ProgressLock : MonoBehaviour
             case BuildingType.Lander:
                 CheckLock(
                     ProgressManager.Get().LanderUnlocked(),
-                    NotificationMessage(_buildingType),
+                    $"You can now place your {InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Lander).GetInteractorName()}!",
                     StartedLockMessage(),
                     false
                 );
@@ -200,7 +200,7 @@ public class ProgressLock : MonoBehaviour
     private string NotificationMessage(BuildingType buildingType)
     {
         return
-            $"New building \"{InteractorController.Get().GetGenericInteractorByBuildingType(buildingType).GetInteractorName()}\" unlocked!";
+            $"New building {InteractorController.Get().GetGenericInteractorByBuildingType(buildingType).GetInteractorName()} unlocked!";
     }
 
     public string StartedLockMessage()
