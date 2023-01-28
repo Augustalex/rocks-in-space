@@ -72,34 +72,6 @@ public class TinyPlanetGenerator : MonoBehaviour
         planetGo.GetComponent<TinyPlanetRocks>().SetupType(planetType);
     }
 
-    // private PlanetGenerationSettings GetGenerationSettings(TinyPlanet.RockType planetType)
-    // {
-    //     var depth = planetType switch
-    //     {
-    //         TinyPlanet.RockType.Orange => Random.Range(6, 8),
-    //         TinyPlanet.RockType.Blue => 30,
-    //         TinyPlanet.RockType.Green => Random.Range(10, 12),
-    //         TinyPlanet.RockType.Ice => Random.Range(11, 15),
-    //         _ => throw new ArgumentOutOfRangeException(nameof(planetType), planetType, null)
-    //     };
-    //     var holeChance = planetType switch
-    //     {
-    //         TinyPlanet.RockType.Orange => .1f,
-    //         TinyPlanet.RockType.Blue => .1f,
-    //         TinyPlanet.RockType.Green => 1f,
-    //         TinyPlanet.RockType.Ice => .8f,
-    //         _ => throw new ArgumentOutOfRangeException(nameof(planetType), planetType, null)
-    //     };
-    //
-    //     return new PlanetGenerationSettings()
-    //     {
-    //         maxDepth = depth,
-    //         emptySpaceChance = holeChance,
-    //         baseFillChance = .2f,
-    //         maxDistance = 20f
-    //     };
-    // }
-
     private TinyPlanet.RockType RandomPlanetType()
     {
         return RockTypes[Random.Range(0, RockTypes.Length)];
