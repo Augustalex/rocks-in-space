@@ -79,7 +79,7 @@ public class RouteLine : MonoBehaviour
 
         var endPosition = end.GetCenter();
         linePivot.transform.LookAt(endPosition);
-        var startOffset = 12f;
+        var startOffset = 6f;
         linePivot.transform.position +=
             linePivot.transform.forward *
             startOffset; // Move the line slightly away from the planet (so it is not confused with the planets hitbox)
@@ -93,14 +93,14 @@ public class RouteLine : MonoBehaviour
         var scale = linePivot.transform.localScale;
         var targetVector = endPosition - startPosition;
         var arrowHeadLineEndOffset =
-            35f; // This ensures the line ends inside the arrow head mesh, but doesn't pass through it
+            33f; // This ensures the line ends inside the arrow head mesh, but doesn't pass through it
         var distance = targetVector.magnitude - (arrowHeadLineEndOffset + startOffset);
         linePivot.transform.localScale = new Vector3(scale.x, scale.y, distance * .5f);
 
         arrowPivot.transform.rotation = linePivot.transform.rotation;
         var
             arrowHeadOffset =
-                36f; // This offset ensures the arrowhead ends at an appropriate distance away from the planet, so it looks like it is pointing towards it.
+                34f; // This offset ensures the arrowhead ends at an appropriate distance away from the planet, so it looks like it is pointing towards it.
         arrowPivot.transform.position = endPosition - arrowPivot.transform.forward * arrowHeadOffset;
     }
 
