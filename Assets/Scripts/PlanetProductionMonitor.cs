@@ -103,7 +103,7 @@ public class ProductionStatus
         _speedThrottler.SendIfCanPost(new PlanetNotification()
         {
             Location = _planet,
-            Message = $"{message} at {_planet.planetName} are lacking workers and is working at a half speed."
+            Message = $"{message} at {_planet.planetName} are lacking workers and is working at half speed."
         });
     }
 

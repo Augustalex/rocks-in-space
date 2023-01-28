@@ -9,23 +9,22 @@ public class ColonyShipGenerator : MonoBehaviour
 
     private int _level = 1;
 
-    void Start()
-    {
-        CameraController.Get().OnToggleZoom += OnToggleZoom;
-    }
-
     private void Update()
     {
         if (!_hasSpawnedFirstShip)
         {
             if (_spawnShipAt > 0f)
             {
-                if (Time.time > _spawnShipAt && IsCenterInView())
+                if (Time.time > _spawnShipAt)
                 {
                     SpawnShip();
                     _hasSpawnedFirstShip = true;
                     _spawnShipAt = -1f;
                 }
+            }
+            else if (ProgressManager.Get().ColonyBasicsProductionUnlocked())
+            {
+                _spawnShipAt = Time.time + 10f;
             }
         }
         else
@@ -47,29 +46,6 @@ public class ColonyShipGenerator : MonoBehaviour
                         balanceSettings.maxTimeBetweenConvoySpawns);
                     _spawnShipAt = Time.time + timeToWait;
                 }
-            }
-        }
-    }
-
-    private bool IsCenterInView()
-    {
-        return true;
-    }
-
-    private void OnToggleZoom(bool zoomedOut)
-    {
-        if (!_hasSpawnedFirstShip)
-        {
-            if (zoomedOut)
-            {
-                if (!_hasSpawnedFirstShip)
-                {
-                    _spawnShipAt = Time.time + 3f;
-                }
-            }
-            else
-            {
-                _spawnShipAt = -1f;
             }
         }
     }
