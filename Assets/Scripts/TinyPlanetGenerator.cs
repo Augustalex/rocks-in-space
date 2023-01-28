@@ -189,7 +189,7 @@ public class TinyPlanetGenerator : MonoBehaviour
         }
         else if (planetType == TinyPlanet.RockType.Orange)
         {
-            if (Random.value < .4f)
+            if (Random.value < .7f)
             {
                 var roll = Random.value;
                 var resource = roll < .7
