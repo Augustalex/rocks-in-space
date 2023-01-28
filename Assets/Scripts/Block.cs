@@ -23,10 +23,17 @@ public class Block : MonoBehaviour, ILaserInteractable
 
     public void Dig()
     {
-        Mine();
+        if (IsExplosive())
+        {
+            Explode();
+        }
+        else
+        {
+            Mine();
 
-        var tinyPlanetGenerator = TinyPlanetGenerator.Get();
-        tinyPlanetGenerator.DestroyBlock(this); // Will call "DestroySelf"
+            var tinyPlanetGenerator = TinyPlanetGenerator.Get();
+            tinyPlanetGenerator.DestroyBlock(this); // Will call "DestroySelf"
+        }
     }
 
     public void DestroyedByNonPlayer()
@@ -35,7 +42,7 @@ public class Block : MonoBehaviour, ILaserInteractable
         tinyPlanetGenerator.DestroyBlock(this); // Will call "DestroySelf"
     }
 
-    public void DestroySelf()
+    public void DestroySelf(bool generateDebris = true)
     {
         var connectedPlanet = GetConnectedPlanet();
 
@@ -63,13 +70,16 @@ public class Block : MonoBehaviour, ILaserInteractable
         connectedPlanet.Network().RemoveFromNetwork(block);
         Destroy(block);
 
-        if (!HasIce())
+        if (generateDebris)
         {
-            GenerateRockDebris();
-        }
-        else
-        {
-            GenerateIceDebris();
+            if (!HasIce())
+            {
+                GenerateRockDebris();
+            }
+            else
+            {
+                GenerateIceDebris();
+            }
         }
     }
 
@@ -110,6 +120,18 @@ public class Block : MonoBehaviour, ILaserInteractable
             _oreController.Mine(connectedPlanet);
             ResourceSounds.Get().Play();
         }
+    }
+
+    private bool IsExplosive()
+    {
+        return _oreController.IsExplosive();
+    }
+
+    private void Explode()
+    {
+        RockSmash.Get().PlayExplosion();
+
+        TinyPlanetGenerator.Get().ExplodeFrom(this);
     }
 
     private bool HasOre()
@@ -209,7 +231,6 @@ public class Block : MonoBehaviour, ILaserInteractable
             }
         }
 
-
         Mine();
         // KillOre();
 
@@ -238,7 +259,8 @@ public class Block : MonoBehaviour, ILaserInteractable
 
     public bool CanSeed()
     {
-        return _seed == null || _seedOverridable;
+        var noSeedOrSeedOverridable = _seed == null || _seedOverridable;
+        return noSeedOrSeedOverridable && !IsExplosive();
     }
 
     public bool IsSeeded()
@@ -258,6 +280,8 @@ public class Block : MonoBehaviour, ILaserInteractable
 
     public float DisintegrationTime()
     {
+        if (IsExplosive()) return 2f;
+
         var balanceSettings = SettingsManager.Get().balanceSettings;
         // return .1f;
         if (_rockType == TinyPlanet.RockType.Ice) return .8f;

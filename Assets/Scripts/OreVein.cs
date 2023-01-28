@@ -20,6 +20,7 @@ public class OreVein : MonoBehaviour
             TinyPlanetResources.PlanetResourceType.Iron => PrefabTemplateLibrary.Get().ironOre,
             TinyPlanetResources.PlanetResourceType.Graphite => PrefabTemplateLibrary.Get().graphiteOre,
             TinyPlanetResources.PlanetResourceType.Copper => PrefabTemplateLibrary.Get().copperOre,
+            TinyPlanetResources.PlanetResourceType.Dangeronium => PrefabTemplateLibrary.Get().dangeroniumOre,
             _ => throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType, null)
         };
 
@@ -85,6 +86,7 @@ public class OreVein : MonoBehaviour
             TinyPlanetResources.PlanetResourceType.Iron => 1,
             TinyPlanetResources.PlanetResourceType.Graphite => 5,
             TinyPlanetResources.PlanetResourceType.Copper => 1,
+            TinyPlanetResources.PlanetResourceType.Dangeronium => 3,
             _ => throw new ArgumentOutOfRangeException(nameof(_resourceType), _resourceType, null)
         };
         _debrisMultiplier = _resourceType switch
@@ -92,6 +94,7 @@ public class OreVein : MonoBehaviour
             TinyPlanetResources.PlanetResourceType.Iron => 1,
             TinyPlanetResources.PlanetResourceType.Graphite => 2,
             TinyPlanetResources.PlanetResourceType.Copper => 1,
+            TinyPlanetResources.PlanetResourceType.Dangeronium => 1,
             _ => throw new ArgumentOutOfRangeException(nameof(_resourceType), _resourceType, null)
         };
 

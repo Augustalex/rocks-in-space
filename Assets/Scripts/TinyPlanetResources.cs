@@ -24,6 +24,7 @@ public class TinyPlanetResources : MonoBehaviour
         Graphite = 12,
         Copper = 13,
         Protein = 14,
+        Dangeronium = 15,
     }
 
     public enum ResourceTrend

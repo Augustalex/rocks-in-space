@@ -93,46 +93,88 @@ public class TinyPlanetGenerator : MonoBehaviour
         return planet.GetComponent<TinyPlanet>();
     }
 
+    public void ExplodeFrom(Block originBlock)
+    {
+        StartCoroutine(DoSoon());
+
+        IEnumerator DoSoon()
+        {
+            var blockPositions = new List<Vector3>();
+            foreach (var c in Physics.OverlapSphere(originBlock.GetPosition(), 4.5f))
+            {
+                var block = c.GetComponent<Block>();
+                if (block)
+                {
+                    blockPositions.Add(block.GetPosition());
+                    block.DestroySelf(Random.value < .5f);
+                }
+            }
+
+            yield return new WaitForEndOfFrame(); // Wait so that destroyed blocks does not show up in Physics Check
+            yield return new WaitForEndOfFrame(); // Wait so that destroyed blocks does not show up in Physics Check
+
+            var blocks = new List<Block>();
+            foreach (var blockPosition in blockPositions)
+            {
+                var hits = Physics.OverlapBox(blockPosition,
+                    Vector3.one * TinyPlanetNetworkHelper.NetworkDislodgeActivationDistance);
+                blocks.AddRange(hits.Select(h => h.GetComponent<Block>()).Where(b => b != null));
+            }
+
+            yield return new WaitForEndOfFrame(); // Wait so that destroyed blocks does not show up in Physics Check
+
+            NetworkCheckWithBlocks(blocks);
+        }
+    }
+
     public void DestroyBlock(Block destroyBlock)
     {
         var position = destroyBlock.GetPosition();
-
         destroyBlock.DestroySelf(); // WARNING: Note the circular dependency!
 
         StartCoroutine(
-            DoSoon()); // Wait for "destroyBlock" to be destroyed, before using OverlapSphere to calculate new split networks
+            NetworkCheckEndOfFrame(
+                position)); // Wait for "destroyBlock" to be destroyed, before using OverlapSphere to calculate new split networks
+    }
 
+    private IEnumerator NetworkCheckEndOfFrame(Vector3 originPosition)
+    {
+        yield return new WaitForEndOfFrame();
+        NetworkCheck(originPosition);
+    }
+
+    private void NetworkCheck(Vector3 originPosition)
+    {
         // Note: The previous version tried to be much smarter about when it checked for a network break. 
         // But this lead to some corner cases where it wouldn't properly detect breaks. But it did also have the benefit of being very fast!
         // But in the newer versions of the game - breaking rocks is a much slower process, so we can afford a less performant but more accurate check.
-        IEnumerator DoSoon()
+        var hits = Physics.OverlapBox(originPosition,
+            Vector3.one * TinyPlanetNetworkHelper.NetworkDislodgeActivationDistance);
+        if (hits.Length <= 0) return;
+
+        var blocks = hits.Select(hit => hit.GetComponent<Block>()).Where(block => block != null);
+        NetworkCheckWithBlocks(blocks);
+    }
+
+    private void NetworkCheckWithBlocks(IEnumerable<Block> blocks)
+    {
+        var previousNetworks = new List<List<GameObject>>();
+        foreach (var block in blocks)
         {
-            yield return new WaitForEndOfFrame();
+            var blockRoot = block.GetRoot();
 
-            var hits = Physics.OverlapBox(position,
-                Vector3.one * TinyPlanetNetworkHelper.NetworkDislodgeActivationDistance);
-            if (hits.Length > 0)
+            if (previousNetworks.Any(l => l.Contains(blockRoot)))
             {
-                var blocks = hits.Select(hit => hit.GetComponent<Block>()).Where(block => block != null);
-                List<List<GameObject>> previousNetworks = new List<List<GameObject>>();
-                foreach (var block in blocks)
-                {
-                    var blockRoot = block.GetRoot();
+                continue;
+            }
 
-                    if (previousNetworks.Any(l => l.Contains(blockRoot)))
-                    {
-                        continue;
-                    }
+            var sampleNetwork = TinyPlanetNetworkHelper.GetNetworkFromRock(blockRoot);
+            previousNetworks.Add(sampleNetwork);
 
-                    var sampleNetwork = TinyPlanetNetworkHelper.GetNetworkFromRock(blockRoot);
-                    previousNetworks.Add(sampleNetwork);
-
-                    var planetNetwork = block.GetConnectedPlanet().Network();
-                    if (planetNetwork.IsNetworkDislodged(sampleNetwork))
-                    {
-                        TurnNetworkIntoPlanet(sampleNetwork, blockRoot.transform.position);
-                    }
-                }
+            var planetNetwork = block.GetConnectedPlanet().Network();
+            if (planetNetwork.IsNetworkDislodged(sampleNetwork))
+            {
+                TurnNetworkIntoPlanet(sampleNetwork, blockRoot.transform.position);
             }
         }
     }
@@ -179,7 +221,12 @@ public class TinyPlanetGenerator : MonoBehaviour
     {
         var rock = CreateRock(position);
 
-        if (planetType == TinyPlanet.RockType.Blue)
+        if (Random.value < .01)
+        {
+            rock.GetComponentInChildren<OreController>()
+                .MakeIntoOreVein(TinyPlanetResources.PlanetResourceType.Dangeronium);
+        }
+        else if (planetType == TinyPlanet.RockType.Blue)
         {
             if (Random.value < .2f)
             {

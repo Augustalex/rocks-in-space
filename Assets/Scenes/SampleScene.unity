@@ -734,7 +734,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &239270607
 Transform:
   m_ObjectHideFlags: 0
@@ -2928,6 +2928,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186ce0a5e690f5741befcc7b25f41d82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosion: {fileID: 8300000, guid: c856aa0fbd6f89241bdbe4adba2b4196, type: 3}
+  explosionVolume: 0.2
   melt: {fileID: 8300000, guid: abaf9fd8f382c944390b312c7ce7f2f9, type: 3}
   meltVolume: 0.06
   smash: {fileID: 8300000, guid: 2bdd1153a37647041b457cc1c43ac35d, type: 3}
@@ -10364,12 +10366,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 850805973423628590, guid: 83c6a8d42cdd5d248b0d884d5b3813d2, type: 3}
       propertyPath: on
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 850805973423628613, guid: 83c6a8d42cdd5d248b0d884d5b3813d2, type: 3}
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 850805973423628626, guid: 83c6a8d42cdd5d248b0d884d5b3813d2, type: 3}
+      propertyPath: dangeroniumOre
+      value: 
+      objectReference: {fileID: 631434208429579918, guid: 2306d4a307564ad4bbe908acef809eed, type: 3}
     - target: {fileID: 850805973423628628, guid: 83c6a8d42cdd5d248b0d884d5b3813d2, type: 3}
       propertyPath: landerFrames.Array.size
       value: 24

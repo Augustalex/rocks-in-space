@@ -40,7 +40,12 @@ public class Meteor : MonoBehaviour
     {
         var planet = PlanetsRegistry.Get().RandomPlanet();
         var allBlocks = planet.GetComponentsInChildren<Block>();
-        
+        if (allBlocks.Length == 0)
+        {
+            DestroySelf();
+            return;
+        }
+
         Block block = null;
         var runs = 0;
         while (block == null && runs < 1000)
@@ -67,7 +72,12 @@ public class Meteor : MonoBehaviour
     private void FindTargetOnCurrentPlanet()
     {
         var allBlocks = CurrentPlanetController.Get().CurrentPlanet().GetComponentsInChildren<Block>();
-
+        if (allBlocks.Length == 0)
+        {
+            DestroySelf();
+            return;
+        }
+        
         Block block = null;
         var runs = 0;
         while (block == null && runs < 1000)
@@ -95,9 +105,14 @@ public class Meteor : MonoBehaviour
     {
         if (Time.time - _createdAt > 1000)
         {
-            OnBeforeDestroy();
-            Destroy(gameObject);
+            DestroySelf();
         }
+    }
+
+    private void DestroySelf()
+    {
+        OnBeforeDestroy();
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)

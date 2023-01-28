@@ -6,6 +6,7 @@ public class PrefabTemplateLibrary : MonoBehaviour
     private static PrefabTemplateLibrary _instance;
     
     public GameObject mapPopup;
+    public GameObject dangeroniumOre;
     public GameObject ironOre;
     public GameObject ironOreDebrisTemplate;
     public GameObject graphiteOre;

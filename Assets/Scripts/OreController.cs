@@ -28,23 +28,39 @@ public class OreController : MonoBehaviour
         _oreVein.Setup(planetResourceType);
     }
 
+    public bool IsExplosive()
+    {
+        if (!_oreVein) return false;
+        
+        return _oreVein.GetResourceType() == TinyPlanetResources.PlanetResourceType.Dangeronium;
+    }
+
     public void Mine(TinyPlanet planet)
     {
         var planetResources = planet.GetComponent<TinyPlanetResources>();
-        var debrisCount = _oreVein.Collect(planetResources);
-
         var resourceType = _oreVein.GetResourceType();
-        var debris = resourceType switch
-        {
-            TinyPlanetResources.PlanetResourceType.Ore => PrefabTemplateLibrary.Get().oreResourceDebrisTemplate,
-            TinyPlanetResources.PlanetResourceType.Iron => PrefabTemplateLibrary.Get().ironOreDebrisTemplate,
-            TinyPlanetResources.PlanetResourceType.Graphite => PrefabTemplateLibrary.Get().graphiteOreDebrisTemplate,
-            TinyPlanetResources.PlanetResourceType.Copper => PrefabTemplateLibrary.Get().copperOreDebrisTemplate,
-            _ => throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType, null)
-        };
-        SpawnOreDebris(planet, debris, debrisCount);
 
-        DestroyOre();
+        if (resourceType == TinyPlanetResources.PlanetResourceType.Dangeronium)
+        {
+            Debug.LogError("Trying to mine dangeronium. That is not possible!");
+        }
+        else
+        {
+            var debrisCount = _oreVein.Collect(planetResources);
+
+            var debris = resourceType switch
+            {
+                TinyPlanetResources.PlanetResourceType.Ore => PrefabTemplateLibrary.Get().oreResourceDebrisTemplate,
+                TinyPlanetResources.PlanetResourceType.Iron => PrefabTemplateLibrary.Get().ironOreDebrisTemplate,
+                TinyPlanetResources.PlanetResourceType.Graphite =>
+                    PrefabTemplateLibrary.Get().graphiteOreDebrisTemplate,
+                TinyPlanetResources.PlanetResourceType.Copper => PrefabTemplateLibrary.Get().copperOreDebrisTemplate,
+                _ => throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType, null)
+            };
+            SpawnOreDebris(planet, debris, debrisCount);
+
+            DestroyOre();
+        }
     }
 
     private void SpawnOreDebris(TinyPlanet planet, GameObject debrisTemplate, int oreAmount)

@@ -7,11 +7,17 @@ public static class TinyPlanetCenterPointHelper
 {
     public static GameObject CalculateCenter(List<GameObject> network)
     {
+        if (network.Count == 0)
+        {
+            Debug.LogError("Calculating center of planet that has no rocks");
+            return null;
+        }
+        
         var centroid = Vector3.zero;
         
         foreach (var networkItem in network)
         {
-            centroid = centroid + networkItem.transform.position;
+            centroid += networkItem.transform.position;
         }
         centroid /= network.Count;
 
