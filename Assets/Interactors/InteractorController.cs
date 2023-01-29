@@ -9,7 +9,6 @@ namespace Interactors
     {
         private const int DefaultModule = -1;
 
-        public GameObject defaultModuleContainer;
         public GameObject interactorsContainer;
 
         public event Action<InteractorModule> InteractorSelected;
