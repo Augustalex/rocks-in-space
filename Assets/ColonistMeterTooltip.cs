@@ -1,4 +1,3 @@
-using System;
 using UI.Tooltip;
 using UnityEngine;
 

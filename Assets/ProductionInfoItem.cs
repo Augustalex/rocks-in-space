@@ -17,6 +17,9 @@ public class ProductionInfoItem : MonoBehaviour
 
     void Start()
     {
+        GetComponentInChildren<ProductionInfoIconTooltip>().SetBuildingType(buildingType);
+        GetComponentInChildren<ProductionInfoRateTooltip>().SetBuildingType(buildingType);
+        
         UpdateIcons();
 
         CurrentPlanetController.Get().CurrentPlanetChanged += (_) => UpdateNow();
@@ -49,20 +52,7 @@ public class ProductionInfoItem : MonoBehaviour
         quantityText.text = buildingCount.ToString().PadLeft(2, '0');
         var interactor = InteractorController.Get().GetGenericInteractorByBuildingType(buildingType);
 
-        if (buildingType == BuildingType.ResidentModule)
-        {
-            var totalHousesCount = resources.GetTotalHousesCount();
-            var occupied = resources.GetOccupantHousesCount();
-            var occupancyRate = occupied / totalHousesCount;
-            var occupancyText = Mathf.Round(occupancyRate * 1000f) / 10f;
-
-            warningIcon.SetActive(false);
-            productionRateText.gameObject.SetActive(true);
-
-            var resourceTextIcon = TinyPlanetResources.ResourceSprite(resourceType);
-            productionRateText.text = $"{resourceTextIcon}{occupancyText}%";
-        }
-        else if (buildingType == BuildingType.PowerPlant || buildingType == BuildingType.SolarPanels)
+        if (buildingType == BuildingType.PowerPlant || buildingType == BuildingType.SolarPanels)
         {
             var resourceEffect = interactor.template.GetComponent<ResourceEffect>();
 
@@ -77,13 +67,13 @@ public class ProductionInfoItem : MonoBehaviour
 
                 var energyOutput = resourceEffect.energy * workingPlants;
                 var resourceTextIcon = TinyPlanetResources.ResourceSprite(resourceType);
-                productionRateText.text = $"{resourceTextIcon}{energyOutput}/min";
+                productionRateText.text = $"{energyOutput}{resourceTextIcon}";
             }
             else
             {
                 var energyOutput = resourceEffect.energy * buildingCount;
                 var resourceTextIcon = TinyPlanetResources.ResourceSprite(resourceType);
-                productionRateText.text = $"{resourceTextIcon}{energyOutput}/min";
+                productionRateText.text = $"{energyOutput}{resourceTextIcon}";
             }
         }
         else

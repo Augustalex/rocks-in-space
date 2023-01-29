@@ -163,6 +163,8 @@ GameObject:
   - component: {fileID: 7267064237567917687}
   - component: {fileID: 9108844307785407583}
   - component: {fileID: 3326670196159879825}
+  - component: {fileID: 5409437532033764213}
+  - component: {fileID: 2979453285196636883}
   m_Layer: 5
   m_Name: ProductionRate
   m_TagString: Untagged
@@ -287,6 +289,31 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5409437532033764213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518575157441857521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb31ed360eb94a1386122aeabb1905ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+--- !u!114 &2979453285196636883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518575157441857521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3560d8263aed4107a8f49ee7e93ecc9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1710740143178988416
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,6 +325,8 @@ GameObject:
   - component: {fileID: 1596608110064842664}
   - component: {fileID: 1106055637901072033}
   - component: {fileID: 6455997982152495702}
+  - component: {fileID: 3131935383696863325}
+  - component: {fileID: 3025266114789596763}
   m_Layer: 5
   m_Name: IconContainer
   m_TagString: Untagged
@@ -372,6 +401,31 @@ MonoBehaviour:
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &3131935383696863325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710740143178988416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb31ed360eb94a1386122aeabb1905ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+--- !u!114 &3025266114789596763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710740143178988416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e8ab40ec6377404c966f6ba7c010773, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3099669773914131227
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,6 +740,8 @@ GameObject:
   - component: {fileID: 1582014821421438637}
   - component: {fileID: 8597545816146030116}
   - component: {fileID: 132142021705779166}
+  - component: {fileID: 1929688358824572130}
+  - component: {fileID: 6258910211046360236}
   m_Layer: 5
   m_Name: WarningIcon
   m_TagString: Untagged
@@ -748,3 +804,29 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &1929688358824572130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8995374564248543545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb31ed360eb94a1386122aeabb1905ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+--- !u!114 &6258910211046360236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8995374564248543545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b07ab4644536a33479e56cbd0201b45a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: Lacking resources to continue production

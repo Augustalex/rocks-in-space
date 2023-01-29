@@ -24,7 +24,6 @@ public class ProductionInfoItemRow : MonoBehaviour
                 BuildingType.Factory => TinyPlanetResources.PlanetResourceType.Gadgets,
                 BuildingType.PowerPlant => TinyPlanetResources.PlanetResourceType.Energy,
                 BuildingType.FarmDome => TinyPlanetResources.PlanetResourceType.Food,
-                BuildingType.ResidentModule => TinyPlanetResources.PlanetResourceType.Housing,
                 BuildingType.Purifier => TinyPlanetResources.PlanetResourceType.Water,
                 BuildingType.Distillery => TinyPlanetResources.PlanetResourceType.Refreshments,
                 BuildingType.SolarPanels => TinyPlanetResources.PlanetResourceType.Energy,
