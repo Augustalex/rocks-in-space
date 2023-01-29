@@ -97,7 +97,7 @@ public class Block : MonoBehaviour, ILaserInteractable
 
     private void MineIce()
     {
-        if (!IsDebrisCulled())
+        if (!IsCulled())
         {
             var iceResourceController = GetIceController();
             if (!iceResourceController.IsDestroyed())
@@ -120,6 +120,10 @@ public class Block : MonoBehaviour, ILaserInteractable
             _oreController.Mine(connectedPlanet);
             ResourceSounds.Get().Play();
         }
+        else
+        {
+            _oreController.DestroyOre();
+        }
     }
 
     private bool IsExplosive()
@@ -139,7 +143,7 @@ public class Block : MonoBehaviour, ILaserInteractable
         return _oreController.HasOre();
     }
 
-    private bool IsDebrisCulled()
+    private bool IsCulled()
     {
         var blockDistanceToCamera =
             Vector3.Distance(transform.position, CameraController.GetCamera().transform.position);
@@ -216,6 +220,9 @@ public class Block : MonoBehaviour, ILaserInteractable
 
     public GameObject Seed(GameObject seedTemplate)
     {
+        Debug.Log("IsCulled(): " + IsCulled());
+        if (!IsCulled()) CameraShake.ShortShake();
+
         if (_seed)
         {
             if (_seedOverridable)
@@ -270,6 +277,8 @@ public class Block : MonoBehaviour, ILaserInteractable
 
     public void LaserInteract()
     {
+        CameraShake.ShortShake();
+        
         Dig();
     }
 

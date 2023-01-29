@@ -1,20 +1,31 @@
+using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[Serializable]
+public struct ShakeProfile
+{
+    public float targetThreshold;
+    public float shakeSpeed;
+    public float shakeAmount;
+}
+
 public class CameraShake : MonoBehaviour
 {
-    // Transform of the camera to shake. Grabs the gameObject's transform
-    // if null.
+    public float shortShakeTime = .25f;
 
-    // How long the object should shake for.
-    private bool _shaking = false;
+    [SerializeField] public ShakeProfile shortShake;
 
-    // Amplitude of the shake. A larger value shakes the camera harder.
-    private const float ShakeAmount = 0.03f;
+    [SerializeField] public ShakeProfile continuousShake;
 
     private Vector3 _originalPos;
     private static CameraShake _instance;
     private float _waitUntil;
+    private float _shakeUntil;
+    private bool _shakeFor;
+    private float _shakeStarted;
+    private Vector3 _targetPosition;
+    private bool _shakeContinuous;
 
     private void Awake()
     {
@@ -24,21 +35,43 @@ public class CameraShake : MonoBehaviour
 
     void Update()
     {
-        var offset = Vector3.zero;
+        var cameraTransform = transform;
 
-        var camTransform1 = transform;
-        if (_shaking)
+        if (_shakeFor)
         {
-            if (Time.time >= _waitUntil)
+            if (Time.time < _shakeUntil)
             {
-                offset += Random.insideUnitSphere * ShakeAmount;
-                _waitUntil = Time.time + .125f;
-                camTransform1.localPosition = _originalPos + offset;
+                var distance = Vector3.Distance(cameraTransform.localPosition, _targetPosition);
+                var inDistance = distance < shortShake.shakeAmount * shortShake.targetThreshold;
+                if (inDistance)
+                {
+                    _targetPosition = Random.insideUnitSphere * shortShake.shakeAmount;
+                }
+                else
+                {
+                    cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, _targetPosition,
+                        Time.deltaTime * shortShake.shakeSpeed);
+                }
+            }
+            else
+            {
+                cameraTransform.localPosition = _originalPos;
+                _shakeFor = false;
             }
         }
-        else
+        else if (_shakeContinuous)
         {
-            camTransform1.localPosition = _originalPos;
+            var distance = Vector3.Distance(cameraTransform.localPosition, _targetPosition);
+            var inDistance = distance < continuousShake.shakeAmount * continuousShake.targetThreshold;
+            if (inDistance)
+            {
+                _targetPosition = Random.insideUnitSphere * continuousShake.shakeAmount;
+            }
+            else
+            {
+                cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, _targetPosition,
+                    Time.deltaTime * continuousShake.shakeSpeed);
+            }
         }
     }
 
@@ -47,23 +80,52 @@ public class CameraShake : MonoBehaviour
         CameraShake.Get().ShakeNow();
     }
 
-    private static CameraShake Get()
-    {
-        return _instance;
-    }
-
-    public void ShakeNow()
-    {
-        _shaking = true;
-    }
-
     public static void StopShaking()
     {
         CameraShake.Get().StopShakingNow();
     }
 
+    public static void ShortShake()
+    {
+        CameraShake.Get().StartShortShake();
+    }
+
+    private static CameraShake Get()
+    {
+        return _instance;
+    }
+
+    private void StartShortShake()
+    {
+        _shakeFor = true;
+        _shakeUntil = Time.time + shortShakeTime;
+
+        transform.localPosition = _originalPos;
+        _targetPosition = transform.localPosition;
+
+        // _shakeStarted = Time.time;
+    }
+
+    public void ShakeNow()
+    {
+        _shakeFor = false;
+        _shakeContinuous = true;
+
+        transform.localPosition = _originalPos;
+        _targetPosition = transform.localPosition;
+    }
+
     private void StopShakingNow()
     {
-        _shaking = false;
+        _shakeFor = false;
+        _shakeContinuous = false;
+
+        transform.localPosition = _originalPos;
+        _targetPosition = transform.localPosition;
+    }
+
+    private float CalcShake(float shakeDamper, float shakeTime, AnimationCurve curve)
+    {
+        return Mathf.PerlinNoise(shakeTime / shakeDamper, 0f) * curve.Evaluate(shakeTime);
     }
 }

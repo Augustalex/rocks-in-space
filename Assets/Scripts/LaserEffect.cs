@@ -38,7 +38,7 @@ public class LaserEffect : MonoBehaviour
     
     public void Activate()
     {
-        CameraShake.Shake();
+        // CameraShake.Shake(); Uncomment to enable continuous shaking when using the laser
         
         _activated = true;
         foreach (var system in _particleSystems)
@@ -50,7 +50,8 @@ public class LaserEffect : MonoBehaviour
 
     public void Stop()
     {
-        CameraShake.StopShaking();
+        // CameraShake.StopShaking(); Uncomment to enable continuous shaking when using the laser
+        
         _activated = false;
         foreach (var system in _particleSystems)
         {
