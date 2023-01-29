@@ -10,6 +10,8 @@ public class PlanetProductionMonitor : MonoBehaviour
 
     private TinyPlanet _planet;
 
+    private readonly Dictionary<BuildingType, int> _stoppedByType = new();
+
     private void Awake()
     {
         _planet = GetComponent<TinyPlanet>();
@@ -28,13 +30,20 @@ public class PlanetProductionMonitor : MonoBehaviour
 
     public void RegisterProductionStart(BuildingType buildingType)
     {
-        // There is nothing to do on Production start at the moment
+        if (!_stoppedByType.ContainsKey(buildingType)) _stoppedByType[buildingType] = 0;
+        _stoppedByType[buildingType] -= 1;
     }
 
-    public void RegisterProductionStop(BuildingType buildingType)
+    public void RegisterProductionStop(BuildingType buildingType, bool silently)
     {
-        var productionStatus = _productionStatuses.Find(p => p.Is(buildingType));
-        productionStatus?.Stopped();
+        if (!_stoppedByType.ContainsKey(buildingType)) _stoppedByType[buildingType] = 0;
+        _stoppedByType[buildingType] += 1;
+
+        if (!silently)
+        {
+            var productionStatus = _productionStatuses.Find(p => p.Is(buildingType));
+            productionStatus?.Stopped();
+        }
     }
 
     public void RegisterProductionResumeSpeed(BuildingType buildingType)
@@ -46,6 +55,27 @@ public class PlanetProductionMonitor : MonoBehaviour
     {
         var productionStatus = _productionStatuses.Find(p => p.Is(buildingType));
         productionStatus?.SlowedDown();
+    }
+
+    public void BuildingWasDetached(BuildingType buildingType, bool isRunning)
+    {
+        if (!isRunning && _stoppedByType.ContainsKey(buildingType)) _stoppedByType[buildingType] -= 1;
+    }
+
+    public void BuildingWasAttached(BuildingType buildingType, bool isRunning)
+    {
+        if (!isRunning)
+        {
+            if (!_stoppedByType.ContainsKey(buildingType)) _stoppedByType[buildingType] = 0;
+
+            _stoppedByType[buildingType] += 1;
+        }
+    }
+
+    public int GetStoppedBuildingsCount(BuildingType buildingType)
+    {
+        if (!_stoppedByType.ContainsKey(buildingType)) return 0;
+        return _stoppedByType[buildingType];
     }
 }
 

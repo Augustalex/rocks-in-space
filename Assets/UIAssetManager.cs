@@ -1,5 +1,7 @@
 using System;
+using Interactors;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIAssetManager : MonoBehaviour
 {
@@ -23,6 +25,16 @@ public class UIAssetManager : MonoBehaviour
     public Texture housingIcon;
     public Texture creditsIcon;
     public Texture workersIcon;
+
+    [Header("Building icons")] public Texture refineryIcon;
+    public Texture factoryIcon;
+    public Texture solarPanelsIcon;
+    public Texture proteinFabricatorIcon;
+    public Texture housesIcon;
+    public Texture purifierIcon;
+    public Texture distilleryIcon;
+    public Texture farmsIcon;
+    public Texture powerPlantIcon;
 
     private static UIAssetManager _instance;
 
@@ -66,6 +78,23 @@ public class UIAssetManager : MonoBehaviour
             TinyPlanetResources.PlanetResourceType.Food => foodIcon,
             TinyPlanetResources.PlanetResourceType.Housing => housingIcon,
             _ => throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType, null)
+        };
+    }
+
+    public Texture GetBuildingIcon(BuildingType buildingType)
+    {
+        return buildingType switch
+        {
+            BuildingType.Refinery => refineryIcon,
+            BuildingType.Factory => factoryIcon,
+            BuildingType.PowerPlant => powerPlantIcon,
+            BuildingType.FarmDome => farmsIcon,
+            BuildingType.ResidentModule => housesIcon,
+            BuildingType.Purifier => purifierIcon,
+            BuildingType.Distillery => distilleryIcon,
+            BuildingType.SolarPanels => solarPanelsIcon,
+            BuildingType.ProteinFabricator => proteinFabricatorIcon,
+            _ => throw new ArgumentOutOfRangeException(nameof(buildingType), buildingType, null)
         };
     }
 }

@@ -40,21 +40,45 @@ public class TinyPlanetResources : MonoBehaviour
     {
         switch (resourceType)
         {
-            case PlanetResourceType.Ore: return "ore<sprite name=\"ore\">";
-            case PlanetResourceType.Metals: return "metals<sprite name=\"metals\">";
-            case PlanetResourceType.Gadgets: return "gadgets<sprite name=\"gadgets\">";
-            case PlanetResourceType.Energy: return "power<sprite name=\"power\">";
-            case PlanetResourceType.Food: return "fresh food<sprite name=\"food\">";
-            case PlanetResourceType.Inhabitants: return "colonists";
-            case PlanetResourceType.Housing: return "housing<sprite name=\"house\">";
-            case PlanetResourceType.Cash: return "credits<sprite name=\"coin\">";
-            case PlanetResourceType.Ice: return "ice<sprite name=\"ice\">";
-            case PlanetResourceType.Water: return "water<sprite name=\"water\">";
-            case PlanetResourceType.Refreshments: return "drinks<sprite name=\"refreshments\">";
-            case PlanetResourceType.Iron: return "iron<sprite name=\"iron\">";
-            case PlanetResourceType.Graphite: return "graphite<sprite name=\"graphite\">";
-            case PlanetResourceType.Copper: return "copper<sprite name=\"copper\">";
-            case PlanetResourceType.Protein: return "protein chunks<sprite name=\"protein\">";
+            case PlanetResourceType.Ore: return $"ore{ResourceSprite(resourceType)}";
+            case PlanetResourceType.Metals: return $"metals{ResourceSprite(resourceType)}";
+            case PlanetResourceType.Gadgets: return $"gadgets{ResourceSprite(resourceType)}";
+            case PlanetResourceType.Energy: return $"power{ResourceSprite(resourceType)}";
+            case PlanetResourceType.Food: return $"fresh food{ResourceSprite(resourceType)}";
+            case PlanetResourceType.Inhabitants: return $"colonists";
+            case PlanetResourceType.Housing: return $"housing{ResourceSprite(resourceType)}";
+            case PlanetResourceType.Cash: return $"credits{ResourceSprite(resourceType)}";
+            case PlanetResourceType.Ice: return $"ice{ResourceSprite(resourceType)}";
+            case PlanetResourceType.Water: return $"water{ResourceSprite(resourceType)}";
+            case PlanetResourceType.Refreshments: return $"drinks{ResourceSprite(resourceType)}";
+            case PlanetResourceType.Iron: return $"iron{ResourceSprite(resourceType)}";
+            case PlanetResourceType.Graphite: return $"graphite{ResourceSprite(resourceType)}";
+            case PlanetResourceType.Copper: return $"copper{ResourceSprite(resourceType)}";
+            case PlanetResourceType.Protein: return $"protein chunks{ResourceSprite(resourceType)}";
+        }
+
+        return "Unknown resource";
+    }
+
+    public static string ResourceSprite(PlanetResourceType resourceType)
+    {
+        switch (resourceType)
+        {
+            case PlanetResourceType.Ore: return "<sprite name=\"ore\">";
+            case PlanetResourceType.Metals: return "<sprite name=\"metals\">";
+            case PlanetResourceType.Gadgets: return "<sprite name=\"gadgets\">";
+            case PlanetResourceType.Energy: return "<sprite name=\"power\">";
+            case PlanetResourceType.Food: return "fresh <sprite name=\"food\">";
+            case PlanetResourceType.Inhabitants: return "";
+            case PlanetResourceType.Housing: return "<sprite name=\"house\">";
+            case PlanetResourceType.Cash: return "<sprite name=\"coin\">";
+            case PlanetResourceType.Ice: return "<sprite name=\"ice\">";
+            case PlanetResourceType.Water: return "<sprite name=\"water\">";
+            case PlanetResourceType.Refreshments: return "<sprite name=\"refreshments\">";
+            case PlanetResourceType.Iron: return "<sprite name=\"iron\">";
+            case PlanetResourceType.Graphite: return "<sprite name=\"graphite\">";
+            case PlanetResourceType.Copper: return "<sprite name=\"copper\">";
+            case PlanetResourceType.Protein: return "<sprite name=\"protein\">";
         }
 
         return "Unknown resource";
@@ -405,10 +429,22 @@ public class TinyPlanetResources : MonoBehaviour
 
     public int GetVacantHousing()
     {
-        var vacancies = _residencies - _occupiedResidencies;
-        var additionalCapacity = vacancies * InhabitantsPerResidency;
+        return GetVacantHousesCount() * InhabitantsPerResidency;
+    }
 
-        return additionalCapacity;
+    public int GetTotalHousesCount()
+    {
+        return _residencies;
+    }
+
+    public int GetVacantHousesCount()
+    {
+        return _residencies - _occupiedResidencies;
+    }
+
+    public int GetOccupantHousesCount()
+    {
+        return _occupiedResidencies;
     }
 
     public ResourcesData CopyData()
@@ -474,8 +510,9 @@ public class TinyPlanetResources : MonoBehaviour
         _buildings[buildingType] += 1;
     }
 
-    public void GetBuildingCount(BuildingType buildingType)
+    public int GetBuildingCount(BuildingType buildingType)
     {
+        return _buildings[buildingType];
     }
 
     public int GetWorkers()

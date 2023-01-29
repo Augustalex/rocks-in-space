@@ -21,9 +21,9 @@ public class ResourceConversionEffect : MonoBehaviour
 
     public float iterationTime = 1f;
 
-    private const float ResourceTakeTime = .5f;
+    public static readonly float ResourceTakeTime = .5f;
 
-    private const float
+    public static readonly float
         SlowDownFactor =
             2f; // This means that process times will be doubled, if it is 2. Sync this number with the animation slow down in the ConversionAnimationController.
 
@@ -42,6 +42,20 @@ public class ResourceConversionEffect : MonoBehaviour
         _planetAttachment = GetComponent<AttachedToPlanet>();
         _resourceEffect = GetComponent<ResourceEffect>();
         _buildingRegister = GetComponent<RegisterBuildingOnPlanet>();
+
+        _planetAttachment.DetachedFrom += (resources) => Detached(resources.GetComponent<TinyPlanet>());
+        _planetAttachment.AttachedTo += (resources) => Attached(resources.GetComponent<TinyPlanet>());
+        _planetAttachment.TransferredFromTo += TransferredFromTo;
+    }
+    
+    private void TransferredFromTo(TinyPlanetResources planetDetachedResources,
+        TinyPlanetResources planetAttachedResources)
+    {
+        var planetDetached = planetDetachedResources.GetComponent<TinyPlanet>();
+        Detached(planetDetached);
+
+        var planetAttached = planetAttachedResources.GetComponent<TinyPlanet>();
+        Attached(planetAttached);
     }
 
     void Start()
@@ -164,11 +178,38 @@ public class ResourceConversionEffect : MonoBehaviour
         if (!_started) return;
         _started = false;
 
+        RegisterStopped();
+
+        OnStopped?.Invoke();
+    }
+
+    private void RegisterStopped(bool silently = false)
+    {
         if (_buildingRegister)
         {
             var buildingType = _buildingRegister.GetBuildingType();
             _planetAttachment.GetAttachedProductionMonitor()
-                .RegisterProductionStop(buildingType);
+                .RegisterProductionStop(buildingType, silently);
+        }
+    }
+
+    private void Detached(TinyPlanet planet)
+    {
+        if (_buildingRegister)
+        {
+            var buildingType = _buildingRegister.GetBuildingType();
+            planet.GetProductionMonitor()
+                .BuildingWasDetached(buildingType, _started);
+        }
+    }
+
+    private void Attached(TinyPlanet planet)
+    {
+        if (_buildingRegister)
+        {
+            var buildingType = _buildingRegister.GetBuildingType();
+            planet.GetProductionMonitor()
+                .BuildingWasAttached(buildingType, _started);
         }
 
         OnStopped?.Invoke();

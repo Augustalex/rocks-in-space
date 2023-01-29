@@ -5,7 +5,7 @@ public class AttachedToPlanet : MonoBehaviour
 {
     public event Action<TinyPlanetResources> AttachedTo;
     public event Action<TinyPlanetResources> DetachedFrom;
-    public event Action<TinyPlanetResources, TinyPlanetResources> TransferredFromTo;
+    public event Action<TinyPlanetResources, TinyPlanetResources> TransferredFromTo; // Would be nice if it was planets, and not only the resources here!
 
     private TinyPlanet _planet;
 
