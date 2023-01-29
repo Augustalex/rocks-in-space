@@ -11928,11 +11928,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3634fcbeffaa84546a9bcfd8432cd236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shortShakeTime: 0.25
+  shortShakeTime: 0.2
   shortShake:
-    targetThreshold: 0.1
-    shakeSpeed: 45
-    shakeAmount: 0.1
+    targetThreshold: 0.05
+    shakeSpeed: 65
+    shakeAmount: 0.05
   continuousShake:
     targetThreshold: 0.1
     shakeSpeed: 60
