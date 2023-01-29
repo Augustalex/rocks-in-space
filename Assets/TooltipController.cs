@@ -24,7 +24,7 @@ public class TooltipController : MonoBehaviour
 
     public void Show(string text, Vector3 mousePosition)
     {
-        transform.position = mousePosition;
+        transform.position = mousePosition - (Vector3) Vector2.down * 4f;
         _text.text = text;
 
         gameObject.SetActive(true);

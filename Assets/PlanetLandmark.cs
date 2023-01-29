@@ -51,17 +51,11 @@ public class PlanetLandmark : MonoBehaviour
 
     private void UpdateDisplayState()
     {
-        var gotoModeOn = InteractorController.Get().CurrentModule().GetInteractorType() == InteractorType.Select;
         var zoomedOut = _cameraController.IsZoomedOut();
 
         if (zoomedOut)
         {
             ShowAndUpdatePosition(true);
-        }
-        else if (gotoModeOn)
-        {
-            if (IsCurrentPlanet(_planet)) Hide();
-            else ShowAndUpdatePosition(ShowInGotoMode && _planet.HasPort());
         }
         else
         {
@@ -124,10 +118,6 @@ public class PlanetLandmark : MonoBehaviour
                     NavigateToPlanet(_planet);
                 }
             }
-        }
-        else if (InteractorController.Get().CurrentModule().GetInteractorType() == InteractorType.Select)
-        {
-            NavigateToPlanet(_planet);
         }
     }
 

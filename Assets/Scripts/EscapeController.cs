@@ -25,7 +25,7 @@ public class EscapeController : MonoBehaviour
             }
             else
             {
-                InteractorController.Get().SetInteractorByName(SelectInteractor.SelectInteractorName);
+                InteractorController.Get().SetInteractorByInteractorType(InteractorType.Dig);
             }
         }
     }

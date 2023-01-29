@@ -2188,9 +2188,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 144245801083868259, guid: 8df45e707b91b54479f1acd482c74757, type: 3}
       propertyPath: m_text
-      value: 'goto
-
-'
+      value: inspect
       objectReference: {fileID: 0}
     - target: {fileID: 144245801083868259, guid: 8df45e707b91b54479f1acd482c74757, type: 3}
       propertyPath: m_VerticalAlignment
@@ -2226,7 +2224,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3594478019543998296, guid: 8df45e707b91b54479f1acd482c74757, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3594478019543998296, guid: 8df45e707b91b54479f1acd482c74757, type: 3}
       propertyPath: m_AnchorMin.x
@@ -2234,7 +2232,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3594478019543998296, guid: 8df45e707b91b54479f1acd482c74757, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3594478019543998296, guid: 8df45e707b91b54479f1acd482c74757, type: 3}
       propertyPath: m_SizeDelta.x
@@ -2274,11 +2272,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3594478019543998296, guid: 8df45e707b91b54479f1acd482c74757, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 598
       objectReference: {fileID: 0}
     - target: {fileID: 3594478019543998296, guid: 8df45e707b91b54479f1acd482c74757, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 3594478019543998296, guid: 8df45e707b91b54479f1acd482c74757, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2308,11 +2306,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Select
       objectReference: {fileID: 0}
+    - target: {fileID: 7412104128783153555, guid: 8df45e707b91b54479f1acd482c74757, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8567295268340908808, guid: 8df45e707b91b54479f1acd482c74757, type: 3}
       propertyPath: m_text
-      value: 'goto
-
-'
+      value: inspect
       objectReference: {fileID: 0}
     - target: {fileID: 8567295268340908808, guid: 8df45e707b91b54479f1acd482c74757, type: 3}
       propertyPath: m_VerticalAlignment

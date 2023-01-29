@@ -55,14 +55,15 @@ namespace Interactors
         {
             _instance = this;
 
-            _defaultModule = defaultModuleContainer.GetComponent<InteractorModule>();
+            var digInteractor = interactorsContainer.GetComponent<DigInteractor>();
+            _defaultModule = digInteractor;
 
             _generalBuildingInteractors = interactorsContainer.GetComponentsInChildren<GeneralBuildingInteractor>();
             _generalBuildings = _generalBuildingInteractors.Select(g => g.GetBuildingType()).ToArray();
 
             _modules = new[]
             {
-                interactorsContainer.GetComponent<DigInteractor>(),
+                digInteractor,
                 interactorsContainer.GetComponent<PortInteractor>(),
                 interactorsContainer.GetComponent<RefineryInteractor>(),
                 interactorsContainer.GetComponent<FactoryInteractor>(),
@@ -446,10 +447,18 @@ namespace Interactors
                 var block = hit.collider.GetComponent<Block>();
                 if (!block.Exists()) return;
 
+                var currentPlanet = CurrentPlanetController.Get().CurrentPlanet();
                 var connectedPlanet = block.GetConnectedPlanet();
-                if (!connectedPlanet.HasPort())
+                if (currentPlanet != null && !currentPlanet.PlanetId.Is(connectedPlanet.PlanetId))
                 {
-                    FailedToBuild?.Invoke(interactorModule, block);
+                    interactorModule.Navigate(connectedPlanet);
+                    var cameraController = CameraController.Get();
+                    CurrentPlanetController.Get().ChangePlanet(connectedPlanet);
+                    cameraController.FocusOnPlanet(connectedPlanet);
+                }
+                else if (!connectedPlanet.HasPort())
+                {
+                    if (interactorModule.CanShowFailMessage()) FailedToBuild?.Invoke(interactorModule, block);
                 }
                 else if (interactorModule.IsCooledDown())
                 {
@@ -462,7 +471,7 @@ namespace Interactors
                     }
                     else
                     {
-                        FailedToBuild?.Invoke(interactorModule, block);
+                        if (interactorModule.CanShowFailMessage()) FailedToBuild?.Invoke(interactorModule, block);
                     }
                 }
             }

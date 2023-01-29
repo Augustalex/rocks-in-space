@@ -139,7 +139,7 @@ public class Block : MonoBehaviour, ILaserInteractable
         TinyPlanetGenerator.Get().ExplodeFrom(this);
     }
 
-    private bool HasOre()
+    public bool HasOre()
     {
         return _oreController.HasOre();
     }
@@ -221,7 +221,6 @@ public class Block : MonoBehaviour, ILaserInteractable
 
     public GameObject Seed(GameObject seedTemplate)
     {
-        Debug.Log("IsCulled(): " + IsCulled());
         if (!IsCulled()) CameraShake.ShortShake();
 
         if (_seed)
@@ -344,5 +343,10 @@ public class Block : MonoBehaviour, ILaserInteractable
     public bool IsIce()
     {
         return _rockType == TinyPlanet.RockType.Ice;
+    }
+
+    public TinyPlanetResources.PlanetResourceType GetOre()
+    {
+        return _oreController.GetOre();
     }
 }

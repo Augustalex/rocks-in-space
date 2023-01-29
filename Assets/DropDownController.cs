@@ -56,15 +56,12 @@ public class DropDownController : MonoBehaviour
 
     private void UpdateInfoRowNow()
     {
-        Debug.Log("UpdateInfoRowNow");
         if (_infoRow.Empty())
         {
-            Debug.Log("EMPTY!");
             Hide();
         }
         else
         {
-            Debug.Log("VISIBLE!");
             if (Hidden()) Show();
             _infoRow.UpdateNow();
         }

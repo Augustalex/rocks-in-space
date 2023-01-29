@@ -64,7 +64,7 @@ public class PortController : MonoBehaviour
 
     private void ShowPopupSoon()
     {
-        _popupTarget.ShowcaseSoon(.25f);
+        // _popupTarget.ShowcaseSoon(.25f); Enable to show planet popup when creating a Beacon
     }
 
     public PopupTarget GetPopupTarget()

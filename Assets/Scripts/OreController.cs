@@ -31,7 +31,7 @@ public class OreController : MonoBehaviour
     public bool IsExplosive()
     {
         if (!_oreVein) return false;
-        
+
         return _oreVein.GetResourceType() == TinyPlanetResources.PlanetResourceType.Dangeronium;
     }
 
@@ -90,5 +90,10 @@ public class OreController : MonoBehaviour
     {
         _oreEnabled = false;
         if (HasOre()) DestroyOre();
+    }
+
+    public TinyPlanetResources.PlanetResourceType GetOre()
+    {
+        return _oreVein.GetResourceType();
     }
 }

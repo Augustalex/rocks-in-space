@@ -12,6 +12,8 @@ namespace Interactors
         public GameObject laserLight;
         public LaserEffect laserEffect;
 
+        public event Action<RaycastHit> OnHover;
+
         private const float
             Cooldown = .14f; // There needs to be a cooldown - since a block exists for 1 frame between when it has been asked to be destroyed, and until it has actually been destroyed. 
 
@@ -39,6 +41,7 @@ namespace Interactors
 
         private int _textIndex = 0;
         private float _lastChangedIndex;
+        private float _noFailMessageUntil;
 
         private void Start()
         {
@@ -279,17 +282,30 @@ namespace Interactors
 
         public override float MaxActivationDistance()
         {
-            return 60f;
+            return 999f;
         }
 
         public override bool Hoverable()
         {
-            return false;
+            return true;
         }
 
         public override void Hover(RaycastHit hit)
         {
-            // Do nothing
+            OnHover?.Invoke(hit);
+        }
+
+        public void Navigate(TinyPlanet planet)
+        {
+            _noFailMessageUntil = Time.time + 1f;
+            var cameraController = CameraController.Get();
+            CurrentPlanetController.Get().ChangePlanet(planet);
+            cameraController.FocusOnPlanet(planet);
+        }
+
+        public bool CanShowFailMessage()
+        {
+            return Time.time > _noFailMessageUntil;
         }
     }
 }

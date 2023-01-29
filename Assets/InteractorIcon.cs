@@ -73,10 +73,9 @@ public class InteractorIcon : MonoBehaviour
         var cameraController = CameraController.Get();
         if (cameraController.IsZoomedOut())
         {
-            cameraController.ToggleZoomMode();
+            cameraController.ZoomIn();
+            interactorController.SetInteractorByInteractorType(InteractorType.Dig);
         }
-
-        interactorController.SetInteractorByInteractorType(InteractorType.Select);
     }
 
     private void UpdateStates()

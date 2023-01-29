@@ -118,8 +118,6 @@ public class TinyPlanetRocks : MonoBehaviour
 
             var port = networkItem.GetComponentInChildren<PortController>();
             if (port) {
-            
-                Debug.Log("ATTACHING PORT TO: " + _planetId.planetId);
                 AttachPort(port);
             }
 
