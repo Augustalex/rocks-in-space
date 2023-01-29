@@ -133,6 +133,7 @@ public class Block : MonoBehaviour, ILaserInteractable
 
     private void Explode()
     {
+        WhiteScreenController.Get().Flash();
         RockSmash.Get().PlayExplosion();
 
         TinyPlanetGenerator.Get().ExplodeFrom(this);
@@ -278,7 +279,7 @@ public class Block : MonoBehaviour, ILaserInteractable
     public void LaserInteract()
     {
         CameraShake.ShortShake();
-        
+
         Dig();
     }
 
@@ -289,7 +290,7 @@ public class Block : MonoBehaviour, ILaserInteractable
 
     public float DisintegrationTime()
     {
-        if (IsExplosive()) return 2f;
+        if (IsExplosive()) return 4f;
 
         var balanceSettings = SettingsManager.Get().balanceSettings;
         // return .1f;

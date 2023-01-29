@@ -106,7 +106,7 @@ public class TinyPlanetGenerator : MonoBehaviour
                 if (block)
                 {
                     blockPositions.Add(block.GetPosition());
-                    block.DestroySelf(Random.value < .5f);
+                    block.DestroySelf(Random.value < .8f);
                 }
             }
 

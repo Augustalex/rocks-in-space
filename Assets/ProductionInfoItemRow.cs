@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Interactors;
 using UnityEngine;
@@ -12,7 +11,7 @@ public class ProductionInfoItemRow : MonoBehaviour
 
     private readonly Dictionary<BuildingType, GameObject> _itemByBuilding = new();
 
-    void Awake()
+    public void Setup()
     {
         foreach (var buildingType in buildingTypes)
         {
@@ -33,31 +32,12 @@ public class ProductionInfoItemRow : MonoBehaviour
                 _ => throw new ArgumentOutOfRangeException(nameof(buildingType), buildingType, null)
             };
             _itemByBuilding[buildingType] = itemObject;
+
+            itemObject.SetActive(false);
         }
     }
 
-    private void Start()
-    {
-        ProgressManager.Get();
-
-        foreach (var (buildingType, item) in _itemByBuilding)
-        {
-            item.SetActive(false);
-        }
-
-        StartCoroutine(SlowUpdate());
-    }
-
-    IEnumerator SlowUpdate()
-    {
-        while (gameObject != null)
-        {
-            yield return new WaitForSeconds(2f);
-            UpdateNow();
-        }
-    }
-
-    private void UpdateNow()
+    public void UpdateNow()
     {
         var currentPlanet = CurrentPlanetController.Get().CurrentPlanet();
         if (!currentPlanet) return;
@@ -68,5 +48,18 @@ public class ProductionInfoItemRow : MonoBehaviour
         {
             item.SetActive(resources.HasBuilding(buildingType));
         }
+    }
+
+    public bool Empty()
+    {
+        var currentPlanet = CurrentPlanetController.Get().CurrentPlanet();
+        if (!currentPlanet) return true;
+
+        foreach (var (buildingType, item) in _itemByBuilding)
+        {
+            if (currentPlanet.GetResources().HasBuilding(buildingType)) return false;
+        }
+
+        return true;
     }
 }
