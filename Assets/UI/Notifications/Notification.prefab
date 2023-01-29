@@ -444,6 +444,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dffc575b2e69aa458356eca73f2ef6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  messageElement: {fileID: 1045083177807765289}
+  subtitleElement: {fileID: 3421024689200631401}
 --- !u!222 &5025519984395051932
 CanvasRenderer:
   m_ObjectHideFlags: 0

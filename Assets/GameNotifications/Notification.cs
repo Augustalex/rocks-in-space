@@ -27,6 +27,16 @@
 
         public abstract void Reject();
 
+        public virtual float Timeout()
+        {
+            return -1f;
+        }
+        
+        public virtual string Subtitle()
+        {
+            return "Click to confirm";
+        }
+
         public bool Closed()
         {
             return Status != NotificationStatus.Open;

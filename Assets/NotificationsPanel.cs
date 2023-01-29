@@ -49,6 +49,9 @@ public class NotificationsPanel : MonoBehaviour
         var notificationPanel = notificationRoot.GetComponent<NotificationPanel>();
 
         notificationPanel.SetMessage(notification.Message);
+        notificationPanel.SetSubtitle(notification.Subtitle());
+        if (notification.Timeout() > 0f) notificationPanel.SetTimeout(notification.Timeout());
+
         notificationPanel.Clicked += () =>
         {
             notification.Accept();

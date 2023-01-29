@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class NotificationPanel : MonoBehaviour
 {
-    private const bool EnableTimeOut = false;
-    private const float Length = 20f;
+    public TMP_Text messageElement;
+    public TMP_Text subtitleElement;
 
     private bool _killed;
     private float _spawned;
+    private float _timeout = -1f;
+    private string _subtitle;
 
     public event Action Clicked;
     public event Action Rejected;
@@ -28,20 +30,25 @@ public class NotificationPanel : MonoBehaviour
 
     private void Update()
     {
-        var duration = Time.time - _spawned;
-        if (duration > Length)
+        if (_timeout > 0f)
         {
-            TimeOut();
+            var duration = Time.time - _spawned;
+            if (duration > _timeout)
+            {
+                TimeOut();
+            }
+            else
+            {
+                var timeLeft = Mathf.FloorToInt(_timeout - duration);
+                subtitleElement.text = $"{_subtitle} ({timeLeft})";
+            }
         }
     }
 
     private void TimeOut()
     {
-        if (EnableTimeOut)
-        {
-            TimedOut?.Invoke();
-            Kill();
-        }
+        TimedOut?.Invoke();
+        Kill();
     }
 
     public void Reject()
@@ -57,6 +64,17 @@ public class NotificationPanel : MonoBehaviour
 
     public void SetMessage(string message)
     {
-        GetComponentInChildren<TMP_Text>().text = message;
+        messageElement.text = message;
+    }
+
+    public void SetSubtitle(string subtitle)
+    {
+        _subtitle = subtitle;
+        subtitleElement.text = subtitle;
+    }
+
+    public void SetTimeout(float notificationTimeout)
+    {
+        _timeout = notificationTimeout;
     }
 }

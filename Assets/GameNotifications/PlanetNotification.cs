@@ -3,7 +3,12 @@
     public class PlanetNotification : Notification
     {
         public TinyPlanet Location;
-
+        
+        public override string Subtitle()
+        {
+            return "Click to go there";
+        }
+        
         public override void Accept()
         {
             CurrentPlanetController.Get().ChangePlanet(Location);
