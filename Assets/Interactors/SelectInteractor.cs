@@ -15,7 +15,7 @@ namespace Interactors
         public event Action<RaycastHit> OnHover;
         public event Action<RaycastHit> OnClick;
 
-        public event Action<RaycastHit> OnContext;
+        public event Action<RaycastHit> OnOpenBuildMenu;
 
         void Start()
         {
@@ -84,7 +84,7 @@ namespace Interactors
 
         public override void OnSecondaryInteract(Block block, RaycastHit hit)
         {
-            
+            OnOpenBuildMenu?.Invoke(hit);
         }
 
         public override bool Continuous()
