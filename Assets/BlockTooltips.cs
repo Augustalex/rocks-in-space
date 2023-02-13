@@ -46,7 +46,6 @@ public class BlockTooltips : MonoBehaviour
         {
             if (_startHover < 0f)
             {
-                Debug.Log("STARTED");
                 _startHover = _lastHovered;
             }
             else
