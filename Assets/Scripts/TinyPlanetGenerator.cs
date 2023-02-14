@@ -35,7 +35,7 @@ public class TinyPlanetGenerator : MonoBehaviour
     {
         var area = 1000;
         var center = new Vector3(-(area / 2f), -(area / 2f), -(area / 2f));
-        var numberOfPlanets = 25;
+        var numberOfPlanets = 13;
         for (int i = 0; i < numberOfPlanets; i++)
         {
             var point = new Vector3(
