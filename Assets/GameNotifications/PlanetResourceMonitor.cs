@@ -19,6 +19,7 @@ namespace GameNotifications
         private readonly NotificationThrottler _lowFoodNotification = new();
         private readonly NotificationThrottler _outOfGraphite = new();
         private readonly NotificationThrottler _outOfCopper = new();
+        private readonly NotificationThrottler _newColonists = new();
 
         private void Awake()
         {
@@ -48,6 +49,7 @@ namespace GameNotifications
             var noEnergy = newData.Energy < 0f;
             var currentAmountOfInhabitants = newData.Inhabitants - newData.Landers;
             var previousAmountOfInhabitants = _previousResources.Inhabitants - _previousResources.Landers;
+            var landerSettledThisFrame = _previousResources.Landers < newData.Landers;
 
             if (Math.Abs(newData.Energy - _previousResources.Energy) > .5f)
             {
@@ -124,9 +126,17 @@ namespace GameNotifications
             }
 
             var amountOfInhabitantsChanged = Math.Abs(currentAmountOfInhabitants - previousAmountOfInhabitants);
-            if (amountOfInhabitantsChanged > .5f)
+            if (!landerSettledThisFrame && amountOfInhabitantsChanged > .5f)
             {
-                if (noEnergy)
+                if (newData.Inhabitants > _previousResources.Inhabitants)
+                {
+                    _newColonists.SendIfCanPost(
+                        CreatePlanetNotification(
+                            $"New colonists have settled at {_planet.planetName}"
+                        )
+                    );
+                }
+                else if (noEnergy)
                 {
                     GenerateFreezingColonistsAlert();
                 }
