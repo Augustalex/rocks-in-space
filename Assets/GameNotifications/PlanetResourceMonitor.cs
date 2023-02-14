@@ -19,7 +19,7 @@ namespace GameNotifications
         private readonly NotificationThrottler _lowFoodNotification = new();
         private readonly NotificationThrottler _outOfGraphite = new();
         private readonly NotificationThrottler _outOfCopper = new();
-        private readonly NotificationThrottler _newColonists = new();
+        private readonly TwoWayNotificationThrottler _newColonists = new(10);
 
         private void Awake()
         {
@@ -132,11 +132,22 @@ namespace GameNotifications
                 {
                     _newColonists.SendIfCanPost(
                         CreatePlanetNotification(
-                            $"New colonists have settled at {_planet.planetName}"
-                        )
+                            $"Colonists are moving into {_planet.planetName}"
+                        ),
+                        true
                     );
                 }
-                else if (noEnergy)
+                else
+                {
+                    _newColonists.SendIfCanPost(
+                        CreatePlanetNotification(
+                            $"Colonists are leaving {_planet.planetName}"
+                        ),
+                        false
+                    );
+                }
+                
+                if (noEnergy)
                 {
                     GenerateFreezingColonistsAlert();
                 }

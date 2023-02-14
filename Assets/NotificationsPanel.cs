@@ -21,17 +21,17 @@ public class NotificationsPanel : MonoBehaviour
     {
         while (gameObject != null)
         {
-            if (_notifications.Count > 0)
+            var canNotifyNow = !DisplayController.Get().IsRenaming();
+            
+            if (canNotifyNow)
             {
-                while (DisplayController.Get().IsRenaming())
+                if (_notifications.Count > 0)
                 {
-                    yield return new WaitForSeconds(0.5f);
+                    ShowNotification(_notifications.Dequeue());
                 }
-
-                ShowNotification(_notifications.Dequeue());
             }
-
-            yield return new WaitForSeconds(1.5f);
+           
+            yield return new WaitForSeconds(2f);
         }
     }
 
