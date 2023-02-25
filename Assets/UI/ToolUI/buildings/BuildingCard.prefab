@@ -1715,7 +1715,6 @@ MonoBehaviour:
   buildingType: 0
   header: {fileID: 627412915753910289}
   costs: {fileID: 380679933199055440}
-  costsIcon: {fileID: 9050665300873197423}
   upkeep: {fileID: 5894991561208179773}
   description: {fileID: 6946826130071131760}
   select: {fileID: 8230964779531686300}

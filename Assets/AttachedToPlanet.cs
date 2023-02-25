@@ -51,6 +51,12 @@ public class AttachedToPlanet : MonoBehaviour
         TransferredFromTo?.Invoke(original.GetResources(), target.GetResources());
     }
 
+    public TinyPlanetRockType GetAttachedPlanetType()
+    {
+        return _planet.GetRockType();
+    }
+
+
     public TinyPlanetResources GetAttachedResources()
     {
         return _planet.GetResources();

@@ -10,6 +10,8 @@ public class ResourceConversionEffect : MonoBehaviour
     public event Action OnSlowedDown;
     public event Action OnResumedSpeed;
 
+    public bool copperPlanetBonus = false;
+
     public TinyPlanetResources.PlanetResourceType from;
     public int fromAmount = 1;
     public TinyPlanetResources.PlanetResourceType fromSecondary;
@@ -25,7 +27,7 @@ public class ResourceConversionEffect : MonoBehaviour
 
     public static readonly float
         SlowDownFactor =
-            2f; // This means that process times will be doubled, if it is 2. Sync this number with the animation slow down in the ConversionAnimationController.
+            5f; // This means that process times will be doubled, if it is 2. Sync this number with the animation slow down in the ConversionAnimationController.
 
     private AttachedToPlanet _planetAttachment;
     private ResourceEffect _resourceEffect;
@@ -47,7 +49,7 @@ public class ResourceConversionEffect : MonoBehaviour
         _planetAttachment.AttachedTo += (resources) => Attached(resources.GetComponent<TinyPlanet>());
         _planetAttachment.TransferredFromTo += TransferredFromTo;
     }
-    
+
     private void TransferredFromTo(TinyPlanetResources planetDetachedResources,
         TinyPlanetResources planetAttachedResources)
     {
@@ -123,7 +125,15 @@ public class ResourceConversionEffect : MonoBehaviour
             {
                 _bufferedSets -= 1;
                 yield return new WaitForSeconds(_slowedDown ? iterationTime * SlowDownFactor : iterationTime);
-                resources.AddResource(to, toAmount);
+
+                if (copperPlanetBonus && _planetAttachment.GetAttachedPlanetType().IsCopper())
+                {
+                    resources.AddResource(to, toAmount * 2f);
+                }
+                else
+                {
+                    resources.AddResource(to, toAmount);
+                }
             }
         }
     }

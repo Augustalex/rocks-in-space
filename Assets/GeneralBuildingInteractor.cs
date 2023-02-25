@@ -1,3 +1,4 @@
+using GameNotifications;
 using Interactors;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ public class GeneralBuildingInteractor : InteractorModule
 {
     [SerializeField] private string interactorName;
     [SerializeField] private BuildingType buildingType;
+    private bool _sentCopperBonusHint;
 
     public BuildingType GetBuildingType()
     {
@@ -34,5 +36,18 @@ public class GeneralBuildingInteractor : InteractorModule
         SetSeedRefund(seed);
 
         ProgressManager.Get().Built(buildingType);
+
+        if (buildingType == BuildingType.CopperRefinery && block.GetConnectedPlanet().GetRockType().IsCopper())
+        {
+            if (!_sentCopperBonusHint)
+            {
+                _sentCopperBonusHint = true;
+                Notifications.Get().Send(new TextNotification
+                {
+                    Message =
+                        "Your new Copper refineries seems to be almost twice as effective on this kind of asteroid! Producing twice as many plates for each ore."
+                });
+            }
+        }
     }
 }

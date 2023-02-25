@@ -35,6 +35,7 @@ public class ProgressManager : MonoBehaviour
     
     private float _builtFirstCopperRefineryAt = -1f;
     private bool _hasSentCopperHint;
+    private bool _hasSentCopperBonusHint;
 
     public event Action LanderBuilt;
     public event Action<TinyPlanetResources.PlanetResourceType> OnResourceGot;
@@ -102,7 +103,8 @@ public class ProgressManager : MonoBehaviour
     public void UpdateProgress()
     {
         ManageIronHint();
-        ManageCopperRefineryHint();
+        // ManageCopperRefineryBonusHint(); Feels a bit in your face to be telling the player about the bonus.. maybe have an icon and let them discover it?
+        ManageCopperRefineryRequiredResourcesHint();
         // ManageFactoryHint(); TODO: Re-evaluate if this is really useful. Seems enough with copper and iron hints.
 
         var happyColonists = 0;
@@ -196,7 +198,7 @@ public class ProgressManager : MonoBehaviour
         });
     }
 
-    private void ManageCopperRefineryHint()
+    private void ManageCopperRefineryRequiredResourcesHint()
     {
         if (_hasSentCopperHint) return;
         
@@ -220,6 +222,30 @@ public class ProgressManager : MonoBehaviour
         {
             Message =
                 $"One of the materials needed to make {copperPlates} is {copperOreText}, on some asteroids it is more abundant than on others."
+        });
+    }
+
+    private void ManageCopperRefineryBonusHint()
+    {
+        if (_hasSentCopperBonusHint) return;
+        
+        var hasBuiltRefinery = _builtFirstCopperRefineryAt >= 0;
+        if (!hasBuiltRefinery) return;
+        
+        var duration = Time.time - _builtFirstCopperRefineryAt;
+        var timeToShowHint = duration > 1f;
+        if (!timeToShowHint) return;
+        
+        _hasSentCopperBonusHint = true;
+        
+        var copperPlates =
+            TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.CopperPlates);
+        var copperOreText =
+            TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.CopperOre);
+        Notifications.Get().Send(new TextNotification
+        {
+            Message =
+                $"Copper refineries produce 2x the amount of {copperPlates} for every {copperOreText} when placed on a {copperOreText} rich asteroid!"
         });
     }
 

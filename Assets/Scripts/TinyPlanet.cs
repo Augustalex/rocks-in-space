@@ -104,4 +104,9 @@ public class TinyPlanet : MonoBehaviour
     {
         return _rockType.IsIce();
     }
+    
+    public TinyPlanetRockType GetRockType()
+    {
+        return _rockType;
+    }
 }

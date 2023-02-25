@@ -3,6 +3,8 @@ using Random = UnityEngine.Random;
 
 public class MeteorGenerator : MonoBehaviour
 {
+    private const int MaxMeteors = 12;
+    
     public GameObject meteorTemplate;
     private int _count;
     private static MeteorGenerator _instance;
@@ -19,7 +21,7 @@ public class MeteorGenerator : MonoBehaviour
 
     void Update()
     {
-        if (Random.value < .005f && _count < 100)
+        if (Random.value < .005f && _count < MaxMeteors)
         {
             _count += 1;
             var meteor = SpawnMeteor();

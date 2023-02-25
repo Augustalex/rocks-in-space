@@ -18,4 +18,9 @@ public class TinyPlanetRockType : MonoBehaviour
     {
         return _rockType;
     }
+
+    public bool IsCopper()
+    {
+        return _rockType == TinyPlanet.RockType.Orange;
+    }
 }
