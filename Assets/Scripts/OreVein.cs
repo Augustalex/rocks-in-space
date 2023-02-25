@@ -101,16 +101,23 @@ public class OreVein : MonoBehaviour
         _resources += onCount * _orePerBlock;
     }
 
-    public int Collect(TinyPlanetResources planetResources)
+    public void CollectResources(TinyPlanetResources planetResources)
     {
-        var amount = _resources;
-
         planetResources.AddResource(_resourceType, _resources);
         _resources = 0;
-
-        return (amount / _orePerBlock) * _debrisMultiplier;
+    }
+    
+    public void Clear()
+    {
+        _resources = 0;
     }
 
+    public int DebrisCount()
+    {
+        var amount = _resources;
+        return (amount / _orePerBlock) * _debrisMultiplier;
+    }
+    
     public TinyPlanetResources.PlanetResourceType GetResourceType()
     {
         return _resourceType;

@@ -46,7 +46,9 @@ public class OreController : MonoBehaviour
         }
         else
         {
-            var debrisCount = _oreVein.Collect(planetResources);
+            var debrisCount = _oreVein.DebrisCount();
+            _oreVein.CollectResources(planetResources);
+            _oreVein.Clear();
 
             var debris = resourceType switch
             {
