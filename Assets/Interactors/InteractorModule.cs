@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Interactors
 {
@@ -8,7 +9,8 @@ namespace Interactors
     {
         public int cash;
         public int ore;
-        public int metals;
+        [FormerlySerializedAs("metals")] public int ironPlates;
+        public int copperPlates;
         public int gadgets;
     }
 
@@ -34,6 +36,7 @@ namespace Interactors
     {
         Port = 0,
         Refinery = 1,
+        CopperRefinery = 13,
         Factory = 2,
         PowerPlant = 3,
         FarmDome = 4,
@@ -100,7 +103,7 @@ namespace Interactors
             var resources = block.GetConnectedPlanet().GetResources();
             if (GlobalResources.Get().GetCash() < costs.cash) return false;
             if (resources.GetOre() < costs.ore) return false;
-            if (resources.GetMetals() < costs.metals) return false;
+            if (resources.GetIronPlates() < costs.ironPlates) return false;
             if (resources.GetGadgets() < costs.gadgets) return false;
             return true;
         }
@@ -114,9 +117,12 @@ namespace Interactors
             if (resources.GetOre() < costs.ore)
                 return new Tuple<TinyPlanetResources.PlanetResourceType, int>(
                     TinyPlanetResources.PlanetResourceType.Ore, costs.ore);
-            if (resources.GetMetals() < costs.metals)
+            if (resources.GetIronPlates() < costs.ironPlates)
                 return new Tuple<TinyPlanetResources.PlanetResourceType, int>(
-                    TinyPlanetResources.PlanetResourceType.IronPlates, costs.metals);
+                    TinyPlanetResources.PlanetResourceType.IronPlates, costs.ironPlates);
+            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.CopperPlates) < costs.copperPlates)
+                return new Tuple<TinyPlanetResources.PlanetResourceType, int>(
+                    TinyPlanetResources.PlanetResourceType.CopperPlates, costs.copperPlates);
             if (resources.GetGadgets() < costs.gadgets)
                 return new Tuple<TinyPlanetResources.PlanetResourceType, int>(
                     TinyPlanetResources.PlanetResourceType.Gadgets, costs.gadgets);
@@ -128,7 +134,7 @@ namespace Interactors
             var resources = block.GetConnectedPlanet().GetResources();
             GlobalResources.Get().UseCash(costs.cash);
             resources.RemoveOre(costs.ore);
-            resources.RemoveMetals(costs.metals);
+            resources.RemoveIronPlates(costs.ironPlates);
             resources.RemoveGadgets(costs.gadgets);
         }
 

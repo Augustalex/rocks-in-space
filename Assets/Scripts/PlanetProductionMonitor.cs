@@ -19,6 +19,7 @@ public class PlanetProductionMonitor : MonoBehaviour
         _productionStatuses.AddRange(new[]
         {
             new ProductionStatus(_planet, BuildingType.Refinery),
+            new ProductionStatus(_planet, BuildingType.CopperRefinery),
             new ProductionStatus(_planet, BuildingType.Factory),
             new ProductionStatus(_planet, BuildingType.ProteinFabricator),
             new ProductionStatus(_planet, BuildingType.Purifier),
@@ -97,7 +98,8 @@ public class ProductionStatus
     {
         var message = _buildingType switch
         {
-            BuildingType.Refinery => "Metal refineries",
+            BuildingType.Refinery => "Iron refineries",
+            BuildingType.CopperRefinery => "Copper refineries",
             BuildingType.Factory => "Factories",
             BuildingType.ProteinFabricator => "Protein fabricators",
             BuildingType.Purifier => "Purifiers",
@@ -119,7 +121,8 @@ public class ProductionStatus
     {
         var message = _buildingType switch
         {
-            BuildingType.Refinery => "Metal refineries",
+            BuildingType.Refinery => "Iron refineries",
+            BuildingType.CopperRefinery => "Copper refineries",
             BuildingType.Factory => "Factories",
             BuildingType.ProteinFabricator => "Protein fabricators",
             BuildingType.Purifier => "Purifiers",

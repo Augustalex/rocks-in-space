@@ -25,10 +25,15 @@ public class ProgressManager : MonoBehaviour
     private ColonyProgress _colonyProgress = ColonyProgress.Zero;
     private bool _gotFirstGadgets;
 
-    private const float ShowCopperHintAfterTime = 45;
+    private const float ShowHintAfterTime = 45;
+    
     private float _builtFirstRefineryAt = -1f;
     private bool _hasSentIronHint;
+    
     private float _builtFirstFactoryAt = -1f;
+    private bool _hasSentFactoryHint;
+    
+    private float _builtFirstCopperRefineryAt = -1f;
     private bool _hasSentCopperHint;
 
     public event Action LanderBuilt;
@@ -49,6 +54,11 @@ public class ProgressManager : MonoBehaviour
         if (buildingType == BuildingType.Refinery && !HasBuilt(BuildingType.Refinery))
         {
             _builtFirstRefineryAt = Time.time;
+        }
+        
+        if (buildingType == BuildingType.CopperRefinery && !HasBuilt(BuildingType.CopperRefinery))
+        {
+            _builtFirstCopperRefineryAt = Time.time;
         }
 
         if (buildingType == BuildingType.Factory && !HasBuilt(BuildingType.Factory))
@@ -92,7 +102,8 @@ public class ProgressManager : MonoBehaviour
     public void UpdateProgress()
     {
         ManageIronHint();
-        ManageCopperHint();
+        ManageCopperRefineryHint();
+        // ManageFactoryHint(); TODO: Re-evaluate if this is really useful. Seems enough with copper and iron hints.
 
         var happyColonists = 0;
         var overjoyedColonists = 0;
@@ -142,25 +153,25 @@ public class ProgressManager : MonoBehaviour
         if (!hasBuiltRefinery) return;
 
         var duration = Time.time - _builtFirstRefineryAt;
-        var timeToShowHint = duration > ShowCopperHintAfterTime;
+        var timeToShowHint = duration > ShowHintAfterTime;
         if (!timeToShowHint) return;
 
         _hasSentIronHint = true;
 
-        var metalsText =
+        var ironPlatesText =
             TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.IronPlates);
         var ironText =
             TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.IronOre);
         Notifications.Get().Send(new TextNotification
         {
             Message =
-                $"One of the materials needed to make {metalsText} is {ironText}, on some asteroids it is more abundant than on others."
+                $"One of the materials needed to make {ironPlatesText} is {ironText}, on some asteroids it is more abundant than on others."
         });
     }
 
-    private void ManageCopperHint()
+    private void ManageFactoryHint()
     {
-        if (_hasSentCopperHint) return;
+        if (_hasSentFactoryHint) return;
 
         var hasAlreadyGotGadgets = _gotResources.Contains(TinyPlanetResources.PlanetResourceType.CopperOre);
         if (hasAlreadyGotGadgets) return;
@@ -169,10 +180,10 @@ public class ProgressManager : MonoBehaviour
         if (!hasBuiltFactory) return;
 
         var duration = Time.time - _builtFirstFactoryAt;
-        var timeToShowHint = duration > ShowCopperHintAfterTime;
+        var timeToShowHint = duration > ShowHintAfterTime;
         if (!timeToShowHint) return;
 
-        _hasSentCopperHint = true;
+        _hasSentFactoryHint = true;
 
         var gadgetsText =
             TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets);
@@ -182,6 +193,33 @@ public class ProgressManager : MonoBehaviour
         {
             Message =
                 $"Factories need {copperText} to produce {gadgetsText}, on some asteroids it is more abundant than on others."
+        });
+    }
+
+    private void ManageCopperRefineryHint()
+    {
+        if (_hasSentCopperHint) return;
+        
+        var hasAlreadyGotCopperPlates = _gotResources.Contains(TinyPlanetResources.PlanetResourceType.CopperPlates);
+        if (hasAlreadyGotCopperPlates) return;
+        
+        var hasBuiltRefinery = _builtFirstCopperRefineryAt >= 0;
+        if (!hasBuiltRefinery) return;
+        
+        var duration = Time.time - _builtFirstCopperRefineryAt;
+        var timeToShowHint = duration > ShowHintAfterTime;
+        if (!timeToShowHint) return;
+        
+        _hasSentCopperHint = true;
+        
+        var copperPlates =
+            TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.CopperPlates);
+        var copperText =
+            TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.CopperOre);
+        Notifications.Get().Send(new TextNotification
+        {
+            Message =
+                $"One of the materials needed to make {copperPlates} is {copperText}, on some asteroids it is more abundant than on others."
         });
     }
 

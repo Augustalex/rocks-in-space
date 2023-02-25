@@ -21,6 +21,7 @@ public class ProductionInfoItemRow : MonoBehaviour
             infoItem.resourceType = buildingType switch
             {
                 BuildingType.Refinery => TinyPlanetResources.PlanetResourceType.IronPlates,
+                BuildingType.CopperRefinery => TinyPlanetResources.PlanetResourceType.CopperPlates,
                 BuildingType.Factory => TinyPlanetResources.PlanetResourceType.Gadgets,
                 BuildingType.PowerPlant => TinyPlanetResources.PlanetResourceType.Energy,
                 BuildingType.FarmDome => TinyPlanetResources.PlanetResourceType.Food,

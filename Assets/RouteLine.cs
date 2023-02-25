@@ -25,6 +25,7 @@ public class RouteLine : MonoBehaviour
             { TinyPlanetResources.PlanetResourceType.Graphite, new Color(.05f, 0.05f, .2f) },
             { TinyPlanetResources.PlanetResourceType.CopperOre, new Color(1f, .4f, .2f) },
             { TinyPlanetResources.PlanetResourceType.IronPlates, new Color(.5f, 0.5f, .5f) },
+            { TinyPlanetResources.PlanetResourceType.CopperPlates, new Color(.5f, .2f, .1f) },
             { TinyPlanetResources.PlanetResourceType.Gadgets, new Color(0.7359977f, 0f, 1f) },
             { TinyPlanetResources.PlanetResourceType.Ice, new Color(.75f, .75f, 1f) },
             { TinyPlanetResources.PlanetResourceType.Water, new Color(.2f, .2f, 1f) },

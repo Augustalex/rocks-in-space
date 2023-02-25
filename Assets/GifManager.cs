@@ -36,6 +36,7 @@ public class GifManager : MonoBehaviour
         {
             BuildingType.Port => portFrames,
             BuildingType.Refinery => refineryFrames,
+            BuildingType.CopperRefinery => refineryFrames,
             BuildingType.Factory => factoryFrames,
             BuildingType.PowerPlant => powerPlantFrames,
             BuildingType.FarmDome => farmDomeFrames,

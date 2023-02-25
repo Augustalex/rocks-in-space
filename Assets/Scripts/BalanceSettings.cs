@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "BalanceSettings", menuName = "BalanceSettings", order = 0)]
 public class BalanceSettings : ScriptableObject
@@ -7,7 +8,8 @@ public class BalanceSettings : ScriptableObject
     public float ironTradeAmount = 1f;
     public float graphiteTradeAmount = 1f;
     public float copperTradeAmount = 1f;
-    public float metalsTradeAmount = 1f;
+    [FormerlySerializedAs("metalsTradeAmount")] public float ironPlatesTradeAmount = 1f;
+    public float copperPlatesTradeAmount = 1f;
     public float gadgetsTradeAmount = 1f;
     public float waterTradeAmount = 1f;
     public float refreshmentsTradeAmount = 1f;

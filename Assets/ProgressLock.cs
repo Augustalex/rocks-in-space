@@ -52,6 +52,14 @@ public class ProgressLock : MonoBehaviour
                     !ProgressManager.Get().LanderUnlocked()
                 );
                 break;
+            case BuildingType.CopperRefinery:
+                CheckLock(
+                    ProgressManager.Get().RefineryUnlocked(),
+                    GenericUnlockMessage(),
+                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Lander).GetInteractorName()}",
+                    !ProgressManager.Get().LanderUnlocked()
+                );
+                break;
             case BuildingType.Factory:
                 CheckLockWithoutNotification(
                     ProgressManager.Get().FactoryUnlocked(),

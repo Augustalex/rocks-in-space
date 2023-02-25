@@ -18,7 +18,7 @@ public class MapPopupResourcesSection : MonoBehaviour
         _texts[0].text = planet.planetName;
         var tinyPlanetResources = planet.GetResources();
         _texts[1].text = $"Ore: {tinyPlanetResources.GetOre()}";
-        _texts[2].text = $"Metals: {tinyPlanetResources.GetMetals()}";
+        _texts[2].text = $"Iron plates: {tinyPlanetResources.GetIronPlates()}";
         _texts[3].text = $"Gadgets: {tinyPlanetResources.GetGadgets()}";
     }
 }

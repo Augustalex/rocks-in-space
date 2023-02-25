@@ -76,9 +76,9 @@ public class BuildingCard : MonoBehaviour
             text += $"{interactorCosts.ore}<sprite name=\"ore\"> ";
         }
 
-        if (interactorCosts.metals > 0)
+        if (interactorCosts.ironPlates > 0)
         {
-            text += $"{interactorCosts.metals}<sprite name=\"metals\"> ";
+            text += $"{interactorCosts.ironPlates}<sprite name=\"metals\"> ";
         }
 
         if (interactorCosts.gadgets > 0)

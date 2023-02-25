@@ -19,7 +19,7 @@ public class CheatEngine : MonoBehaviour
         };
         _cheats["sparvagnar"] = () =>
         {
-            CurrentPlanetController.Get().CurrentPlanet()?.GetResources().AddMetals(1000);
+            CurrentPlanetController.Get().CurrentPlanet()?.GetResources().AddIronPlates(1000);
         };
         _cheats["inspectorgadget"] = () =>
         {

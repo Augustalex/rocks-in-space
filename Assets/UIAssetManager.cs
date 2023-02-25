@@ -1,6 +1,7 @@
 using System;
 using Interactors;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UIAssetManager : MonoBehaviour
@@ -14,7 +15,7 @@ public class UIAssetManager : MonoBehaviour
     public Texture ironIcon;
     public Texture graphiteIcon;
     public Texture copperIcon;
-    public Texture metalsIcon;
+    [FormerlySerializedAs("metalsIcon")] public Texture ironPlatesIcon;
     public Texture gadgetsIcon;
     public Texture powerIcon;
     public Texture iceIcon;
@@ -68,7 +69,8 @@ public class UIAssetManager : MonoBehaviour
             TinyPlanetResources.PlanetResourceType.IronOre => ironIcon,
             TinyPlanetResources.PlanetResourceType.Graphite => graphiteIcon,
             TinyPlanetResources.PlanetResourceType.CopperOre => copperIcon,
-            TinyPlanetResources.PlanetResourceType.IronPlates => metalsIcon,
+            TinyPlanetResources.PlanetResourceType.IronPlates => ironPlatesIcon,
+            TinyPlanetResources.PlanetResourceType.CopperPlates => copperIcon,
             TinyPlanetResources.PlanetResourceType.Gadgets => gadgetsIcon,
             TinyPlanetResources.PlanetResourceType.Ice => iceIcon,
             TinyPlanetResources.PlanetResourceType.Water => waterIcon,
@@ -86,6 +88,7 @@ public class UIAssetManager : MonoBehaviour
         return buildingType switch
         {
             BuildingType.Refinery => refineryIcon,
+            BuildingType.CopperRefinery => refineryIcon,
             BuildingType.Factory => factoryIcon,
             BuildingType.PowerPlant => powerPlantIcon,
             BuildingType.FarmDome => farmsIcon,

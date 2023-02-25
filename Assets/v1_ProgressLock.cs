@@ -39,6 +39,9 @@ public class V1ProgressLock : MonoBehaviour
             case BuildingType.Refinery:
                 Hide();
                 break;
+            case BuildingType.CopperRefinery:
+                Hide();
+                break;
             case BuildingType.Factory:
                 Hide();
                 break;
@@ -272,7 +275,7 @@ public class V1ProgressLock : MonoBehaviour
     private bool PowerPlantUnlocked()
     {
         var progressManager = ProgressManager.Get();
-        return progressManager.HasBuilt(BuildingType.Refinery) && progressManager.HasBuilt(BuildingType.Factory);
+        return progressManager.HasBuilt(BuildingType.Refinery) && progressManager.HasBuilt(BuildingType.CopperRefinery) && progressManager.HasBuilt(BuildingType.Factory);
     }
 
     public bool Hidden()
