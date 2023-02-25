@@ -28,6 +28,7 @@ public class UIAssetManager : MonoBehaviour
     public Texture workersIcon;
 
     [Header("Building icons")] public Texture refineryIcon;
+    public Texture copperRefineryIcon;
     public Texture factoryIcon;
     public Texture solarPanelsIcon;
     public Texture proteinFabricatorIcon;
@@ -88,7 +89,7 @@ public class UIAssetManager : MonoBehaviour
         return buildingType switch
         {
             BuildingType.Refinery => refineryIcon,
-            BuildingType.CopperRefinery => refineryIcon,
+            BuildingType.CopperRefinery => copperRefineryIcon,
             BuildingType.Factory => factoryIcon,
             BuildingType.PowerPlant => powerPlantIcon,
             BuildingType.FarmDome => farmsIcon,

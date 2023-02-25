@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44986188, g: 0.49992603, b: 0.5755807, a: 1}
+  m_IndirectSpecularColor: {r: 0.44986153, g: 0.4999256, b: 0.5755803, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -257,13 +257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   images: 24
   targetTemplates:
-  - {fileID: 5028280871199184891, guid: 682c4848602c4cc4e9cf09a13862c470, type: 3}
-  - {fileID: 7735039820489149926, guid: f0596d05915b30b4d9b0b26985a1d68d, type: 3}
-  - {fileID: 2957951342149841532, guid: 983f9059cac5da54b8bb19fa956a51f5, type: 3}
-  - {fileID: 1023215026128566752, guid: c971cdad31675b845a122c19beee5363, type: 3}
-  - {fileID: 5977357871203673727, guid: 04ac4a57a52c47d428f6b46a161c2352, type: 3}
-  - {fileID: 2957951342149841532, guid: 66d09b1bd99203448af662598f2bfe01, type: 3}
-  - {fileID: 4749449814968137031, guid: a7d7c9d3bff0a844a84fe8081ac66dd6, type: 3}
+  - {fileID: 5028280871199184891, guid: a0e866a687ee2a647a122c8d574a8689, type: 3}
   dryRun: 0
 --- !u!114 &1790168212
 MonoBehaviour:
@@ -279,7 +273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   images: 24
   targetTemplates:
-  - {fileID: 7735039820489149926, guid: f0596d05915b30b4d9b0b26985a1d68d, type: 3}
+  - {fileID: 5028280871199184891, guid: a0e866a687ee2a647a122c8d574a8689, type: 3}
   dryRun: 0
 --- !u!1 &2114862323
 GameObject:

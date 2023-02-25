@@ -6,6 +6,7 @@ public class GifManager : MonoBehaviour
 {
     public Texture[] landerFrames;
     public Texture[] refineryFrames;
+    public Texture[] copperRefineryFrames;
     public Texture[] factoryFrames;
     public Texture[] solarPanelsFrames;
     public Texture[] proteinFabricatorFrames;
@@ -36,7 +37,7 @@ public class GifManager : MonoBehaviour
         {
             BuildingType.Port => portFrames,
             BuildingType.Refinery => refineryFrames,
-            BuildingType.CopperRefinery => refineryFrames,
+            BuildingType.CopperRefinery => copperRefineryFrames,
             BuildingType.Factory => factoryFrames,
             BuildingType.PowerPlant => powerPlantFrames,
             BuildingType.FarmDome => farmDomeFrames,
