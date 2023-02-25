@@ -187,12 +187,12 @@ public class ProgressManager : MonoBehaviour
 
         var gadgetsText =
             TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets);
-        var copperText =
+        var copperOreText =
             TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.CopperOre);
         Notifications.Get().Send(new TextNotification
         {
             Message =
-                $"Factories need {copperText} to produce {gadgetsText}, on some asteroids it is more abundant than on others."
+                $"Factories need {copperOreText} to produce {gadgetsText}, on some asteroids it is more abundant than on others."
         });
     }
 
@@ -214,12 +214,12 @@ public class ProgressManager : MonoBehaviour
         
         var copperPlates =
             TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.CopperPlates);
-        var copperText =
+        var copperOreText =
             TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.CopperOre);
         Notifications.Get().Send(new TextNotification
         {
             Message =
-                $"One of the materials needed to make {copperPlates} is {copperText}, on some asteroids it is more abundant than on others."
+                $"One of the materials needed to make {copperPlates} is {copperOreText}, on some asteroids it is more abundant than on others."
         });
     }
 

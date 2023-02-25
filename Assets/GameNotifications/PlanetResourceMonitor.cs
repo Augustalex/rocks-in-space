@@ -6,9 +6,6 @@ namespace GameNotifications
 {
     public class PlanetResourceMonitor : MonoBehaviour
     {
-        private bool _hasHadCopper;
-        private bool _hasSentCopperHint;
-
         private TinyPlanet _planet;
         private TinyPlanetResources _resources;
         private TinyPlanetResources.ResourcesData _previousResources;
@@ -101,9 +98,9 @@ namespace GameNotifications
                 }
             }
 
-            if (Math.Abs(newData.Copper - _previousResources.Copper) > .5f)
+            if (Math.Abs(newData.CopperOre - _previousResources.CopperOre) > .5f)
             {
-                if (newData.Copper <= 0.5f)
+                if (newData.CopperOre <= 0.5f)
                 {
                     _outOfCopperOre.SendIfCanPost(
                         CreatePlanetNotification(

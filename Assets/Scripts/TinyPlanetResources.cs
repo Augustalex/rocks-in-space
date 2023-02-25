@@ -91,7 +91,7 @@ public class TinyPlanetResources : MonoBehaviour
     {
         public float IronOre;
         public float Graphite;
-        public float Copper;
+        public float CopperOre;
         public float Energy;
         public float Protein;
         public float Food;
@@ -463,7 +463,7 @@ public class TinyPlanetResources : MonoBehaviour
         {
             IronOre = GetResource(PlanetResourceType.IronOre),
             Graphite = GetResource(PlanetResourceType.Graphite),
-            Copper = GetResource(PlanetResourceType.CopperOre),
+            CopperOre = GetResource(PlanetResourceType.CopperOre),
             IronPlates = GetIronPlates(),
             Gadgets = GetGadgets(),
             Ice = GetResource(PlanetResourceType.Ice),
