@@ -89,7 +89,7 @@ public class TestPlanetGenerator : MonoBehaviour
             if (Random.value < .6f)
             {
                 var resource = Random.value < .7
-                    ? TinyPlanetResources.PlanetResourceType.Iron
+                    ? TinyPlanetResources.PlanetResourceType.IronOre
                     : TinyPlanetResources.PlanetResourceType.Graphite;
                 rock.GetComponentInChildren<OreController>().MakeIntoOreVein(resource);
             }
@@ -99,7 +99,7 @@ public class TestPlanetGenerator : MonoBehaviour
             if (Random.value < .4f)
             {
                 var resource = Random.value < .5
-                    ? TinyPlanetResources.PlanetResourceType.Iron
+                    ? TinyPlanetResources.PlanetResourceType.IronOre
                     : TinyPlanetResources.PlanetResourceType.Graphite;
                 rock.GetComponentInChildren<OreController>().MakeIntoOreVein(resource);
             }
@@ -112,7 +112,7 @@ public class TestPlanetGenerator : MonoBehaviour
     {
         var value = Random.value;
         if (value < .7f) return TinyPlanetResources.PlanetResourceType.Graphite;
-        return TinyPlanetResources.PlanetResourceType.Iron;
+        return TinyPlanetResources.PlanetResourceType.IronOre;
     }
 
     private GameObject CreateRock(Vector3 position)

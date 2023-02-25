@@ -65,7 +65,7 @@ public class UIAssetManager : MonoBehaviour
         return resourceType switch
         {
             TinyPlanetResources.PlanetResourceType.Ore => oreIcon,
-            TinyPlanetResources.PlanetResourceType.Iron => ironIcon,
+            TinyPlanetResources.PlanetResourceType.IronOre => ironIcon,
             TinyPlanetResources.PlanetResourceType.Graphite => graphiteIcon,
             TinyPlanetResources.PlanetResourceType.Copper => copperIcon,
             TinyPlanetResources.PlanetResourceType.Metals => metalsIcon,

@@ -19,8 +19,8 @@ public class SelectResourceController : MonoBehaviour
     {
         ProgressManager.Get().OnResourceGot += (_) => Render();
 
-        ironButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Iron);
-        ironButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Iron));
+        ironButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.IronOre);
+        ironButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.IronOre));
 
         graphiteButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Graphite);
         graphiteButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Graphite));
@@ -65,7 +65,7 @@ public class SelectResourceController : MonoBehaviour
         RenderButton(
             ironButton,
             true,
-            _selectedResourceType == TinyPlanetResources.PlanetResourceType.Iron
+            _selectedResourceType == TinyPlanetResources.PlanetResourceType.IronOre
         );
 
         RenderButton(

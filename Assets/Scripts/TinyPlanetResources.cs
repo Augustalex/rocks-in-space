@@ -20,7 +20,7 @@ public class TinyPlanetResources : MonoBehaviour
         Ice = 8,
         Water = 9,
         Refreshments = 10,
-        Iron = 11,
+        IronOre = 11,
         Graphite = 12,
         Copper = 13,
         Protein = 14,
@@ -51,7 +51,7 @@ public class TinyPlanetResources : MonoBehaviour
             case PlanetResourceType.Ice: return $"ice{ResourceSprite(resourceType)}";
             case PlanetResourceType.Water: return $"water{ResourceSprite(resourceType)}";
             case PlanetResourceType.Refreshments: return $"drinks{ResourceSprite(resourceType)}";
-            case PlanetResourceType.Iron: return $"iron{ResourceSprite(resourceType)}";
+            case PlanetResourceType.IronOre: return $"iron{ResourceSprite(resourceType)}";
             case PlanetResourceType.Graphite: return $"graphite{ResourceSprite(resourceType)}";
             case PlanetResourceType.Copper: return $"copper{ResourceSprite(resourceType)}";
             case PlanetResourceType.Protein: return $"protein chunks{ResourceSprite(resourceType)}";
@@ -75,7 +75,7 @@ public class TinyPlanetResources : MonoBehaviour
             case PlanetResourceType.Ice: return "<sprite name=\"ice\">";
             case PlanetResourceType.Water: return "<sprite name=\"water\">";
             case PlanetResourceType.Refreshments: return "<sprite name=\"refreshments\">";
-            case PlanetResourceType.Iron: return "<sprite name=\"iron\">";
+            case PlanetResourceType.IronOre: return "<sprite name=\"iron\">";
             case PlanetResourceType.Graphite: return "<sprite name=\"graphite\">";
             case PlanetResourceType.Copper: return "<sprite name=\"copper\">";
             case PlanetResourceType.Protein: return "<sprite name=\"protein\">";
@@ -150,7 +150,7 @@ public class TinyPlanetResources : MonoBehaviour
         _resourceTrackers = new Dictionary<PlanetResourceType, ResourceTracker>()
         {
             { PlanetResourceType.Ore, _oreTracker },
-            { PlanetResourceType.Iron, _ironTracker },
+            { PlanetResourceType.IronOre, _ironTracker },
             { PlanetResourceType.Graphite, _graphiteTracker },
             { PlanetResourceType.Copper, _copperTracker },
             { PlanetResourceType.Metals, _metalsTracker },
@@ -180,7 +180,7 @@ public class TinyPlanetResources : MonoBehaviour
 
             _ironTracker.ProgressHistory();
             _ironTracker.OnFirstPositiveChange +=
-                () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Iron);
+                () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.IronOre);
 
             _graphiteTracker.ProgressHistory();
             _graphiteTracker.OnFirstPositiveChange +=
@@ -451,7 +451,7 @@ public class TinyPlanetResources : MonoBehaviour
     {
         return new ResourcesData
         {
-            Iron = GetResource(PlanetResourceType.Iron),
+            Iron = GetResource(PlanetResourceType.IronOre),
             Graphite = GetResource(PlanetResourceType.Graphite),
             Copper = GetResource(PlanetResourceType.Copper),
             Metals = GetMetals(),

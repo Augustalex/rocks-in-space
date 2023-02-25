@@ -53,7 +53,7 @@ public class OreController : MonoBehaviour
             var debris = resourceType switch
             {
                 TinyPlanetResources.PlanetResourceType.Ore => PrefabTemplateLibrary.Get().oreResourceDebrisTemplate,
-                TinyPlanetResources.PlanetResourceType.Iron => PrefabTemplateLibrary.Get().ironOreDebrisTemplate,
+                TinyPlanetResources.PlanetResourceType.IronOre => PrefabTemplateLibrary.Get().ironOreDebrisTemplate,
                 TinyPlanetResources.PlanetResourceType.Graphite =>
                     PrefabTemplateLibrary.Get().graphiteOreDebrisTemplate,
                 TinyPlanetResources.PlanetResourceType.Copper => PrefabTemplateLibrary.Get().copperOreDebrisTemplate,

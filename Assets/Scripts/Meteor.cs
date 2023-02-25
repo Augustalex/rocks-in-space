@@ -177,7 +177,7 @@ public class Meteor : MonoBehaviour
                 {
                     var resources = new[]
                     {
-                        TinyPlanetResources.PlanetResourceType.Iron, TinyPlanetResources.PlanetResourceType.Graphite,
+                        TinyPlanetResources.PlanetResourceType.IronOre, TinyPlanetResources.PlanetResourceType.Graphite,
                         TinyPlanetResources.PlanetResourceType.Copper
                     };
                     var resource = resources[Random.Range(0, resources.Length)];

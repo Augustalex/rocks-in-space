@@ -135,7 +135,7 @@ public class ProgressManager : MonoBehaviour
     {
         if (_hasSentIronHint) return;
 
-        var alreadyGotIron = _gotResources.Contains(TinyPlanetResources.PlanetResourceType.Iron);
+        var alreadyGotIron = _gotResources.Contains(TinyPlanetResources.PlanetResourceType.IronOre);
         if (alreadyGotIron) return;
 
         var hasBuiltRefinery = _builtFirstRefineryAt >= 0;
@@ -150,7 +150,7 @@ public class ProgressManager : MonoBehaviour
         var metalsText =
             TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Metals);
         var ironText =
-            TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Iron);
+            TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.IronOre);
         Notifications.Get().Send(new TextNotification
         {
             Message =

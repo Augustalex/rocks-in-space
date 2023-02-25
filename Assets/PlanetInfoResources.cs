@@ -60,7 +60,7 @@ public class PlanetInfoResources : MonoBehaviour
         gadgets.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
         gadgets.GetComponent<TooltipTrigger>().SetMessage("Gadgets");
 
-        iron.Set(TinyPlanetResources.PlanetResourceType.Iron);
+        iron.Set(TinyPlanetResources.PlanetResourceType.IronOre);
         iron.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
         iron.GetComponent<TooltipTrigger>().SetMessage("Iron");
 
@@ -123,11 +123,11 @@ public class PlanetInfoResources : MonoBehaviour
                 ice.gameObject.SetActive(false);
             }
 
-            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Iron) > 0 ||
+            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.IronOre) > 0 ||
                 resources.HasBuilding(BuildingType.Refinery))
             {
-                iron.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.Iron)),
-                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Iron));
+                iron.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.IronOre)),
+                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.IronOre));
                 iron.gameObject.SetActive(true);
             }
             else

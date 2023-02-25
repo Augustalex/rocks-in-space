@@ -83,7 +83,7 @@ namespace GameNotifications
                 {
                     _outOfIron.SendIfCanPost(
                         CreatePlanetNotification(
-                            $"{_planet.planetName} has run out of {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Iron)}!"
+                            $"{_planet.planetName} has run out of {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.IronOre)}!"
                         )
                     );
                 }

@@ -31,7 +31,7 @@ public class DebugManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G))
         {
             CurrentPlanetController.Get().CurrentPlanet().GetResources()
-                .AddResource(TinyPlanetResources.PlanetResourceType.Iron, 1000);
+                .AddResource(TinyPlanetResources.PlanetResourceType.IronOre, 1000);
             CurrentPlanetController.Get().CurrentPlanet().GetResources()
                 .AddResource(TinyPlanetResources.PlanetResourceType.Graphite, 1000);
             CurrentPlanetController.Get().CurrentPlanet().GetResources()

@@ -17,7 +17,7 @@ public class OreVein : MonoBehaviour
         var template = resourceType switch
         {
             TinyPlanetResources.PlanetResourceType.Ore => PrefabTemplateLibrary.Get().ironOre,
-            TinyPlanetResources.PlanetResourceType.Iron => PrefabTemplateLibrary.Get().ironOre,
+            TinyPlanetResources.PlanetResourceType.IronOre => PrefabTemplateLibrary.Get().ironOre,
             TinyPlanetResources.PlanetResourceType.Graphite => PrefabTemplateLibrary.Get().graphiteOre,
             TinyPlanetResources.PlanetResourceType.Copper => PrefabTemplateLibrary.Get().copperOre,
             TinyPlanetResources.PlanetResourceType.Dangeronium => PrefabTemplateLibrary.Get().dangeroniumOre,
@@ -83,7 +83,7 @@ public class OreVein : MonoBehaviour
 
         _orePerBlock = _resourceType switch
         {
-            TinyPlanetResources.PlanetResourceType.Iron => 2,
+            TinyPlanetResources.PlanetResourceType.IronOre => 2,
             TinyPlanetResources.PlanetResourceType.Graphite => 5,
             TinyPlanetResources.PlanetResourceType.Copper => 2,
             TinyPlanetResources.PlanetResourceType.Dangeronium => 0,
@@ -91,7 +91,7 @@ public class OreVein : MonoBehaviour
         };
         _debrisMultiplier = _resourceType switch
         {
-            TinyPlanetResources.PlanetResourceType.Iron => 1,
+            TinyPlanetResources.PlanetResourceType.IronOre => 1,
             TinyPlanetResources.PlanetResourceType.Graphite => 1,
             TinyPlanetResources.PlanetResourceType.Copper => 1,
             TinyPlanetResources.PlanetResourceType.Dangeronium => 1,
