@@ -68,7 +68,7 @@ public class PlanetInfoResources : MonoBehaviour
         graphite.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
         graphite.GetComponent<TooltipTrigger>().SetMessage("Graphite");
 
-        copper.Set(TinyPlanetResources.PlanetResourceType.Copper);
+        copper.Set(TinyPlanetResources.PlanetResourceType.CopperOre);
         copper.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
         copper.GetComponent<TooltipTrigger>().SetMessage("Copper");
 
@@ -148,11 +148,11 @@ public class PlanetInfoResources : MonoBehaviour
                 graphite.gameObject.SetActive(false);
             }
 
-            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Copper) > 0 ||
+            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.CopperOre) > 0 ||
                 resources.HasBuilding(BuildingType.Factory))
             {
-                copper.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.Copper)),
-                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Copper));
+                copper.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.CopperOre)),
+                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.CopperOre));
                 copper.gameObject.SetActive(true);
             }
             else

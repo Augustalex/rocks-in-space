@@ -56,7 +56,7 @@ public class OreController : MonoBehaviour
                 TinyPlanetResources.PlanetResourceType.IronOre => PrefabTemplateLibrary.Get().ironOreDebrisTemplate,
                 TinyPlanetResources.PlanetResourceType.Graphite =>
                     PrefabTemplateLibrary.Get().graphiteOreDebrisTemplate,
-                TinyPlanetResources.PlanetResourceType.Copper => PrefabTemplateLibrary.Get().copperOreDebrisTemplate,
+                TinyPlanetResources.PlanetResourceType.CopperOre => PrefabTemplateLibrary.Get().copperOreDebrisTemplate,
                 _ => throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType, null)
             };
             SpawnOreDebris(planet, debris, debrisCount);

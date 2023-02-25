@@ -67,7 +67,7 @@ public class UIAssetManager : MonoBehaviour
             TinyPlanetResources.PlanetResourceType.Ore => oreIcon,
             TinyPlanetResources.PlanetResourceType.IronOre => ironIcon,
             TinyPlanetResources.PlanetResourceType.Graphite => graphiteIcon,
-            TinyPlanetResources.PlanetResourceType.Copper => copperIcon,
+            TinyPlanetResources.PlanetResourceType.CopperOre => copperIcon,
             TinyPlanetResources.PlanetResourceType.Metals => metalsIcon,
             TinyPlanetResources.PlanetResourceType.Gadgets => gadgetsIcon,
             TinyPlanetResources.PlanetResourceType.Ice => iceIcon,

@@ -19,7 +19,7 @@ public class OreVein : MonoBehaviour
             TinyPlanetResources.PlanetResourceType.Ore => PrefabTemplateLibrary.Get().ironOre,
             TinyPlanetResources.PlanetResourceType.IronOre => PrefabTemplateLibrary.Get().ironOre,
             TinyPlanetResources.PlanetResourceType.Graphite => PrefabTemplateLibrary.Get().graphiteOre,
-            TinyPlanetResources.PlanetResourceType.Copper => PrefabTemplateLibrary.Get().copperOre,
+            TinyPlanetResources.PlanetResourceType.CopperOre => PrefabTemplateLibrary.Get().copperOre,
             TinyPlanetResources.PlanetResourceType.Dangeronium => PrefabTemplateLibrary.Get().dangeroniumOre,
             _ => throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType, null)
         };
@@ -85,7 +85,7 @@ public class OreVein : MonoBehaviour
         {
             TinyPlanetResources.PlanetResourceType.IronOre => 2,
             TinyPlanetResources.PlanetResourceType.Graphite => 5,
-            TinyPlanetResources.PlanetResourceType.Copper => 2,
+            TinyPlanetResources.PlanetResourceType.CopperOre => 2,
             TinyPlanetResources.PlanetResourceType.Dangeronium => 0,
             _ => throw new ArgumentOutOfRangeException(nameof(_resourceType), _resourceType, null)
         };
@@ -93,7 +93,7 @@ public class OreVein : MonoBehaviour
         {
             TinyPlanetResources.PlanetResourceType.IronOre => 1,
             TinyPlanetResources.PlanetResourceType.Graphite => 1,
-            TinyPlanetResources.PlanetResourceType.Copper => 1,
+            TinyPlanetResources.PlanetResourceType.CopperOre => 1,
             TinyPlanetResources.PlanetResourceType.Dangeronium => 1,
             _ => throw new ArgumentOutOfRangeException(nameof(_resourceType), _resourceType, null)
         };

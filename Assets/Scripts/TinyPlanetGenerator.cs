@@ -240,7 +240,7 @@ public class TinyPlanetGenerator : MonoBehaviour
             {
                 var roll = Random.value;
                 var resource = roll < .7
-                    ? TinyPlanetResources.PlanetResourceType.Copper
+                    ? TinyPlanetResources.PlanetResourceType.CopperOre
                     : roll < .9
                         ? TinyPlanetResources.PlanetResourceType.Graphite
                         : TinyPlanetResources.PlanetResourceType.IronOre;

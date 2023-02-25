@@ -107,7 +107,7 @@ namespace GameNotifications
                 {
                     _outOfCopper.SendIfCanPost(
                         CreatePlanetNotification(
-                            $"{_planet.planetName} has run out of {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Copper)}!"
+                            $"{_planet.planetName} has run out of {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.CopperOre)}!"
                         )
                     );
                 }

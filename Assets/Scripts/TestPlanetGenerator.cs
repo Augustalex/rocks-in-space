@@ -79,7 +79,7 @@ public class TestPlanetGenerator : MonoBehaviour
             if (Random.value < .8f)
             {
                 var resource = Random.value < .7
-                    ? TinyPlanetResources.PlanetResourceType.Copper
+                    ? TinyPlanetResources.PlanetResourceType.CopperOre
                     : TinyPlanetResources.PlanetResourceType.Graphite;
                 rock.GetComponentInChildren<OreController>().MakeIntoOreVein(resource);
             }

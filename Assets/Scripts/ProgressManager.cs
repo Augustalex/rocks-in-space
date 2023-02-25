@@ -162,7 +162,7 @@ public class ProgressManager : MonoBehaviour
     {
         if (_hasSentCopperHint) return;
 
-        var hasAlreadyGotGadgets = _gotResources.Contains(TinyPlanetResources.PlanetResourceType.Copper);
+        var hasAlreadyGotGadgets = _gotResources.Contains(TinyPlanetResources.PlanetResourceType.CopperOre);
         if (hasAlreadyGotGadgets) return;
 
         var hasBuiltFactory = _builtFirstFactoryAt >= 0;
@@ -177,7 +177,7 @@ public class ProgressManager : MonoBehaviour
         var gadgetsText =
             TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets);
         var copperText =
-            TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Copper);
+            TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.CopperOre);
         Notifications.Get().Send(new TextNotification
         {
             Message =
