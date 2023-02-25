@@ -7,9 +7,9 @@ using UnityEngine.Serialization;
 public class PlanetInfoResources : MonoBehaviour
 {
     public PlanetInfoResourceController ore;
-    public PlanetInfoResourceController iron;
+    [FormerlySerializedAs("iron")] public PlanetInfoResourceController ironOre;
     public PlanetInfoResourceController graphite;
-    public PlanetInfoResourceController copper;
+    [FormerlySerializedAs("copper")] public PlanetInfoResourceController copperOre;
 
     [FormerlySerializedAs("metals")] public PlanetInfoResourceController ironPlates;
     public PlanetInfoResourceController copperPlates;
@@ -54,17 +54,17 @@ public class PlanetInfoResources : MonoBehaviour
         // ore.Set(TinyPlanetResources.PlanetResourceType.Ore);
         // ore.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
 
-        iron.Set(TinyPlanetResources.PlanetResourceType.IronOre);
-        iron.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
-        iron.GetComponent<TooltipTrigger>().SetMessage("Iron");
+        ironOre.Set(TinyPlanetResources.PlanetResourceType.IronOre);
+        ironOre.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+        ironOre.GetComponent<TooltipTrigger>().SetMessage("Iron ore");
 
         ironPlates.Set(TinyPlanetResources.PlanetResourceType.IronPlates);
         ironPlates.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
         ironPlates.GetComponent<TooltipTrigger>().SetMessage("Iron plates");
 
-        copper.Set(TinyPlanetResources.PlanetResourceType.CopperOre);
-        copper.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
-        copper.GetComponent<TooltipTrigger>().SetMessage("Copper ore");
+        copperOre.Set(TinyPlanetResources.PlanetResourceType.CopperOre);
+        copperOre.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
+        copperOre.GetComponent<TooltipTrigger>().SetMessage("Copper ore");
 
         copperPlates.Set(TinyPlanetResources.PlanetResourceType.CopperPlates);
         copperPlates.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
@@ -132,13 +132,13 @@ public class PlanetInfoResources : MonoBehaviour
             if (resources.GetResource(TinyPlanetResources.PlanetResourceType.IronOre) > 0 ||
                 resources.HasBuilding(BuildingType.Refinery))
             {
-                iron.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.IronOre)),
+                ironOre.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.IronOre)),
                     resources.GetTrend(TinyPlanetResources.PlanetResourceType.IronOre));
-                iron.gameObject.SetActive(true);
+                ironOre.gameObject.SetActive(true);
             }
             else
             {
-                iron.gameObject.SetActive(false);
+                ironOre.gameObject.SetActive(false);
             }
 
             if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Graphite) > 0 ||
@@ -157,13 +157,13 @@ public class PlanetInfoResources : MonoBehaviour
             if (resources.GetResource(TinyPlanetResources.PlanetResourceType.CopperOre) > 0 ||
                 resources.HasBuilding(BuildingType.Factory))
             {
-                copper.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.CopperOre)),
+                copperOre.Refresh(Mathf.FloorToInt(resources.GetResource(TinyPlanetResources.PlanetResourceType.CopperOre)),
                     resources.GetTrend(TinyPlanetResources.PlanetResourceType.CopperOre));
-                copper.gameObject.SetActive(true);
+                copperOre.gameObject.SetActive(true);
             }
             else
             {
-                copper.gameObject.SetActive(false);
+                copperOre.gameObject.SetActive(false);
             }
 
             if (resources.GetResource(TinyPlanetResources.PlanetResourceType.CopperPlates) > 0 ||

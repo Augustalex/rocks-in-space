@@ -4,9 +4,9 @@ using UnityEngine.Serialization;
 
 public class SelectResourceController : MonoBehaviour
 {
-    public TwoStateButton ironButton;
+    [FormerlySerializedAs("ironButton")] public TwoStateButton ironOreButton;
     public TwoStateButton graphiteButton;
-    public TwoStateButton copperButton;
+    [FormerlySerializedAs("copperButton")] public TwoStateButton copperOreButton;
     [FormerlySerializedAs("metalsButton")] public TwoStateButton ironPlatesButton;
     public TwoStateButton copperPlatesButton;
     public TwoStateButton gadgetsButton;
@@ -21,14 +21,14 @@ public class SelectResourceController : MonoBehaviour
     {
         ProgressManager.Get().OnResourceGot += (_) => Render();
 
-        ironButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.IronOre);
-        ironButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.IronOre));
+        ironOreButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.IronOre);
+        ironOreButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.IronOre));
 
         graphiteButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Graphite);
         graphiteButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Graphite));
 
-        copperButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.CopperOre);
-        copperButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.CopperOre));
+        copperOreButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.CopperOre);
+        copperOreButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.CopperOre));
 
         ironPlatesButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.IronPlates);
         ironPlatesButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.IronPlates));
@@ -68,7 +68,7 @@ public class SelectResourceController : MonoBehaviour
     {
         var progressManager = ProgressManager.Get();
         RenderButton(
-            ironButton,
+            ironOreButton,
             true,
             _selectedResourceType == TinyPlanetResources.PlanetResourceType.IronOre
         );
@@ -80,7 +80,7 @@ public class SelectResourceController : MonoBehaviour
         );
 
         RenderButton(
-            copperButton,
+            copperOreButton,
             true,
             _selectedResourceType == TinyPlanetResources.PlanetResourceType.CopperOre
         );

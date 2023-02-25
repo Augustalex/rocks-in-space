@@ -160,12 +160,12 @@ public class ProgressManager : MonoBehaviour
 
         var ironPlatesText =
             TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.IronPlates);
-        var ironText =
+        var ironOreText =
             TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.IronOre);
         Notifications.Get().Send(new TextNotification
         {
             Message =
-                $"One of the materials needed to make {ironPlatesText} is {ironText}, on some asteroids it is more abundant than on others."
+                $"One of the materials needed to make {ironPlatesText} is {ironOreText}, on some asteroids it is more abundant than on others."
         });
     }
 

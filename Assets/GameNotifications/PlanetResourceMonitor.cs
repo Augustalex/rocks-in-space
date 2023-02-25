@@ -12,13 +12,13 @@ namespace GameNotifications
         private TinyPlanet _planet;
         private TinyPlanetResources _resources;
         private TinyPlanetResources.ResourcesData _previousResources;
-        private readonly NotificationThrottler _outOfIron = new();
+        private readonly NotificationThrottler _outOfIronOre = new();
         private readonly NotificationThrottler _noIceNotification = new();
         private readonly NotificationThrottler _freezingColonistsNotification = new();
         private readonly NotificationThrottler _lowEnergyNotification = new();
         private readonly NotificationThrottler _lowFoodNotification = new();
         private readonly NotificationThrottler _outOfGraphite = new();
-        private readonly NotificationThrottler _outOfCopper = new();
+        private readonly NotificationThrottler _outOfCopperOre = new();
         private readonly TwoWayNotificationThrottler _newColonists = new(10);
 
         private void Awake()
@@ -77,11 +77,11 @@ namespace GameNotifications
                 }
             }
 
-            if (Math.Abs(newData.Iron - _previousResources.Iron) > .5f)
+            if (Math.Abs(newData.IronOre - _previousResources.IronOre) > .5f)
             {
-                if (newData.Iron <= 0.5f)
+                if (newData.IronOre <= 0.5f)
                 {
-                    _outOfIron.SendIfCanPost(
+                    _outOfIronOre.SendIfCanPost(
                         CreatePlanetNotification(
                             $"{_planet.planetName} has run out of {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.IronOre)}!"
                         )
@@ -105,7 +105,7 @@ namespace GameNotifications
             {
                 if (newData.Copper <= 0.5f)
                 {
-                    _outOfCopper.SendIfCanPost(
+                    _outOfCopperOre.SendIfCanPost(
                         CreatePlanetNotification(
                             $"{_planet.planetName} has run out of {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.CopperOre)}!"
                         )

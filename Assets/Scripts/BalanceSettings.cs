@@ -5,9 +5,9 @@ using UnityEngine.Serialization;
 public class BalanceSettings : ScriptableObject
 {
     [Header("Trading")] public float oreTradeAmount = 1f;
-    public float ironTradeAmount = 1f;
+    [FormerlySerializedAs("ironTradeAmount")] public float ironOreTradeAmount = 1f;
     public float graphiteTradeAmount = 1f;
-    public float copperTradeAmount = 1f;
+    [FormerlySerializedAs("copperTradeAmount")] public float copperOreTradeAmount = 1f;
     [FormerlySerializedAs("metalsTradeAmount")] public float ironPlatesTradeAmount = 1f;
     public float copperPlatesTradeAmount = 1f;
     public float gadgetsTradeAmount = 1f;

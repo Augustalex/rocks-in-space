@@ -51,9 +51,9 @@ public class TinyPlanetResources : MonoBehaviour
             case PlanetResourceType.Ice: return $"ice{ResourceSprite(resourceType)}";
             case PlanetResourceType.Water: return $"water{ResourceSprite(resourceType)}";
             case PlanetResourceType.Refreshments: return $"drinks{ResourceSprite(resourceType)}";
-            case PlanetResourceType.IronOre: return $"iron{ResourceSprite(resourceType)}";
+            case PlanetResourceType.IronOre: return $"iron ore{ResourceSprite(resourceType)}";
             case PlanetResourceType.IronPlates: return $"iron plates{ResourceSprite(resourceType)}";
-            case PlanetResourceType.CopperOre: return $"copper{ResourceSprite(resourceType)}";
+            case PlanetResourceType.CopperOre: return $"copper ore{ResourceSprite(resourceType)}";
             case PlanetResourceType.CopperPlates: return $"copper plates{ResourceSprite(resourceType)}";
             case PlanetResourceType.Graphite: return $"graphite{ResourceSprite(resourceType)}";
             case PlanetResourceType.Protein: return $"protein chunks{ResourceSprite(resourceType)}";
@@ -89,7 +89,7 @@ public class TinyPlanetResources : MonoBehaviour
 
     public struct ResourcesData
     {
-        public float Iron;
+        public float IronOre;
         public float Graphite;
         public float Copper;
         public float Energy;
@@ -116,9 +116,9 @@ public class TinyPlanetResources : MonoBehaviour
     private readonly ResourceTracker _iceTracker = new();
     private readonly ResourceTracker _waterTracker = new();
     private readonly ResourceTracker _refreshmentsTracker = new();
-    private readonly ResourceTracker _ironTracker = new();
+    private readonly ResourceTracker _ironOreTracker = new();
     private readonly ResourceTracker _ironPlatesTracker = new();
-    private readonly ResourceTracker _copperTracker = new();
+    private readonly ResourceTracker _copperOreTracker = new();
     private readonly ResourceTracker _copperPlatesTracker = new();
     private readonly ResourceTracker _gadgetsTracker = new();
     private readonly ResourceTracker _graphiteTracker = new();
@@ -155,9 +155,9 @@ public class TinyPlanetResources : MonoBehaviour
         _resourceTrackers = new Dictionary<PlanetResourceType, ResourceTracker>()
         {
             { PlanetResourceType.Ore, _oreTracker },
-            { PlanetResourceType.IronOre, _ironTracker },
+            { PlanetResourceType.IronOre, _ironOreTracker },
             { PlanetResourceType.IronPlates, _ironPlatesTracker },
-            { PlanetResourceType.CopperOre, _copperTracker },
+            { PlanetResourceType.CopperOre, _copperOreTracker },
             { PlanetResourceType.CopperPlates, _copperPlatesTracker },
             { PlanetResourceType.Graphite, _graphiteTracker },
             { PlanetResourceType.Gadgets, _gadgetsTracker },
@@ -184,16 +184,16 @@ public class TinyPlanetResources : MonoBehaviour
             _oreTracker.OnFirstPositiveChange +=
                 () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Ore);
 
-            _ironTracker.ProgressHistory();
-            _ironTracker.OnFirstPositiveChange +=
+            _ironOreTracker.ProgressHistory();
+            _ironOreTracker.OnFirstPositiveChange +=
                 () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.IronOre);
 
             _graphiteTracker.ProgressHistory();
             _graphiteTracker.OnFirstPositiveChange +=
                 () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Graphite);
 
-            _copperTracker.ProgressHistory();
-            _copperTracker.OnFirstPositiveChange +=
+            _copperOreTracker.ProgressHistory();
+            _copperOreTracker.OnFirstPositiveChange +=
                 () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.CopperOre);
 
             _ironPlatesTracker.ProgressHistory();
@@ -461,7 +461,7 @@ public class TinyPlanetResources : MonoBehaviour
     {
         return new ResourcesData
         {
-            Iron = GetResource(PlanetResourceType.IronOre),
+            IronOre = GetResource(PlanetResourceType.IronOre),
             Graphite = GetResource(PlanetResourceType.Graphite),
             Copper = GetResource(PlanetResourceType.CopperOre),
             IronPlates = GetIronPlates(),

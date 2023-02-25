@@ -175,11 +175,11 @@ public class RouteEditor : MonoBehaviour
             case TinyPlanetResources.PlanetResourceType.Ore:
                 return balanceSettings.oreTradeAmount;
             case TinyPlanetResources.PlanetResourceType.IronOre:
-                return balanceSettings.ironTradeAmount;
+                return balanceSettings.ironOreTradeAmount;
             case TinyPlanetResources.PlanetResourceType.Graphite:
                 return balanceSettings.graphiteTradeAmount;
             case TinyPlanetResources.PlanetResourceType.CopperOre:
-                return balanceSettings.copperTradeAmount;
+                return balanceSettings.copperOreTradeAmount;
             case TinyPlanetResources.PlanetResourceType.IronPlates:
                 return balanceSettings.ironPlatesTradeAmount;
             case TinyPlanetResources.PlanetResourceType.CopperPlates:
