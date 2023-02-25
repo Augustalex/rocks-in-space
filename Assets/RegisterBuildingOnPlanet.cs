@@ -28,6 +28,10 @@ public class RegisterBuildingOnPlanet : MonoBehaviour
     {
         ProgressManager.Get().Built(buildingType);
         resources.RegisterBuilding(buildingType);
+        if (buildingType == BuildingType.Lander)
+        {
+            resources.AddGadgets(100); //Starting resources
+        }
     }
 
     public BuildingType GetBuildingType()

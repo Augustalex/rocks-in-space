@@ -240,7 +240,8 @@ public class ProgressManager : MonoBehaviour
 
     public bool ColonyBasicsProductionUnlocked()
     {
-        return _gotFirstGadgets;
+        // return _gotFirstGadgets;
+        return HasBuilt(BuildingType.Factory);
     }
 
     public bool HousingUnlocked()

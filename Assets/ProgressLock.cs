@@ -71,14 +71,16 @@ public class ProgressLock : MonoBehaviour
                 CheckLock(
                     ProgressManager.Get().ColonyBasicsProductionUnlocked(),
                     GenericUnlockMessage(),
-                    $"Unlock by producing\n{TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets)}",
+                    // $"Unlock by producing\n{TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets)}",
+                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Factory).GetInteractorName()}",
                     !ProgressManager.Get().FactoryUnlocked()
                 );
                 break;
             case BuildingType.ProteinFabricator:
                 CheckLockWithoutNotification(
                     ProgressManager.Get().ColonyBasicsProductionUnlocked(),
-                    $"Unlock by producing\n{TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets)}",
+                    // $"Unlock by producing\n{TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets)}",
+                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Factory).GetInteractorName()}",
                     !ProgressManager.Get().FactoryUnlocked()
                 );
                 break;
