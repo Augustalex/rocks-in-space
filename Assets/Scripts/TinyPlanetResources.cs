@@ -10,7 +10,7 @@ public class TinyPlanetResources : MonoBehaviour
         PlanetResourceType // Remake to global resource type? Since it includes both planet resource as well as cash (which is global).
     {
         Ore = 0,
-        Metals = 1,
+        IronPlates = 1,
         Gadgets = 2,
         Energy = 3,
         Food = 4,
@@ -24,7 +24,7 @@ public class TinyPlanetResources : MonoBehaviour
         Graphite = 12,
         CopperOre = 13,
         Protein = 14,
-        Dangeronium = 15,
+        Dangeronium = 15
     }
 
     public enum ResourceTrend
@@ -41,7 +41,7 @@ public class TinyPlanetResources : MonoBehaviour
         switch (resourceType)
         {
             case PlanetResourceType.Ore: return $"ore{ResourceSprite(resourceType)}";
-            case PlanetResourceType.Metals: return $"metals{ResourceSprite(resourceType)}";
+            case PlanetResourceType.IronPlates: return $"metals{ResourceSprite(resourceType)}";
             case PlanetResourceType.Gadgets: return $"gadgets{ResourceSprite(resourceType)}";
             case PlanetResourceType.Energy: return $"power{ResourceSprite(resourceType)}";
             case PlanetResourceType.Food: return $"fresh food{ResourceSprite(resourceType)}";
@@ -65,7 +65,7 @@ public class TinyPlanetResources : MonoBehaviour
         switch (resourceType)
         {
             case PlanetResourceType.Ore: return "<sprite name=\"ore\">";
-            case PlanetResourceType.Metals: return "<sprite name=\"metals\">";
+            case PlanetResourceType.IronPlates: return "<sprite name=\"metals\">";
             case PlanetResourceType.Gadgets: return "<sprite name=\"gadgets\">";
             case PlanetResourceType.Energy: return "<sprite name=\"power\">";
             case PlanetResourceType.Food: return "fresh <sprite name=\"food\">";
@@ -153,7 +153,7 @@ public class TinyPlanetResources : MonoBehaviour
             { PlanetResourceType.IronOre, _ironTracker },
             { PlanetResourceType.Graphite, _graphiteTracker },
             { PlanetResourceType.CopperOre, _copperTracker },
-            { PlanetResourceType.Metals, _metalsTracker },
+            { PlanetResourceType.IronPlates, _metalsTracker },
             { PlanetResourceType.Gadgets, _gadgetsTracker },
             { PlanetResourceType.Energy, _powerTracker },
             { PlanetResourceType.Ice, _iceTracker },
@@ -192,7 +192,7 @@ public class TinyPlanetResources : MonoBehaviour
 
             _metalsTracker.ProgressHistory();
             _metalsTracker.OnFirstPositiveChange +=
-                () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.Metals);
+                () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.IronPlates);
 
             _gadgetsTracker.ProgressHistory();
             _gadgetsTracker.OnFirstPositiveChange += () => ProgressManager.Get().GotFirstGadgets();

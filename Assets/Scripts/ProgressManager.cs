@@ -148,7 +148,7 @@ public class ProgressManager : MonoBehaviour
         _hasSentIronHint = true;
 
         var metalsText =
-            TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Metals);
+            TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.IronPlates);
         var ironText =
             TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.IronOre);
         Notifications.Get().Send(new TextNotification

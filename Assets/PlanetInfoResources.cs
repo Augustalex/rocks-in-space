@@ -52,7 +52,7 @@ public class PlanetInfoResources : MonoBehaviour
         // ore.Set(TinyPlanetResources.PlanetResourceType.Ore);
         // ore.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
 
-        metals.Set(TinyPlanetResources.PlanetResourceType.Metals);
+        metals.Set(TinyPlanetResources.PlanetResourceType.IronPlates);
         metals.Refresh(0, TinyPlanetResources.ResourceTrend.Neutral);
         metals.GetComponent<TooltipTrigger>().SetMessage("Metals");
 
@@ -160,11 +160,11 @@ public class PlanetInfoResources : MonoBehaviour
                 copper.gameObject.SetActive(false);
             }
             
-            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.Metals) > 0 ||
+            if (resources.GetResource(TinyPlanetResources.PlanetResourceType.IronPlates) > 0 ||
                 resources.HasBuilding(BuildingType.Refinery))
             {
                 metals.Refresh(Mathf.FloorToInt(resources.GetMetals()),
-                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.Metals));
+                    resources.GetTrend(TinyPlanetResources.PlanetResourceType.IronPlates));
                 metals.gameObject.SetActive(true);
             }
             else

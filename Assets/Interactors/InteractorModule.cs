@@ -116,7 +116,7 @@ namespace Interactors
                     TinyPlanetResources.PlanetResourceType.Ore, costs.ore);
             if (resources.GetMetals() < costs.metals)
                 return new Tuple<TinyPlanetResources.PlanetResourceType, int>(
-                    TinyPlanetResources.PlanetResourceType.Metals, costs.metals);
+                    TinyPlanetResources.PlanetResourceType.IronPlates, costs.metals);
             if (resources.GetGadgets() < costs.gadgets)
                 return new Tuple<TinyPlanetResources.PlanetResourceType, int>(
                     TinyPlanetResources.PlanetResourceType.Gadgets, costs.gadgets);

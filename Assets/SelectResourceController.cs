@@ -28,8 +28,8 @@ public class SelectResourceController : MonoBehaviour
         copperButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.CopperOre);
         copperButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.CopperOre));
 
-        metalsButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Metals);
-        metalsButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Metals));
+        metalsButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.IronPlates);
+        metalsButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.IronPlates));
 
         gadgetsButton.Clicked += () => ResourceButtonClicked(TinyPlanetResources.PlanetResourceType.Gadgets);
         gadgetsButton.SetText(TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets));
@@ -82,8 +82,8 @@ public class SelectResourceController : MonoBehaviour
 
         RenderButton(
             metalsButton,
-            progressManager.GotResource(TinyPlanetResources.PlanetResourceType.Metals),
-            _selectedResourceType == TinyPlanetResources.PlanetResourceType.Metals
+            progressManager.GotResource(TinyPlanetResources.PlanetResourceType.IronPlates),
+            _selectedResourceType == TinyPlanetResources.PlanetResourceType.IronPlates
         );
 
         RenderButton(

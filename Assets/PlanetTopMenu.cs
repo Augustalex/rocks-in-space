@@ -16,7 +16,7 @@ public class PlanetTopMenu : MonoBehaviour
         new()
         {
             TinyPlanetResources.PlanetResourceType.Ore,
-            TinyPlanetResources.PlanetResourceType.Metals,
+            TinyPlanetResources.PlanetResourceType.IronPlates,
             TinyPlanetResources.PlanetResourceType.Gadgets,
             TinyPlanetResources.PlanetResourceType.Energy,
             TinyPlanetResources.PlanetResourceType.Food,
@@ -29,7 +29,7 @@ public class PlanetTopMenu : MonoBehaviour
         new()
         {
             TinyPlanetResources.PlanetResourceType.Ore,
-            TinyPlanetResources.PlanetResourceType.Metals,
+            TinyPlanetResources.PlanetResourceType.IronPlates,
             TinyPlanetResources.PlanetResourceType.Gadgets,
             // TinyPlanetResources.PlanetResourceType.Inhabitants,
         };

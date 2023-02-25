@@ -37,7 +37,7 @@ public class DebugManager : MonoBehaviour
             CurrentPlanetController.Get().CurrentPlanet().GetResources()
                 .AddResource(TinyPlanetResources.PlanetResourceType.CopperOre, 1000);
             CurrentPlanetController.Get().CurrentPlanet().GetResources()
-                .AddResource(TinyPlanetResources.PlanetResourceType.Metals, 1000);
+                .AddResource(TinyPlanetResources.PlanetResourceType.IronPlates, 1000);
             CurrentPlanetController.Get().CurrentPlanet().GetResources()
                 .AddResource(TinyPlanetResources.PlanetResourceType.Gadgets, 1000);
             CurrentPlanetController.Get().CurrentPlanet().GetResources()
