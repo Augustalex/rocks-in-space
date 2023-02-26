@@ -16,6 +16,7 @@ public class UIAssetManager : MonoBehaviour
     public Texture graphiteIcon;
     public Texture copperIcon;
     [FormerlySerializedAs("metalsIcon")] public Texture ironPlatesIcon;
+    public Texture copperPlatesIcon;
     public Texture gadgetsIcon;
     public Texture powerIcon;
     public Texture iceIcon;
@@ -71,7 +72,7 @@ public class UIAssetManager : MonoBehaviour
             TinyPlanetResources.PlanetResourceType.Graphite => graphiteIcon,
             TinyPlanetResources.PlanetResourceType.CopperOre => copperIcon,
             TinyPlanetResources.PlanetResourceType.IronPlates => ironPlatesIcon,
-            TinyPlanetResources.PlanetResourceType.CopperPlates => copperIcon,
+            TinyPlanetResources.PlanetResourceType.CopperPlates => copperPlatesIcon,
             TinyPlanetResources.PlanetResourceType.Gadgets => gadgetsIcon,
             TinyPlanetResources.PlanetResourceType.Ice => iceIcon,
             TinyPlanetResources.PlanetResourceType.Water => waterIcon,

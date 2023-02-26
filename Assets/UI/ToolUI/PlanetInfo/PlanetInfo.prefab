@@ -1282,10 +1282,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ore: {fileID: 3321274099785117053}
-  iron: {fileID: 9194244459707334321}
+  ironOre: {fileID: 9194244459707334321}
   graphite: {fileID: 292522126781066388}
-  copper: {fileID: 1827969995544315516}
-  metals: {fileID: 5912623432922572580}
+  copperOre: {fileID: 1827969995544315516}
+  ironPlates: {fileID: 5912623432922572580}
   copperPlates: {fileID: 7769578948819599361}
   gadgets: {fileID: 4718148765650189181}
   ice: {fileID: 3135281660030821685}
