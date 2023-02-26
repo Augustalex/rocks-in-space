@@ -54,7 +54,10 @@ public class TinyPlanetResources : MonoBehaviour
             case PlanetResourceType.IronOre: return $"iron ore{ResourceSprite(resourceType)}";
             case PlanetResourceType.IronPlates: return $"iron plates{ResourceSprite(resourceType)}";
             case PlanetResourceType.CopperOre: return $"copper ore{ResourceSprite(resourceType)}";
-            case PlanetResourceType.CopperPlates: return $"copper plates{ResourceSprite(resourceType)}";
+            
+            case PlanetResourceType.CopperPlates: return $"copper plates";
+            // case PlanetResourceType.CopperPlates: return $"copper plates{ResourceSprite(resourceType)}"; Uncomment when has added copper plates to sprite sheet
+            
             case PlanetResourceType.Graphite: return $"graphite{ResourceSprite(resourceType)}";
             case PlanetResourceType.Protein: return $"protein chunks{ResourceSprite(resourceType)}";
         }
@@ -79,7 +82,7 @@ public class TinyPlanetResources : MonoBehaviour
             case PlanetResourceType.IronOre: return "<sprite name=\"iron\">";
             case PlanetResourceType.IronPlates: return "<sprite name=\"metals\">";
             case PlanetResourceType.CopperOre: return "<sprite name=\"copper\">";
-            case PlanetResourceType.CopperPlates: return "<sprite name=\"copper\">";
+            case PlanetResourceType.CopperPlates: return "copper plates";
             case PlanetResourceType.Graphite: return "<sprite name=\"graphite\">";
             case PlanetResourceType.Protein: return "<sprite name=\"protein\">";
         }

@@ -2,7 +2,6 @@ using System;
 using Interactors;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 public class UIAssetManager : MonoBehaviour
 {
