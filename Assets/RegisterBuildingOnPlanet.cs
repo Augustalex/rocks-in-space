@@ -28,9 +28,9 @@ public class RegisterBuildingOnPlanet : MonoBehaviour
     {
         ProgressManager.Get().Built(buildingType);
         resources.RegisterBuilding(buildingType);
-        if (buildingType == BuildingType.Lander)
+        if (buildingType == BuildingType.Port)
         {
-            resources.AddGadgets(100); //Starting resources
+            GetComponent<PortController>().WasBuilt();
         }
     }
 

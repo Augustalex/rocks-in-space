@@ -137,6 +137,7 @@ public class TinyPlanetResources : MonoBehaviour
 
     private readonly Dictionary<BuildingType, int> _buildings = new()
     {
+        { BuildingType.Port, 0 },
         { BuildingType.Lander, 0 },
         { BuildingType.Refinery, 0 },
         { BuildingType.CopperRefinery, 0 },

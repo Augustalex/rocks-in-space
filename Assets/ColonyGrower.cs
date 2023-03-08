@@ -19,6 +19,7 @@ public class ColonyGrower : MonoBehaviour
 
     private readonly Dictionary<PlanetColonistMonitor.PlanetStatus, int> _colonistsPerLevel = new()
     {
+        {PlanetColonistMonitor.PlanetStatus.Uninhabited, 100},
         {PlanetColonistMonitor.PlanetStatus.Surviving, 100},
         {PlanetColonistMonitor.PlanetStatus.Neutral, 100}, // Not used
         {PlanetColonistMonitor.PlanetStatus.Happy, 100},
@@ -27,7 +28,7 @@ public class ColonyGrower : MonoBehaviour
 
     private readonly Dictionary<PlanetColonistMonitor.PlanetStatus, int> _intervalPerLevel = new()
     {
-        {PlanetColonistMonitor.PlanetStatus.Uninhabited, 20},
+        {PlanetColonistMonitor.PlanetStatus.Uninhabited, 0},
         {PlanetColonistMonitor.PlanetStatus.MovingOut, 20},
         {PlanetColonistMonitor.PlanetStatus.Surviving, 20},
         {PlanetColonistMonitor.PlanetStatus.Neutral, 20}, // Not used
@@ -70,7 +71,7 @@ public class ColonyGrower : MonoBehaviour
         }
 
         var resources = planet.GetResources();
-        if (status <= PlanetColonistMonitor.PlanetStatus.MovingOut) return;
+        if (status == PlanetColonistMonitor.PlanetStatus.MovingOut) return;
 
         if (resources.GetVacantHousesCount() > 0)
         {

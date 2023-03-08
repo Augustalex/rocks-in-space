@@ -24,15 +24,16 @@ public class ProgressManager : MonoBehaviour
 
     private ColonyProgress _colonyProgress = ColonyProgress.Zero;
     private bool _gotFirstGadgets;
+    private bool _builtFirstPort = false;
 
     private const float ShowHintAfterTime = 45;
-    
+
     private float _builtFirstRefineryAt = -1f;
     private bool _hasSentIronHint;
-    
+
     private float _builtFirstFactoryAt = -1f;
     private bool _hasSentFactoryHint;
-    
+
     private float _builtFirstCopperRefineryAt = -1f;
     private bool _hasSentCopperHint;
     private bool _hasSentCopperBonusHint;
@@ -78,6 +79,13 @@ public class ProgressManager : MonoBehaviour
     public void BuiltPort(PlanetId planetId)
     {
         _ports.Add(planetId);
+        if (!_builtFirstPort)
+        {
+            _builtFirstPort = true;
+
+            var resources = PlanetsRegistry.Get().GetPlanet(planetId).GetResources();
+            resources.AddGadgets(100);
+        }
     }
 
     public void DestroyedPort(PlanetId planetId)
@@ -249,19 +257,24 @@ public class ProgressManager : MonoBehaviour
         });
     }
 
-    public bool LanderUnlocked()
+    public bool FirstPortBuilt()
     {
         return HasBuilt(BuildingType.Port);
     }
 
     public bool RefineryUnlocked()
     {
-        return HasBuilt(BuildingType.Lander);
+        return HasBuilt(BuildingType.ResidentModule);
     }
 
     public bool FactoryUnlocked()
     {
-        return HasBuilt(BuildingType.Lander);
+        return HasBuilt(BuildingType.ResidentModule);
+    }
+    
+    public bool HousingBuilt()
+    {
+        return HasBuilt(BuildingType.ResidentModule);
     }
 
     public bool ColonyBasicsProductionUnlocked()
