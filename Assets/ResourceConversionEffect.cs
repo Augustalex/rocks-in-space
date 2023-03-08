@@ -78,24 +78,29 @@ public class ResourceConversionEffect : MonoBehaviour
                 {
                     while (resources.GetResource(TinyPlanetResources.PlanetResourceType.Energy) < 0)
                     {
+                        if (gameObject == null)
+                            yield break;
+                        
                         Stopped();
 
                         // Wait until there is power, then continue processing.
-                        yield return new WaitForSeconds(.25f);
+                        yield return new WaitForSeconds(1f);
                     }
                 }
-
-                var requiresWorkers = _resourceEffect.workersNeeded > 0;
-                if (requiresWorkers)
+            }
+            
+            var requiresWorkers = _resourceEffect.workersNeeded > 0;
+            if (requiresWorkers && resources.GetWorkers() < 0)
+            {
+                // Wait until there is enough workers to begin production.
+                while (resources.GetWorkers() < 0)
                 {
-                    if (resources.GetWorkers() < 0)
-                    {
-                        SlowedDown();
-                    }
-                    else
-                    {
-                        ResumeSpeed();
-                    }
+                    if (gameObject == null)
+                        yield break;
+
+                    Stopped();
+                    
+                    yield return new WaitForSeconds(1f);
                 }
             }
 
@@ -104,10 +109,10 @@ public class ResourceConversionEffect : MonoBehaviour
             {
                 Stopped();
 
-                // Wait until there is resources to take from. Then restart the iteration timer.
-                yield return new WaitForSeconds(.25f);
+                // Wait until there is resources to take from.
+                yield return new WaitForSeconds(1f);
             }
-
+            
             while (_bufferedSets < bufferSize &&
                    HasEnoughOfPrimaryFromResource(resources) &&
                    HasEnoughOfSecondaryFromResource(resources))
