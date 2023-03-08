@@ -80,7 +80,7 @@ public class ResourceConversionEffect : MonoBehaviour
                     {
                         if (gameObject == null)
                             yield break;
-                        
+
                         Stopped();
 
                         // Wait until there is power, then continue processing.
@@ -88,7 +88,7 @@ public class ResourceConversionEffect : MonoBehaviour
                     }
                 }
             }
-            
+
             var requiresWorkers = _resourceEffect.workersNeeded > 0;
             if (requiresWorkers && resources.GetWorkers() < 0)
             {
@@ -99,20 +99,11 @@ public class ResourceConversionEffect : MonoBehaviour
                         yield break;
 
                     Stopped();
-                    
+
                     yield return new WaitForSeconds(1f);
                 }
             }
 
-            while (gameObject != null &&
-                   (!HasEnoughOfPrimaryFromResource(resources) || !HasEnoughOfSecondaryFromResource(resources)))
-            {
-                Stopped();
-
-                // Wait until there is resources to take from.
-                yield return new WaitForSeconds(1f);
-            }
-            
             while (_bufferedSets < bufferSize &&
                    HasEnoughOfPrimaryFromResource(resources) &&
                    HasEnoughOfSecondaryFromResource(resources))
@@ -126,7 +117,7 @@ public class ResourceConversionEffect : MonoBehaviour
 
             Started();
 
-            while (_bufferedSets > 0)
+            if (_bufferedSets > 0)
             {
                 _bufferedSets -= 1;
                 yield return new WaitForSeconds(_slowedDown ? iterationTime * SlowDownFactor : iterationTime);
@@ -139,6 +130,13 @@ public class ResourceConversionEffect : MonoBehaviour
                 {
                     resources.AddResource(to, toAmount);
                 }
+            }
+            else if (!HasEnoughOfPrimaryFromResource(resources) || !HasEnoughOfSecondaryFromResource(resources))
+            {
+                Stopped();
+
+                // Wait until there is resources to take from.
+                yield return new WaitForSeconds(1f); 
             }
         }
     }
