@@ -1,4 +1,5 @@
 ﻿using GameNotifications;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(PlanetProductionMonitor))]
@@ -108,5 +109,10 @@ public class TinyPlanet : MonoBehaviour
     public TinyPlanetRockType GetRockType()
     {
         return _rockType;
+    }
+
+    public float GetDistanceTo(TinyPlanet end)
+    {
+        return Vector3.Distance(GetCenter(), end.GetCenter());
     }
 }

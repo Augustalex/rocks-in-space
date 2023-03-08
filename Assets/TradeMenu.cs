@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,10 +10,11 @@ public class TradeMenu : MonoBehaviour
     public TMP_Text tradeRouteText;
     private RouteEditor _routeEditor;
 
+    public TMP_Text timeEstimate;
     public Button confirm;
     public Button cancel;
     private RouteManager _routeManager;
-    private SelectResourceController _selectedResourceController;
+    private TallyResourceController _tallyResourceController;
 
     public static TradeMenu Get()
     {
@@ -31,13 +33,19 @@ public class TradeMenu : MonoBehaviour
 
         _routeManager = RouteManager.Get();
 
-        _selectedResourceController = GetComponentInChildren<SelectResourceController>();
-        _selectedResourceController.ResourceSelected += _routeEditor.SetResourceType;
-
+        _tallyResourceController = GetComponentInChildren<TallyResourceController>();
+        _tallyResourceController.ShipmentChanged += ShipmentChanged;
+        
         confirm.onClick.AddListener(Confirm);
         cancel.onClick.AddListener(Remove);
 
         gameObject.SetActive(false);
+    }
+
+    private void ShipmentChanged(Dictionary<TinyPlanetResources.PlanetResourceType, int> shipment)
+    {
+        _routeEditor.SetShipment(shipment);
+        UpdateTimeEstimateText();
     }
 
     public void Show()
@@ -58,18 +66,20 @@ public class TradeMenu : MonoBehaviour
 
         PopupManager.Get().CancelAllPopups();
 
+        _tallyResourceController.SetShipment(_routeEditor.GetCurrentShipment());
+
         tradeRouteText.text = $"{start.planetName} <b>to</b> {end.planetName}";
-
-        var existingRoute = _routeManager.RouteExists(start, end) ? _routeManager.GetRoute(start, end) : null;
-
-        var resourceType = existingRoute?.ResourceType ?? _routeEditor.GetSelectedResourceType();
-        _selectedResourceController.SetSelectedResource(resourceType);
-
-        confirm.GetComponentInChildren<TMP_Text>().text = existingRoute != null ? "Update" : "Create";
-
+        confirm.GetComponentInChildren<TMP_Text>().text = _routeManager.RouteExists(start, end) ? "Update" : "Create";
+        UpdateTimeEstimateText();
+        
         WorldInteractionLock.LockInteractionsUntilUnlocked();
         CameraController.Get().LockControls();
         gameObject.SetActive(true);
+    }
+
+    private void UpdateTimeEstimateText()
+    {
+        timeEstimate.text = "Shipment length: " + _routeEditor.EstimatedShipmentTime() + "s";
     }
 
     public void Hide()

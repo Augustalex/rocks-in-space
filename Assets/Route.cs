@@ -11,13 +11,36 @@ public class Route
 
     public event Action Removed;
 
-    private float _resourcePerSecond = 0f;
-
-    private readonly Queue<float> _transfers = new();
-
     private readonly int _order;
-    private bool _isActive;
     private bool _removed;
+
+    private Dictionary<TinyPlanetResources.PlanetResourceType, int> _shipment;
+
+    private static readonly Dictionary<TinyPlanetResources.PlanetResourceType, float> ResourceTimePerUnit = new()
+    {
+        {TinyPlanetResources.PlanetResourceType.IronOre, 10f},
+        {TinyPlanetResources.PlanetResourceType.CopperOre, 10f},
+        {TinyPlanetResources.PlanetResourceType.Graphite, 5f},
+        {TinyPlanetResources.PlanetResourceType.CopperPlates, 1f},
+        {TinyPlanetResources.PlanetResourceType.IronPlates, 1f},
+        {TinyPlanetResources.PlanetResourceType.Gadgets, 1f},
+        {TinyPlanetResources.PlanetResourceType.Water, 1f},
+        {TinyPlanetResources.PlanetResourceType.Refreshments, 1f}
+    };
+
+    private float _routeStartedAt;
+    private Dictionary<TinyPlanetResources.PlanetResourceType, int> _loaded = new();
+    
+    private float _returnTripTimeLeft = -1f; // If travel time is 0 and is returning, that is when goods are loaded. So starting state should be that the shipment is returning, to start the route properly.
+    private float _runTimeLeft = -1f;
+    
+    private enum ShipmentTarget
+    {
+        Unloading,
+        Loading
+    }
+
+    private ShipmentTarget _currentShipmentTarget = ShipmentTarget.Loading; // Start from From because it should start the route by loading new goods.
 
     public Route(PlanetId start, PlanetId destination, int order)
     {
@@ -26,32 +49,89 @@ public class Route
         DestinationPlanetId = destination;
     }
 
-    public void Run()
+    public void Run(float timeDelta)
     {
         if (_removed) return;
-
+        
         var start = PlanetsRegistry.Get().FindPlanetById(StartPlanetId);
-        if (start == null || !start.HasPort()) return;
+        if (start == null || !start.HasPort())
+        {
+            Abort();
+            return;
+        }
 
         var destination = PlanetsRegistry.Get().FindPlanetById(DestinationPlanetId);
-        if (destination == null || !destination.HasPort()) return;
-
+        if (destination == null || !destination.HasPort())
+        {
+            Abort();
+            return;
+        }
+        
         var startingResources = start.GetResources();
         var destinationResources = destination.GetResources();
 
-        if (_resourcePerSecond > 0)
+        if (_currentShipmentTarget == ShipmentTarget.Loading)
         {
-            var preferredTake = _resourcePerSecond * Time.deltaTime;
-            var toTake = Mathf.Min(startingResources.GetResource(ResourceType), preferredTake);
+            if (_returnTripTimeLeft < 0f)
+            {
+                _loaded.Clear();
+            
+                foreach (var goods in _shipment)
+                {
+                    var preferredTake = goods.Value;
+                    var toTake = Mathf.FloorToInt(Mathf.Min(startingResources.GetResource(ResourceType), preferredTake));
+                    startingResources.RemoveResource(goods.Key, toTake);
+                    _loaded.Add(goods.Key, toTake);
+                }
 
-            startingResources.RemoveResource(ResourceType, toTake);
-            destinationResources.AddResource(ResourceType, toTake);
+                _runTimeLeft = GetTotalLoadedTime();
+                _currentShipmentTarget = ShipmentTarget.Unloading;
+            }
+            else
+            {
+                _returnTripTimeLeft -= timeDelta;
+            }
+        }
+        else if (_currentShipmentTarget == ShipmentTarget.Unloading)
+        {
+            if (_runTimeLeft < 0f)
+            {
+                foreach (var goods in _loaded)
+                {
+                    destinationResources.AddResource(goods.Key, goods.Value);
+                }
+                _loaded.Clear();
+            
+                _runTimeLeft = 10f;
+                _currentShipmentTarget = ShipmentTarget.Unloading;
+            }
+            else
+            {
+                _runTimeLeft -= timeDelta;
+            }
+        }
+    }
 
-            if (_transfers.Count >= InactiveRouteFramesThreshold()) _transfers.Dequeue();
-            _transfers.Enqueue(toTake);
+    private void Abort()
+    {
+        var start = PlanetsRegistry.Get().FindPlanetById(StartPlanetId);
+        if (start == null) return; // If planet no longer exists, then we loose whatever we have in the cargo!
+
+        var startingResources = start.GetResources();
+        foreach (var goods in _loaded)
+        {
+            startingResources.AddResource(goods.Key, goods.Value);
         }
 
-        _isActive = _transfers.Count >= InactiveRouteFramesThreshold() && _transfers.Sum() > 0f;
+        ResetShipment();
+    }
+
+    private void ResetShipment()
+    {
+        _loaded.Clear();
+        _returnTripTimeLeft = -1f;
+        _runTimeLeft = -1f;
+        _currentShipmentTarget = ShipmentTarget.Loading;
     }
 
     public bool Is(TinyPlanet start, TinyPlanet end)
@@ -59,10 +139,20 @@ public class Route
         return start.PlanetId.Is(StartPlanetId) && end.PlanetId.Is(DestinationPlanetId);
     }
 
-    public void SetTrade(TinyPlanetResources.PlanetResourceType planetResourceType, float amountPerSecond)
+    public void SetTrade(Dictionary<TinyPlanetResources.PlanetResourceType, int> shipment)
     {
-        _resourcePerSecond = amountPerSecond;
-        ResourceType = planetResourceType;
+        _shipment = shipment;
+        ResetShipment();
+    }
+
+    public static float GetShipmentTime(Dictionary<TinyPlanetResources.PlanetResourceType, int> shipment)
+    {
+        return shipment.Aggregate(0f, (acc, v) => acc + ResourceTimePerUnit[v.Key] * v.Value);
+    }
+
+    public float GetTotalLoadedTime()
+    {
+        return GetShipmentTime(_loaded);
     }
 
     public bool StartsFrom(TinyPlanet planet)
@@ -82,11 +172,12 @@ public class Route
 
     public bool IsActive()
     {
-        return _isActive;
+        return true;
     }
 
     public void Remove()
     {
+        Abort();
         _removed = true;
         Removed?.Invoke();
     }
@@ -94,5 +185,10 @@ public class Route
     private float InactiveRouteFramesThreshold()
     {
         return SettingsManager.Get().miscSettings.inactiveRouteFramesThreshold;
+    }
+
+    public Dictionary<TinyPlanetResources.PlanetResourceType, int> GetShipment()
+    {
+        return _shipment;
     }
 }

@@ -25,7 +25,7 @@ public class RouteManager : MonoBehaviour
     {
         foreach (var route in _routes)
         {
-            route.Run();
+            route.Run(Time.deltaTime);
         }
     }
 
@@ -61,11 +61,10 @@ public class RouteManager : MonoBehaviour
         return GetPlanetRoutes(start).First(r => r.FromTo(start, end));
     }
 
-    public void SetTrade(TinyPlanet start, TinyPlanet end, TinyPlanetResources.PlanetResourceType resourceType,
-        float amountPerSecond)
+    public void SetTrade(TinyPlanet start, TinyPlanet end, Dictionary<TinyPlanetResources.PlanetResourceType, int> shipment)
     {
         var route = _routes.Find(route => route.Is(start, end));
-        route?.SetTrade(resourceType, amountPerSecond);
+        route?.SetTrade(shipment);
     }
 
     public IEnumerable<Route> GetPlanetRoutes(TinyPlanet planet)

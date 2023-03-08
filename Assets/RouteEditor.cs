@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Interactors;
 using UnityEngine;
 
@@ -6,10 +7,11 @@ public class RouteEditor : MonoBehaviour
 {
     private static RouteEditor _instance;
     private TinyPlanet _start;
-    private TinyPlanetResources.PlanetResourceType _resourceType = TinyPlanetResources.PlanetResourceType.Ore;
     private float _started;
     private TinyPlanet _end;
 
+    private Dictionary<TinyPlanetResources.PlanetResourceType, int> _shipment = new ();
+    
     public event Action<TinyPlanet> RouteStarted;
     public event Action RouteCancelled;
     public event Action RouteDestinationSelected;
@@ -61,7 +63,7 @@ public class RouteEditor : MonoBehaviour
             routeManager.AddRoute(_start, _end);
         }
 
-        routeManager.SetTrade(_start, _end, _resourceType, TradeAmountForResource(_resourceType));
+        routeManager.SetTrade(_start, _end, GetCurrentShipment());
 
         RouteFinished?.Invoke(_start, _end);
         Reset();
@@ -89,9 +91,24 @@ public class RouteEditor : MonoBehaviour
         return _start;
     }
 
-    public void SetResourceType(TinyPlanetResources.PlanetResourceType resourceType)
+    public void SetShipment(Dictionary<TinyPlanetResources.PlanetResourceType, int> shipment)
     {
-        _resourceType = resourceType;
+        _shipment = shipment;
+    }
+
+    public float EstimatedShipmentTime()
+    {
+        if (!_start || !_end)
+            throw new Exception("Trying to estimate shipping time for a route without either start or end");
+        
+        var distance = _start.GetDistanceTo(_end);
+        var distanceSeconds = distance / 20f;
+        return Route.GetShipmentTime(_shipment) + Mathf.FloorToInt(distanceSeconds);
+    }
+
+    public Dictionary<TinyPlanetResources.PlanetResourceType, int> GetCurrentShipment()
+    {
+        return _shipment;
     }
 
     public void SelectRouteDestination(TinyPlanet end)
@@ -103,6 +120,12 @@ public class RouteEditor : MonoBehaviour
         else
         {
             _end = end;
+
+            if (RouteManager.Get().RouteExists(_start, _end))
+            {
+                _shipment = RouteManager.Get().GetRoute(_start, _end).GetShipment();
+            }
+            
             RouteDestinationSelected?.Invoke();
         }
     }
@@ -134,11 +157,6 @@ public class RouteEditor : MonoBehaviour
         return _start != null || _end != null;
     }
 
-    public TinyPlanetResources.PlanetResourceType GetSelectedResourceType()
-    {
-        return _resourceType;
-    }
-
     public TinyPlanet GetRouteDestination()
     {
         return _end;
@@ -164,6 +182,7 @@ public class RouteEditor : MonoBehaviour
         _start = null;
         _end = null;
         _state = RouteEditorState.Idle;
+        _shipment = new(); // Creating a new instance instead of clearing the existing one since the reference is passed down to the Route object.
     }
 
     private float TradeAmountForResource(TinyPlanetResources.PlanetResourceType resourceType)
