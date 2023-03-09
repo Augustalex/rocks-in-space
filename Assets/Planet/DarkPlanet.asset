@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbe82e0bba3c460eb878a2d06da6cae0, type: 3}
-  m_Name: PurplePlanet
+  m_Name: DarkPlanet
   m_EditorClassIdentifier: 
-  planetShape: 0
-  hourGlassSidewayToHeightFactor: 0.3
-  maxDistance: 17
-  maxDepth: 17
-  emptySpaceChance: 0.7
-  emptySpaceMinDepth: 8
-  maxEmptySpaces: 84
-  directionSelectionMode: 0
+  planetShape: 1
+  hourGlassSidewayToHeightFactor: 0
+  maxDistance: 12
+  maxDepth: 12
+  emptySpaceChance: 0.1
+  emptySpaceMinDepth: 7
+  maxEmptySpaces: 124
+  directionSelectionMode: 2
   baseFillChance: 0.2
   fillProbability:
     serializedVersion: 2
@@ -72,22 +72,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  minDirections: 1
-  maxDirections: 2
+  minDirections: 5
+  maxDirections: 5
   spheres:
-  - position: {x: -6, y: 0, z: 0}
+  - position: {x: 0, y: 8, z: 0}
+    radius: 7
+    chance: 0.5
+  - position: {x: 3, y: 9, z: 0}
+    radius: 3
+    chance: 0.5
+  - position: {x: -3, y: 9, z: 0}
+    radius: 3
+    chance: 0.5
+  - position: {x: 0, y: -6, z: 0}
     radius: 5
-    chance: 0.8
-  - position: {x: 0, y: 0, z: -6}
-    radius: 5
-    chance: 0.8
-  boxes:
-  - position: {x: -4, y: 0, z: 0}
-    xzScale: 3
-    yScale: 1
-  - position: {x: 4, y: 0, z: 0}
-    xzScale: 3
-    yScale: 2
-  - position: {x: 0, y: 0, z: -4}
-    xzScale: 3
-    yScale: 1
+    chance: 0.5
+  boxes: []

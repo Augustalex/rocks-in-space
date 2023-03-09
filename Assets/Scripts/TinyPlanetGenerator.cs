@@ -19,6 +19,16 @@ public class TinyPlanetGenerator : MonoBehaviour
         TinyPlanet.RockType.Blue,
         TinyPlanet.RockType.Green,
         TinyPlanet.RockType.Ice,
+        TinyPlanet.RockType.Dark,
+    };
+
+    private readonly Dictionary<TinyPlanet.RockType, int> _planetTypeCount = new()
+    {
+        { TinyPlanet.RockType.Orange, 0 },
+        { TinyPlanet.RockType.Blue, 0 },
+        { TinyPlanet.RockType.Green, 0 },
+        { TinyPlanet.RockType.Ice, 0 },
+        { TinyPlanet.RockType.Dark, 0 }
     };
 
     private void Awake()
@@ -51,14 +61,17 @@ public class TinyPlanetGenerator : MonoBehaviour
             }
             else
             {
-                GenerateNewPlanetAtPosition(point);
+                var planetType = _planetTypeCount.Values.Any(v => v == 0)
+                    ? _planetTypeCount.Keys.First(k => _planetTypeCount[k] == 0)
+                    : RandomPlanetType();
+                _planetTypeCount[planetType] += 1;
+                GenerateNewPlanetAtPosition(point, planetType);
             }
         }
     }
 
-    private void GenerateNewPlanetAtPosition(Vector3 position)
+    private void GenerateNewPlanetAtPosition(Vector3 position, TinyPlanet.RockType planetType)
     {
-        var planetType = RandomPlanetType();
         var settings = settingsMap.Get(planetType);
 
         var networkTemplate = new TinyPlanetGeneratorHelper()
@@ -234,12 +247,20 @@ public class TinyPlanetGenerator : MonoBehaviour
                 rock.GetComponentInChildren<OreController>().MakeIntoOreVein(resource);
             }
         }
+        else if (planetType == TinyPlanet.RockType.Dark)
+        {
+            if (Random.value < .8f)
+            {
+                rock.GetComponentInChildren<OreController>()
+                    .MakeIntoOreVein(TinyPlanetResources.PlanetResourceType.Graphite);
+            }
+        }
         else if (planetType == TinyPlanet.RockType.Orange)
         {
             if (Random.value < .7f)
             {
                 var roll = Random.value;
-                var resource = roll < .7
+                var resource = roll < .75
                     ? TinyPlanetResources.PlanetResourceType.CopperOre
                     : roll < .9
                         ? TinyPlanetResources.PlanetResourceType.Graphite

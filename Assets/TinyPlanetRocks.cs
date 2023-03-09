@@ -19,13 +19,15 @@ public class TinyPlanetRocks : MonoBehaviour
     private static readonly int CenterPropertyId = Shader.PropertyToID("_Center");
     private static readonly int RockTypePropertyId = Shader.PropertyToID("_RockType");
 
-    private static readonly Color[][] ColorPairs = new Color[][]
+    private static readonly Color[][] ColorPairs = new Color[][] // See what the index represents by looking at the TinyPlanet.RockType enum
     {
         new[] { Hsl(26, 80, 100), Hsl(305, 100, 80) },
         // new [] {Hsl(185, 80, 100), Hsl(305, 100, 80)}, Blue
         new[] { Hsl(270, 80, 100), Hsl(305, 100, 80) },
         new[] { Hsl(76, 80, 100), Hsl(305, 100, 80) },
         new[] { Hsl(270, 10, 100), Hsl(305, 10, 90) },
+        new[] { Hsl(0,0,0), Hsl(0,0,0) }, // Ice, not used, uses special material
+        new[] { Hsl(200, 10, 30), Hsl(200, 10, 10) },
     };
 
     // Data for keeping track of center point

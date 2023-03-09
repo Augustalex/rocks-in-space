@@ -20,7 +20,7 @@ public class TinyPlanetGeneratorHelper
     {
         var generationOrigin = Vector3.zero;
 
-        GeneratePlanet(generationOrigin, planetGenerationSettings);
+        GeneratePlanet(generationOrigin, planetGenerationSettings, planetGenerationSettings.spheres.Where(s => s.chance > 0f && s.chance < 1f && Random.value < s.chance).ToArray());
         var result = _rocks
             .Where(entry => entry.Value != GeneratorRockType.Empty)
             .Select(entry => entry.Key)
@@ -39,13 +39,15 @@ public class TinyPlanetGeneratorHelper
         return NewNetworkTemplate(planetType, planetGenerationSettings);
     }
 
-    private void GeneratePlanet(Vector3 position, PlanetGenerationSettings settings, int depth = 0)
+    private void GeneratePlanet(Vector3 position, PlanetGenerationSettings settings, Sphere[] ignoreSpheres, int depth = 0)
     {
         if (depth > settings.maxDepth) return;
         if (_rocks.ContainsKey(position)) return;
 
         foreach (var sphere in settings.spheres)
         {
+            if (ignoreSpheres.Contains(sphere)) continue; 
+            
             var distance = Vector3.Distance(position, sphere.position);
             if (distance < sphere.radius)
             {
@@ -123,7 +125,7 @@ public class TinyPlanetGeneratorHelper
                     }
                     else
                     {
-                        GeneratePlanet(newPosition, settings, depth + 1);
+                        GeneratePlanet(newPosition, settings, ignoreSpheres, depth + 1);
                     }
                 }
 
@@ -168,7 +170,7 @@ public class TinyPlanetGeneratorHelper
                     var prob = 1f - Vector3.Distance(newPosition, Vector3.zero) / settings.maxDistance;
                     if (Random.value < prob)
                     {
-                        GeneratePlanet(newPosition, settings, depth + 1);
+                        GeneratePlanet(newPosition, settings, ignoreSpheres, depth + 1);
                     }
                 }
             }
@@ -197,7 +199,7 @@ public class TinyPlanetGeneratorHelper
 
                     if (shouldFill)
                     {
-                        GeneratePlanet(newPosition, settings, depth + 1);
+                        GeneratePlanet(newPosition, settings,  ignoreSpheres, depth + 1);
                     }
                 }
             }

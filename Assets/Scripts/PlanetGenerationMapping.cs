@@ -8,6 +8,7 @@ public class PlanetGenerationMapping : ScriptableObject
     public PlanetGenerationSettings blue;
     public PlanetGenerationSettings green;
     public PlanetGenerationSettings orange;
+    public PlanetGenerationSettings dark;
 
     public PlanetGenerationSettings Get(TinyPlanet.RockType rockType)
     {
@@ -17,6 +18,7 @@ public class PlanetGenerationMapping : ScriptableObject
             TinyPlanet.RockType.Blue => blue,
             TinyPlanet.RockType.Green => green,
             TinyPlanet.RockType.Ice => ice,
+            TinyPlanet.RockType.Dark => dark,
             _ => throw new ArgumentOutOfRangeException(nameof(rockType), rockType, null)
         };
     }

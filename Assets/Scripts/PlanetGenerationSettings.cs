@@ -6,6 +6,7 @@ public struct Sphere
 {
     public Vector3 position;
     public float radius;
+    public float chance; // Less or equal to 0, or more or equal 1, means OFF=not random, a value between 0-1 means it has that probability of being used.
 }
 
 [Serializable]

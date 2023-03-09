@@ -9,6 +9,7 @@ public class RockMesh : MonoBehaviour
     public Material blue;
     public Material green;
     public Material ice;
+    public Material dark;
     
     public void RefreshMaterial(TinyPlanet.RockType rockType)
     {
@@ -19,6 +20,7 @@ public class RockMesh : MonoBehaviour
             TinyPlanet.RockType.Green => green,
             TinyPlanet.RockType.Snow => ice,
             TinyPlanet.RockType.Ice => ice,
+            TinyPlanet.RockType.Dark => dark,
             _ => throw new ArgumentOutOfRangeException(nameof(rockType), rockType, null)
         };
     }

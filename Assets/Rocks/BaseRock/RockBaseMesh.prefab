@@ -136,6 +136,7 @@ MonoBehaviour:
   blue: {fileID: 2100000, guid: c9d92d8dac802754dbf845cb1c46b26d, type: 2}
   green: {fileID: 2100000, guid: baf2fba8c8383d249b8a558bbd33faac, type: 2}
   ice: {fileID: 2100000, guid: 87c64e18c5283734e98374bdc5baf6e6, type: 2}
+  dark: {fileID: 2100000, guid: 1d288a7ee57d7b341980902d8c7dc4d6, type: 2}
 --- !u!205 &1996481617791315363
 LODGroup:
   m_ObjectHideFlags: 0

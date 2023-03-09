@@ -16,11 +16,12 @@ public class TinyPlanet : MonoBehaviour
 
     public enum RockType // Todo move to own file
     {
-        Orange,
-        Blue,
-        Green,
-        Snow, // Only used on Ice planets, now set as a planet type
-        Ice,
+        Orange = 0,
+        Blue = 1,
+        Green = 2,
+        Snow = 3, // Only used on Ice planets, now set as a planet type
+        Ice = 4,
+        Dark = 5
     }
 
     private Vector3 _lastCenterPosition;
