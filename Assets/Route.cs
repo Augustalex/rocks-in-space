@@ -18,29 +18,34 @@ public class Route
 
     private static readonly Dictionary<TinyPlanetResources.PlanetResourceType, float> ResourceTimePerUnit = new()
     {
-        {TinyPlanetResources.PlanetResourceType.IronOre, 10f},
-        {TinyPlanetResources.PlanetResourceType.CopperOre, 10f},
-        {TinyPlanetResources.PlanetResourceType.Graphite, 5f},
-        {TinyPlanetResources.PlanetResourceType.CopperPlates, 1f},
-        {TinyPlanetResources.PlanetResourceType.IronPlates, 1f},
-        {TinyPlanetResources.PlanetResourceType.Gadgets, 1f},
-        {TinyPlanetResources.PlanetResourceType.Water, 1f},
-        {TinyPlanetResources.PlanetResourceType.Refreshments, 1f}
+        { TinyPlanetResources.PlanetResourceType.IronOre, 10f },
+        { TinyPlanetResources.PlanetResourceType.CopperOre, 10f },
+        { TinyPlanetResources.PlanetResourceType.Graphite, 5f },
+        { TinyPlanetResources.PlanetResourceType.CopperPlates, 1f },
+        { TinyPlanetResources.PlanetResourceType.IronPlates, 1f },
+        { TinyPlanetResources.PlanetResourceType.Gadgets, 1f },
+        { TinyPlanetResources.PlanetResourceType.Water, 1f },
+        { TinyPlanetResources.PlanetResourceType.Refreshments, 1f }
     };
 
     private float _routeStartedAt;
     private Dictionary<TinyPlanetResources.PlanetResourceType, int> _loaded = new();
-    
-    private float _returnTripTimeLeft = -1f; // If travel time is 0 and is returning, that is when goods are loaded. So starting state should be that the shipment is returning, to start the route properly.
+
+    private float
+        _returnTripTimeLeft =
+            -1f; // If travel time is 0 and is returning, that is when goods are loaded. So starting state should be that the shipment is returning, to start the route properly.
+
     private float _runTimeLeft = -1f;
-    
+
     private enum ShipmentTarget
     {
         Unloading,
         Loading
     }
 
-    private ShipmentTarget _currentShipmentTarget = ShipmentTarget.Loading; // Start from From because it should start the route by loading new goods.
+    private ShipmentTarget
+        _currentShipmentTarget =
+            ShipmentTarget.Loading; // Start from From because it should start the route by loading new goods.
 
     public Route(PlanetId start, PlanetId destination, int order)
     {
@@ -52,7 +57,7 @@ public class Route
     public void Run(float timeDelta)
     {
         if (_removed) return;
-        
+
         var start = PlanetsRegistry.Get().FindPlanetById(StartPlanetId);
         if (start == null || !start.HasPort())
         {
@@ -66,7 +71,7 @@ public class Route
             Abort();
             return;
         }
-        
+
         var startingResources = start.GetResources();
         var destinationResources = destination.GetResources();
 
@@ -75,11 +80,12 @@ public class Route
             if (_returnTripTimeLeft < 0f)
             {
                 _loaded.Clear();
-            
+
                 foreach (var goods in _shipment)
                 {
                     var preferredTake = goods.Value;
-                    var toTake = Mathf.FloorToInt(Mathf.Min(startingResources.GetResource(ResourceType), preferredTake));
+                    var toTake =
+                        Mathf.FloorToInt(Mathf.Min(startingResources.GetResource(ResourceType), preferredTake));
                     startingResources.RemoveResource(goods.Key, toTake);
                     _loaded.Add(goods.Key, toTake);
                 }
@@ -100,10 +106,11 @@ public class Route
                 {
                     destinationResources.AddResource(goods.Key, goods.Value);
                 }
+
                 _loaded.Clear();
-            
-                _runTimeLeft = GetUnloadedTime(start, destination);
-                _currentShipmentTarget = ShipmentTarget.Unloading;
+
+                _returnTripTimeLeft = GetUnloadedTime(start, destination);
+                _currentShipmentTarget = ShipmentTarget.Loading;
             }
             else
             {
@@ -150,7 +157,8 @@ public class Route
         return shipment.Aggregate(0f, (acc, v) => acc + ResourceTimePerUnit[v.Key] * v.Value);
     }
 
-    public static float GetTotalLoadedTime(TinyPlanet startPlanet, TinyPlanet targetPlanet, Dictionary<TinyPlanetResources.PlanetResourceType, int> shipment)
+    public static float GetTotalLoadedTime(TinyPlanet startPlanet, TinyPlanet targetPlanet,
+        Dictionary<TinyPlanetResources.PlanetResourceType, int> shipment)
     {
         return GetUnloadedTime(startPlanet, targetPlanet) + GetShipmentTime(shipment);
     }
@@ -159,7 +167,7 @@ public class Route
     {
         var distance = startPlanet.GetDistanceTo(targetPlanet);
         var distanceSeconds = distance / 40f;
-        return distanceSeconds;
+        return Mathf.FloorToInt(distanceSeconds);
     }
 
     public bool StartsFrom(TinyPlanet planet)
