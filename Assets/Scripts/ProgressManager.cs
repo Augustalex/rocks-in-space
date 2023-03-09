@@ -82,8 +82,12 @@ public class ProgressManager : MonoBehaviour
         if (!_builtFirstPort)
         {
             _builtFirstPort = true;
+            
+            var startingShip = ShipManager.Get().CreateStartingShip();
+            startingShip.MoveToPlanetInstantly(planetId);
 
-            var resources = PlanetsRegistry.Get().GetPlanet(planetId).GetResources();
+            var tinyPlanet = PlanetsRegistry.Get().GetPlanet(planetId);
+            var resources = tinyPlanet.GetResources();
             resources.AddGadgets(100);
         }
     }

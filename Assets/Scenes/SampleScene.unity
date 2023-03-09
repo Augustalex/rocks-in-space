@@ -5796,6 +5796,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d87199e95416c54690d1529d4126c45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &463744648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463744603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 334b2916baaf8a745a693542e40850cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingShipTemplate: {fileID: 3704541517061696671, guid: 68301e35d73d5904cb243a3fc193d104, type: 3}
+  _ships: []
 --- !u!1001 &466654444
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5853,7 +5867,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_SizeDelta.y
@@ -5861,7 +5875,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -11012,7 +11026,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7753707722091084443, guid: c572ad9a5b52e9f4a9761c237ced0d95, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 158.02
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7753707722091084443, guid: c572ad9a5b52e9f4a9761c237ced0d95, type: 3}
       propertyPath: m_AnchoredPosition.y
