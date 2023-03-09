@@ -5853,7 +5853,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_SizeDelta.y
@@ -5861,7 +5861,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -9507,7 +9507,7 @@ MonoBehaviour:
   graphiteIcon: {fileID: 2800000, guid: 0ab766dd2f90cbc45b08d06f0efedacf, type: 3}
   copperIcon: {fileID: 2800000, guid: eed13ad05e2558a4b974c15f6c68c89b, type: 3}
   ironPlatesIcon: {fileID: 2800000, guid: 5380000f7aa943d46ab2497f3b468441, type: 3}
-  copperPlatesIcon: {fileID: 0}
+  copperPlatesIcon: {fileID: 2800000, guid: 20492b83f5b50c84fa61647f6ab9c130, type: 3}
   gadgetsIcon: {fileID: 2800000, guid: d18263ee3c5fba741b52eff5c265229a, type: 3}
   powerIcon: {fileID: 2800000, guid: 45e2e9acca6b204459f4bf9db6e7447b, type: 3}
   iceIcon: {fileID: 2800000, guid: 3cc419f53647ff0498a7f8a0991ed6b6, type: 3}
@@ -9519,7 +9519,7 @@ MonoBehaviour:
   creditsIcon: {fileID: 2800000, guid: 959c9c02ad7c16f47885cb110481e614, type: 3}
   workersIcon: {fileID: 2800000, guid: 34590484b445d7546b8bbe2e3846dcb4, type: 3}
   refineryIcon: {fileID: 2800000, guid: 88ce32cff4f7e9243bdbffd22c6cc0c9, type: 3}
-  copperRefineryIcon: {fileID: 0}
+  copperRefineryIcon: {fileID: 2800000, guid: 166c2f1f2ff3c804782b90ab5fba22b6, type: 3}
   factoryIcon: {fileID: 2800000, guid: 6c2bee0503b2ae245a646d9f64386ca7, type: 3}
   solarPanelsIcon: {fileID: 2800000, guid: a0c55960ddebd8b46a8a444b5932ffaa, type: 3}
   proteinFabricatorIcon: {fileID: 2800000, guid: c41043f499938dd4a86228fb548eece6, type: 3}
@@ -11012,7 +11012,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7753707722091084443, guid: c572ad9a5b52e9f4a9761c237ced0d95, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 158.02
       objectReference: {fileID: 0}
     - target: {fileID: 7753707722091084443, guid: c572ad9a5b52e9f4a9761c237ced0d95, type: 3}
       propertyPath: m_AnchoredPosition.y
