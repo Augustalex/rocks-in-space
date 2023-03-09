@@ -98,12 +98,7 @@ public class RouteEditor : MonoBehaviour
 
     public float EstimatedShipmentTime()
     {
-        if (!_start || !_end)
-            throw new Exception("Trying to estimate shipping time for a route without either start or end");
-        
-        var distance = _start.GetDistanceTo(_end);
-        var distanceSeconds = distance / 20f;
-        return Route.GetShipmentTime(_shipment) + Mathf.FloorToInt(distanceSeconds);
+        return Route.GetTotalLoadedTime(_start, _end, _shipment);
     }
 
     public Dictionary<TinyPlanetResources.PlanetResourceType, int> GetCurrentShipment()

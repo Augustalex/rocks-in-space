@@ -84,7 +84,7 @@ public class Route
                     _loaded.Add(goods.Key, toTake);
                 }
 
-                _runTimeLeft = GetTotalLoadedTime();
+                _runTimeLeft = GetTotalLoadedTime(start, destination, _loaded);
                 _currentShipmentTarget = ShipmentTarget.Unloading;
             }
             else
@@ -102,7 +102,7 @@ public class Route
                 }
                 _loaded.Clear();
             
-                _runTimeLeft = 10f;
+                _runTimeLeft = GetUnloadedTime(start, destination);
                 _currentShipmentTarget = ShipmentTarget.Unloading;
             }
             else
@@ -150,9 +150,16 @@ public class Route
         return shipment.Aggregate(0f, (acc, v) => acc + ResourceTimePerUnit[v.Key] * v.Value);
     }
 
-    public float GetTotalLoadedTime()
+    public static float GetTotalLoadedTime(TinyPlanet startPlanet, TinyPlanet targetPlanet, Dictionary<TinyPlanetResources.PlanetResourceType, int> shipment)
     {
-        return GetShipmentTime(_loaded);
+        return GetUnloadedTime(startPlanet, targetPlanet) + GetShipmentTime(shipment);
+    }
+
+    public static float GetUnloadedTime(TinyPlanet startPlanet, TinyPlanet targetPlanet)
+    {
+        var distance = startPlanet.GetDistanceTo(targetPlanet);
+        var distanceSeconds = distance / 40f;
+        return distanceSeconds;
     }
 
     public bool StartsFrom(TinyPlanet planet)
