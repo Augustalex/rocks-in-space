@@ -142,14 +142,13 @@ public class InteractorIcon : MonoBehaviour
     private void UpdateMapState()
     {
         var zoomedOut = CameraController.Get().IsZoomedOut();
-Debug.Log("UPDATING MAP");
+        
         if (DisplayController.Get().inputMode is DisplayController.InputMode.InventoryOnly or DisplayController.InputMode.Cinematic)
         {
             _interactorIconState = InteractorIconState.ForceInactive;
         }
         else if (DisplayController.Get().inputMode == DisplayController.InputMode.MapAndInventoryOnly)
         {
-            Debug.Log("MAP SHOULD SHOW!");
             _interactorIconState = InteractorIconState.Inactive;
         }
         else if (zoomedOut)

@@ -26,6 +26,11 @@ public class EmptyCargoSlotIcons : MonoBehaviour
 
     private GameObject[] _icons = { };
 
+    public bool HasAnyAvailableResources()
+    {
+        return _icons.Length > 0;
+    }
+
     public void UpdateIcons()
     {
         var planet = CurrentPlanetController.Get().CurrentPlanet();

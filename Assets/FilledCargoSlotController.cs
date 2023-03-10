@@ -82,7 +82,7 @@ public class FilledCargoSlotController : MonoBehaviour
 
         UpdateAmountText();
     }
-    
+
     public void Conjure(int amount)
     {
         _amount += amount;
@@ -93,11 +93,16 @@ public class FilledCargoSlotController : MonoBehaviour
     {
         var baseText = Mathf.FloorToInt(_amount).ToString();
 
-        if (Math.Abs(_amount - MaxLoad) < .5f)
+        var reachedMaxLoad = Math.Abs(_amount - MaxLoad) < .5f;
+        if (reachedMaxLoad)
         {
-            baseText += " (FULL)";
+            baseText += " (MAX LOAD)";
         }
 
         amountText.text = baseText;
+
+        loadOne.interactable = !reachedMaxLoad;
+        loadTen.interactable = !reachedMaxLoad;
+        loadAll.interactable = !reachedMaxLoad;
     }
 }

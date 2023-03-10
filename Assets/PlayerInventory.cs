@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerInventory : MonoBehaviour
 {
     public ShipInventoryCargoSlots cargoSlots;
-    
+
     private static PlayerInventory _instance;
 
     public static PlayerInventory Get()
@@ -15,7 +15,7 @@ public class PlayerInventory : MonoBehaviour
     {
         _instance = this;
     }
-    
+
     public void AddResource(TinyPlanetResources.PlanetResourceType resourceType, int amount)
     {
         var slot = cargoSlots.GetFirstAvailableCargoSlot();
@@ -23,5 +23,10 @@ public class PlayerInventory : MonoBehaviour
 
         slot.SelectResource(resourceType);
         slot.LoadAmount(amount);
+    }
+
+    public bool HasResource(TinyPlanetResources.PlanetResourceType resourceType)
+    {
+        return cargoSlots.AnySlotHasResource(resourceType);
     }
 }

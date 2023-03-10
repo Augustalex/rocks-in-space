@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: BalanceSettings
   m_EditorClassIdentifier: 
   oreTradeAmount: 1
-  ironTradeAmount: 1
+  ironOreTradeAmount: 1
   graphiteTradeAmount: 5
-  copperTradeAmount: 1
-  metalsTradeAmount: 1
+  copperOreTradeAmount: 1
+  ironPlatesTradeAmount: 1
+  copperPlatesTradeAmount: 1
   gadgetsTradeAmount: 1
   waterTradeAmount: 1
   refreshmentsTradeAmount: 1
   rockDigTime: 0.5
   oreDigTime: 1
-  startingCredits: 1000
+  startingCredits: 0
   minTimeBetweenConvoySpawns: 60
   maxTimeBetweenConvoySpawns: 120

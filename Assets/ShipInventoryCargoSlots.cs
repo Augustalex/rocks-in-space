@@ -43,4 +43,9 @@ public class ShipInventoryCargoSlots : MonoBehaviour
         if (_slots.All(s => s.IsFilled())) return null;
         return _slots.First(s => !s.IsFilled());
     }
+
+    public bool AnySlotHasResource(TinyPlanetResources.PlanetResourceType resourceType)
+    {
+        return _slots.Any(s => s.HasResource(resourceType));
+    }
 }

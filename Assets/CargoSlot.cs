@@ -12,13 +12,16 @@ public class CargoSlot : MonoBehaviour
     private FilledCargoSlotController _filledSlotController;
     private EmptySlotController _emptySlotController;
 
+    private bool _filled = false;
+    private TinyPlanetResources.PlanetResourceType _selectedResource;
+
     void Start()
     {
-        _emptySlotController = GetComponentInChildren<EmptySlotController>();
-        
         _emptyCargoSlotIcons = GetComponentInChildren<EmptyCargoSlotIcons>();
-        _emptyCargoSlotIcons.UpdateIcons();
         _emptyCargoSlotIcons.ResourceSelected += SelectResource;
+
+        _emptySlotController = GetComponentInChildren<EmptySlotController>();
+        _emptySlotController.UpdateSlot();
 
         _filledSlotController = GetComponentInChildren<FilledCargoSlotController>();
         _filledSlotController.UnloadedAll += Reset;
@@ -39,6 +42,9 @@ public class CargoSlot : MonoBehaviour
 
         _filledSlotController.SetResource(resource);
 
+        _selectedResource = resource;
+        _filled = true;
+
         SlotFilled?.Invoke();
     }
 
@@ -47,20 +53,22 @@ public class CargoSlot : MonoBehaviour
         emptyCargoSlot.SetActive(true);
         filledCargoSlot.SetActive(false);
 
-        _emptyCargoSlotIcons.UpdateIcons();
+        _emptySlotController.UpdateSlot();
+
+        _filled = false;
     }
 
     public void UpdateOnShow()
     {
         if (emptyCargoSlot.activeSelf)
         {
-            GetComponentInChildren<EmptyCargoSlotIcons>().UpdateIcons();
+            _emptySlotController.UpdateSlot();
         }
     }
 
     public bool IsFilled()
     {
-        return filledCargoSlot.activeSelf;
+        return _filled;
     }
 
     public void Show()
@@ -72,5 +80,11 @@ public class CargoSlot : MonoBehaviour
     public void Hide()
     {
         _emptySlotController.Unavailable();
+    }
+
+    public bool HasResource(TinyPlanetResources.
+        PlanetResourceType resourceType)
+    {
+        return _filled && _selectedResource == resourceType;
     }
 }

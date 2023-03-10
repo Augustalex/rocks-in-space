@@ -87,9 +87,9 @@ public class ProgressManager : MonoBehaviour
             // var startingShip = ShipManager.Get().CreateStartingShip();
             // startingShip.MoveToPlanetInstantly(planetId);
 
-            var tinyPlanet = PlanetsRegistry.Get().GetPlanet(planetId);
-            var resources = tinyPlanet.GetResources();
-            resources.AddGadgets(100);
+            // var tinyPlanet = PlanetsRegistry.Get().GetPlanet(planetId);
+            // var resources = tinyPlanet.GetResources();
+            // resources.AddGadgets(100);
         }
     }
 

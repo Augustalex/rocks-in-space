@@ -9,6 +9,7 @@ public class InteractorDisplay : Hidable
     void Awake()
     {
         _text = GetComponent<TMP_Text>();
+        _text.text = "";
     }
 
     void Start()
@@ -25,7 +26,7 @@ public class InteractorDisplay : Hidable
 
     void Update()
     {
-        if (CurrentPlanetController.Get().IsShipSelected())
+        if (DisplayController.Get().inputMode != DisplayController.InputMode.Static)
         {
             _text.text = "";
         }

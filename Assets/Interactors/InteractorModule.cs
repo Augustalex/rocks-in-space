@@ -1,4 +1,5 @@
 ﻿using System;
+using GameNotifications;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -57,6 +58,8 @@ namespace Interactors
 
         public InteractorCostsData costs;
 
+        private bool _hasPostedInventoryHint = false;
+
         public virtual InteractorType GetInteractorType()
         {
             return InteractorType.Misc;
@@ -83,6 +86,18 @@ namespace Interactors
             if (!HasEnoughResourceToBuild(block))
             {
                 var (neededResource, costAmount) = CheckMostUrgentResourceRequirement(block);
+
+                if (!_hasPostedInventoryHint)
+                {
+                    if (neededResource == TinyPlanetResources.PlanetResourceType.Gadgets &&
+                        PlayerInventory.Get().HasResource(TinyPlanetResources.PlanetResourceType.Gadgets))
+                    {
+                        _hasPostedInventoryHint = true;
+                        return
+                            $"Not enough {TinyPlanetResources.ResourceName(neededResource)}. Maybe unload what you have in your inventory?";
+                    }
+                }
+
                 return
                     $"Not enough {TinyPlanetResources.ResourceName(neededResource)} need {costAmount}!";
             }
@@ -157,7 +172,7 @@ namespace Interactors
             audioController.Play(audioController.cannotBuild, audioController.cannotBuildVolume,
                 hitPoint);
         }
-        
+
         public virtual void OnBuilt(Vector3 hitPoint)
         {
             var audioController = AudioController.Get();

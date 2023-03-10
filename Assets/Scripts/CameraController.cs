@@ -47,6 +47,7 @@ public class CameraController : MonoBehaviour
     private bool _hitLimit;
     private bool _locked;
     private bool _enteringShip;
+    private bool _movingToShip;
 
     public event Action<bool> OnToggleZoom;
     public event Action OnNavigationStarted;
@@ -138,7 +139,11 @@ public class CameraController : MonoBehaviour
             {
                 ClampAndFinishMove();
 
-                if (_enteringShip)
+                if (_movingToShip)
+                {
+                    _movingToShip = false;
+                }
+                else if (_enteringShip)
                 {
                     _enteringShip = false;
 
@@ -428,6 +433,8 @@ public class CameraController : MonoBehaviour
         _displayController.SetToCinematicMode();
         _moveLength = cinematicOpening ? 8f : .1f;
         _moveTime = 0f;
+
+        _movingToShip = true;
     }
 
     public void EnterShip()
