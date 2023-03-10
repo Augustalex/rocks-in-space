@@ -37,17 +37,17 @@ public class GeneralBuildingInteractor : InteractorModule
 
         ProgressManager.Get().Built(buildingType);
 
-        if (buildingType == BuildingType.CopperRefinery && block.GetConnectedPlanet().GetRockType().IsCopper())
-        {
-            if (!_sentCopperBonusHint)
-            {
-                _sentCopperBonusHint = true;
-                Notifications.Get().Send(new TextNotification
-                {
-                    Message =
-                        "Your new Copper refineries seems to be almost twice as effective on this kind of asteroid! Producing twice as many plates for each ore."
-                });
-            }
-        }
+        // if (buildingType == BuildingType.CopperRefinery && block.GetConnectedPlanet().GetRockType().IsCopper())
+        // {
+        //     if (!_sentCopperBonusHint)
+        //     {
+        //         _sentCopperBonusHint = true;
+        //         Notifications.Get().Send(new TextNotification
+        //         {
+        //             Message =
+        //                 "Your new Copper refineries seems to be almost twice as effective on this kind of asteroid! Producing twice as many plates for each ore."
+        //         });
+        //     }
+        // }
     }
 }

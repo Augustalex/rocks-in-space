@@ -227,7 +227,8 @@ namespace Interactors
         {
             if (!block.GetConnectedPlanet().HasPort())
             {
-                return "Asteroid needs a Beacon before anything can be done here!";
+                // return "Asteroid needs a Beacon before anything can be done here!";
+                return "Build a Beacon before digging here";
             }
 
             if (block.IsSeeded() && block.GetRoot().GetComponentInChildren<PortController>())

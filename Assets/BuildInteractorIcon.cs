@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Interactors;
 using UnityEngine;
 
@@ -133,7 +132,7 @@ public class BuildInteractorIcon : MonoBehaviour
 
     public void CloseBuildMenu()
     {
-        bottomBar.HideBuildMenu();
+        bottomBar.HideMenus();
     }
 
     public void OpenBuildMenu()

@@ -22,7 +22,7 @@ public class NotificationsPanel : MonoBehaviour
         while (gameObject != null)
         {
             var canNotifyNow = !DisplayController.Get().IsRenaming();
-            
+
             if (canNotifyNow)
             {
                 if (_notifications.Count > 0)
@@ -30,8 +30,8 @@ public class NotificationsPanel : MonoBehaviour
                     ShowNotification(_notifications.Dequeue());
                 }
             }
-           
-            yield return new WaitForSeconds(4f);
+
+            yield return new WaitForSeconds(1.2f);
         }
     }
 

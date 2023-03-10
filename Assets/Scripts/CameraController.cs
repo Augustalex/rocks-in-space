@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using GameNotifications;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -37,12 +38,15 @@ public class CameraController : MonoBehaviour
     private bool _following;
 
     public bool cinematicOpening = true;
+    public StartingShip startingShip;
+
     private static CameraController _instance;
     private static bool _hasInstance;
     private bool _zoomedOut;
     private MapPopupTarget _currentTarget;
     private bool _hitLimit;
     private bool _locked;
+    private bool _enteringShip;
 
     public event Action<bool> OnToggleZoom;
     public event Action OnNavigationStarted;
@@ -93,9 +97,17 @@ public class CameraController : MonoBehaviour
 
             var startingPlanet = FindStartingPlanet();
 
-            //Game start
-            CurrentPlanetController.Get().ChangePlanet(startingPlanet);
-            FocusOnPlanetSlowly(startingPlanet);
+            //Game start on planet
+            // CurrentPlanetController.Get().ChangePlanet(startingPlanet);
+            // FocusOnPlanetSlowly(startingPlanet);
+
+            //Game start on ship
+            FocusOnStartingShip();
+            //What happens:
+            // 1. Zoom to ship
+            // 2. Enter ship
+            // 3. Collect all gifts
+            // 4. Go to map view -> End sequence and change to Display mode "Static"
         }
     }
 
@@ -109,13 +121,13 @@ public class CameraController : MonoBehaviour
 
     public bool AvailableToUpdate()
     {
-        return _displayController.inputMode != DisplayController.InputMode.Renaming;
+        return _displayController.inputMode != DisplayController.InputMode.Renaming &&
+               _displayController.inputMode != DisplayController.InputMode.Cinematic &&
+               _displayController.inputMode != DisplayController.InputMode.InventoryOnly;
     }
 
     void Update()
     {
-        if (!AvailableToUpdate()) return;
-
         if (_moving)
         {
             if (_moveTime < _moveLength)
@@ -125,9 +137,25 @@ public class CameraController : MonoBehaviour
             else
             {
                 ClampAndFinishMove();
+
+                if (_enteringShip)
+                {
+                    _enteringShip = false;
+
+                    FinishedEnteringShip();
+                }
+                else if (_displayController.inputMode == DisplayController.InputMode.Cinematic)
+                {
+                    _displayController.ExitCinematicMode();
+                }
             }
+
+            return;
         }
-        else if (_displayController.inputMode == DisplayController.InputMode.Static)
+
+        if (!AvailableToUpdate()) return;
+
+        if (_displayController.inputMode == DisplayController.InputMode.Static)
         {
             HandleStaticMovement();
         }
@@ -148,7 +176,7 @@ public class CameraController : MonoBehaviour
         {
             if (CurrentPlanetController.Get().IsShipSelected())
             {
-                FocusOnShip(CurrentPlanetController.Get().CurrentShip());
+                // FocusOnShip(CurrentPlanetController.Get().CurrentShip());
             }
             else
             {
@@ -346,9 +374,6 @@ public class CameraController : MonoBehaviour
         cameraTransform.rotation = _targetRotation;
         cameraTransform.position = _targetPosition;
 
-        if (_displayController.inputMode == DisplayController.InputMode.Cinematic)
-            _displayController.ExitCinematicMode();
-
         SetMoveFinished();
     }
 
@@ -363,6 +388,12 @@ public class CameraController : MonoBehaviour
             var cameraTransform = _camera.transform;
             cameraTransform.position = targetPosition;
             cameraTransform.rotation = targetRotation;
+
+            // Game start sequence finished
+            if (_displayController.inputMode == DisplayController.InputMode.MapAndInventoryOnly)
+            {
+                _displayController.SetToStaticMode();
+            }
         }
         else
         {
@@ -377,34 +408,70 @@ public class CameraController : MonoBehaviour
         OnToggleZoom?.Invoke(_zoomedOut);
     }
 
-    private void FocusOnPlanetSlowly(TinyPlanet planet)
+    private void FocusOnStartingShip()
     {
-        FocusOnPlanet(planet);
-        _displayController.SetToCinematicMode();
-        _moveLength = cinematicOpening ? 8f : .1f;
-        _moveTime = 0f;
-    }
+        CurrentPlanetController.Get().FocusOnShip(startingShip.GetConvoyBeacon());
+        _displayController.SetShipInFocus(startingShip.GetConvoyBeacon());
 
-    public void FocusOnShip(ColonyShip colonyShip)
-    {
         _following = false;
-        _displayController.SetShipInFocus(colonyShip);
 
-        var center = colonyShip.GetCenterGo();
         var previousFocusPoint = _focus ? _focus.position : _backupFocus;
-        _focus = center.transform;
+        _focus = startingShip.transform;
 
         var cameraTransform = _camera.transform;
         _startPosition = cameraTransform.position;
         _startRotation = cameraTransform.rotation;
         (_targetPosition, _targetRotation) = CameraPlanetFocusPosition(previousFocusPoint, _focus.position);
 
-        var distance = (_targetPosition - _startPosition).magnitude;
+        SetMoveStarted();
 
-        _moveLength = Mathf.Max(.25f, distance / 500f);
+        _displayController.SetToCinematicMode();
+        _moveLength = cinematicOpening ? 8f : .1f;
         _moveTime = 0f;
+    }
+
+    public void EnterShip()
+    {
+        _following = false;
+        _enteringShip = true;
+
+        _focus = startingShip.transform;
+
+        var cameraTransform = _camera.transform;
+        _startPosition = cameraTransform.position;
+        _startRotation = cameraTransform.rotation;
+
+        _targetPosition = _focus.position;
+        var direction = (_startPosition - _targetPosition).normalized;
+        _targetRotation = Quaternion.LookRotation(direction, Vector3.up);
 
         SetMoveStarted();
+
+        _displayController.SetToCinematicMode();
+        _moveLength = 3.5f;
+        _moveTime = 0f;
+
+        startingShip.StartHiding();
+    }
+
+    private void FinishedEnteringShip()
+    {
+        var notification = new TextNotification
+        {
+            Message = "Message from management: \"We left you some things to get started with.\"",
+            TimeoutOverride = 20f,
+        };
+        Notifications.Get().Send(notification);
+
+        DisplayController.Get().SetEnteredShip();
+    }
+
+    private void FocusOnPlanetSlowly(TinyPlanet planet)
+    {
+        FocusOnPlanet(planet);
+        _displayController.SetToCinematicMode();
+        _moveLength = cinematicOpening ? 8f : .1f;
+        _moveTime = 0f;
     }
 
     public void FocusOnPlanet(TinyPlanet planet)

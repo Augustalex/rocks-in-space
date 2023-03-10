@@ -122,14 +122,14 @@ public class ResourceConversionEffect : MonoBehaviour
                 _bufferedSets -= 1;
                 yield return new WaitForSeconds(_slowedDown ? iterationTime * SlowDownFactor : iterationTime);
 
-                if (copperPlanetBonus && _planetAttachment.GetAttachedPlanetType().IsCopper())
-                {
-                    resources.AddResource(to, toAmount * 2f);
-                }
-                else
-                {
+                // if (copperPlanetBonus && _planetAttachment.GetAttachedPlanetType().IsCopper())
+                // {
+                //     resources.AddResource(to, toAmount * 2f);
+                // }
+                // else
+                // {
                     resources.AddResource(to, toAmount);
-                }
+                // }
             }
             else if (!HasEnoughOfPrimaryFromResource(resources) || !HasEnoughOfSecondaryFromResource(resources))
             {

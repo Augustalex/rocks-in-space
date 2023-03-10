@@ -23,10 +23,13 @@ public class DisplayController : MonoBehaviour
         Renaming,
         Static,
         Cinematic,
+        InventoryOnly,
+        MapAndInventoryOnly,
         Modal
     }
 
     private bool _hidablesHidden;
+    private StartingShip _startingShipInFocus;
 
     public static DisplayController Get()
     {
@@ -207,5 +210,25 @@ public class DisplayController : MonoBehaviour
     public bool PlanetInFocus(TinyPlanet planet)
     {
         return _currentPlanet == planet;
+    }
+
+    public void SetStartingShipInFocus(StartingShip startingShip)
+    {
+        _startingShipInFocus = startingShip;
+    }
+
+    public void SetEnteredShip()
+    {
+        OnModeChange(InputMode.InventoryOnly);
+    }
+
+    public void LastGiftActivated()
+    {
+        OnModeChange(InputMode.MapAndInventoryOnly);
+    }
+
+    public void SetToStaticMode()
+    {
+        OnModeChange(InputMode.Static);
     }
 }

@@ -18,14 +18,14 @@ public class Route
 
     private static readonly Dictionary<TinyPlanetResources.PlanetResourceType, float> ResourceTimePerUnit = new()
     {
-        { TinyPlanetResources.PlanetResourceType.IronOre, 10f },
+        { TinyPlanetResources.PlanetResourceType.IronOre, 1f },
         { TinyPlanetResources.PlanetResourceType.CopperOre, 10f },
-        { TinyPlanetResources.PlanetResourceType.Graphite, 5f },
-        { TinyPlanetResources.PlanetResourceType.CopperPlates, 1f },
-        { TinyPlanetResources.PlanetResourceType.IronPlates, 1f },
-        { TinyPlanetResources.PlanetResourceType.Gadgets, 1f },
-        { TinyPlanetResources.PlanetResourceType.Water, 1f },
-        { TinyPlanetResources.PlanetResourceType.Refreshments, 1f }
+        { TinyPlanetResources.PlanetResourceType.Graphite, .1f },
+        { TinyPlanetResources.PlanetResourceType.CopperPlates, .1f },
+        { TinyPlanetResources.PlanetResourceType.IronPlates, .1f },
+        { TinyPlanetResources.PlanetResourceType.Gadgets, .1f },
+        { TinyPlanetResources.PlanetResourceType.Water, .1f },
+        { TinyPlanetResources.PlanetResourceType.Refreshments, .1f }
     };
 
     private float _routeStartedAt;

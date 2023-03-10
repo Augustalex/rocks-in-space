@@ -7,6 +7,7 @@ TagManager:
   - PlanetLandmark
   - ColonyShip
   - TradeLine
+  - Gift
   layers:
   - Default
   - TransparentFX

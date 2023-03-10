@@ -28,6 +28,7 @@ public class InteractorIcon : MonoBehaviour
         InteractorController.Get().InteractorSelected += (_) => UpdateStates();
         CurrentPlanetController.Get().CurrentPlanetChanged += (_) => UpdateStates();
         CurrentPlanetController.Get().ShipSelected += (_) => UpdateStates();
+        DisplayController.Get().ModeChange += (_) => UpdateStates();
 
         UpdateStates();
     }
@@ -141,8 +142,17 @@ public class InteractorIcon : MonoBehaviour
     private void UpdateMapState()
     {
         var zoomedOut = CameraController.Get().IsZoomedOut();
-
-        if (zoomedOut)
+Debug.Log("UPDATING MAP");
+        if (DisplayController.Get().inputMode is DisplayController.InputMode.InventoryOnly or DisplayController.InputMode.Cinematic)
+        {
+            _interactorIconState = InteractorIconState.ForceInactive;
+        }
+        else if (DisplayController.Get().inputMode == DisplayController.InputMode.MapAndInventoryOnly)
+        {
+            Debug.Log("MAP SHOULD SHOW!");
+            _interactorIconState = InteractorIconState.Inactive;
+        }
+        else if (zoomedOut)
         {
             _interactorIconState = InteractorIconState.Active;
         }

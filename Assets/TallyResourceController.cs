@@ -32,10 +32,10 @@ public class TallyResourceController : MonoBehaviour
                 graphiteButton,
                 TinyPlanetResources.PlanetResourceType.Graphite
             },
-            {
-                copperOreButton,
-                TinyPlanetResources.PlanetResourceType.CopperOre
-            },
+            // {
+            //     copperOreButton,
+            //     TinyPlanetResources.PlanetResourceType.CopperOre
+            // },
             {
                 ironPlatesButton,
                 TinyPlanetResources.PlanetResourceType.IronPlates
@@ -44,10 +44,10 @@ public class TallyResourceController : MonoBehaviour
                 copperPlatesButton,
                 TinyPlanetResources.PlanetResourceType.CopperPlates
             },
-            {
-                gadgetsButton,
-                TinyPlanetResources.PlanetResourceType.Gadgets
-            },
+            // {
+            //     gadgetsButton,
+            //     TinyPlanetResources.PlanetResourceType.Gadgets
+            // },
             {
                 waterButton,
                 TinyPlanetResources.PlanetResourceType.Water
@@ -74,7 +74,7 @@ public class TallyResourceController : MonoBehaviour
 
                 _shipment[mapping.Value] += 1;
                 mapping.Key.Active();
-                
+
                 ShipmentWasChanged();
             };
             mapping.Key.Down += () =>
@@ -87,7 +87,7 @@ public class TallyResourceController : MonoBehaviour
                     _shipment.Remove(mapping.Value);
                     mapping.Key.InActive();
                 }
-                
+
                 ShipmentWasChanged();
             };
             mapping.Key.Reset += () =>
@@ -112,7 +112,7 @@ public class TallyResourceController : MonoBehaviour
                 mapping.Key.OnlyUp();
             }
         }
-        
+
         // TODO: Add planet distance time to the Route logic (now it's only for show in the editor)
         // TODO: Try shipment time feature, to see if it even works!
     }
@@ -122,7 +122,7 @@ public class TallyResourceController : MonoBehaviour
         _shipment = newShipment;
         Render();
     }
-    
+
     private void ShipmentWasChanged()
     {
         Render();
@@ -143,11 +143,16 @@ public class TallyResourceController : MonoBehaviour
                 TinyPlanetResources.PlanetResourceType.IronOre => true,
                 TinyPlanetResources.PlanetResourceType.Graphite => true,
                 TinyPlanetResources.PlanetResourceType.CopperOre => true,
-                TinyPlanetResources.PlanetResourceType.IronPlates => progressManager.GotResource(TinyPlanetResources.PlanetResourceType.IronPlates),
-                TinyPlanetResources.PlanetResourceType.CopperPlates => progressManager.GotResource(TinyPlanetResources.PlanetResourceType.CopperPlates),
-                TinyPlanetResources.PlanetResourceType.Gadgets => progressManager.GotResource(TinyPlanetResources.PlanetResourceType.Gadgets),
-                TinyPlanetResources.PlanetResourceType.Water => progressManager.GotResource(TinyPlanetResources.PlanetResourceType.Water),
-                TinyPlanetResources.PlanetResourceType.Refreshments => progressManager.GotResource(TinyPlanetResources.PlanetResourceType.Refreshments),
+                TinyPlanetResources.PlanetResourceType.IronPlates => progressManager.GotResource(TinyPlanetResources
+                    .PlanetResourceType.IronPlates),
+                TinyPlanetResources.PlanetResourceType.CopperPlates => progressManager.GotResource(TinyPlanetResources
+                    .PlanetResourceType.CopperPlates),
+                TinyPlanetResources.PlanetResourceType.Gadgets => progressManager.GotResource(TinyPlanetResources
+                    .PlanetResourceType.Gadgets),
+                TinyPlanetResources.PlanetResourceType.Water => progressManager.GotResource(TinyPlanetResources
+                    .PlanetResourceType.Water),
+                TinyPlanetResources.PlanetResourceType.Refreshments => progressManager.GotResource(TinyPlanetResources
+                    .PlanetResourceType.Refreshments),
                 _ => false
             };
 
@@ -160,7 +165,7 @@ public class TallyResourceController : MonoBehaviour
         var resource = _buttonMapping[button];
         button.SetText(TinyPlanetResources.ResourceName(resource) +
                        (_shipment.ContainsKey(resource) ? $" {_shipment[resource]}" : ""));
-        
+
         if (_shipment.ContainsKey(resource) && _shipment[resource] > 0)
         {
             button.BothWays();

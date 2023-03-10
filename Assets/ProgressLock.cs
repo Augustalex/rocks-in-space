@@ -54,9 +54,9 @@ public class ProgressLock : MonoBehaviour
                 );
                 break;
             case BuildingType.ResidentModule:
-                CheckLock(
+                CheckLockWithoutNotification(
                     ProgressManager.Get().FirstPortBuilt(),
-                    GenericUnlockMessage(),
+                    // GenericUnlockMessage(),
                     $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.SolarPanels).GetInteractorName()}&\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.ProteinFabricator).GetInteractorName()}",
                     false
                 );
@@ -95,7 +95,8 @@ public class ProgressLock : MonoBehaviour
             case BuildingType.Platform:
                 CheckLockWithoutNotification(
                     ProgressManager.Get().IceProductionUnlocked(),
-                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.SolarPanels).GetInteractorName()}&\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.ProteinFabricator).GetInteractorName()}",
+                    $"Unlock with\n2000 happy colonists",
+                    // $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.SolarPanels).GetInteractorName()}&\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.ProteinFabricator).GetInteractorName()}",
                     !ProgressManager.Get().RefineryUnlocked()
                 );
                 break;

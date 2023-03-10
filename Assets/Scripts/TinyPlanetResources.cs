@@ -41,25 +41,36 @@ public class TinyPlanetResources : MonoBehaviour
     {
         switch (resourceType)
         {
-            case PlanetResourceType.Ore: return $"ore{ResourceSprite(resourceType)}";
-            case PlanetResourceType.Gadgets: return $"gadgets{ResourceSprite(resourceType)}";
-            case PlanetResourceType.Energy: return $"power{ResourceSprite(resourceType)}";
-            case PlanetResourceType.Food: return $"fresh food{ResourceSprite(resourceType)}";
             case PlanetResourceType.Inhabitants: return $"colonists";
-            case PlanetResourceType.Housing: return $"housing{ResourceSprite(resourceType)}";
-            case PlanetResourceType.Cash: return $"credits{ResourceSprite(resourceType)}";
-            case PlanetResourceType.Ice: return $"ice{ResourceSprite(resourceType)}";
-            case PlanetResourceType.Water: return $"water{ResourceSprite(resourceType)}";
-            case PlanetResourceType.Refreshments: return $"drinks{ResourceSprite(resourceType)}";
-            case PlanetResourceType.IronOre: return $"iron ore{ResourceSprite(resourceType)}";
-            case PlanetResourceType.IronPlates: return $"iron plates{ResourceSprite(resourceType)}";
-            case PlanetResourceType.CopperOre: return $"copper ore{ResourceSprite(resourceType)}";
+            case PlanetResourceType.CopperPlates: return $"copper plates";
+            default:
+                return ResourceNameOnly(resourceType) + ResourceSprite(resourceType);
+        }
+    }
+    
+    public static string ResourceNameOnly(PlanetResourceType resourceType)
+    {
+        switch (resourceType)
+        {
+            case PlanetResourceType.Ore: return $"ore";
+            case PlanetResourceType.Gadgets: return $"gadgets";
+            case PlanetResourceType.Energy: return $"power";
+            case PlanetResourceType.Food: return $"fresh food";
+            case PlanetResourceType.Inhabitants: return $"colonists";
+            case PlanetResourceType.Housing: return $"housing";
+            case PlanetResourceType.Cash: return $"credits";
+            case PlanetResourceType.Ice: return $"ice";
+            case PlanetResourceType.Water: return $"water";
+            case PlanetResourceType.Refreshments: return $"drinks";
+            case PlanetResourceType.IronOre: return $"iron ore";
+            case PlanetResourceType.IronPlates: return $"iron plates";
+            case PlanetResourceType.CopperOre: return $"copper ore";
             
             case PlanetResourceType.CopperPlates: return $"copper plates";
             // case PlanetResourceType.CopperPlates: return $"copper plates{ResourceSprite(resourceType)}"; Uncomment when has added copper plates to sprite sheet
             
-            case PlanetResourceType.Graphite: return $"graphite{ResourceSprite(resourceType)}";
-            case PlanetResourceType.Protein: return $"protein chunks{ResourceSprite(resourceType)}";
+            case PlanetResourceType.Graphite: return $"graphite";
+            case PlanetResourceType.Protein: return $"protein chunks";
         }
 
         return "Unknown resource";

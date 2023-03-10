@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetShape: 1
   hourGlassSidewayToHeightFactor: 0
-  maxDistance: 20
-  maxDepth: 24
+  maxDistance: 18
+  maxDepth: 18
   emptySpaceChance: 0.1
   emptySpaceMinDepth: 7
   maxEmptySpaces: 124

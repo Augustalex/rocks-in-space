@@ -335,6 +335,12 @@ namespace Interactors
             var interactorModule = CurrentModule();
             if (Physics.Raycast(ray, out var hit, 10000f))
             {
+                if (hit.collider.CompareTag("Gift"))
+                {
+                    hit.collider.GetComponent<Gift>().Activate();
+                    return;
+                }
+
                 if (hit.collider.CompareTag("PlanetLandmark"))
                 {
                     hit.collider.GetComponent<PlanetLandmark>().MouseDown();

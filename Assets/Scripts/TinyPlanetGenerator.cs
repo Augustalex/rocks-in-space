@@ -260,11 +260,9 @@ public class TinyPlanetGenerator : MonoBehaviour
             if (Random.value < .7f)
             {
                 var roll = Random.value;
-                var resource = roll < .75
+                var resource = roll < .8
                     ? TinyPlanetResources.PlanetResourceType.CopperOre
-                    : roll < .9
-                        ? TinyPlanetResources.PlanetResourceType.Graphite
-                        : TinyPlanetResources.PlanetResourceType.IronOre;
+                    : TinyPlanetResources.PlanetResourceType.Graphite;
                 rock.GetComponentInChildren<OreController>().MakeIntoOreVein(resource);
             }
         }
