@@ -36,7 +36,8 @@ public class Gift : MonoBehaviour
                 Notifications.Get().Send(new TextNotification
                 {
                     Message =
-                        $"{resource.amount} {TinyPlanetResources.ResourceName(resource.resourceType)} was added to your Inventory"
+                        $"{resource.amount} {TinyPlanetResources.ResourceName(resource.resourceType)} was added to your Inventory",
+                    TimeoutOverride = 10f
                 });
             }
         }

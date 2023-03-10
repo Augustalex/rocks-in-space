@@ -222,7 +222,7 @@ public class DisplayController : MonoBehaviour
         OnModeChange(InputMode.InventoryOnly);
     }
 
-    public void LastGiftActivated()
+    public void ShowMapAndInventory()
     {
         OnModeChange(InputMode.MapAndInventoryOnly);
     }

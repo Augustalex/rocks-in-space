@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AttachedToPlanet))]
@@ -38,6 +39,7 @@ public class ResourceConversionEffect : MonoBehaviour
 
     // Buffer
     private int _bufferedSets = 0;
+    private List<ProductionStatus.StopReason> _stoppedReasons = new();
 
     private void Awake()
     {
@@ -81,7 +83,7 @@ public class ResourceConversionEffect : MonoBehaviour
                         if (gameObject == null)
                             yield break;
 
-                        Stopped();
+                        Stopped(ProductionStatus.StopReason.NoEnergy);
 
                         // Wait until there is power, then continue processing.
                         yield return new WaitForSeconds(1f);
@@ -98,7 +100,7 @@ public class ResourceConversionEffect : MonoBehaviour
                     if (gameObject == null)
                         yield break;
 
-                    Stopped();
+                    Stopped(ProductionStatus.StopReason.NoWorkers);
 
                     yield return new WaitForSeconds(1f);
                 }
@@ -128,15 +130,15 @@ public class ResourceConversionEffect : MonoBehaviour
                 // }
                 // else
                 // {
-                    resources.AddResource(to, toAmount);
+                resources.AddResource(to, toAmount);
                 // }
             }
             else if (!HasEnoughOfPrimaryFromResource(resources) || !HasEnoughOfSecondaryFromResource(resources))
             {
-                Stopped();
+                Stopped(ProductionStatus.StopReason.NoResources);
 
                 // Wait until there is resources to take from.
-                yield return new WaitForSeconds(1f); 
+                yield return new WaitForSeconds(1f);
             }
         }
     }
@@ -186,23 +188,50 @@ public class ResourceConversionEffect : MonoBehaviour
         OnStarted?.Invoke();
     }
 
-    private void Stopped()
+    private void Stopped(ProductionStatus.StopReason stopReason)
     {
-        if (!_started) return;
-        _started = false;
+        if (_started)
+        {
+            _started = false;
+            _stoppedReasons = new List<ProductionStatus.StopReason> { stopReason };
+            RegisterStopped(stopReason);
 
-        RegisterStopped();
+            OnStopped?.Invoke();
+        }
+        else
+        {
+            if (_stoppedReasons.Count == 0)
+            {
+                _stoppedReasons = new List<ProductionStatus.StopReason> { stopReason };
+                RegisterStopped(stopReason);
 
-        OnStopped?.Invoke();
+                OnStopped?.Invoke();
+            }
+            else if (!_stoppedReasons.Contains(stopReason))
+            {
+                _stoppedReasons.Add(stopReason);
+                ReNotifyStopped(stopReason);
+            }
+        }
     }
 
-    private void RegisterStopped(bool silently = false)
+    private void RegisterStopped(ProductionStatus.StopReason stopReason, bool silently = false)
     {
         if (_buildingRegister)
         {
             var buildingType = _buildingRegister.GetBuildingType();
             _planetAttachment.GetAttachedProductionMonitor()
-                .RegisterProductionStop(buildingType, silently);
+                .RegisterProductionStop(buildingType, stopReason, silently);
+        }
+    }
+
+    private void ReNotifyStopped(ProductionStatus.StopReason stopReason)
+    {
+        if (_buildingRegister)
+        {
+            var buildingType = _buildingRegister.GetBuildingType();
+            _planetAttachment.GetAttachedProductionMonitor()
+                .ReNotifyProductionStop(buildingType, stopReason);
         }
     }
 

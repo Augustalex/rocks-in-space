@@ -35,7 +35,7 @@ public class PlanetProductionMonitor : MonoBehaviour
         _stoppedByType[buildingType] -= 1;
     }
 
-    public void RegisterProductionStop(BuildingType buildingType, bool silently)
+    public void RegisterProductionStop(BuildingType buildingType, ProductionStatus.StopReason stopReason, bool silently)
     {
         if (!_stoppedByType.ContainsKey(buildingType)) _stoppedByType[buildingType] = 0;
         _stoppedByType[buildingType] += 1;
@@ -43,8 +43,14 @@ public class PlanetProductionMonitor : MonoBehaviour
         if (!silently)
         {
             var productionStatus = _productionStatuses.Find(p => p.Is(buildingType));
-            productionStatus?.Stopped();
+            productionStatus?.Stopped(stopReason);
         }
+    }
+
+    public void ReNotifyProductionStop(BuildingType buildingType, ProductionStatus.StopReason stopReason)
+    {
+        var productionStatus = _productionStatuses.Find(p => p.Is(buildingType));
+        productionStatus?.Stopped(stopReason, true);
     }
 
     public void RegisterProductionResumeSpeed(BuildingType buildingType)
@@ -88,15 +94,22 @@ public class ProductionStatus
     private readonly TinyPlanet _planet;
     private readonly BuildingType _buildingType;
 
+    public enum StopReason
+    {
+        NoResources,
+        NoWorkers,
+        NoEnergy
+    }
+
     public ProductionStatus(TinyPlanet planet, BuildingType buildingType)
     {
         _planet = planet;
         _buildingType = buildingType;
     }
 
-    public void Stopped()
+    public void Stopped(StopReason stopReason, bool forceNotify = false)
     {
-        var message = _buildingType switch
+        var buildingName = _buildingType switch
         {
             BuildingType.Refinery => "Iron refineries",
             BuildingType.CopperRefinery => "Copper refineries",
@@ -110,11 +123,27 @@ public class ProductionStatus
                 "Production status class has no specified notification message for this building type.")
         };
 
-        _stopThrottler.SendIfCanPost(new PlanetNotification()
+        var message = stopReason switch
+        {
+            StopReason.NoEnergy => $"Not enough energy to keep {buildingName} running at {_planet.planetName}!",
+            StopReason.NoResources => $"{buildingName} has no resources left to process at {_planet.planetName}",
+            StopReason.NoWorkers => $"Not enough workers to keep the {buildingName} running at {_planet.planetName}!",
+            _ => throw new ArgumentOutOfRangeException(nameof(stopReason), stopReason,
+                "Production status class has no specified notification message for this stopping reason.")
+        };
+        var planetNotification = new PlanetNotification()
         {
             Location = _planet,
-            Message = $"{message} at {_planet.planetName} has stopped working"
-        });
+            Message = message
+        };
+        if (forceNotify)
+        {
+            _stopThrottler.ForceSend(planetNotification);
+        }
+        else
+        {
+            _stopThrottler.SendIfCanPost(planetNotification);
+        }
     }
 
     public void SlowedDown()

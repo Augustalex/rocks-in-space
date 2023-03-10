@@ -37,7 +37,7 @@ public class StartingSequence : MonoBehaviour
         IEnumerator DoSoon()
         {
             yield return new WaitForSeconds(.1f);
-            
+
             if (mode == StartMode.NotStarted)
             {
                 Opening();
@@ -65,7 +65,7 @@ public class StartingSequence : MonoBehaviour
             {
                 NotificationType = NotificationTypes.Positive,
                 Message =
-                    "Standard issue ship for new colony managers. Lasers, 3D printers, a map & a trunk, it has it all.",
+                    "You are now inside a standard issue ship for new colony managers. Mining lasers, 3D printers, it has all you need to get started.",
                 TimeoutOverride = 20f,
             });
 
@@ -94,26 +94,52 @@ public class StartingSequence : MonoBehaviour
     {
         if (mode == StartMode.AcceptingGifts)
         {
-            DisplayController.Get().LastGiftActivated();
             mode = StartMode.AcceptedAllGifts;
 
-            Finished();
+            StartCoroutine(DoSoon());
+
+            IEnumerator DoSoon()
+            {
+                yield return new WaitForSeconds(5f);
+
+                var notification = new TextNotification
+                {
+                    Message = "You are now ready to find a suitable asteroid for your first colony! Open the map.",
+                    TimeoutOverride = 10f
+                };
+                Notifications.Get().Send(notification);
+                
+                yield return new WaitForSeconds(1f);
+                
+                DisplayController.Get().ShowMapAndInventory();
+
+                CameraController.Get().OnToggleZoom += (zoomedOut) =>
+                {
+                    notification.Accept();
+                    
+                    if (mode == StartMode.AcceptedAllGifts && zoomedOut)
+                    {
+                        Finished();
+                    }
+                };
+            }
         }
     }
 
     public void Finished()
     {
-        StartCoroutine(DoSoon());
-
-        IEnumerator DoSoon()
+        if (mode == StartMode.AcceptedAllGifts)
         {
-            yield return new WaitForSeconds(5f);
+            DisplayController.Get().SetToStaticMode();
 
             var notification = new TextNotification
             {
-                Message = "You are now ready to find a suitable asteroid for your first colony!",
+                Message =
+                    $"There are different types of planet. Try finding one with lots of {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Graphite)}, that can be a good start. Good luck!",
             };
             Notifications.Get().Send(notification);
+
+            mode = StartMode.Finished;
         }
     }
 
@@ -126,6 +152,7 @@ public class StartingSequence : MonoBehaviour
             {
                 Message =
                     $"The boxes contained some {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Cash)}",
+                TimeoutOverride = 10f
             });
         }
     }

@@ -60,12 +60,16 @@ public class InteractorIcon : MonoBehaviour
     {
         var interactorController = InteractorController.Get();
         interactorController.SetInteractorByInteractorType(InteractorType.Dig);
+        
+        BottomBarController.Get().HideMenus();
     }
 
     private void MapToggle()
     {
         var cameraController = CameraController.Get();
         cameraController.ToggleZoomMode();
+        
+        BottomBarController.Get().HideMenus();
     }
 
     private void SelectToggle()
@@ -77,6 +81,8 @@ public class InteractorIcon : MonoBehaviour
             cameraController.ZoomIn();
             interactorController.SetInteractorByInteractorType(InteractorType.Dig);
         }
+        
+        BottomBarController.Get().HideMenus();
     }
 
     private void UpdateStates()

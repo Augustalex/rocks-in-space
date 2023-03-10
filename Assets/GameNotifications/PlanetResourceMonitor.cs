@@ -188,11 +188,12 @@ namespace GameNotifications
 
         private void GenerateLowProteinAlert()
         {
-            _lowFoodNotification.SendIfCanPost(
-                CreatePlanetNotification(
-                    $"Starvation rampant on {_planet.planetName}!"
-                )
-            );
+            // Removed because it caused too much noise
+            // _lowFoodNotification.SendIfCanPost(
+            //     CreatePlanetNotification(
+            //         $"Starvation rampant on {_planet.planetName}!"
+            //     )
+            // );
         }
     }
 }

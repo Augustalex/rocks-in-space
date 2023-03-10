@@ -32,4 +32,9 @@ public class NotificationThrottler
         var timeSinceLastPost = Time.time - _lastPosted;
         return timeSinceLastPost > _throttleTime && _ongoingNotification.Closed();
     }
+
+    public void ForceSend(PlanetNotification planetNotification)
+    {
+        Send(planetNotification);
+    }
 }
