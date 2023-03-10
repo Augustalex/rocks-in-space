@@ -31,7 +31,6 @@ public class CameraController : MonoBehaviour
     private Vector3 _startPosition;
     private Quaternion _startRotation;
     private float _moveTime;
-    private DisplayController _displayController;
     private float _moveLength;
     private bool _moving;
     private Vector3 _lastPosition;
@@ -88,7 +87,6 @@ public class CameraController : MonoBehaviour
     {
         _camera = GetComponent<Camera>();
         _focus = null;
-        _displayController = DisplayController.Get();
 
         StartCoroutine(DoSoon());
 
@@ -103,7 +101,6 @@ public class CameraController : MonoBehaviour
             // FocusOnPlanetSlowly(startingPlanet);
 
             //Game start on ship
-            FocusOnStartingShip();
             //What happens:
             // 1. Zoom to ship
             // 2. Enter ship
@@ -122,9 +119,9 @@ public class CameraController : MonoBehaviour
 
     public bool AvailableToUpdate()
     {
-        return _displayController.inputMode != DisplayController.InputMode.Renaming &&
-               _displayController.inputMode != DisplayController.InputMode.Cinematic &&
-               _displayController.inputMode != DisplayController.InputMode.InventoryOnly;
+        return DisplayController.Get().inputMode != DisplayController.InputMode.Renaming &&
+               DisplayController.Get().inputMode != DisplayController.InputMode.Cinematic &&
+               DisplayController.Get().inputMode != DisplayController.InputMode.InventoryOnly;
     }
 
     void Update()
@@ -149,9 +146,9 @@ public class CameraController : MonoBehaviour
 
                     FinishedEnteringShip();
                 }
-                else if (_displayController.inputMode == DisplayController.InputMode.Cinematic)
+                else if (DisplayController.Get().inputMode == DisplayController.InputMode.Cinematic)
                 {
-                    _displayController.ExitCinematicMode();
+                    DisplayController.Get().ExitCinematicMode();
                 }
             }
 
@@ -160,7 +157,7 @@ public class CameraController : MonoBehaviour
 
         if (!AvailableToUpdate()) return;
 
-        if (_displayController.inputMode == DisplayController.InputMode.Static)
+        if (DisplayController.Get().inputMode == DisplayController.InputMode.Static)
         {
             HandleStaticMovement();
         }
@@ -363,7 +360,7 @@ public class CameraController : MonoBehaviour
     private void ProgressMove()
     {
         var linearProgress = Mathf.Clamp(_moveTime / _moveLength, 0f, 1f);
-        var progress = _displayController.inputMode == DisplayController.InputMode.Cinematic
+        var progress = DisplayController.Get().inputMode == DisplayController.InputMode.Cinematic
             ? EaseInOutCubic(linearProgress)
             : EaseOutCubic(linearProgress);
         transform.rotation = Quaternion.Slerp(_startRotation, _targetRotation, progress);
@@ -395,9 +392,9 @@ public class CameraController : MonoBehaviour
             cameraTransform.rotation = targetRotation;
 
             // Game start sequence finished
-            if (_displayController.inputMode == DisplayController.InputMode.MapAndInventoryOnly)
+            if (DisplayController.Get().inputMode == DisplayController.InputMode.MapAndInventoryOnly)
             {
-                _displayController.SetToStaticMode();
+                DisplayController.Get().SetToStaticMode();
             }
         }
         else
@@ -413,10 +410,10 @@ public class CameraController : MonoBehaviour
         OnToggleZoom?.Invoke(_zoomedOut);
     }
 
-    private void FocusOnStartingShip()
+    public void FocusOnStartingShip()
     {
         CurrentPlanetController.Get().FocusOnShip(startingShip.GetConvoyBeacon());
-        _displayController.SetShipInFocus(startingShip.GetConvoyBeacon());
+        DisplayController.Get().SetShipInFocus(startingShip.GetConvoyBeacon());
 
         _following = false;
 
@@ -430,7 +427,7 @@ public class CameraController : MonoBehaviour
 
         SetMoveStarted();
 
-        _displayController.SetToCinematicMode();
+        DisplayController.Get().SetToCinematicMode();
         _moveLength = cinematicOpening ? 8f : .1f;
         _moveTime = 0f;
 
@@ -454,7 +451,7 @@ public class CameraController : MonoBehaviour
 
         SetMoveStarted();
 
-        _displayController.SetToCinematicMode();
+        DisplayController.Get().SetToCinematicMode();
         _moveLength = 3.5f;
         _moveTime = 0f;
 
@@ -463,20 +460,13 @@ public class CameraController : MonoBehaviour
 
     private void FinishedEnteringShip()
     {
-        var notification = new TextNotification
-        {
-            Message = "Message from management: \"We left you some things to get started with.\"",
-            TimeoutOverride = 20f,
-        };
-        Notifications.Get().Send(notification);
-
-        DisplayController.Get().SetEnteredShip();
+        StartingSequence.Get().FinishedEnteringShip();
     }
 
     private void FocusOnPlanetSlowly(TinyPlanet planet)
     {
         FocusOnPlanet(planet);
-        _displayController.SetToCinematicMode();
+        DisplayController.Get().SetToCinematicMode();
         _moveLength = cinematicOpening ? 8f : .1f;
         _moveTime = 0f;
     }
@@ -485,7 +475,7 @@ public class CameraController : MonoBehaviour
     {
         _following = false;
 
-        _displayController.SetPlanetInFocus(planet);
+        DisplayController.Get().SetPlanetInFocus(planet);
 
         var center = TinyPlanetCenterPointHelper.GetMostCentralBlock(planet.Network().network);
         var previousFocusPoint = _focus ? _focus.position : _backupFocus;

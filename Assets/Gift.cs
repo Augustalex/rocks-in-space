@@ -27,13 +27,7 @@ public class Gift : MonoBehaviour
             if (resource.resourceType == TinyPlanetResources.PlanetResourceType.Cash)
             {
                 GlobalResources.Get().AddCash(resource.amount);
-
-                Notifications.Get().Send(new TextNotification
-                {
-                    Message =
-                        $"You received {resource.amount} {TinyPlanetResources.ResourceName(resource.resourceType)}",
-                    TimeoutOverride = 5f,
-                });
+                StartingSequence.Get().GiftMoneyHint();
             }
             else
             {
@@ -66,6 +60,6 @@ public class Gift : MonoBehaviour
 
     private void LastGiftActivated()
     {
-        DisplayController.Get().LastGiftActivated();
+        StartingSequence.Get().AcceptedAllGifts();
     }
 }
