@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using GameNotifications;
 using UnityEngine;
 
@@ -24,10 +23,13 @@ public class StartingSequence : MonoBehaviour
     {
         NotStarted,
         Opening,
+        FinishedOpening,
         EnteringShip,
         AcceptingGifts,
         AcceptedAllGifts,
-        Finished
+        ViewedMap,
+        ControlsInstructions,
+        Finished,
     }
 
     void Start()
@@ -56,18 +58,20 @@ public class StartingSequence : MonoBehaviour
 
     public void EnteringShip()
     {
-        if (mode == StartMode.Opening)
+        if (mode == StartMode.FinishedOpening)
         {
             var cameraController = CameraController.Get();
             cameraController.EnterShip();
 
-            Notifications.Get().Send(new TextNotification
-            {
-                NotificationType = NotificationTypes.Positive,
-                Message =
-                    "You are now inside a standard issue ship for new colony managers. Mining lasers, 3D printers, it has all you need to get started.",
-                TimeoutOverride = 20f,
-            });
+            StartingInstructions.Get().Clear();
+
+            // Notifications.Get().Send(new TextNotification
+            // {
+            //     NotificationType = NotificationTypes.Positive,
+            //     Message =
+            //         "You are now inside a standard issue ship for new colony managers. Mining lasers, 3D printers, it has all you need to get started.",
+            //     TimeoutOverride = 20f,
+            // });
 
             mode = StartMode.EnteringShip;
         }
@@ -77,16 +81,43 @@ public class StartingSequence : MonoBehaviour
     {
         if (mode == StartMode.EnteringShip)
         {
-            var notification = new TextNotification
+            StartCoroutine(DoSoon());
+
+            IEnumerator DoSoon()
             {
-                Message = "Message from management: \"We left you some things to get started with.\"",
-                TimeoutOverride = 20f,
-            };
-            Notifications.Get().Send(notification);
+                DisplayController.Get().SetEnteredShip();
+                mode = StartMode.AcceptingGifts;
 
-            DisplayController.Get().SetEnteredShip();
+                yield return new WaitForSeconds(1f);
+                NotificationSounds.Get().Play(NotificationTypes.Informative);
+                StartingInstructions.Get().Print("What you are seeing are your ship controls");
+                yield return new WaitForSeconds(6f);
+                
+                // Player could have already accepted all gifts at this point
+                if (mode == StartMode.AcceptingGifts)
+                {
+                    NotificationSounds.Get().Play(NotificationTypes.Informative);
+                    StartingInstructions.Get().Print("More controls will become available soon");
+                    yield return new WaitForSeconds(4f);
+                }
 
-            mode = StartMode.AcceptingGifts;
+                // Player could have already accepted all gifts at this point
+                if (mode == StartMode.AcceptingGifts)
+                {
+                    NotificationSounds.Get().Play(NotificationTypes.Informative);
+                    StartingInstructions.Get()
+                        .Print("Try picking up these crates, they contain some useful resources.");
+                    yield return new WaitForSeconds(8f);
+                    StartingInstructions.Get().Clear();
+                }
+
+                // var notification = new TextNotification
+                // {
+                //     Message = "Message from management: \"We left you some things to get started with.\"",
+                //     TimeoutOverride = 20f,
+                // };
+                // Notifications.Get().Send(notification);
+            }
         }
     }
 
@@ -100,47 +131,78 @@ public class StartingSequence : MonoBehaviour
 
             IEnumerator DoSoon()
             {
-                yield return new WaitForSeconds(5f);
+                yield return new WaitForSeconds(3f);
+                NotificationSounds.Get().Play(NotificationTypes.Positive);
+                StartingInstructions.Get().Print("Good! You are now ready to explore the sector. Open the map.");
 
-                var notification = new TextNotification
-                {
-                    Message = "You are now ready to find a suitable asteroid for your first colony! Open the map.",
-                    TimeoutOverride = 10f
-                };
-                Notifications.Get().Send(notification);
-                
+                // var notification = new TextNotification
+                // {
+                //     Message = "You are now ready to find a suitable asteroid for your first colony! Open the map.",
+                //     TimeoutOverride = 10f
+                // };
+                // Notifications.Get().Send(notification);
+
                 yield return new WaitForSeconds(1f);
-                
+
                 DisplayController.Get().ShowMapAndInventory();
 
                 CameraController.Get().OnToggleZoom += (zoomedOut) =>
                 {
-                    notification.Accept();
-                    
+                    StartingInstructions.Get().Clear();
+                    // notification.Accept();
+
+                    Notification notification = new TextNotification();
+
                     if (mode == StartMode.AcceptedAllGifts && zoomedOut)
                     {
-                        Finished();
+                        DisplayController.Get().SetToStaticMode();
+
+                        notification = new TextNotification
+                        {
+                            Message =
+                                $"There are different types of asteroids. The colors of each tells you what the most common resource is there.",
+                        };
+                        Notifications.Get().Send(notification);
+
+                        mode = StartMode.ViewedMap;
+                    }
+                    else if (mode == StartMode.ViewedMap && !zoomedOut)
+                    {
+                        notification.Accept();
+                        mode = StartMode.ControlsInstructions;
+
+                        StartCoroutine(ControlsInstructions());
                     }
                 };
             }
         }
     }
 
+    private IEnumerator ControlsInstructions()
+    {
+        if (mode != StartMode.ControlsInstructions) yield break;
+
+        yield return new WaitForSeconds(1f);
+        NotificationSounds.Get().Play(NotificationTypes.Informative);
+        StartingInstructions.Get().Print("You can move your ship around a planet using the Right Mouse Button");
+        yield return new WaitForSeconds(8f);
+        NotificationSounds.Get().Play(NotificationTypes.Informative);
+        StartingInstructions.Get().Print("You can construct buildings from the Build Menu");
+        yield return new WaitForSeconds(8f);
+        NotificationSounds.Get().Play(NotificationTypes.Informative);
+        StartingInstructions.Get().Print("You can move goods easily between colonies using your ships Inventory");
+        yield return new WaitForSeconds(8f);
+        NotificationSounds.Get().Play(NotificationTypes.Informative);
+        StartingInstructions.Get().Print("The key to a successful colony is happy colonists. Good luck!");
+        yield return new WaitForSeconds(8f);
+        StartingInstructions.Get().Clear();
+
+        Finished();
+    }
+
     public void Finished()
     {
-        if (mode == StartMode.AcceptedAllGifts)
-        {
-            DisplayController.Get().SetToStaticMode();
-
-            var notification = new TextNotification
-            {
-                Message =
-                    $"There are different types of planet. Try finding one with lots of {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Graphite)}, that can be a good start. Good luck!",
-            };
-            Notifications.Get().Send(notification);
-
-            mode = StartMode.Finished;
-        }
+        mode = StartMode.Finished;
     }
 
     public void GiftMoneyHint()
@@ -152,8 +214,18 @@ public class StartingSequence : MonoBehaviour
             {
                 Message =
                     $"The boxes contained some {TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Cash)}",
-                TimeoutOverride = 10f
+                TimeoutOverride = 10f,
+                NotificationType = NotificationTypes.Silent
             });
+        }
+    }
+
+    public void FinishedOpening()
+    {
+        if (mode == StartMode.Opening)
+        {
+            mode = StartMode.FinishedOpening;
+            StartingInstructions.Get().Print("This is your ship. Enter it when you're ready.");
         }
     }
 }

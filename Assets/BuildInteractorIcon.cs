@@ -43,6 +43,11 @@ public class BuildInteractorIcon : MonoBehaviour
         InteractorController.Get().InteractorSelected += InteractorSelected;
         CurrentPlanetController.Get().CurrentPlanetChanged += (_) => UpdateStates();
         CurrentPlanetController.Get().ShipSelected += (_) => UpdateStates();
+        DisplayController.Get().ModeChange += (_) => UpdateStates();
+        BottomBarController.Get().OnStateChange += (newState) =>
+        {
+            if (newState == BottomBarController.BottomBarMenuState.ShipInventory) UpdateStates();
+        };
 
         UpdateStates();
     }
@@ -75,6 +80,11 @@ public class BuildInteractorIcon : MonoBehaviour
         else if (isBuildCategory)
         {
             _buildMenuState = BuildMenuState.Active;
+        }
+        else if (bottomBar.BuildMenuVisible())
+        {
+            _buildMenuState = BuildMenuState.Active;
+            
         }
         else
         {

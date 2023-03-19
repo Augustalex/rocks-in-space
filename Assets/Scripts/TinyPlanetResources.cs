@@ -43,11 +43,12 @@ public class TinyPlanetResources : MonoBehaviour
         {
             case PlanetResourceType.Inhabitants: return $"colonists";
             case PlanetResourceType.CopperPlates: return $"copper plates";
+            case PlanetResourceType.Dangeronium: return $"Dangeronium";
             default:
                 return ResourceNameOnly(resourceType) + ResourceSprite(resourceType);
         }
     }
-    
+
     public static string ResourceNameOnly(PlanetResourceType resourceType)
     {
         switch (resourceType)
@@ -65,10 +66,10 @@ public class TinyPlanetResources : MonoBehaviour
             case PlanetResourceType.IronOre: return $"iron ore";
             case PlanetResourceType.IronPlates: return $"iron plates";
             case PlanetResourceType.CopperOre: return $"copper ore";
-            
+
             case PlanetResourceType.CopperPlates: return $"copper plates";
             // case PlanetResourceType.CopperPlates: return $"copper plates{ResourceSprite(resourceType)}"; Uncomment when has added copper plates to sprite sheet
-            
+
             case PlanetResourceType.Graphite: return $"graphite";
             case PlanetResourceType.Protein: return $"protein chunks";
         }
@@ -98,7 +99,7 @@ public class TinyPlanetResources : MonoBehaviour
             case PlanetResourceType.Protein: return "<sprite name=\"protein\">";
         }
 
-        return "Unknown resource";
+        return "";
     }
 
     public struct ResourcesData
@@ -214,7 +215,7 @@ public class TinyPlanetResources : MonoBehaviour
             _ironPlatesTracker.ProgressHistory();
             _ironPlatesTracker.OnFirstPositiveChange +=
                 () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.IronPlates);
-            
+
             _copperPlatesTracker.ProgressHistory();
             _copperPlatesTracker.OnFirstPositiveChange +=
                 () => ProgressManager.Get().RegisterGotResource(PlanetResourceType.CopperPlates);

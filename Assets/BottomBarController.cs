@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BottomBarController : MonoBehaviour
@@ -12,6 +13,8 @@ public class BottomBarController : MonoBehaviour
     public GameObject buildMenuRoot;
     public GameObject shipInventoryRoot;
 
+    public event Action<BottomBarMenuState> OnStateChange;
+    
     public enum BottomBarMenuState {
         None,
         BuildMenu,
@@ -42,41 +45,50 @@ public class BottomBarController : MonoBehaviour
 
     public void ShowBuildMenu()
     {
-        hideClickZone.SetActive(true);
+        // hideClickZone.SetActive(true);
 
-        _state = BottomBarMenuState.BuildMenu;
         buildMenuRoot.SetActive(true);
         shipInventoryRoot.SetActive(false);
         
         _animator.SetBool(Visible, true);
+        
+        ChangeState(BottomBarMenuState.BuildMenu);
     }
     
     public void ShowShipInventory()
     {
-        hideClickZone.SetActive(true);
+        // hideClickZone.SetActive(true);
 
-        _state = BottomBarMenuState.ShipInventory;
-        buildMenuRoot.SetActive(false);
         shipInventoryRoot.SetActive(true);
+        buildMenuRoot.SetActive(false);
 
         _animator.SetBool(Visible, true);
+
+        ChangeState(BottomBarMenuState.ShipInventory);
     }
 
     public void HideBuildMenu() // TODO: Use HideMenus instead, but remove references from Editor before removing this method.
     {
-        hideClickZone.SetActive(false);
-        _animator.SetBool(Visible, false);
+        HideMenus();
     }
 
     public void HideMenus()
     {
-        hideClickZone.SetActive(false);
+        // hideClickZone.SetActive(false);
         _animator.SetBool(Visible, false);
+
+        ChangeState(BottomBarMenuState.None);
+    }
+
+    private void ChangeState(BottomBarMenuState newState)
+    {
+        _state = newState;
+        OnStateChange?.Invoke(newState);
     }
 
     public bool BuildMenuVisible()
     {
-        return _animator.GetBool(Visible);
+        return _state == BottomBarMenuState.BuildMenu;
     }
 
     public bool ShipMenuOpen()

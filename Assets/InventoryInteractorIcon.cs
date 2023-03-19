@@ -39,13 +39,17 @@ public class InventoryInteractorIcon : MonoBehaviour
         CurrentPlanetController.Get().CurrentPlanetChanged += (_) => UpdateStates();
         CurrentPlanetController.Get().ShipSelected += (_) => UpdateStates();
         DisplayController.Get().ModeChange += (_) => UpdateStates();
+        BottomBarController.Get().OnStateChange += (newState) =>
+        {
+            if (newState == BottomBarController.BottomBarMenuState.BuildMenu) UpdateStates();
+        };
 
         UpdateStates();
     }
 
     private void OnToggle()
     {
-        if (bottomBar.BuildMenuVisible()) CloseMenu();
+        if (bottomBar.ShipMenuOpen()) CloseMenu();
         else OpenMenu();
 
         UpdateStates();

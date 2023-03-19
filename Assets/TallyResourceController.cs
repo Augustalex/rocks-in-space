@@ -32,10 +32,10 @@ public class TallyResourceController : MonoBehaviour
                 graphiteButton,
                 TinyPlanetResources.PlanetResourceType.Graphite
             },
-            // {
-            //     copperOreButton,
-            //     TinyPlanetResources.PlanetResourceType.CopperOre
-            // },
+            {
+                copperOreButton,
+                TinyPlanetResources.PlanetResourceType.CopperOre
+            },
             {
                 ironPlatesButton,
                 TinyPlanetResources.PlanetResourceType.IronPlates
@@ -44,10 +44,10 @@ public class TallyResourceController : MonoBehaviour
                 copperPlatesButton,
                 TinyPlanetResources.PlanetResourceType.CopperPlates
             },
-            // {
-            //     gadgetsButton,
-            //     TinyPlanetResources.PlanetResourceType.Gadgets
-            // },
+            {
+                gadgetsButton,
+                TinyPlanetResources.PlanetResourceType.Gadgets
+            },
             {
                 waterButton,
                 TinyPlanetResources.PlanetResourceType.Water

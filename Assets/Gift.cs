@@ -37,7 +37,8 @@ public class Gift : MonoBehaviour
                 {
                     Message =
                         $"{resource.amount} {TinyPlanetResources.ResourceName(resource.resourceType)} was added to your Inventory",
-                    TimeoutOverride = 10f
+                    TimeoutOverride = 10f,
+                    NotificationType = NotificationTypes.Silent
                 });
             }
         }

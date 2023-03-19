@@ -139,6 +139,7 @@ public class CameraController : MonoBehaviour
                 if (_movingToShip)
                 {
                     _movingToShip = false;
+                    StartingSequence.Get().FinishedOpening();
                 }
                 else if (_enteringShip)
                 {

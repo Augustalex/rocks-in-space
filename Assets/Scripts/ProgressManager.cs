@@ -57,7 +57,7 @@ public class ProgressManager : MonoBehaviour
         {
             _builtFirstRefineryAt = Time.time;
         }
-        
+
         if (buildingType == BuildingType.CopperRefinery && !HasBuilt(BuildingType.CopperRefinery))
         {
             _builtFirstCopperRefineryAt = Time.time;
@@ -82,7 +82,7 @@ public class ProgressManager : MonoBehaviour
         if (!_builtFirstPort)
         {
             _builtFirstPort = true;
-            
+
             // todo: Decide whether to have ships or not...
             // var startingShip = ShipManager.Get().CreateStartingShip();
             // startingShip.MoveToPlanetInstantly(planetId);
@@ -139,7 +139,7 @@ public class ProgressManager : MonoBehaviour
             }
         }
 
-        if (_colonyProgress < ColonyProgress.Started && HasBuilt(BuildingType.Port))
+        if (_colonyProgress < ColonyProgress.Started && HasBuilt(BuildingType.Port) && happyColonists >= 200)
         {
             _colonyProgress = ColonyProgress.Started;
         }
@@ -214,19 +214,19 @@ public class ProgressManager : MonoBehaviour
     private void ManageCopperRefineryRequiredResourcesHint()
     {
         if (_hasSentCopperHint) return;
-        
+
         var hasAlreadyGotCopperPlates = _gotResources.Contains(TinyPlanetResources.PlanetResourceType.CopperPlates);
         if (hasAlreadyGotCopperPlates) return;
-        
+
         var hasBuiltRefinery = _builtFirstCopperRefineryAt >= 0;
         if (!hasBuiltRefinery) return;
-        
+
         var duration = Time.time - _builtFirstCopperRefineryAt;
         var timeToShowHint = duration > ShowHintAfterTime;
         if (!timeToShowHint) return;
-        
+
         _hasSentCopperHint = true;
-        
+
         var copperPlates =
             TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.CopperPlates);
         var copperOreText =
@@ -241,16 +241,16 @@ public class ProgressManager : MonoBehaviour
     private void ManageCopperRefineryBonusHint()
     {
         if (_hasSentCopperBonusHint) return;
-        
+
         var hasBuiltRefinery = _builtFirstCopperRefineryAt >= 0;
         if (!hasBuiltRefinery) return;
-        
+
         var duration = Time.time - _builtFirstCopperRefineryAt;
         var timeToShowHint = duration > 1f;
         if (!timeToShowHint) return;
-        
+
         _hasSentCopperBonusHint = true;
-        
+
         var copperPlates =
             TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.CopperPlates);
         var copperOreText =
@@ -276,7 +276,7 @@ public class ProgressManager : MonoBehaviour
     {
         return HasBuilt(BuildingType.ResidentModule);
     }
-    
+
     public bool HousingBuilt()
     {
         return HasBuilt(BuildingType.ResidentModule);
@@ -306,6 +306,11 @@ public class ProgressManager : MonoBehaviour
     public bool EndGameReached()
     {
         return Luxurious();
+    }
+
+    public bool ColonyStarted()
+    {
+        return _colonyProgress >= ColonyProgress.Started;
     }
 
     public bool Comfortable()

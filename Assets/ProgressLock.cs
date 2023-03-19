@@ -49,37 +49,40 @@ public class ProgressLock : MonoBehaviour
                     ProgressManager.Get().FirstPortBuilt(),
                     GenericUnlockMessage(),
                     // $"Unlock by producing\n{TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets)}",
-                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Factory).GetInteractorName()}",
+                    // $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Factory).GetInteractorName()}",
+                    StartedLockMessage(),
                     false
+                );
+                break;
+            case BuildingType.ProteinFabricator:
+                CheckLockWithoutNotification(
+                    ProgressManager.Get().FirstPortBuilt(),
+                    // $"Unlock by producing\n{TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets)}",
+                    // $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Factory).GetInteractorName()}",
+                    StartedLockMessage(),
+                    !ProgressManager.Get().FactoryUnlocked()
                 );
                 break;
             case BuildingType.ResidentModule:
                 CheckLockWithoutNotification(
                     ProgressManager.Get().FirstPortBuilt(),
                     // GenericUnlockMessage(),
-                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.SolarPanels).GetInteractorName()}&\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.ProteinFabricator).GetInteractorName()}",
+                    // $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.SolarPanels).GetInteractorName()}&\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.ProteinFabricator).GetInteractorName()}",
+                    StartedLockMessage(),
                     false
-                );
-                break;
-            case BuildingType.ProteinFabricator:
-                CheckLockWithoutNotification(
-                    ProgressManager.Get().RefineryUnlocked(),
-                    // $"Unlock by producing\n{TinyPlanetResources.ResourceName(TinyPlanetResources.PlanetResourceType.Gadgets)}",
-                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Factory).GetInteractorName()}",
-                    !ProgressManager.Get().FactoryUnlocked()
                 );
                 break;
             case BuildingType.Refinery:
                 CheckLock(
-                    ProgressManager.Get().RefineryUnlocked(),
+                    ProgressManager.Get().ColonyStarted(),
                     GenericUnlockMessage(),
-                    $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Lander).GetInteractorName()}",
+                    $"Unlock with 200 happy colonists",
                     !ProgressManager.Get().FirstPortBuilt()
                 );
                 break;
             case BuildingType.CopperRefinery:
                 CheckLockWithoutNotification(
-                    ProgressManager.Get().RefineryUnlocked(),
+                    ProgressManager.Get().ColonyStarted(),
                     // GenericUnlockMessage(),
                     $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Lander).GetInteractorName()}",
                     !ProgressManager.Get().FirstPortBuilt()
@@ -87,7 +90,7 @@ public class ProgressLock : MonoBehaviour
                 break;
             case BuildingType.Factory:
                 CheckLockWithoutNotification(
-                    ProgressManager.Get().RefineryUnlocked(),
+                    ProgressManager.Get().ColonyStarted(),
                     $"Unlock by building\n{InteractorController.Get().GetGenericInteractorByBuildingType(BuildingType.Lander).GetInteractorName()}",
                     !ProgressManager.Get().FirstPortBuilt()
                 );
