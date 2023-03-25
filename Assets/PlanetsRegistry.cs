@@ -81,6 +81,7 @@ public class PlanetsRegistry : MonoBehaviour
 
     public TinyPlanet GetPlanet(PlanetId targetPlanetId)
     {
+        if (!_planetRegistry.ContainsKey(targetPlanetId)) return null;
         return _planetRegistry[targetPlanetId];
     }
 }

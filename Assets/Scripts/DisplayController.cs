@@ -30,6 +30,7 @@ public class DisplayController : MonoBehaviour
 
     private bool _hidablesHidden;
     private StartingShip _startingShipInFocus;
+    private PlanetId _shipOnPlanet;
 
     public static DisplayController Get()
     {
@@ -230,5 +231,17 @@ public class DisplayController : MonoBehaviour
     public void SetToStaticMode()
     {
         OnModeChange(InputMode.Static);
+    }
+
+    // TODO Maybe remove this?
+    public void ShipMoving()
+    {
+        _shipOnPlanet = null;
+    }
+    
+    // TODO Maybe remove this?
+    public void ShipOnPlanet(PlanetId currentPlanet)
+    {
+        _shipOnPlanet = currentPlanet;
     }
 }

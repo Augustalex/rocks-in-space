@@ -6,6 +6,8 @@ public class StartingSequence : MonoBehaviour
 {
     private static StartingSequence _instance;
 
+    private static readonly Vector3 StartingPosition = new(-500f, -500f, -500f);
+
     public static StartingSequence Get()
     {
         return _instance;
@@ -34,6 +36,8 @@ public class StartingSequence : MonoBehaviour
 
     void Start()
     {
+        PlayerShipManager.Get().ShipMover().PutInStartingPosition(StartingPosition);
+
         StartCoroutine(DoSoon());
 
         IEnumerator DoSoon()
@@ -92,7 +96,7 @@ public class StartingSequence : MonoBehaviour
                 NotificationSounds.Get().Play(NotificationTypes.Informative);
                 StartingInstructions.Get().Print("What you are seeing are your ship controls");
                 yield return new WaitForSeconds(6f);
-                
+
                 // Player could have already accepted all gifts at this point
                 if (mode == StartMode.AcceptingGifts)
                 {

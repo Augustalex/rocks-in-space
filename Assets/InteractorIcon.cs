@@ -135,6 +135,10 @@ public class InteractorIcon : MonoBehaviour
         {
             _interactorIconState = InteractorIconState.ForceInactive;
         }
+        else if (!PlayerShipManager.Get().ShipOnPlanet(CurrentPlanetController.Get().CurrentPlanet()))
+        {
+            _interactorIconState = InteractorIconState.ForceInactive;
+        }
         else if (interactor.GetInteractorType() == InteractorType.Dig)
         {
             _interactorIconState = InteractorIconState.Active;

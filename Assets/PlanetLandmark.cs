@@ -19,6 +19,9 @@ public class PlanetLandmark : MonoBehaviour
 
     public MapEffect iceMapEffect;
 
+    private static PlanetId _contextDownOn = null;
+    private static float _contextLastDown;
+
     void Awake()
     {
         _planet = GetComponentInParent<TinyPlanet>();
@@ -97,6 +100,30 @@ public class PlanetLandmark : MonoBehaviour
             RouteEditor.Get().StartCreatingRouteFrom(_planet);
     }
 
+    public void ContextDown()
+    {
+        if (_cameraController.IsZoomedOut())
+        {
+            _contextDownOn = _planet.PlanetId;
+            _contextLastDown = Time.time;
+        }
+    }
+
+    public void ContextUp()
+    {
+        if (Time.time - _contextLastDown > 1f) ClearContextState();
+        else if (_contextDownOn == _planet.PlanetId && _cameraController.IsZoomedOut())
+        {
+            PlayerShipManager.Get().ShipMover().MoveToPlanet(_planet);
+        }
+    }
+
+    private void ClearContextState()
+    {
+        _contextLastDown = -1f;
+        _contextDownOn = null;
+    }
+
     public void MouseUp()
     {
         if (_cameraController.IsZoomedOut())
@@ -104,7 +131,10 @@ public class PlanetLandmark : MonoBehaviour
             var routeEditor = RouteEditor.Get();
             if (routeEditor.IsIdle())
             {
-                NavigateToPlanet(_planet);
+                if (PlayerShipManager.Get().CurrentPlanet() == _planet.PlanetId || _planet.HasPort())
+                {
+                    NavigateToPlanet(_planet);
+                }
             }
             else if (routeEditor.IsCreating())
             {

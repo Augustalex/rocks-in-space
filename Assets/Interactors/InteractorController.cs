@@ -393,7 +393,16 @@ namespace Interactors
 
         private void HandleRightMouseDown()
         {
-            // Do nothing
+            var ray = _camera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out var hit, 10000f))
+            {
+                if (hit.collider.CompareTag("PlanetLandmark"))
+                {
+                    hit.collider.GetComponent<PlanetLandmark>().ContextDown();
+                    return;
+                }
+            }
         }
 
         private void HandleRightMouseUp()
@@ -406,6 +415,12 @@ namespace Interactors
                 {
                     // todo: remove?
                     // hit.collider.GetComponentInParent<RouteLine>().RemoveLine();
+                    return;
+                }
+
+                if (hit.collider.CompareTag("PlanetLandmark"))
+                {
+                    hit.collider.GetComponent<PlanetLandmark>().ContextUp();
                     return;
                 }
             }

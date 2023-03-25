@@ -70,6 +70,14 @@ public class InventoryInteractorIcon : MonoBehaviour
         {
             _inventoryMenuState = InventoryMenuState.ForceClosed;
         }
+        else if (DisplayController.Get().inputMode == DisplayController.InputMode.MapAndInventoryOnly)
+        {
+            _inventoryMenuState = InventoryMenuState.Active;
+        }
+        else if (!PlayerShipManager.Get().ShipOnPlanet(CurrentPlanetController.Get().CurrentPlanet()))
+        {
+            _inventoryMenuState = InventoryMenuState.ForceClosed;
+        }
         else if (bottomBar.ShipMenuOpen())
         {
             _inventoryMenuState = InventoryMenuState.Active;

@@ -116,4 +116,9 @@ public class TinyPlanet : MonoBehaviour
     {
         return Vector3.Distance(GetCenter(), end.GetCenter());
     }
+    
+    public float GetDistanceToPosition(Vector3 position)
+    {
+        return Vector3.Distance(GetCenter(), position);
+    }
 }
