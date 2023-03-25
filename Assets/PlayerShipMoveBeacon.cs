@@ -24,6 +24,8 @@ public class PlayerShipMoveBeacon : MonoBehaviour
 
         UpdateVisibility();
         CameraController.Get().OnToggleZoom += (_) => UpdateVisibility();
+        
+        UpdatePosition();
     }
 
     private void UpdateVisibility()
@@ -41,8 +43,13 @@ public class PlayerShipMoveBeacon : MonoBehaviour
         if (state == PlayerShipMover.ShipState.Moving)
         {
             mover.Progress();
-            mesh.transform.position = mover.ReadPosition();
+            UpdatePosition();
         }
+    }
+
+    private void UpdatePosition()
+    {
+        mesh.transform.position = _playerShipManager.ShipMover().ReadPosition();
     }
 
     public void Hide()
