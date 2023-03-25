@@ -42,15 +42,13 @@ namespace Interactors
             var cameraController = CameraController.Get();
             var blocksPlanet = block.GetConnectedPlanet();
 
-            if (CurrentPlanetController.Get().CurrentPlanet() != blocksPlanet)
+            if (CurrentPlanetController.Get().CurrentPlanet() != blocksPlanet && blocksPlanet.HasPort())
             {
-                var planet = block.GetConnectedPlanet();
-                _currentPlanetController.ChangePlanet(planet);
-                cameraController.FocusOnPlanet(planet);
+                _currentPlanetController.ChangePlanet(blocksPlanet);
             }
             else
             {
-                cameraController.FocusOnPlanet(block.GetConnectedPlanet());
+                cameraController.FocusOnPlanet(blocksPlanet);
             }
         }
 

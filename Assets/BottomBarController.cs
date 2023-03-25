@@ -14,8 +14,9 @@ public class BottomBarController : MonoBehaviour
     public GameObject shipInventoryRoot;
 
     public event Action<BottomBarMenuState> OnStateChange;
-    
-    public enum BottomBarMenuState {
+
+    public enum BottomBarMenuState
+    {
         None,
         BuildMenu,
         ShipInventory
@@ -49,12 +50,12 @@ public class BottomBarController : MonoBehaviour
 
         buildMenuRoot.SetActive(true);
         shipInventoryRoot.SetActive(false);
-        
+
         _animator.SetBool(Visible, true);
-        
+
         ChangeState(BottomBarMenuState.BuildMenu);
     }
-    
+
     public void ShowShipInventory()
     {
         // hideClickZone.SetActive(true);
@@ -67,8 +68,16 @@ public class BottomBarController : MonoBehaviour
         ChangeState(BottomBarMenuState.ShipInventory);
     }
 
-    public void HideBuildMenu() // TODO: Use HideMenus instead, but remove references from Editor before removing this method.
+    public void
+        HideBuildMenu() // TODO: Use HideMenus instead, but remove references from Editor before removing this method.
     {
+        if (_state != BottomBarMenuState.BuildMenu) return;
+        HideMenus();
+    }
+
+    public void HideInventoryMenu()
+    {
+        if (_state != BottomBarMenuState.ShipInventory) return;
         HideMenus();
     }
 

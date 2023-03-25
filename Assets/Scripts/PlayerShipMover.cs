@@ -124,7 +124,6 @@ public class PlayerShipMover
             var progress = (movingDuration * Speed) / Vector3.Distance(_startPosition, target.GetCenter());
             var clampedProgress = Mathf.Clamp(progress, 0f, 1f);
             _lastKnownProgress = clampedProgress;
-            Debug.Log("PROGRESS: " + clampedProgress + ", duration: " + movingDuration);
 
             _lastKnownPosition = Vector3.Lerp(_startPosition, _targetPosition, _lastKnownProgress);
 

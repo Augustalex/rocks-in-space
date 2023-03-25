@@ -109,7 +109,7 @@ public class InventoryInteractorIcon : MonoBehaviour
 
     public void CloseMenu()
     {
-        bottomBar.HideMenus();
+        bottomBar.HideInventoryMenu();
     }
 
     public void OpenMenu()

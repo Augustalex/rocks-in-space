@@ -177,9 +177,19 @@ public class PlanetLandmark : MonoBehaviour
 
     private void UpdateStyle(bool showMarker)
     {
-        _material.SetInt(HasPort, _planet.HasPort() ? 1 : 0);
+        _material.SetInt(HasPort,
+            (PlayerShipOnPlanet() || _planet.HasPort()) ? 1 : 0);
         _material.SetInt(IsSelected, IsCurrentPlanet(_planet) ? 1 : 0);
         _material.SetInt(InMapView, showMarker ? 1 : 0);
+    }
+
+    private bool PlayerShipOnPlanet()
+    {
+        var playerShipManager = PlayerShipManager.Get();
+        var currentPlanet = playerShipManager.CurrentPlanet();
+        if (currentPlanet == null) return false;
+
+        return currentPlanet.Is(_planet.PlanetId);
     }
 
     private void Hide()
@@ -199,7 +209,6 @@ public class PlanetLandmark : MonoBehaviour
         else
         {
             CurrentPlanetController.Get().ChangePlanet(planet);
-            cameraController.FocusOnPlanet(planet);
         }
     }
 

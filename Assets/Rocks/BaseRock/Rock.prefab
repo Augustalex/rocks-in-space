@@ -119,7 +119,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   oreTemplate: {fileID: 1157895631769246542, guid: f1a31a3fed7b3ac469eb9e61e46dd2e1, type: 3}
-  floatingMineralsTemplate: {fileID: 7481693628340666195, guid: 886599e3481f6134d98adb0b6c83ebe1, type: 3}
 --- !u!1001 &3937169395215538907
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -131,6 +130,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockBaseMesh
       objectReference: {fileID: 0}
+    - target: {fileID: 4400065625658592447, guid: 5ae0a9327f29d2b4ca06bc9ec7e56a50, type: 3}
+      propertyPath: undiscovered
+      value: 
+      objectReference: {fileID: 2100000, guid: bc44da3834899524cae49bd17ffab56f, type: 2}
     - target: {fileID: 7819359677714221926, guid: 5ae0a9327f29d2b4ca06bc9ec7e56a50, type: 3}
       propertyPath: m_RootOrder
       value: 1

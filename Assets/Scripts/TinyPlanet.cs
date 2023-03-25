@@ -36,6 +36,7 @@ public class TinyPlanet : MonoBehaviour
     private PlanetProductionMonitor _productionMonitor;
     private TinyPlanetResources _planetResources;
     private PlanetCostMonitor _costMonitor;
+    private bool _discovered;
 
     private void Awake()
     {
@@ -106,7 +107,7 @@ public class TinyPlanet : MonoBehaviour
     {
         return _rockType.IsIce();
     }
-    
+
     public TinyPlanetRockType GetRockType()
     {
         return _rockType;
@@ -116,9 +117,15 @@ public class TinyPlanet : MonoBehaviour
     {
         return Vector3.Distance(GetCenter(), end.GetCenter());
     }
-    
+
     public float GetDistanceToPosition(Vector3 position)
     {
         return Vector3.Distance(GetCenter(), position);
+    }
+
+    public void Discover()
+    {
+        _discovered = true;
+        _planetRocks.Discover();
     }
 }

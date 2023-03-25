@@ -88,6 +88,8 @@ public class CameraController : MonoBehaviour
         _camera = GetComponent<Camera>();
         _focus = null;
 
+        CurrentPlanetController.Get().CurrentPlanetChanged += (p) => { FocusOnPlanet(p.NewPlanet); };
+
         StartCoroutine(DoSoon());
 
         IEnumerator DoSoon()

@@ -19,16 +19,17 @@ public class TinyPlanetRocks : MonoBehaviour
     private static readonly int CenterPropertyId = Shader.PropertyToID("_Center");
     private static readonly int RockTypePropertyId = Shader.PropertyToID("_RockType");
 
-    private static readonly Color[][] ColorPairs = new Color[][] // See what the index represents by looking at the TinyPlanet.RockType enum
-    {
-        new[] { Hsl(26, 80, 100), Hsl(305, 100, 80) },
-        // new [] {Hsl(185, 80, 100), Hsl(305, 100, 80)}, Blue
-        new[] { Hsl(270, 80, 100), Hsl(305, 100, 80) },
-        new[] { Hsl(76, 80, 100), Hsl(305, 100, 80) },
-        new[] { Hsl(270, 10, 100), Hsl(305, 10, 90) },
-        new[] { Hsl(0,0,0), Hsl(0,0,0) }, // Ice, not used, uses special material
-        new[] { Hsl(200, 10, 30), Hsl(200, 10, 10) },
-    };
+    private static readonly Color[][] ColorPairs =
+        new Color[][] // See what the index represents by looking at the TinyPlanet.RockType enum
+        {
+            new[] { Hsl(26, 80, 100), Hsl(305, 100, 80) },
+            // new [] {Hsl(185, 80, 100), Hsl(305, 100, 80)}, Blue
+            new[] { Hsl(270, 80, 100), Hsl(305, 100, 80) },
+            new[] { Hsl(76, 80, 100), Hsl(305, 100, 80) },
+            new[] { Hsl(270, 10, 100), Hsl(305, 10, 90) },
+            new[] { Hsl(0, 0, 0), Hsl(0, 0, 0) }, // Ice, not used, uses special material
+            new[] { Hsl(200, 10, 30), Hsl(200, 10, 10) },
+        };
 
     // Data for keeping track of center point
     private Vector3 _lastCenterPosition;
@@ -119,7 +120,8 @@ public class TinyPlanetRocks : MonoBehaviour
             networkItem.transform.SetParent(transform);
 
             var port = networkItem.GetComponentInChildren<PortController>();
-            if (port) {
+            if (port)
+            {
                 AttachPort(port);
             }
 
@@ -150,7 +152,7 @@ public class TinyPlanetRocks : MonoBehaviour
                     var block = networkItem.GetComponentInChildren<Block>();
                     block.SetRockType(TinyPlanet.RockType.Ice);
                     block.SetMaterial(_iceMaterial);
-                    block.GetMesh().RefreshMaterial(newRockType);
+                    block.GetMesh().SetUndiscoveredMaterial();
 
                     block.gameObject.AddComponent<IceResourceController>();
                 }
@@ -158,7 +160,7 @@ public class TinyPlanetRocks : MonoBehaviour
                 {
                     var block = networkItem.GetComponentInChildren<Block>();
                     block.SetRockType(TinyPlanet.RockType.Snow);
-                    block.GetMesh().RefreshMaterial(newRockType);
+                    block.GetMesh().SetUndiscoveredMaterial();
 
                     _rockMaterial.SetInt(RockTypePropertyId, (int)TinyPlanet.RockType.Snow);
 
@@ -179,7 +181,7 @@ public class TinyPlanetRocks : MonoBehaviour
                 var block = networkItem.GetComponentInChildren<Block>();
                 var rawRockType = _rockType.Get();
                 block.SetRockType(rawRockType);
-                block.GetMesh().RefreshMaterial(newRockType);
+                block.GetMesh().SetUndiscoveredMaterial();
 
                 _rockMaterial.SetInt(RockTypePropertyId, (int)rawRockType);
 
@@ -212,5 +214,14 @@ public class TinyPlanetRocks : MonoBehaviour
     private void DestroySelf()
     {
         Destroy(gameObject);
+    }
+
+    public void Discover()
+    {
+        foreach (var networkItem in network)
+        {
+            var block = networkItem.GetComponentInChildren<Block>();
+            block.GetMesh().SetDiscoveredMaterial(_rockType.Get());
+        }
     }
 }

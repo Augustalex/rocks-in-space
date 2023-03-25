@@ -1,4 +1,3 @@
-using Game;
 using UnityEngine;
 
 public class PlayerShipManager : MonoBehaviour
@@ -27,7 +26,15 @@ public class PlayerShipManager : MonoBehaviour
     {
         if (newState == PlayerShipMover.ShipState.Arrived)
         {
-            _currentPlanet = _shipMover.CurrentPlanet();
+            var currentPlanet = _shipMover.CurrentPlanet();
+            _currentPlanet = currentPlanet;
+
+            var planet = PlanetsRegistry.Get().GetPlanet(currentPlanet);
+            if (planet && CameraController.Get().IsZoomedOut())
+            {
+                CurrentPlanetController.Get().ChangePlanet(planet);
+                planet.Discover();
+            }
         }
         else
         {
@@ -56,7 +63,6 @@ public class PlayerShipManager : MonoBehaviour
 
     public bool ShipOnPlanet(TinyPlanet currentPlanet)
     {
-        if (_currentPlanet == null) return false;
-        return currentPlanet.PlanetId.Is(_currentPlanet);
+        return _currentPlanet != null && currentPlanet != null && currentPlanet.PlanetId.Is(_currentPlanet);
     }
 }

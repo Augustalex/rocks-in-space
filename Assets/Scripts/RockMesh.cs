@@ -4,14 +4,20 @@ using UnityEngine;
 public class RockMesh : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer billboardRenderer;
-    
+
+    public Material undiscovered;
     public Material orange;
     public Material blue;
     public Material green;
     public Material ice;
     public Material dark;
-    
-    public void RefreshMaterial(TinyPlanet.RockType rockType)
+
+    public void SetUndiscoveredMaterial()
+    {
+        billboardRenderer.material = undiscovered;
+    }
+
+    public void SetDiscoveredMaterial(TinyPlanet.RockType rockType)
     {
         billboardRenderer.material = rockType switch
         {

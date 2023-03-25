@@ -299,9 +299,7 @@ namespace Interactors
         public void Navigate(TinyPlanet planet)
         {
             _noFailMessageUntil = Time.time + 1f;
-            var cameraController = CameraController.Get();
             CurrentPlanetController.Get().ChangePlanet(planet);
-            cameraController.FocusOnPlanet(planet);
         }
 
         public bool CanShowFailMessage()

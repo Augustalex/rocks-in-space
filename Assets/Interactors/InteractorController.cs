@@ -471,10 +471,10 @@ namespace Interactors
                 var connectedPlanet = block.GetConnectedPlanet();
                 if (currentPlanet != null && !currentPlanet.PlanetId.Is(connectedPlanet.PlanetId))
                 {
-                    interactorModule.Navigate(connectedPlanet);
-                    var cameraController = CameraController.Get();
-                    CurrentPlanetController.Get().ChangePlanet(connectedPlanet);
-                    cameraController.FocusOnPlanet(connectedPlanet);
+                    if (connectedPlanet.HasPort())
+                    {
+                        interactorModule.Navigate(connectedPlanet);
+                    }
                 }
                 else if (!connectedPlanet.HasPort())
                 {

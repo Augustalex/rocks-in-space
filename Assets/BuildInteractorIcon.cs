@@ -84,7 +84,6 @@ public class BuildInteractorIcon : MonoBehaviour
         else if (bottomBar.BuildMenuVisible())
         {
             _buildMenuState = BuildMenuState.Active;
-            
         }
         else
         {

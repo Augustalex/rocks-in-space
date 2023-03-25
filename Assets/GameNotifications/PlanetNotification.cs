@@ -12,7 +12,6 @@
         public override void Accept()
         {
             CurrentPlanetController.Get().ChangePlanet(Location);
-            CameraController.Get().FocusOnPlanet(Location);
 
             Status = NotificationStatus.Accepted;
         }

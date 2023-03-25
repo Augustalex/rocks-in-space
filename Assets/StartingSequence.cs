@@ -92,19 +92,6 @@ public class StartingSequence : MonoBehaviour
                 DisplayController.Get().SetEnteredShip();
                 mode = StartMode.AcceptingGifts;
 
-                yield return new WaitForSeconds(1f);
-                NotificationSounds.Get().Play(NotificationTypes.Informative);
-                StartingInstructions.Get().Print("What you are seeing are your ship controls");
-                yield return new WaitForSeconds(6f);
-
-                // Player could have already accepted all gifts at this point
-                if (mode == StartMode.AcceptingGifts)
-                {
-                    NotificationSounds.Get().Play(NotificationTypes.Informative);
-                    StartingInstructions.Get().Print("More controls will become available soon");
-                    yield return new WaitForSeconds(4f);
-                }
-
                 // Player could have already accepted all gifts at this point
                 if (mode == StartMode.AcceptingGifts)
                 {
@@ -153,26 +140,27 @@ public class StartingSequence : MonoBehaviour
                 CameraController.Get().OnToggleZoom += (zoomedOut) =>
                 {
                     StartingInstructions.Get().Clear();
-                    // notification.Accept();
-
-                    Notification notification = new TextNotification();
 
                     if (mode == StartMode.AcceptedAllGifts && zoomedOut)
                     {
                         DisplayController.Get().SetToStaticMode();
 
-                        notification = new TextNotification
+                        StartCoroutine(ShowNavigationHint());
+
+                        IEnumerator ShowNavigationHint()
                         {
-                            Message =
-                                $"There are different types of asteroids. The colors of each tells you what the most common resource is there.",
-                        };
-                        Notifications.Get().Send(notification);
+                            yield return new WaitForSeconds(3f);
+                            StartingInstructions.Get().Print("Right Click on an asteroid to move your ship there.");
+                            yield return new WaitForSeconds(8f);
+                            StartingInstructions.Get().Print("There are different types of asteroids.\nExplore and discover a suitable place to start.");
+                            yield return new WaitForSeconds(10f);
+                            StartingInstructions.Get().Clear();
+                        }
 
                         mode = StartMode.ViewedMap;
                     }
                     else if (mode == StartMode.ViewedMap && !zoomedOut)
                     {
-                        notification.Accept();
                         mode = StartMode.ControlsInstructions;
 
                         StartCoroutine(ControlsInstructions());
