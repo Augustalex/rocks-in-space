@@ -166,12 +166,6 @@ public class DisplayController : MonoBehaviour
         _currentShip = null;
     }
 
-    public void SetShipInFocus(ColonyShip colonyShip)
-    {
-        _currentShip = colonyShip;
-        _currentPlanet = null;
-    }
-
     public void SetToModalMode()
     {
         OnModeChange(InputMode.Modal);

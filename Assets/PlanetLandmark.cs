@@ -10,6 +10,7 @@ public class PlanetLandmark : MonoBehaviour
     private Material _material;
     private static readonly int HasPort = Shader.PropertyToID("_HasPort");
     private static readonly int IsSelected = Shader.PropertyToID("_IsSelected");
+    private static readonly int HasSight = Shader.PropertyToID("_HasSight");
     private static readonly int InMapView = Shader.PropertyToID("_InMapView");
     private CameraController _cameraController;
     private CurrentPlanetController _currentPlanetController;
@@ -40,6 +41,8 @@ public class PlanetLandmark : MonoBehaviour
         _currentPlanetController.ShipSelected += (_) => UpdateDisplayState();
 
         InteractorController.Get().InteractorSelected += (_) => UpdateDisplayState();
+
+        PlayerShipManager.Get().ShipMover().StateChanged += (_) => UpdateDisplayState();
 
         UpdatePosition();
         Hide();
@@ -100,6 +103,30 @@ public class PlanetLandmark : MonoBehaviour
             RouteEditor.Get().StartCreatingRouteFrom(_planet);
     }
 
+    public void MouseUp()
+    {
+        if (_cameraController.IsZoomedOut())
+        {
+            var routeEditor = RouteEditor.Get();
+            if (routeEditor.IsIdle())
+            {
+                NavigateToPlanet(_planet);
+            }
+            else if (routeEditor.IsCreating())
+            {
+                if (routeEditor.IsValidDestination(_planet))
+                {
+                    routeEditor.SelectRouteDestination(_planet);
+                }
+                else
+                {
+                    routeEditor.Cancel();
+                    NavigateToPlanet(_planet);
+                }
+            }
+        }
+    }
+
     public void ContextDown()
     {
         if (_cameraController.IsZoomedOut())
@@ -122,33 +149,6 @@ public class PlanetLandmark : MonoBehaviour
     {
         _contextLastDown = -1f;
         _contextDownOn = null;
-    }
-
-    public void MouseUp()
-    {
-        if (_cameraController.IsZoomedOut())
-        {
-            var routeEditor = RouteEditor.Get();
-            if (routeEditor.IsIdle())
-            {
-                if (PlayerShipManager.Get().CurrentPlanet() == _planet.PlanetId || _planet.HasPort())
-                {
-                    NavigateToPlanet(_planet);
-                }
-            }
-            else if (routeEditor.IsCreating())
-            {
-                if (routeEditor.IsValidDestination(_planet))
-                {
-                    routeEditor.SelectRouteDestination(_planet);
-                }
-                else
-                {
-                    routeEditor.Cancel();
-                    NavigateToPlanet(_planet);
-                }
-            }
-        }
     }
 
     private void ShowAndUpdatePosition(bool showMarker)
@@ -177,10 +177,14 @@ public class PlanetLandmark : MonoBehaviour
 
     private void UpdateStyle(bool showMarker)
     {
-        _material.SetInt(HasPort,
-            (PlayerShipOnPlanet() || _planet.HasPort()) ? 1 : 0);
-        _material.SetInt(IsSelected, IsCurrentPlanet(_planet) ? 1 : 0);
+        var isCurrentPlanet = IsCurrentPlanet(_planet);
+        var canViewPlanetSurface = PlayerShipOnPlanet() || _planet.HasPort();
+
+        _material.SetInt(HasPort, canViewPlanetSurface ? 1 : 0);
         _material.SetInt(InMapView, showMarker ? 1 : 0);
+
+        _material.SetInt(IsSelected, isCurrentPlanet ? 1 : 0);
+        _material.SetInt(HasSight, isCurrentPlanet && canViewPlanetSurface ? 1 : 0);
     }
 
     private bool PlayerShipOnPlanet()

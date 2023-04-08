@@ -451,7 +451,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &239270607
 Transform:
   m_ObjectHideFlags: 0
@@ -778,6 +778,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65158d80f4ca2044bb7b3dc61e93a005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &463744695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463744603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf1ee0850c9ba424d98d075452a0b6f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingShip: {fileID: 129802429}
 --- !u!1001 &466654444
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6093,7 +6106,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cinematicOpening: 1
-  startingShip: {fileID: 129802429}
 --- !u!114 &1687258587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17008,7 +17020,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 658182734237498905, guid: 91c07bdb35a0b4345b617e15298dfe1b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 91c07bdb35a0b4345b617e15298dfe1b, type: 3}
 --- !u!224 &8247155136719951853
 RectTransform:

@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Linq;
-using GameNotifications;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -37,16 +34,15 @@ public class CameraController : MonoBehaviour
     private bool _following;
 
     public bool cinematicOpening = true;
-    public StartingShip startingShip;
 
     private static CameraController _instance;
-    private static bool _hasInstance;
     private bool _zoomedOut;
     private MapPopupTarget _currentTarget;
     private bool _hitLimit;
     private bool _locked;
     private bool _enteringShip;
     private bool _movingToShip;
+    private bool _resetModeWhenDone;
 
     public event Action<bool> OnToggleZoom;
     public event Action OnNavigationStarted;
@@ -55,17 +51,13 @@ public class CameraController : MonoBehaviour
     void Awake()
     {
         _instance = this;
-        _hasInstance = true;
-    }
 
-    public static bool HasInstance()
-    {
-        return _hasInstance;
+        _camera = GetComponent<Camera>();
     }
 
     public static CameraController Get()
     {
-        return !_hasInstance ? null : _instance;
+        return _instance;
     }
 
     public static Camera GetCamera()
@@ -85,38 +77,9 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        _camera = GetComponent<Camera>();
         _focus = null;
 
         CurrentPlanetController.Get().CurrentPlanetChanged += (p) => { FocusOnPlanet(p.NewPlanet); };
-
-        StartCoroutine(DoSoon());
-
-        IEnumerator DoSoon()
-        {
-            yield return new WaitForSeconds(.5f);
-
-            var startingPlanet = FindStartingPlanet();
-
-            //Game start on planet
-            // CurrentPlanetController.Get().ChangePlanet(startingPlanet);
-            // FocusOnPlanetSlowly(startingPlanet);
-
-            //Game start on ship
-            //What happens:
-            // 1. Zoom to ship
-            // 2. Enter ship
-            // 3. Collect all gifts
-            // 4. Go to map view -> End sequence and change to Display mode "Static"
-        }
-    }
-
-    private TinyPlanet FindStartingPlanet()
-    {
-        var planets = FindObjectsOfType<TinyPlanet>();
-        var normalPlanet = planets.First(p => !p.IsIcePlanet());
-
-        return normalPlanet;
     }
 
     public bool AvailableToUpdate()
@@ -138,18 +101,7 @@ public class CameraController : MonoBehaviour
             {
                 ClampAndFinishMove();
 
-                if (_movingToShip)
-                {
-                    _movingToShip = false;
-                    StartingSequence.Get().FinishedOpening();
-                }
-                else if (_enteringShip)
-                {
-                    _enteringShip = false;
-
-                    FinishedEnteringShip();
-                }
-                else if (DisplayController.Get().inputMode == DisplayController.InputMode.Cinematic)
+                if (_resetModeWhenDone && DisplayController.Get().inputMode == DisplayController.InputMode.Cinematic)
                 {
                     DisplayController.Get().ExitCinematicMode();
                 }
@@ -317,11 +269,14 @@ public class CameraController : MonoBehaviour
             {
                 if (_hitLimit && scrollDistance < minZoom)
                 {
-                    ZoomIn();
-                    var (position, rotation) = GetCameraZoomToDistance(MaxZoomedInDistance);
-                    cameraTransform.position = position;
-                    cameraTransform.rotation = rotation;
-                    _hitLimit = false;
+                    if (CanZoomIn())
+                    {
+                        ZoomIn();
+                        var (position, rotation) = GetCameraZoomToDistance(MaxZoomedInDistance);
+                        cameraTransform.position = position;
+                        cameraTransform.rotation = rotation;
+                        _hitLimit = false;
+                    }
                 }
                 else
                 {
@@ -352,6 +307,13 @@ public class CameraController : MonoBehaviour
                 }
             }
         }
+    }
+
+    private bool CanZoomIn()
+    {
+        var currentPlanet = CurrentPlanetController.Get().CurrentPlanet();
+
+        return !currentPlanet || currentPlanet.HasPort() || PlayerShipManager.Get().ShipOnPlanet(currentPlanet);
     }
 
     private void AbortMoveAndToggleZoom()
@@ -413,15 +375,37 @@ public class CameraController : MonoBehaviour
         OnToggleZoom?.Invoke(_zoomedOut);
     }
 
-    public void FocusOnStartingShip()
+    public void ForceFocusOnTarget(Transform target, bool zoomedOut = true)
     {
-        CurrentPlanetController.Get().FocusOnShip(startingShip.GetConvoyBeacon());
-        DisplayController.Get().SetShipInFocus(startingShip.GetConvoyBeacon());
+        _backupFocus = target.position;
+        _focus = target;
 
+        var cameraTransform = _camera.transform;
+        _startPosition = cameraTransform.position;
+        _startRotation = cameraTransform.rotation;
+
+        (_targetPosition, _targetRotation) = CameraPlanetFocusPosition(_startPosition, target.position);
+
+        SetMoveStarted();
+        ClampAndFinishMove();
+
+        if (zoomedOut)
+        {
+            ZoomOut();
+        }
+        else
+        {
+            ZoomIn();
+        }
+    }
+
+    public void FocusOnTarget(Transform target, bool resetModeWhenDone = true)
+    {
+        _resetModeWhenDone = resetModeWhenDone;
         _following = false;
 
         var previousFocusPoint = _focus ? _focus.position : _backupFocus;
-        _focus = startingShip.transform;
+        _focus = target;
 
         var cameraTransform = _camera.transform;
         _startPosition = cameraTransform.position;
@@ -433,16 +417,17 @@ public class CameraController : MonoBehaviour
         DisplayController.Get().SetToCinematicMode();
         _moveLength = cinematicOpening ? 8f : .1f;
         _moveTime = 0f;
-
-        _movingToShip = true;
     }
 
-    public void EnterShip()
+    public void
+        EnterInside(Transform target,
+            bool resetModeWhenDone =
+                true) // Specially made for the starting sequence, this sets a rotation so it looks like you go inside the ship
     {
+        _resetModeWhenDone = resetModeWhenDone;
         _following = false;
-        _enteringShip = true;
 
-        _focus = startingShip.transform;
+        _focus = target;
 
         var cameraTransform = _camera.transform;
         _startPosition = cameraTransform.position;
@@ -457,25 +442,12 @@ public class CameraController : MonoBehaviour
         DisplayController.Get().SetToCinematicMode();
         _moveLength = 3.5f;
         _moveTime = 0f;
-
-        startingShip.StartHiding();
     }
 
-    private void FinishedEnteringShip()
+    public void FocusOnPlanet(TinyPlanet planet, bool resetModeWhenDone =
+        true)
     {
-        StartingSequence.Get().FinishedEnteringShip();
-    }
-
-    private void FocusOnPlanetSlowly(TinyPlanet planet)
-    {
-        FocusOnPlanet(planet);
-        DisplayController.Get().SetToCinematicMode();
-        _moveLength = cinematicOpening ? 8f : .1f;
-        _moveTime = 0f;
-    }
-
-    public void FocusOnPlanet(TinyPlanet planet)
-    {
+        _resetModeWhenDone = resetModeWhenDone;
         _following = false;
 
         DisplayController.Get().SetPlanetInFocus(planet);
@@ -587,7 +559,7 @@ public class CameraController : MonoBehaviour
 
     public void ZoomIn()
     {
-        if (IsZoomedOut()) ToggleZoomMode();
+        if (CanZoomIn() && IsZoomedOut()) ToggleZoomMode();
     }
 
     public void ZoomOut()

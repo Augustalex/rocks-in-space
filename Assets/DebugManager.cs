@@ -13,6 +13,11 @@ public class DebugManager : MonoBehaviour
             // ProgressManager.Get().Built(BuildingType.Factory);
             // ProgressManager.Get().Built(BuildingType.Refinery);
             // ProgressManager.Get().Built(BuildingType.PowerPlant);
+
+            StartingSequence.Get().SkipAll();
+
+            var backgroundMusic = FindObjectOfType<BackgroundMusic>();
+            backgroundMusic.enabled = false;
         }
     }
 
@@ -68,6 +73,12 @@ public class DebugManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             MeteorGenerator.Get().SpawnOnCurrentPlanet();
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            var backgroundMusic = FindObjectOfType<BackgroundMusic>();
+            backgroundMusic.enabled = !backgroundMusic.enabled;
         }
 
         // if (Input.GetKeyDown(KeyCode.Alpha1))

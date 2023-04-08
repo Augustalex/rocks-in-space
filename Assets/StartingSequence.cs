@@ -36,6 +36,9 @@ public class StartingSequence : MonoBehaviour
 
     void Start()
     {
+        StartingSequenceCameraController.Get().FinishedOpening += FinishedOpening;
+        StartingSequenceCameraController.Get().FinishedEnteringShip += FinishedEnteringShip;
+
         PlayerShipManager.Get().ShipMover().PutInStartingPosition(StartingPosition);
 
         StartCoroutine(DoSoon());
@@ -55,8 +58,25 @@ public class StartingSequence : MonoBehaviour
     {
         if (mode == StartMode.NotStarted)
         {
-            CameraController.Get().FocusOnStartingShip();
+            StartingSequenceCameraController.Get().FocusOnStartingShip();
             mode = StartMode.Opening;
+        }
+    }
+
+    public void FinishedOpening()
+    {
+        if (mode == StartMode.Opening)
+        {
+            mode = StartMode.FinishedOpening;
+            StartingInstructions.Get().Print("This is your ship.");
+
+            StartCoroutine(ShowSoon());
+
+            IEnumerator ShowSoon()
+            {
+                yield return new WaitForSeconds(3f);
+                EnteringShip();
+            }
         }
     }
 
@@ -64,18 +84,9 @@ public class StartingSequence : MonoBehaviour
     {
         if (mode == StartMode.FinishedOpening)
         {
-            var cameraController = CameraController.Get();
-            cameraController.EnterShip();
+            StartingSequenceCameraController.Get().EnterShip();
 
             StartingInstructions.Get().Clear();
-
-            // Notifications.Get().Send(new TextNotification
-            // {
-            //     NotificationType = NotificationTypes.Positive,
-            //     Message =
-            //         "You are now inside a standard issue ship for new colony managers. Mining lasers, 3D printers, it has all you need to get started.",
-            //     TimeoutOverride = 20f,
-            // });
 
             mode = StartMode.EnteringShip;
         }
@@ -97,17 +108,15 @@ public class StartingSequence : MonoBehaviour
                 {
                     NotificationSounds.Get().Play(NotificationTypes.Informative);
                     StartingInstructions.Get()
-                        .Print("Try picking up these crates, they contain some useful resources.");
+                        .Print("You've been issued some supplies to help you get started.");
                     yield return new WaitForSeconds(8f);
-                    StartingInstructions.Get().Clear();
                 }
 
-                // var notification = new TextNotification
-                // {
-                //     Message = "Message from management: \"We left you some things to get started with.\"",
-                //     TimeoutOverride = 20f,
-                // };
-                // Notifications.Get().Send(notification);
+                if (mode == StartMode.AcceptingGifts)
+                {
+                    StartingInstructions.Get()
+                        .Print("Pick them up.");
+                }
             }
         }
     }
@@ -124,17 +133,9 @@ public class StartingSequence : MonoBehaviour
             {
                 yield return new WaitForSeconds(3f);
                 NotificationSounds.Get().Play(NotificationTypes.Positive);
+
                 StartingInstructions.Get().Print("Good! You are now ready to explore the sector. Open the map.");
-
-                // var notification = new TextNotification
-                // {
-                //     Message = "You are now ready to find a suitable asteroid for your first colony! Open the map.",
-                //     TimeoutOverride = 10f
-                // };
-                // Notifications.Get().Send(notification);
-
-                yield return new WaitForSeconds(1f);
-
+                yield return new WaitForSeconds(.5f);
                 DisplayController.Get().ShowMapAndInventory();
 
                 CameraController.Get().OnToggleZoom += (zoomedOut) =>
@@ -152,7 +153,9 @@ public class StartingSequence : MonoBehaviour
                             yield return new WaitForSeconds(3f);
                             StartingInstructions.Get().Print("Right Click on an asteroid to move your ship there.");
                             yield return new WaitForSeconds(8f);
-                            StartingInstructions.Get().Print("There are different types of asteroids.\nExplore and discover a suitable place to start.");
+                            StartingInstructions.Get()
+                                .Print(
+                                    "There are different types of asteroids.\nExplore to find a suitable place to start.");
                             yield return new WaitForSeconds(10f);
                             StartingInstructions.Get().Clear();
                         }
@@ -192,11 +195,6 @@ public class StartingSequence : MonoBehaviour
         Finished();
     }
 
-    public void Finished()
-    {
-        mode = StartMode.Finished;
-    }
-
     public void GiftMoneyHint()
     {
         if (!_shownMoneyHint)
@@ -212,12 +210,15 @@ public class StartingSequence : MonoBehaviour
         }
     }
 
-    public void FinishedOpening()
+    public void Finished()
     {
-        if (mode == StartMode.Opening)
-        {
-            mode = StartMode.FinishedOpening;
-            StartingInstructions.Get().Print("This is your ship. Enter it when you're ready.");
-        }
+        mode = StartMode.Finished;
+    }
+
+    public void SkipAll()
+    {
+        Finished();
+        StartingSequenceCameraController.Get().ForceFocusOnStartingShip();
+        DisplayController.Get().ExitCinematicMode();
     }
 }

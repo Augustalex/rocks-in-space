@@ -1,10 +1,10 @@
-using GameNotifications;
 using UnityEngine;
 
 public class ColonyShip : MonoBehaviour
 {
     public void MouseDown()
     {
-        StartingSequence.Get().EnteringShip();
+        // Now done automatically
+        // StartingSequence.Get().EnteringShip();
     }
 }

@@ -155,10 +155,12 @@ public class InteractorIcon : MonoBehaviour
         
         if (DisplayController.Get().inputMode is DisplayController.InputMode.InventoryOnly or DisplayController.InputMode.Cinematic)
         {
+            Debug.Log("FORCE INACTIVE");
             _interactorIconState = InteractorIconState.ForceInactive;
         }
         else if (DisplayController.Get().inputMode == DisplayController.InputMode.MapAndInventoryOnly)
         {
+            Debug.Log("INACTIVE");
             _interactorIconState = InteractorIconState.Inactive;
         }
         else if (zoomedOut)
