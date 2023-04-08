@@ -208,7 +208,10 @@ public class PlanetLandmark : MonoBehaviour
 
         if (_cameraController.IsZoomedOut() && IsCurrentPlanet(planet))
         {
-            cameraController.ToggleZoomMode();
+            if (cameraController.CanZoomInOnPlanet(planet))
+            {
+                cameraController.ToggleZoomMode();
+            }
         }
         else
         {

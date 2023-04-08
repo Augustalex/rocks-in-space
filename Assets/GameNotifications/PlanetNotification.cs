@@ -3,6 +3,12 @@
     public class PlanetNotification : Notification
     {
         public TinyPlanet Location;
+        public float TimeoutOverride = -1f;
+
+        public override float Timeout()
+        {
+            return TimeoutOverride;
+        }
         
         public override string Subtitle()
         {

@@ -312,10 +312,14 @@ public class CameraController : MonoBehaviour
     private bool CanZoomIn()
     {
         var currentPlanet = CurrentPlanetController.Get().CurrentPlanet();
-
-        return !currentPlanet || currentPlanet.HasPort() || PlayerShipManager.Get().ShipOnPlanet(currentPlanet);
+        return CanZoomInOnPlanet(currentPlanet);
     }
 
+    public bool CanZoomInOnPlanet(TinyPlanet planet)
+    {
+        return !planet || planet.HasPort() || PlayerShipManager.Get().ShipOnPlanet(planet);
+    }
+    
     private void AbortMoveAndToggleZoom()
     {
         ClampAndFinishMove();

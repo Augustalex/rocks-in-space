@@ -26,7 +26,7 @@ public class ProgressManager : MonoBehaviour
     private bool _gotFirstGadgets;
     private bool _builtFirstPort = false;
 
-    private const float ShowHintAfterTime = 45;
+    private const float ShowHintAfterTime = 160;
 
     private float _builtFirstRefineryAt = -1f;
     private bool _hasSentIronHint;

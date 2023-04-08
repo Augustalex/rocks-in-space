@@ -129,7 +129,8 @@ namespace GameNotifications
                 {
                     _newColonists.SendIfCanPost(
                         CreatePlanetNotification(
-                            $"Colonists are moving into {_planet.planetName}"
+                            $"Colonists are moving into {_planet.planetName}",
+                            12f
                         ),
                         true
                     );
@@ -157,14 +158,15 @@ namespace GameNotifications
             _previousResources = newData;
         }
 
-        private PlanetNotification CreatePlanetNotification(string message,
+        private PlanetNotification CreatePlanetNotification(string message, float duration = -1f,
             NotificationTypes notificationType = NotificationTypes.Alerting)
         {
             return new PlanetNotification
             {
                 Location = _planet,
                 NotificationType = notificationType,
-                Message = message
+                Message = message,
+                TimeoutOverride = duration
             };
         }
 
