@@ -151,8 +151,8 @@ public class TinyPlanetRocks : MonoBehaviour
                 {
                     var block = networkItem.GetComponentInChildren<Block>();
                     block.SetRockType(TinyPlanet.RockType.Ice);
-                    block.SetMaterial(_iceMaterial);
                     block.GetMesh().SetUndiscoveredMaterial();
+                    block.SetMaterial(_iceMaterial);
 
                     block.gameObject.AddComponent<IceResourceController>();
                 }
@@ -161,38 +161,35 @@ public class TinyPlanetRocks : MonoBehaviour
                     var block = networkItem.GetComponentInChildren<Block>();
                     block.SetRockType(TinyPlanet.RockType.Snow);
                     block.GetMesh().SetUndiscoveredMaterial();
-
-                    _rockMaterial.SetInt(RockTypePropertyId, (int)TinyPlanet.RockType.Snow);
-
-                    var color = ColorPairs[(int)TinyPlanet.RockType.Snow];
-                    _rockMaterial.SetColor("_LightColor", color[0]);
-                    _rockMaterial.SetColor("_DarkColor", color[1]);
-
-                    _rockMaterial.SetVector(CenterPropertyId, newPosition);
-
                     block.SetMaterial(_rockMaterial);
                 }
             }
+            
+            _rockMaterial.SetInt(RockTypePropertyId, (int)TinyPlanet.RockType.Snow);
+
+            var color = ColorPairs[(int)TinyPlanet.RockType.Snow];
+            _rockMaterial.SetColor("_LightColor", color[0]);
+            _rockMaterial.SetColor("_DarkColor", color[1]);
+            
+            _rockMaterial.SetVector(CenterPropertyId, newPosition);
         }
         else
         {
             foreach (var networkItem in network)
             {
                 var block = networkItem.GetComponentInChildren<Block>();
-                var rawRockType = _rockType.Get();
-                block.SetRockType(rawRockType);
+                block.SetRockType(newRockType);
                 block.GetMesh().SetUndiscoveredMaterial();
-
-                _rockMaterial.SetInt(RockTypePropertyId, (int)rawRockType);
-
-                var color = ColorPairs[(int)rawRockType];
-                _rockMaterial.SetColor("_LightColor", color[0]);
-                _rockMaterial.SetColor("_DarkColor", color[1]);
-
-                _rockMaterial.SetVector(CenterPropertyId, newPosition);
-
                 block.SetMaterial(_rockMaterial);
             }
+
+            _rockMaterial.SetInt(RockTypePropertyId, (int)newRockType);
+            
+            var color = ColorPairs[(int)newRockType];
+            _rockMaterial.SetColor("_LightColor", color[0]);
+            _rockMaterial.SetColor("_DarkColor", color[1]);
+        
+            _rockMaterial.SetVector(CenterPropertyId, newPosition);
         }
     }
 

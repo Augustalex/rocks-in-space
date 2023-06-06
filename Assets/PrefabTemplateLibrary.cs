@@ -18,7 +18,10 @@ public class PrefabTemplateLibrary : MonoBehaviour
     public GameObject iceResourceDebrisTemplate;
     [FormerlySerializedAs("oreDebrisTemplate")] public GameObject oreResourceDebrisTemplate;
     public GameObject routeLineTemplate;
+    public GameObject corruptionParticlesTemplate;
 
+    public Material corruptedRockMaterial;
+    
     public static PrefabTemplateLibrary Get()
     {
         return _instance;

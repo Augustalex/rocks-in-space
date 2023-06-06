@@ -848,7 +848,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_SizeDelta.y
@@ -856,7 +856,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5796249005710033699, guid: b3da9f74c39698b40a899cfb703fba6b, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5531,6 +5531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meteorTemplate: {fileID: 8791858644802920939, guid: 6df77c3784e7f534db3ad1c1d256d43c, type: 3}
+  corruptedMeteorTemplate: {fileID: 8791858644802920939, guid: 12b3d95c022bf21479a61dab084ecccd, type: 3}
 --- !u!4 &1456034184
 Transform:
   m_ObjectHideFlags: 0
@@ -6616,7 +6617,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7753707722091084443, guid: c572ad9a5b52e9f4a9761c237ced0d95, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 158.02
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7753707722091084443, guid: c572ad9a5b52e9f4a9761c237ced0d95, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -7271,6 +7272,14 @@ PrefabInstance:
       propertyPath: dangeroniumOre
       value: 
       objectReference: {fileID: 631434208429579918, guid: 2306d4a307564ad4bbe908acef809eed, type: 3}
+    - target: {fileID: 850805973423628626, guid: 83c6a8d42cdd5d248b0d884d5b3813d2, type: 3}
+      propertyPath: corruptedRockMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: bacf7f0dd98feda4e8dc5d13dae3d2f8, type: 2}
+    - target: {fileID: 850805973423628626, guid: 83c6a8d42cdd5d248b0d884d5b3813d2, type: 3}
+      propertyPath: corruptionParticlesTemplate
+      value: 
+      objectReference: {fileID: 4845139313408060645, guid: 341c5fea4443edd4ba630a4db2842a12, type: 3}
     - target: {fileID: 850805973423628628, guid: 83c6a8d42cdd5d248b0d884d5b3813d2, type: 3}
       propertyPath: landerFrames.Array.size
       value: 24

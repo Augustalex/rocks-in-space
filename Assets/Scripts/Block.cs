@@ -10,6 +10,7 @@ public class Block : MonoBehaviour, ILaserInteractable
     private bool _seedOverridable;
     private bool _laserable = true;
     private TinyPlanet.RockType _rockType;
+    private bool _corrupted;
 
     private void Awake()
     {
@@ -275,6 +276,14 @@ public class Block : MonoBehaviour, ILaserInteractable
         return _seed != null;
     }
 
+    public void DestroySeed()
+    {
+        if (_seed)
+        {
+            Destroy(_seed);
+        }
+    }
+
     public void LaserInteract()
     {
         CameraShake.ShortShake();
@@ -307,14 +316,14 @@ public class Block : MonoBehaviour, ILaserInteractable
         return transform.parent.GetComponentInChildren<EntityOven>();
     }
 
-    public void SetMaterial(Material purpleRockMaterial)
+    public void SetMaterial(Material rockMaterial)
     {
         var mesh = GetMesh();
         if (mesh)
         {
             var meshRenderer = mesh.GetComponentInChildren<MeshRenderer>();
             var materials = meshRenderer.materials;
-            materials[0] = purpleRockMaterial;
+            materials[0] = rockMaterial;
             meshRenderer.materials = materials;
         }
     }
@@ -348,5 +357,19 @@ public class Block : MonoBehaviour, ILaserInteractable
     public TinyPlanetResources.PlanetResourceType GetOre()
     {
         return _oreController.GetOre();
+    }
+
+    public void Corrupt()
+    {
+        _corrupted = true;
+        SetMaterial(PrefabTemplateLibrary.Get().corruptedRockMaterial);
+        gameObject.AddComponent<CorruptionController>();
+        
+        KillOre();
+    }
+
+    public bool IsCorrupted()
+    {
+        return _corrupted;
     }
 }
