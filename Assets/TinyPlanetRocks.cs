@@ -218,7 +218,10 @@ public class TinyPlanetRocks : MonoBehaviour
         foreach (var networkItem in network)
         {
             var block = networkItem.GetComponentInChildren<Block>();
-            block.GetMesh().SetDiscoveredMaterial(_rockType.Get());
+            if (block != null)
+            {
+                block.GetMesh().SetDiscoveredMaterial(_rockType.Get());
+            }
         }
     }
 }
